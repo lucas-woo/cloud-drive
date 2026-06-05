@@ -1,0 +1,35 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/auth/v1/authv1";
+
+package auth.v1;
+
+message SignUpUserRequest {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  bool remember_me = 4;
+}
+
+message SignUpUserResponse {
+  string session_id = 1;
+}
+
+message LoginUserRequest {
+  string password = 1;
+  string email = 2;  
+  bool remember_me = 3;
+}
+
+message LoginUserResponse {
+  string session_id = 1;
+}
+
+message LogoutUserRequest {
+  string session_id = 1;
+}
+
+message LogoutUserResponse {
+  bool logged_out = 1;
+}
+

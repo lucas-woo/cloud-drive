@@ -1,0 +1,17 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/auth/v1/authv1";
+
+package auth.v1;
+
+import "auth/v1/auth.proto";
+
+service AuthService {
+
+  rpc SignUpUser(SignUpUserRequest) returns (SignUpUserResponse);
+
+  rpc LoginUser(LoginUserRequest) returns (LoginUserResponse);
+
+  rpc LogoutUser(LogoutUserRequest) returns (LogoutUserResponse);
+  
+}
