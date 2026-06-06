@@ -1,6 +1,12 @@
 package config
 
+import "github.com/lucas-woo/godotenv"
+
 var (
-	CredentialDatabaseName string = "user_database"
-	CredentialCollection string = "user_login";
+	UserDatabaseName string = "user_database"
+	UserCollectionName string = "user_credentials";
 )
+
+func InitializeEnv() error {
+	return godotenv.LoadEnv()
+}

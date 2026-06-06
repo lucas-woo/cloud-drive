@@ -12,6 +12,6 @@ type AuthRepo struct {
 
 func NewAuthRepo(mongoClient *mongo.Client) *AuthRepo {
 	return &AuthRepo{
-		db: mongoClient.Database(config.CredentialDatabaseName).Collection(config.CredentialCollection),
+		db: mongoClient.Database(config.UserDatabaseName).Collection(config.UserCollectionName),
 	}
 }

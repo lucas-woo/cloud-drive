@@ -6,7 +6,7 @@ import (
 )
 
 
-type CredentialModel struct {
+type UserModel struct {
 	ID bson.ObjectID `bson:"_id,omitempty"`
 	Email string `bson:"email,omitempty"`
 	Hash string `bson:"hash,omitempty"`
