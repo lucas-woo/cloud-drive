@@ -7,11 +7,15 @@ package apikeys.v1;
 import "apikeys/v1/apikeys.proto";
 
 service ApiKeysService {
+  //from api
+  rpc ApiUploadImage(stream ApiUploadImageRequest) returns (ApiUploadImageResponse);
+  rpc ApiUploadFile(ApiUploadFileRequest) returns(ApiUploadFileResponse);
 
-  rpc UploadImage() returns ();
-  rpc UploadFile() returns();
+  //from web
+  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+  rpc UploadFile(UploadFileRequest) returns(UploadFileResponse);  
+  rpc GenerateNewApiKey() returns();
   rpc CreateNewProject() returns();
-  rpc GenerateNewSecret() returns();
   rpc CreateNewFolder() returns();
   rpc DeactivateApiKey() returns();
   rpc ActivateApiKey() returns();
