@@ -10,9 +10,12 @@ service ApiKeysService {
 
   rpc UploadImage() returns ();
   rpc UploadFile() returns();
-  rpc CreateNewProject();
-  rpc GenerateNewSecret();
-  rpc CreateNewFolder();
-  rpc DeactivateApiKey();
-  rpc ActivateApiKey();
+  rpc CreateNewProject() returns();
+  rpc GenerateNewSecret() returns();
+  rpc CreateNewFolder() returns();
+  rpc DeactivateApiKey() returns();
+  rpc ActivateApiKey() returns();
+  rpc RenameKey() returns();
+  rpc GetApiKeys() returns();
+  rpc ViewApiSecret returns()
 }
