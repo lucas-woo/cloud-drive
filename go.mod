@@ -3,6 +3,7 @@ module github.com/lucas-woo/cloud-drive
 go 1.25.2
 
 require (
+	github.com/google/uuid v1.6.0
 	go.mongodb.org/mongo-driver/v2 v2.6.0
 	google.golang.org/grpc v1.81.1
 	google.golang.org/protobuf v1.36.11
