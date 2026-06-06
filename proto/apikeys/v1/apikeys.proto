@@ -4,18 +4,11 @@ option go_package = "github.com/lucas-woo/cloud-drive/api/apikeys/v1/authv1";
 
 package apikeys.v1;
 
-message UploadImageRequest {
-  string user
-}
-
-message UploadImageResponse {
-
-}
-
 message UploadFileRequest {
-
+  string session_id = 1;
+  string project_name 
 }
 
 message UploadFileResponse {
-
+  string session_id = 1;
 }

@@ -7,19 +7,26 @@ package apikeys.v1;
 import "apikeys/v1/apikeys.proto";
 
 service ApiKeysService {
-  //from api
-  rpc ApiUploadImage(stream ApiUploadImageRequest) returns (ApiUploadImageResponse);
-  rpc ApiUploadFile(ApiUploadFileRequest) returns(ApiUploadFileResponse);
-
   //from web
-  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+
+  //implemented:
   rpc UploadFile(UploadFileRequest) returns(UploadFileResponse);  
-  rpc GenerateNewApiKey() returns();
-  rpc CreateNewProject() returns();
-  rpc CreateNewFolder() returns();
-  rpc DeactivateApiKey() returns();
-  rpc ActivateApiKey() returns();
-  rpc RenameKey() returns();
-  rpc GetApiKeys() returns();
-  rpc ViewApiSecret returns()
+
+  //implementing:
+  //rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+  //rpc GenerateNewApiKey(GenerateNewApiKeyRequest) returns(GenerateNewApiKeyResponse);
+  //rpc CreateNewProject(CreateNewProjectRequest) returns(CreateNewProjectResponse);
+  //rpc CreateNewFolder(CreateNewFolderRequest) returns(CreateNewFolderResponse);
+  //rpc DeactivateApiKey(DeactivateApiKeyRequest) returns(DeactivateApiKeyResponse);
+  //rpc ActivateApiKey(ActivateApiKeyRequest) returns(ActivateApiKeyResponse);
+  // rpc RenameKey(RenameKeyRequest) returns(RenameKeyResponse);
+  // rpc GetApiKeys(GetApiKeysRequest) returns(GetApiKeysResponse);
+  //rpc ViewApiSecret(ViewApiSecretResquest) returns(ViewApiSecretResponse);
+  //rpc GetProjects(GetProjectsRequest) returns(GetProjectsResponse);
+  //rpc GetFolders(GetProjectsRequest) returns(GetProjectsResponse);
+
+  //from api
+  //rpc ApiUploadImage(stream ApiUploadImageRequest) returns (ApiUploadImageResponse);
+  //rpc ApiUploadFile(ApiUploadFileRequest) returns(ApiUploadFileResponse);
+
 }
