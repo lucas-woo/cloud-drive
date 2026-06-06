@@ -1,0 +1,18 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/apikeys/v1/authv1";
+
+package apikeys.v1;
+
+import "apikeys/v1/apikeys.proto";
+
+service ApiKeysService {
+
+  rpc UploadImage() returns ();
+  rpc UploadFile() returns();
+  rpc CreateNewProject();
+  rpc GenerateNewSecret();
+  rpc CreateNewFolder();
+  rpc DeactivateApiKey();
+  rpc ActivateApiKey();
+}
