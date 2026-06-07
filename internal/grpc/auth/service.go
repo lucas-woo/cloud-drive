@@ -2,10 +2,10 @@ package authgrpc
 
 import (
 	"context"
+	"errors"
 
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/models"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Service struct {	
@@ -15,10 +15,15 @@ type Service struct {
 // returns session id, err
 func (s *Service) Register(ctx context.Context, user models.SignUpUserRequest) (string, error) {
 	
-	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
+	taken, err := s.authResources.AuthRepo.EmailTaken(ctx, user.Email)
+	if err != nil || taken {
+		return "", errors.New("email taken")
 	}
+	
+
+	userId, err := s.authResources.AuthRepo.CreateNewUser(ctx, user)
+
+	//need to insert to redis
 	return "", nil
 }
 
