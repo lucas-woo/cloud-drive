@@ -10,6 +10,10 @@ type AuthRepo struct {
 	
 }
 
+func (r *AuthRepo)EmailTaken(email string) bool {
+	return false
+}
+
 func NewAuthRepo(mongoClient *mongo.Client) *AuthRepo {
 	return &AuthRepo{
 		db: mongoClient.Database(config.UserDatabaseName).Collection(config.UserCollectionName),

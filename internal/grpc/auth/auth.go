@@ -16,8 +16,17 @@ type Server struct {
 
 func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) (*authv1.SignUpUserResponse, error) {
 
-	return nil, status.Error(codes.Unimplemented, "method SignUpUser not implemented")
+	sessionId, err := s.service.Register()
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+
+	return &authv1.SignUpUserResponse{
+		SessionId: sessionId,
+	}, nil
 }
+
 func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*authv1.LoginUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method LoginUser not implemented")
 }
