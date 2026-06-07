@@ -12,3 +12,10 @@ type UserModel struct {
 	Hash string `bson:"hash,omitempty"`
 	UserID uuid.UUID `bson:"user_id,omitempty"` 
 }
+
+type SignUpUserRequest struct {
+	Username string
+	Password string
+	Email string
+	RememberMe bool
+}
