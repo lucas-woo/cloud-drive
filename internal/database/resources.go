@@ -4,11 +4,10 @@ import (
 	"log"
 
 	"github.com/lucas-woo/cloud-drive/internal/repository"
-	"github.com/redis/go-redis/v9"
 )
 
 type AuthResources struct {
-	RedisClient *redis.Client
+	RedisRepo *repository.RedisRepository
 	AuthRepo *repository.AuthRepo
 }
 
@@ -24,9 +23,10 @@ func NewAuthResources() *AuthResources {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	redisRepo := repository.NewRedisRepository(redisClient)
 
 	return &AuthResources{
 		AuthRepo: authRepo,
-		RedisClient: redisClient,
+		RedisRepo: redisRepo,
 	}
 }
