@@ -30,12 +30,13 @@ func (s *Service) Register(ctx context.Context, user models.SignUpUserRequest) (
 	return sessionId, nil
 }
 
+func (s *Service) Login(ctx context.Context, user models.LoginUserRequest) (string, error) {
+	
+	return "", nil
+}
+
 func NewService(authResources *database.AuthResources) *Service {
 	return &Service{
 		authResources: authResources,
 	}
-}
-
-func (s *Service) Login(ctx context.Context, user models.LoginUserRequest) {
-	
 }
