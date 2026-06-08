@@ -44,6 +44,13 @@ func (s *Service) Login(ctx context.Context, user models.LoginUserRequest) (stri
 	return sessionId, nil
 }
 
+func (s *Service) Logout(ctx context.Context, sessionId string) (bool, error) {
+
+	ok, err := s.authResources.RedisRepo.RemoveUserSession(ctx, sessionId)
+
+	return ok, err
+}
+
 func NewService(authResources *database.AuthResources) *Service {
 	return &Service{
 		authResources: authResources,

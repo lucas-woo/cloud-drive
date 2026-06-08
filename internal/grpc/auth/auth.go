@@ -49,10 +49,16 @@ func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*
 	return &authv1.LoginUserResponse{
 		SessionId: sessionId,
 	}, nil
-
 }
+
 func (s *Server) LogoutUser(ctx context.Context, req *authv1.LogoutUserRequest) (*authv1.LogoutUserResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method LogoutUser not implemented")
+	loggedOut, err := s.service.Logout(ctx, req.GetSessionId())
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	return &authv1.LogoutUserResponse{
+		LoggedOut: loggedOut,
+	}, nil
 }
 
 func (s *Server) ValidateUserSession(ctx context.Context,req  *authv1.ValidateUserSessionRequest) (*authv1.ValidateUserSessionResponse, error) {
