@@ -24,7 +24,7 @@ func main() {
 
 	res, err := client.SignUpUser(ctx, &authv1.SignUpUserRequest{
 		Email: "lucas@gmail.com",
-		Password: "1234",
+		Password: "hello",
 		RememberMe: false,
 	})
 
@@ -37,7 +37,7 @@ func main() {
 		SessionId: res.SessionId,
 	})
 	if err != nil {
-		log.Fatal("err signup")
+		log.Fatal("err 2")
 	}
 	fmt.Println("res2:", res2.LoggedIn)	
 
@@ -45,15 +45,51 @@ func main() {
 		SessionId: res.SessionId,
 	})
 	if err != nil {
-		log.Fatal("err signup")
+		log.Fatal("err 3")
 	}
 	fmt.Println("res3:", res3.LoggedOut)	
+
+	res4, err := client.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
+		SessionId: res.SessionId,
+	})
+	if err != nil {
+		log.Fatal("err 4")
+	}
+	fmt.Println("res4:", res4.LoggedIn)		
 	
 
-	// client.LoginUser(ctx, &authv1.LoginUserRequest{
-	// 	Email: "lucas@gmail.com",
-	// 	Password: "1234",
-	// 	RememberMe: false,
-	// })
+	res5, err := client.LoginUser(ctx, &authv1.LoginUserRequest{
+		Email: "lucas@gmail.com",
+		Password: "hello",
+		RememberMe: false,
+	})
+	if err != nil {
+		log.Fatal("err 5")
+	}
+	fmt.Println("res5:", res5.SessionId)			
 
+
+	res6, err := client.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
+		SessionId: res5.SessionId,
+	})
+	if err != nil {
+		log.Fatal("err 6")
+	}
+	fmt.Println("res6:", res6.LoggedIn)	
+
+	res7, err := client.LogoutUser(ctx, &authv1.LogoutUserRequest{
+		SessionId: res5.SessionId,
+	})
+	if err != nil {
+		log.Fatal("err 7")
+	}
+	fmt.Println("res7:", res7.LoggedOut)	
+
+	res8, err := client.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
+		SessionId: res5.SessionId,
+	})
+	if err != nil {
+		log.Fatal("err 8")
+	}
+	fmt.Println("res8:", res8.LoggedIn)			
 }
