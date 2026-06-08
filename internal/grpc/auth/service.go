@@ -31,8 +31,17 @@ func (s *Service) Register(ctx context.Context, user models.SignUpUserRequest) (
 }
 
 func (s *Service) Login(ctx context.Context, user models.LoginUserRequest) (string, error) {
+	userId, err := s.authResources.AuthRepo.LoginUser(ctx, user)
+	if err != nil {
+		return "", err
+	}
+
+	sessionId, err := s.authResources.RedisRepo.SetUserSession(ctx, userId, user.RememberMe)
+	if err != nil {
+		return "", err
+	}	
 	
-	return "", nil
+	return sessionId, nil
 }
 
 func NewService(authResources *database.AuthResources) *Service {
