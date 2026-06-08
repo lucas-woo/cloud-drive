@@ -56,8 +56,24 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user models.SignUpUserRequ
 }
 
 func (r *AuthRepo) LoginUser(ctx context.Context, user models.LoginUserRequest) (string, error) {
-	
-	return "", nil
+
+	filter := bson.D{
+		bson.E{Key: "email", Value: user.Email},
+	}
+
+	var existingUser models.UserModel
+
+	err := r.db.FindOne(ctx, filter).Decode(&user)
+	if err != nil {
+		return "", err
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(existingUser.Hash), []byte(user.Password))
+	if err != nil {
+		return "", err
+	}	
+
+	return existingUser.ID.String(), nil
 }
 
 func NewAuthRepo(mongoClient *mongo.Client) *AuthRepo {
