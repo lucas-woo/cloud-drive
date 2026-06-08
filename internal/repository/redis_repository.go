@@ -31,7 +31,19 @@ func (r *RedisRepository) SetUserSession(ctx context.Context, userId string, rem
 	}
 	return sessionId, nil
 }
+
 // func (r *RedisRepository) GetUserIdBySession(ctx context.Context, sessionId string)
+
+func (r *RedisRepository) FindExist(ctx context.Context, sessionId string) (bool, error) {
+	_, err := r.client.Get(ctx, config.SessionPrefix + sessionId).Result()
+	if err != nil {
+		if err == redis.Nil {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
+}
 
 func (r *RedisRepository) RemoveUserSession(ctx context.Context, sessionId string) (bool, error) {
 	count, err := r.client.Del(ctx, config.SessionPrefix + sessionId).Result()	

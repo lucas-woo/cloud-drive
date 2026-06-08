@@ -51,6 +51,11 @@ func (s *Service) Logout(ctx context.Context, sessionId string) (bool, error) {
 	return ok, err
 }
 
+func (s *Service) ValidateUserSession(ctx context.Context, sessionId string) (bool, error) {
+	exists, err := s.authResources.RedisRepo.FindExist(ctx, sessionId)
+	return exists, err
+}
+
 func NewService(authResources *database.AuthResources) *Service {
 	return &Service{
 		authResources: authResources,
