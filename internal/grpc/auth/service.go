@@ -19,15 +19,15 @@ func (s *Service) Register(ctx context.Context, user models.SignUpUserRequest) (
 	if err != nil || taken {
 		return "", errors.New("email taken")
 	}
-	
 
 	userId, err := s.authResources.AuthRepo.CreateNewUser(ctx, user)
-
-	//need to insert to redis
 	
-	s.authResources.RedisRepo.SetUserSession(ctx, userId, user.RememberMe)
+	sessionId, err := s.authResources.RedisRepo.SetUserSession(ctx, userId, user.RememberMe)
+	if err != nil || taken {
+		return "", err
+	}
 
-	return "", nil
+	return sessionId, nil
 }
 
 func NewService(authResources *database.AuthResources) *Service {

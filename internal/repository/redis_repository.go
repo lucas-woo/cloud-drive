@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -17,13 +18,18 @@ const (
 	noRememberMe = time.Second * 60 * 60 * 24
 )	
 
-func (r *RedisRepository)SetUserSession (ctx context.Context, userId string, rememberMe bool) {
-	if rememberMe {
-		r.client.Set(ctx, config.SessionPrefix + userId, userId, yesRememberMe)
-		} else {
-		r.client.Set(ctx, config.SessionPrefix + userId, userId, noRememberMe)
+// returns generated sessionId and error
+func (r *RedisRepository)SetUserSession (ctx context.Context, userId string, rememberMe bool) (string, error) {
+	sessionId, err := utils.GenerateSessionId()
+	if err != nil {
+		return "", err
 	}
-
+	if rememberMe {
+		r.client.Set(ctx, config.SessionPrefix + sessionId, userId, yesRememberMe)
+		} else {
+		r.client.Set(ctx, config.SessionPrefix + sessionId, userId, noRememberMe)
+	}
+	return sessionId, nil
 }
 
 
