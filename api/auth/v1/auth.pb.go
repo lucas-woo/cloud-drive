@@ -325,6 +325,102 @@ func (x *LogoutUserResponse) GetLoggedOut() bool {
 	return false
 }
 
+type ValidateUserSessionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateUserSessionRequest) Reset() {
+	*x = ValidateUserSessionRequest{}
+	mi := &file_auth_v1_auth_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateUserSessionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserSessionRequest) ProtoMessage() {}
+
+func (x *ValidateUserSessionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_v1_auth_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserSessionRequest.ProtoReflect.Descriptor instead.
+func (*ValidateUserSessionRequest) Descriptor() ([]byte, []int) {
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ValidateUserSessionRequest) GetSessionId() string {
+	if x != nil {
+		return x.SessionId
+	}
+	return ""
+}
+
+type ValidateUserSessionResponse struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	LoggedIn        bool                   `protobuf:"varint,1,opt,name=logged_in,json=loggedIn,proto3" json:"logged_in,omitempty"`
+	PriviledgeLevel uint32                 `protobuf:"varint,2,opt,name=priviledge_level,json=priviledgeLevel,proto3" json:"priviledge_level,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ValidateUserSessionResponse) Reset() {
+	*x = ValidateUserSessionResponse{}
+	mi := &file_auth_v1_auth_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateUserSessionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserSessionResponse) ProtoMessage() {}
+
+func (x *ValidateUserSessionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_v1_auth_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserSessionResponse.ProtoReflect.Descriptor instead.
+func (*ValidateUserSessionResponse) Descriptor() ([]byte, []int) {
+	return file_auth_v1_auth_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ValidateUserSessionResponse) GetLoggedIn() bool {
+	if x != nil {
+		return x.LoggedIn
+	}
+	return false
+}
+
+func (x *ValidateUserSessionResponse) GetPriviledgeLevel() uint32 {
+	if x != nil {
+		return x.PriviledgeLevel
+	}
+	return 0
+}
+
 var File_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_auth_v1_auth_proto_rawDesc = "" +
@@ -352,7 +448,13 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"session_id\x18\x01 \x01(\tR\tsessionId\"3\n" +
 	"\x12LogoutUserResponse\x12\x1d\n" +
 	"\n" +
-	"logged_out\x18\x01 \x01(\bR\tloggedOutB5Z3github.com/lucas-woo/cloud-drive/api/auth/v1/authv1b\x06proto3"
+	"logged_out\x18\x01 \x01(\bR\tloggedOut\";\n" +
+	"\x1aValidateUserSessionRequest\x12\x1d\n" +
+	"\n" +
+	"session_id\x18\x01 \x01(\tR\tsessionId\"e\n" +
+	"\x1bValidateUserSessionResponse\x12\x1b\n" +
+	"\tlogged_in\x18\x01 \x01(\bR\bloggedIn\x12)\n" +
+	"\x10priviledge_level\x18\x02 \x01(\rR\x0fpriviledgeLevelB5Z3github.com/lucas-woo/cloud-drive/api/auth/v1/authv1b\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once
@@ -366,14 +468,16 @@ func file_auth_v1_auth_proto_rawDescGZIP() []byte {
 	return file_auth_v1_auth_proto_rawDescData
 }
 
-var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_auth_v1_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_auth_v1_auth_proto_goTypes = []any{
-	(*SignUpUserRequest)(nil),  // 0: auth.v1.SignUpUserRequest
-	(*SignUpUserResponse)(nil), // 1: auth.v1.SignUpUserResponse
-	(*LoginUserRequest)(nil),   // 2: auth.v1.LoginUserRequest
-	(*LoginUserResponse)(nil),  // 3: auth.v1.LoginUserResponse
-	(*LogoutUserRequest)(nil),  // 4: auth.v1.LogoutUserRequest
-	(*LogoutUserResponse)(nil), // 5: auth.v1.LogoutUserResponse
+	(*SignUpUserRequest)(nil),           // 0: auth.v1.SignUpUserRequest
+	(*SignUpUserResponse)(nil),          // 1: auth.v1.SignUpUserResponse
+	(*LoginUserRequest)(nil),            // 2: auth.v1.LoginUserRequest
+	(*LoginUserResponse)(nil),           // 3: auth.v1.LoginUserResponse
+	(*LogoutUserRequest)(nil),           // 4: auth.v1.LogoutUserRequest
+	(*LogoutUserResponse)(nil),          // 5: auth.v1.LogoutUserResponse
+	(*ValidateUserSessionRequest)(nil),  // 6: auth.v1.ValidateUserSessionRequest
+	(*ValidateUserSessionResponse)(nil), // 7: auth.v1.ValidateUserSessionResponse
 }
 var file_auth_v1_auth_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -394,7 +498,7 @@ func file_auth_v1_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_auth_v1_auth_proto_rawDesc), len(file_auth_v1_auth_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
