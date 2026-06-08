@@ -12,7 +12,7 @@ import (
 
 func NewAuthServiceClient() authv1.AuthServiceClient {
 	
-	port, found := os.LookupEnv("AUTH_GRPC_PORT")
+	port, found := os.LookupEnv("AUTH_CLIENT_PORT")
 
 	if !found {
 		log.Fatal("error with auth port env");

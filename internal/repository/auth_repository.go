@@ -41,7 +41,7 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user models.SignUpUserRequ
 	newUserId := uuid.New()
 
 	newUser := &models.UserModel{
-		Hash: string(hash),
+		Hash: hash,
 		Email: user.Email,
 		UserID: newUserId,
 	}
@@ -63,7 +63,7 @@ func (r *AuthRepo) LoginUser(ctx context.Context, user models.LoginUserRequest) 
 
 	var existingUser models.UserModel
 
-	err := r.db.FindOne(ctx, filter).Decode(&user)
+	err := r.db.FindOne(ctx, filter).Decode(&existingUser)
 	if err != nil {
 		return "", err
 	}
