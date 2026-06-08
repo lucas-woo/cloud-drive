@@ -24,7 +24,8 @@ func (s *Service) Register(ctx context.Context, user models.SignUpUserRequest) (
 	userId, err := s.authResources.AuthRepo.CreateNewUser(ctx, user)
 
 	//need to insert to redis
-	s.authResources.RedisRepo.SetUserSession(userId)
+	
+	s.authResources.RedisRepo.SetUserSession(ctx, userId, user.RememberMe)
 
 	return "", nil
 }

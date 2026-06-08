@@ -19,6 +19,8 @@ var (
 	CookieSessionDomain string
 	CookieSessionSecure bool
 	CookieSessionHttpOnly bool 	
+
+	SessionPrefix string = "session:"
 )
 
 func InitCookiesEnv() {
