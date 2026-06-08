@@ -10,7 +10,7 @@ import (
 
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	authenticationgrpc "github.com/lucas-woo/cloud-drive/internal/grpc/auth"
+	authgrpc "github.com/lucas-woo/cloud-drive/internal/grpc/auth"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -41,7 +41,7 @@ func main() {
 
 	grpcServer := grpc.NewServer();
 
-	authv1.RegisterAuthServiceServer(grpcServer, authenticationgrpc.NewAuthServer(authResources))
+	authv1.RegisterAuthServiceServer(grpcServer, authgrpc.NewAuthServer(authResources))
 
 	healthServer := health.NewServer()
 	healthv1.RegisterHealthServer(grpcServer, healthServer);
