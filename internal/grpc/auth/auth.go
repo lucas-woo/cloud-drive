@@ -36,9 +36,20 @@ func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) 
 
 func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*authv1.LoginUserResponse, error) {
 	
-	
+	sessionId, err := s.service.Login(ctx, models.LoginUserRequest{
+		Email: req.GetEmail(),
+		Password: req.GetPassword(),
+		RememberMe: req.GetRememberMe(),
+	})
 
-	return nil, status.Error(codes.Unimplemented, "method LoginUser not implemented")
+	if err != nil {
+		return nil, status.Error(codes.Unauthenticated, err.Error())
+	}
+
+	return &authv1.LoginUserResponse{
+		SessionId: sessionId,
+	}, nil
+
 }
 func (s *Server) LogoutUser(ctx context.Context, req *authv1.LogoutUserRequest) (*authv1.LogoutUserResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method LogoutUser not implemented")

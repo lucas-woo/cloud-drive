@@ -55,6 +55,11 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user models.SignUpUserRequ
 	return newUserId.String(), nil
 }
 
+func (r *AuthRepo) LoginUser(ctx context.Context, user models.LoginUserRequest) (string, error) {
+	
+	return "", nil
+}
+
 func NewAuthRepo(mongoClient *mongo.Client) *AuthRepo {
 	return &AuthRepo{
 		db: mongoClient.Database(config.UserDatabaseName).Collection(config.UserCollectionName),

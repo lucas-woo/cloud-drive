@@ -19,7 +19,7 @@ const (
 )	
 
 // returns generated sessionId and error
-func (r *RedisRepository)SetUserSession (ctx context.Context, userId string, rememberMe bool) (string, error) {
+func (r *RedisRepository) SetUserSession (ctx context.Context, userId string, rememberMe bool) (string, error) {
 	sessionId, err := utils.GenerateSessionId()
 	if err != nil {
 		return "", err
@@ -31,6 +31,7 @@ func (r *RedisRepository)SetUserSession (ctx context.Context, userId string, rem
 	}
 	return sessionId, nil
 }
+// func (r *RedisRepository) GetUserIdBySession(ctx context.Context, sessionId string)
 
 
 func NewRedisRepository(client *redis.Client) *RedisRepository {
