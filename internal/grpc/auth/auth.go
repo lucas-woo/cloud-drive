@@ -35,6 +35,9 @@ func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) 
 }
 
 func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*authv1.LoginUserResponse, error) {
+	
+	
+
 	return nil, status.Error(codes.Unimplemented, "method LoginUser not implemented")
 }
 func (s *Server) LogoutUser(ctx context.Context, req *authv1.LogoutUserRequest) (*authv1.LogoutUserResponse, error) {
