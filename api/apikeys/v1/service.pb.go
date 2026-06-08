@@ -4,7 +4,7 @@
 // 	protoc        (unknown)
 // source: apikeys/v1/service.proto
 
-package authv1
+package apikeysv1
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -29,7 +29,7 @@ const file_apikeys_v1_service_proto_rawDesc = "" +
 	"\x0eApiKeysService\x12M\n" +
 	"\n" +
 	"UploadFile\x12\x1d.apikeys.v1.UploadFileRequest\x1a\x1e.apikeys.v1.UploadFileResponse(\x01\x12]\n" +
-	"\x10CreateNewProject\x12#.apikeys.v1.CreateNewProjectRequest\x1a$.apikeys.v1.CreateNewProjectResponseB8Z6github.com/lucas-woo/cloud-drive/api/apikeys/v1/authv1b\x06proto3"
+	"\x10CreateNewProject\x12#.apikeys.v1.CreateNewProjectRequest\x1a$.apikeys.v1.CreateNewProjectResponseB;Z9github.com/lucas-woo/cloud-drive/api/apikeys/v1/apikeysv1b\x06proto3"
 
 var file_apikeys_v1_service_proto_goTypes = []any{
 	(*UploadFileRequest)(nil),        // 0: apikeys.v1.UploadFileRequest

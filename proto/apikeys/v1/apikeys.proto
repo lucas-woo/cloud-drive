@@ -2,7 +2,7 @@ syntax="proto3";
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/lucas-woo/cloud-drive/api/apikeys/v1/authv1";
+option go_package = "github.com/lucas-woo/cloud-drive/api/apikeys/v1/apikeysv1";
 
 package apikeys.v1;
 

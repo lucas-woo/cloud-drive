@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: apikeys/v1/service.proto
 
-package authv1
+package apikeysv1
 
 import (
 	context "context"
