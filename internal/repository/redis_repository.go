@@ -1,13 +1,29 @@
 package repository
 
-import "github.com/redis/go-redis/v9"
+import (
+	"context"
+	"time"
+
+	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/redis/go-redis/v9"
+)
 
 type RedisRepository struct {
 	client *redis.Client
 }
 
-func (r *RedisRepository)SetUserSession (userId string) {
-	
+const ( 
+	yesRememberMe = time.Second * 60 * 60 * 24 * 7
+	noRememberMe = time.Second * 60 * 60 * 24
+)	
+
+func (r *RedisRepository)SetUserSession (ctx context.Context, userId string, rememberMe bool) {
+	if rememberMe {
+		r.client.Set(ctx, config.SessionPrefix + userId, userId, yesRememberMe)
+		} else {
+		r.client.Set(ctx, config.SessionPrefix + userId, userId, noRememberMe)
+	}
+
 }
 
 
