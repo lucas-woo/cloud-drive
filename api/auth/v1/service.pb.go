@@ -24,31 +24,36 @@ var File_auth_v1_service_proto protoreflect.FileDescriptor
 
 const file_auth_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x15auth/v1/service.proto\x12\aauth.v1\x1a\x12auth/v1/auth.proto2\xdf\x01\n" +
+	"\x15auth/v1/service.proto\x12\aauth.v1\x1a\x12auth/v1/auth.proto2\xc1\x02\n" +
 	"\vAuthService\x12E\n" +
 	"\n" +
 	"SignUpUser\x12\x1a.auth.v1.SignUpUserRequest\x1a\x1b.auth.v1.SignUpUserResponse\x12B\n" +
 	"\tLoginUser\x12\x19.auth.v1.LoginUserRequest\x1a\x1a.auth.v1.LoginUserResponse\x12E\n" +
 	"\n" +
-	"LogoutUser\x12\x1a.auth.v1.LogoutUserRequest\x1a\x1b.auth.v1.LogoutUserResponseB5Z3github.com/lucas-woo/cloud-drive/api/auth/v1/authv1b\x06proto3"
+	"LogoutUser\x12\x1a.auth.v1.LogoutUserRequest\x1a\x1b.auth.v1.LogoutUserResponse\x12`\n" +
+	"\x13ValidateUserSession\x12#.auth.v1.ValidateUserSessionRequest\x1a$.auth.v1.ValidateUserSessionResponseB5Z3github.com/lucas-woo/cloud-drive/api/auth/v1/authv1b\x06proto3"
 
 var file_auth_v1_service_proto_goTypes = []any{
-	(*SignUpUserRequest)(nil),  // 0: auth.v1.SignUpUserRequest
-	(*LoginUserRequest)(nil),   // 1: auth.v1.LoginUserRequest
-	(*LogoutUserRequest)(nil),  // 2: auth.v1.LogoutUserRequest
-	(*SignUpUserResponse)(nil), // 3: auth.v1.SignUpUserResponse
-	(*LoginUserResponse)(nil),  // 4: auth.v1.LoginUserResponse
-	(*LogoutUserResponse)(nil), // 5: auth.v1.LogoutUserResponse
+	(*SignUpUserRequest)(nil),           // 0: auth.v1.SignUpUserRequest
+	(*LoginUserRequest)(nil),            // 1: auth.v1.LoginUserRequest
+	(*LogoutUserRequest)(nil),           // 2: auth.v1.LogoutUserRequest
+	(*ValidateUserSessionRequest)(nil),  // 3: auth.v1.ValidateUserSessionRequest
+	(*SignUpUserResponse)(nil),          // 4: auth.v1.SignUpUserResponse
+	(*LoginUserResponse)(nil),           // 5: auth.v1.LoginUserResponse
+	(*LogoutUserResponse)(nil),          // 6: auth.v1.LogoutUserResponse
+	(*ValidateUserSessionResponse)(nil), // 7: auth.v1.ValidateUserSessionResponse
 }
 var file_auth_v1_service_proto_depIdxs = []int32{
 	0, // 0: auth.v1.AuthService.SignUpUser:input_type -> auth.v1.SignUpUserRequest
 	1, // 1: auth.v1.AuthService.LoginUser:input_type -> auth.v1.LoginUserRequest
 	2, // 2: auth.v1.AuthService.LogoutUser:input_type -> auth.v1.LogoutUserRequest
-	3, // 3: auth.v1.AuthService.SignUpUser:output_type -> auth.v1.SignUpUserResponse
-	4, // 4: auth.v1.AuthService.LoginUser:output_type -> auth.v1.LoginUserResponse
-	5, // 5: auth.v1.AuthService.LogoutUser:output_type -> auth.v1.LogoutUserResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	3, // 3: auth.v1.AuthService.ValidateUserSession:input_type -> auth.v1.ValidateUserSessionRequest
+	4, // 4: auth.v1.AuthService.SignUpUser:output_type -> auth.v1.SignUpUserResponse
+	5, // 5: auth.v1.AuthService.LoginUser:output_type -> auth.v1.LoginUserResponse
+	6, // 6: auth.v1.AuthService.LogoutUser:output_type -> auth.v1.LogoutUserResponse
+	7, // 7: auth.v1.AuthService.ValidateUserSession:output_type -> auth.v1.ValidateUserSessionResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

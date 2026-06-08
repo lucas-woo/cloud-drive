@@ -33,3 +33,11 @@ message LogoutUserResponse {
   bool logged_out = 1;
 }
 
+message ValidateUserSessionRequest {
+  string session_id = 1;
+}
+
+message ValidateUserSessionResponse {
+  bool logged_in = 1;
+  uint32 priviledge_level = 2;
+}

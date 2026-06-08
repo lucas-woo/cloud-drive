@@ -14,4 +14,5 @@ service AuthService {
 
   rpc LogoutUser(LogoutUserRequest) returns (LogoutUserResponse);
   
+  rpc ValidateUserSession(ValidateUserSessionRequest) returns (ValidateUserSessionResponse);
 }
