@@ -6,7 +6,7 @@ type RedisRepository struct {
 	client *redis.Client
 }
 
-func (r *RedisRepository)SetUserSession () {
+func (r *RedisRepository)SetUserSession (userId string) {
 	
 }
 

@@ -14,7 +14,6 @@ import (
 
 type AuthRepo struct {
 	db *mongo.Collection
-	
 }
 
 func (r *AuthRepo) EmailTaken(ctx context.Context, email string) (bool, error) {
