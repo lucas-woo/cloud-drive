@@ -35,3 +35,7 @@ func NewService(authResources *database.AuthResources) *Service {
 		authResources: authResources,
 	}
 }
+
+func (s *Service) Login(ctx context.Context, user models.LoginUserRequest) {
+	
+}

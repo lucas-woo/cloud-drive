@@ -19,3 +19,10 @@ type SignUpUserRequest struct {
 	Email string
 	RememberMe bool
 }
+
+type LoginUserRequest struct {
+	Username string
+	Password string
+	Email string
+	RememberMe bool	
+}
