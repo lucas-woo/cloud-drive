@@ -3,12 +3,13 @@ package database
 import (
 	"log"
 
-	"github.com/lucas-woo/cloud-drive/internal/repository"
+	"github.com/lucas-woo/cloud-drive/internal/repository/auth"
+	redisrepo "github.com/lucas-woo/cloud-drive/internal/repository/redis"
 )
 
 type AuthResources struct {
-	RedisRepo *repository.RedisRepository
-	AuthRepo *repository.AuthRepo
+	RedisRepo *redisrepo.RedisRepository
+	AuthRepo *authrepo.AuthRepo
 }
 
 func NewAuthResources() *AuthResources {
@@ -17,13 +18,13 @@ func NewAuthResources() *AuthResources {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	authRepo := repository.NewAuthRepo(mongoClient)
+	authRepo := authrepo.NewAuthRepo(mongoClient)
 
 	redisClient, err := ConnectRedis()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	redisRepo := repository.NewRedisRepository(redisClient)
+	redisRepo := redisrepo.NewRedisRepository(redisClient)
 
 	return &AuthResources{
 		AuthRepo: authRepo,

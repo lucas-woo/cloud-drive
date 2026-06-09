@@ -5,7 +5,7 @@ import (
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	"github.com/lucas-woo/cloud-drive/internal/models"
+	"github.com/lucas-woo/cloud-drive/internal/models/auth"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,7 +17,7 @@ type Server struct {
 
 func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) (*authv1.SignUpUserResponse, error) {
 	
-	sessionId, err := s.service.Register(ctx, models.SignUpUserRequest{
+	sessionId, err := s.service.Register(ctx, authmodels.SignUpUserRequest{
 		Username: req.GetUsername(),
 		Password: req.GetPassword(),
 		Email: req.GetEmail(),
@@ -36,7 +36,7 @@ func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) 
 
 func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*authv1.LoginUserResponse, error) {
 	
-	sessionId, err := s.service.Login(ctx, models.LoginUserRequest{
+	sessionId, err := s.service.Login(ctx, authmodels.LoginUserRequest{
 		Email: req.GetEmail(),
 		Password: req.GetPassword(),
 		RememberMe: req.GetRememberMe(),
