@@ -19,7 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ApiKeysService_UploadFile_FullMethodName       = "/apikeys.v1.ApiKeysService/UploadFile"
 	ApiKeysService_CreateNewProject_FullMethodName = "/apikeys.v1.ApiKeysService/CreateNewProject"
 )
 
@@ -28,7 +27,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ApiKeysServiceClient interface {
 	// implemented:
-	UploadFile(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileRequest, UploadFileResponse], error)
 	CreateNewProject(ctx context.Context, in *CreateNewProjectRequest, opts ...grpc.CallOption) (*CreateNewProjectResponse, error)
 }
 
@@ -39,19 +37,6 @@ type apiKeysServiceClient struct {
 func NewApiKeysServiceClient(cc grpc.ClientConnInterface) ApiKeysServiceClient {
 	return &apiKeysServiceClient{cc}
 }
-
-func (c *apiKeysServiceClient) UploadFile(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileRequest, UploadFileResponse], error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &ApiKeysService_ServiceDesc.Streams[0], ApiKeysService_UploadFile_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[UploadFileRequest, UploadFileResponse]{ClientStream: stream}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ApiKeysService_UploadFileClient = grpc.ClientStreamingClient[UploadFileRequest, UploadFileResponse]
 
 func (c *apiKeysServiceClient) CreateNewProject(ctx context.Context, in *CreateNewProjectRequest, opts ...grpc.CallOption) (*CreateNewProjectResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
@@ -68,7 +53,6 @@ func (c *apiKeysServiceClient) CreateNewProject(ctx context.Context, in *CreateN
 // for forward compatibility.
 type ApiKeysServiceServer interface {
 	// implemented:
-	UploadFile(grpc.ClientStreamingServer[UploadFileRequest, UploadFileResponse]) error
 	CreateNewProject(context.Context, *CreateNewProjectRequest) (*CreateNewProjectResponse, error)
 	mustEmbedUnimplementedApiKeysServiceServer()
 }
@@ -80,9 +64,6 @@ type ApiKeysServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedApiKeysServiceServer struct{}
 
-func (UnimplementedApiKeysServiceServer) UploadFile(grpc.ClientStreamingServer[UploadFileRequest, UploadFileResponse]) error {
-	return status.Error(codes.Unimplemented, "method UploadFile not implemented")
-}
 func (UnimplementedApiKeysServiceServer) CreateNewProject(context.Context, *CreateNewProjectRequest) (*CreateNewProjectResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateNewProject not implemented")
 }
@@ -106,13 +87,6 @@ func RegisterApiKeysServiceServer(s grpc.ServiceRegistrar, srv ApiKeysServiceSer
 	}
 	s.RegisterService(&ApiKeysService_ServiceDesc, srv)
 }
-
-func _ApiKeysService_UploadFile_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(ApiKeysServiceServer).UploadFile(&grpc.GenericServerStream[UploadFileRequest, UploadFileResponse]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type ApiKeysService_UploadFileServer = grpc.ClientStreamingServer[UploadFileRequest, UploadFileResponse]
 
 func _ApiKeysService_CreateNewProject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateNewProjectRequest)
@@ -144,12 +118,6 @@ var ApiKeysService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ApiKeysService_CreateNewProject_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "UploadFile",
-			Handler:       _ApiKeysService_UploadFile_Handler,
-			ClientStreams: true,
-		},
-	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "apikeys/v1/service.proto",
 }
