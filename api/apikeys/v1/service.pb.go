@@ -25,25 +25,19 @@ var File_apikeys_v1_service_proto protoreflect.FileDescriptor
 const file_apikeys_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"\x18apikeys/v1/service.proto\x12\n" +
-	"apikeys.v1\x1a\x18apikeys/v1/apikeys.proto2\xbe\x01\n" +
-	"\x0eApiKeysService\x12M\n" +
-	"\n" +
-	"UploadFile\x12\x1d.apikeys.v1.UploadFileRequest\x1a\x1e.apikeys.v1.UploadFileResponse(\x01\x12]\n" +
+	"apikeys.v1\x1a\x18apikeys/v1/apikeys.proto2o\n" +
+	"\x0eApiKeysService\x12]\n" +
 	"\x10CreateNewProject\x12#.apikeys.v1.CreateNewProjectRequest\x1a$.apikeys.v1.CreateNewProjectResponseB;Z9github.com/lucas-woo/cloud-drive/api/apikeys/v1/apikeysv1b\x06proto3"
 
 var file_apikeys_v1_service_proto_goTypes = []any{
-	(*UploadFileRequest)(nil),        // 0: apikeys.v1.UploadFileRequest
-	(*CreateNewProjectRequest)(nil),  // 1: apikeys.v1.CreateNewProjectRequest
-	(*UploadFileResponse)(nil),       // 2: apikeys.v1.UploadFileResponse
-	(*CreateNewProjectResponse)(nil), // 3: apikeys.v1.CreateNewProjectResponse
+	(*CreateNewProjectRequest)(nil),  // 0: apikeys.v1.CreateNewProjectRequest
+	(*CreateNewProjectResponse)(nil), // 1: apikeys.v1.CreateNewProjectResponse
 }
 var file_apikeys_v1_service_proto_depIdxs = []int32{
-	0, // 0: apikeys.v1.ApiKeysService.UploadFile:input_type -> apikeys.v1.UploadFileRequest
-	1, // 1: apikeys.v1.ApiKeysService.CreateNewProject:input_type -> apikeys.v1.CreateNewProjectRequest
-	2, // 2: apikeys.v1.ApiKeysService.UploadFile:output_type -> apikeys.v1.UploadFileResponse
-	3, // 3: apikeys.v1.ApiKeysService.CreateNewProject:output_type -> apikeys.v1.CreateNewProjectResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	0, // 0: apikeys.v1.ApiKeysService.CreateNewProject:input_type -> apikeys.v1.CreateNewProjectRequest
+	1, // 1: apikeys.v1.ApiKeysService.CreateNewProject:output_type -> apikeys.v1.CreateNewProjectResponse
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

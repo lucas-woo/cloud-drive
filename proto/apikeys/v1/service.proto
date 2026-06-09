@@ -10,10 +10,10 @@ service ApiKeysService {
   //from web
 
   //implemented:
-  rpc UploadFile(stream UploadFileRequest) returns(UploadFileResponse);  
   rpc CreateNewProject(CreateNewProjectRequest) returns(CreateNewProjectResponse);
 
   //implementing:
+  //rpc UploadFile(stream UploadFileRequest) returns(UploadFileResponse);  
   //rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
   //rpc GenerateNewApiKey(GenerateNewApiKeyRequest) returns(GenerateNewApiKeyResponse);
   //rpc CreateNewFolder(CreateNewFolderRequest) returns(CreateNewFolderResponse);
