@@ -4,6 +4,7 @@ import (
 	"context"
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
+	"github.com/lucas-woo/cloud-drive/internal/database"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -21,8 +22,8 @@ func (s *Server) CreateNewProject(context.Context, *mediav1.CreateNewProjectRequ
 
 }
 
-func NewMediaServer(mediaResources ) *Server {
+func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
-
+		service: NewMediaService(mediaResources),
 	}
 }

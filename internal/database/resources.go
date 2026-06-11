@@ -12,7 +12,7 @@ type AuthResources struct {
 	AuthRepo *authrepo.AuthRepo
 }
 
-type ApiKeysResources struct {
+type MediaResources struct {
 	
 }
 
@@ -34,4 +34,8 @@ func NewAuthResources() *AuthResources {
 		AuthRepo: authRepo,
 		RedisRepo: redisRepo,
 	}
+}
+
+func NewMediaResources() *MediaResources {
+	return &MediaResources{}
 }
