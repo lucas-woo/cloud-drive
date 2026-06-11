@@ -62,12 +62,12 @@ func (s *Server) LogoutUser(ctx context.Context, req *authv1.LogoutUserRequest) 
 }
 
 func (s *Server) ValidateUserSession(ctx context.Context,req  *authv1.ValidateUserSessionRequest) (*authv1.ValidateUserSessionResponse, error) {
-	exists, err := s.service.ValidateUserSession(ctx, req.GetSessionId())
+	userId, err := s.service.ValidateUserSession(ctx, req.GetSessionId())
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 	return &authv1.ValidateUserSessionResponse{
-		LoggedIn: exists,
+		UserId: userId,
 	}, nil
 }
 
