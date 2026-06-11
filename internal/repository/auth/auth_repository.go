@@ -1,11 +1,11 @@
-package repository
+package authrepo
 
 import (
 	"context"
 
 	"github.com/google/uuid"
 	"github.com/lucas-woo/cloud-drive/internal/config"
-	"github.com/lucas-woo/cloud-drive/internal/models"
+	"github.com/lucas-woo/cloud-drive/internal/models/auth"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -31,7 +31,7 @@ func (r *AuthRepo) EmailTaken(ctx context.Context, email string) (bool, error) {
 	return false, nil
 }
 
-func (r *AuthRepo) CreateNewUser(ctx context.Context, user models.SignUpUserRequest) (string, error) {
+func (r *AuthRepo) CreateNewUser(ctx context.Context, user authmodels.SignUpUserRequest) (string, error) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -40,7 +40,7 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user models.SignUpUserRequ
 
 	newUserId := uuid.New()
 
-	newUser := &models.UserModel{
+	newUser := &authmodels.UserModel{
 		Hash: hash,
 		Email: user.Email,
 		UserID: newUserId,
@@ -55,13 +55,13 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user models.SignUpUserRequ
 	return newUserId.String(), nil
 }
 
-func (r *AuthRepo) LoginUser(ctx context.Context, user models.LoginUserRequest) (string, error) {
+func (r *AuthRepo) LoginUser(ctx context.Context, user authmodels.LoginUserRequest) (string, error) {
 
 	filter := bson.D{
 		bson.E{Key: "email", Value: user.Email},
 	}
 
-	var existingUser models.UserModel
+	var existingUser authmodels.UserModel
 
 	err := r.db.FindOne(ctx, filter).Decode(&existingUser)
 	if err != nil {

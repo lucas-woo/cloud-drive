@@ -1,4 +1,4 @@
-package models
+package authmodels
 
 import (
 	"github.com/google/uuid"
