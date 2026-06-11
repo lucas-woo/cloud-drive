@@ -12,6 +12,10 @@ type AuthResources struct {
 	AuthRepo *authrepo.AuthRepo
 }
 
+type ApiKeysResources struct {
+	
+}
+
 func NewAuthResources() *AuthResources {
 
 	mongoClient, err := ConnectMongo()
