@@ -39,7 +39,7 @@ func main() {
 	if err != nil {
 		log.Fatal("err 2")
 	}
-	fmt.Println("res2:", res2.LoggedIn)	
+	fmt.Println("res2:", res2)	
 
 	res3, err := client.LogoutUser(ctx, &authv1.LogoutUserRequest{
 		SessionId: res.SessionId,
@@ -55,7 +55,7 @@ func main() {
 	if err != nil {
 		log.Fatal("err 4")
 	}
-	fmt.Println("res4:", res4.LoggedIn)		
+	fmt.Println("res4:", res4)		
 	
 
 	res5, err := client.LoginUser(ctx, &authv1.LoginUserRequest{
@@ -75,7 +75,7 @@ func main() {
 	if err != nil {
 		log.Fatal("err 6")
 	}
-	fmt.Println("res6:", res6.LoggedIn)	
+	fmt.Println("res6:", res6)	
 
 	res7, err := client.LogoutUser(ctx, &authv1.LogoutUserRequest{
 		SessionId: res5.SessionId,
@@ -91,5 +91,5 @@ func main() {
 	if err != nil {
 		log.Fatal("err 8")
 	}
-	fmt.Println("res8:", res8.LoggedIn)			
+	fmt.Println("res8:", res8)			
 }
