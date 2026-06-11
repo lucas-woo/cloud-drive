@@ -18,5 +18,6 @@ type ProjectModel struct {
 	//admin id
 	//description
 	//status (active/disabled)
+	//created at
 }
 
