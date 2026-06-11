@@ -7,6 +7,7 @@ type Service struct {
 }
 
 
+
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
 		mediaResources: mediaResources,
