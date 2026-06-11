@@ -38,6 +38,5 @@ message ValidateUserSessionRequest {
 }
 
 message ValidateUserSessionResponse {
-  bool logged_in = 1;
-  uint32 priviledge_level = 2;
+  string user_id = 1;
 }
