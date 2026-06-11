@@ -1,0 +1,32 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/apikeys/v1/apikeysv1";
+
+package apikeys.v1;
+
+import "apikeys/v1/apikeys.proto";
+
+service ApiKeysService {
+  //from web
+
+  //implemented:
+  rpc CreateNewProject(CreateNewProjectRequest) returns(CreateNewProjectResponse);
+
+  //implementing:
+  //rpc UploadFile(stream UploadFileRequest) returns(UploadFileResponse);  
+  //rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+  //rpc GenerateNewApiKey(GenerateNewApiKeyRequest) returns(GenerateNewApiKeyResponse);
+  //rpc CreateNewFolder(CreateNewFolderRequest) returns(CreateNewFolderResponse);
+  //rpc DeactivateApiKey(DeactivateApiKeyRequest) returns(DeactivateApiKeyResponse);
+  //rpc ActivateApiKey(ActivateApiKeyRequest) returns(ActivateApiKeyResponse);
+  // rpc RenameKey(RenameKeyRequest) returns(RenameKeyResponse);
+  // rpc GetApiKeys(GetApiKeysRequest) returns(GetApiKeysResponse);
+  //rpc ViewApiSecret(ViewApiSecretResquest) returns(ViewApiSecretResponse);
+  //rpc GetProjects(GetProjectsRequest) returns(GetProjectsResponse); // returns project ids too 
+  //rpc GetFolders(GetProjectsRequest) returns(GetProjectsResponse);
+
+  //from api
+  //rpc ApiUploadImage(stream ApiUploadImageRequest) returns (ApiUploadImageResponse);
+  //rpc ApiUploadFile(ApiUploadFileRequest) returns(ApiUploadFileResponse);
+
+}
