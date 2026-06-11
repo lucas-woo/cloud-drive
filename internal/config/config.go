@@ -10,7 +10,12 @@ import (
 
 var (
 	UserDatabaseName string = "user_database"
+	IamDatabaseName string = "iam_database";
+	MediaDatabaseName string = "media_database"
+
 	UserCollectionName string = "user_credentials";
+	ProjectCollectionName string = "projects";
+	ApiKeysCollectionName string = "api_keys";
 
 	CookieSessionIDString string
 	CookieUserId string
