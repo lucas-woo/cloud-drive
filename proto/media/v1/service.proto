@@ -8,7 +8,7 @@ import "media/v1/media.proto";
 
 service MediaService {
   
-  rpc CreateNewProject(CreateNewProjectRequest) returns (CreateNewProjectResponse)
+  rpc CreateNewProject(CreateNewProjectRequest) returns (CreateNewProjectResponse);
 
 
   //rpc ChangeProjectName()

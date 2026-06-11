@@ -1,0 +1,16 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
+
+package media.v1;
+
+
+message CreateNewProjectRequest {
+  string session_id = 1;
+  string project_name = 2;
+  string description = 3;
+}
+
+message CreateNewProjectResponse {
+  string project_name = 1;
+}
