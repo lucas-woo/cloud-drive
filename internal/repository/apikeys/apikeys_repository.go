@@ -11,6 +11,6 @@ type ApiKeysRepository struct {
 
 func NewApiKeysRepository(mongoClient *mongo.Client) *ApiKeysRepository {
 	return &ApiKeysRepository{
-		db: mongoClient.Database(config.IamDatabaseName).Collection(config.AP),
+		db: mongoClient.Database(config.IamDatabaseName).Collection(config.ApiKeysCollectionName),
 	}
 }

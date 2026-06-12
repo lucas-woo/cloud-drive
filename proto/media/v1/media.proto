@@ -13,4 +13,5 @@ message CreateNewProjectRequest {
 
 message CreateNewProjectResponse {
   string project_name = 1;
+  string project_id = 2;
 }
