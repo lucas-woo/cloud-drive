@@ -1,0 +1,16 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1";
+
+package iam.v1;
+
+//should implement being be able to create roles with certain priviledges
+//upload priviledges, delete, activate/disactivate, generate api keys
+
+message GenerateNewApiKeyRequest {
+
+}
+
+message GenerateNewApiKeyResponse {
+
+}

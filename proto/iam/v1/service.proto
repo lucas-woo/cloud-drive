@@ -1,0 +1,13 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1";
+
+package iam.v1;
+
+import "iam/v1/iam.proto";
+
+service IAMService {
+  
+  rpc GenerateNewApiKey(GenerateNewApiKeyRequest) returns (GenerateNewApiKeyResponse);
+
+}
