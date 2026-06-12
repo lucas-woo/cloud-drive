@@ -4,6 +4,8 @@ import (
 	"log"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
+
+	authclient "github.com/lucas-woo/cloud-drive/internal/grpc/auth/client"
 	"github.com/lucas-woo/cloud-drive/internal/repository/auth"
 	projectrepository "github.com/lucas-woo/cloud-drive/internal/repository/project"
 	redisrepo "github.com/lucas-woo/cloud-drive/internal/repository/redis"
@@ -40,5 +42,18 @@ func NewAuthResources() *AuthResources {
 }
 
 func NewMediaResources() *MediaResources {
-	return &MediaResources{}
+
+	mongoClient, err := ConnectMongo()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	projectRepo := projectrepository.NewProjectRepository(mongoClient)
+	
+	authClient := authclient.NewAuthServiceClient()
+
+	return &MediaResources{
+		ProjectRepository: projectRepo,
+		AuthClient: authClient,
+	}
 }

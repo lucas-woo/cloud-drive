@@ -7,7 +7,7 @@ import (
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
-	authgrpc "github.com/lucas-woo/cloud-drive/internal/grpc/auth"
+	authclient "github.com/lucas-woo/cloud-drive/internal/grpc/auth/client"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 		log.Fatal("env err")
 	}
 
-	client := authgrpc.NewAuthServiceClient()
+	client := authclient.NewAuthServiceClient()
 	
 
 	ctx := context.Background()
