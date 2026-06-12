@@ -6,7 +6,9 @@ type Service struct {
 	mediaResources *database.MediaResources
 }
 
-
+func (s *Service) CreateNewProject() {
+	
+}
 
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{

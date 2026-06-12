@@ -84,6 +84,7 @@ func (x *CreateNewProjectRequest) GetDescription() string {
 type CreateNewProjectResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ProjectName   string                 `protobuf:"bytes,1,opt,name=project_name,json=projectName,proto3" json:"project_name,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -125,6 +126,13 @@ func (x *CreateNewProjectResponse) GetProjectName() string {
 	return ""
 }
 
+func (x *CreateNewProjectResponse) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
 var File_media_v1_media_proto protoreflect.FileDescriptor
 
 const file_media_v1_media_proto_rawDesc = "" +
@@ -134,9 +142,11 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\n" +
 	"session_id\x18\x01 \x01(\tR\tsessionId\x12!\n" +
 	"\fproject_name\x18\x02 \x01(\tR\vprojectName\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"=\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\"\\\n" +
 	"\x18CreateNewProjectResponse\x12!\n" +
-	"\fproject_name\x18\x01 \x01(\tR\vprojectNameB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectIdB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_media_proto_rawDescOnce sync.Once
