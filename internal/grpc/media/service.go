@@ -29,6 +29,7 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 		return
 	}
 
+	projectName, projectId, err = s.mediaResources.ProjectRepository.CreateNewProject(ctx, userId, createNewProjectRequest)
 
 	return
 }
