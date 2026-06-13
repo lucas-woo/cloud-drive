@@ -52,7 +52,9 @@ func NewMediaResources() *MediaResources {
 		log.Fatal(err.Error())
 	}
 
-	projectRepo := projectrepository.NewProjectRepository(mongoClient)
+	mysqlClient := ConnectMySql()
+
+	projectRepo := projectrepository.NewProjectRepository(mongoClient, mysqlClient)
 	
 	authClient := authclient.NewAuthServiceClient()
 

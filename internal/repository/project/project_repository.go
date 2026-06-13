@@ -2,6 +2,7 @@ package projectrepository
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -11,7 +12,8 @@ import (
 )
 
 type ProjectRepository struct {
-	db *mongo.Collection
+	mongodb *mongo.Collection
+	sqldb *sql.DB
 }
 
 func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UUID, projectRequest *projectmodels.CreateNewProjectRequest) (projectName string, projectId string, err error) {
@@ -34,14 +36,25 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 		IsActive: true,
 	}
 
-	_, err = r.db.InsertOne(ctx, newProject)
+	_, err = r.mongodb.InsertOne(ctx, newProject)
 
 	return
 }
 
 
-func NewProjectRepository(mongoClient *mongo.Client) *ProjectRepository {
+func (r *ProjectRepository) AddProjectAdmin() {
+
+}
+func (r *ProjectRepository) IsProjectAdmin() {
+
+}
+func (r *ProjectRepository) DeleteProjectAdmin() {
+
+}
+
+func NewProjectRepository(mongoClient *mongo.Client, mysqlClient *sql.DB) *ProjectRepository {
 	return &ProjectRepository{
-		db: mongoClient.Database(config.MediaDatabaseName).Collection(config.ProjectCollectionName),
+		mongodb: mongoClient.Database(config.MediaDatabaseName).Collection(config.ProjectCollectionName),
+		sqldb: mysqlClient,
 	}
 }
