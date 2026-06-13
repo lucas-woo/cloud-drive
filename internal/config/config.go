@@ -17,6 +17,8 @@ var (
 	ProjectCollectionName string = "projects";
 	ApiKeysCollectionName string = "api_keys";
 
+	ProjectAdminTable string = "project_admin"
+
 	CookieSessionIDString string
 	CookieUserId string
 	CookieSessionMaxAge int
