@@ -3,6 +3,7 @@ package projectrepository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"time"
 
 	"github.com/google/uuid"
@@ -37,19 +38,57 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 	}
 
 	_, err = r.mongodb.InsertOne(ctx, newProject)
+	if err != nil {
+		return
+	}
+
+	err = r.AddProjectAdmin(userId, pId)
 
 	return
 }
 
 
-func (r *ProjectRepository) AddProjectAdmin() {
+func (r *ProjectRepository) AddProjectAdmin(userId uuid.UUID, projectId uuid.UUID) error {
+    query := fmt.Sprintf(`
+        INSERT INTO %s (user_id, project_id)
+        VALUES (?, ?)
+    `, config.ProjectAdminTable)
 
+    _, err := r.sqldb.Exec(query, userId[:], projectId[:])
+    return err
 }
-func (r *ProjectRepository) IsProjectAdmin() {
 
+func (r *ProjectRepository) IsProjectAdmin(userId uuid.UUID, projectId uuid.UUID) (bool, error) {
+
+	query := fmt.Sprintf(`
+			SELECT EXISTS(
+					SELECT 1
+					FROM %s
+					WHERE user_id = ?
+						AND project_id = ?
+			)
+	`, config.ProjectAdminTable)
+
+	var exists bool
+
+	err := r.sqldb.QueryRow(
+			query,
+			userId[:],
+			projectId[:],
+	).Scan(&exists)
+
+	return exists, err	
 }
-func (r *ProjectRepository) DeleteProjectAdmin() {
 
+func (r *ProjectRepository) DeleteProjectAdmin(userId uuid.UUID, projectId uuid.UUID) (error) {
+	query := fmt.Sprintf(`
+			DELETE FROM %s
+			WHERE user_id = ?
+				AND project_id = ?
+	`, config.ProjectAdminTable)
+
+	_, err := r.sqldb.Exec(query, userId[:], projectId[:])
+	return err
 }
 
 func NewProjectRepository(mongoClient *mongo.Client, mysqlClient *sql.DB) *ProjectRepository {
