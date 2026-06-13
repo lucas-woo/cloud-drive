@@ -4,6 +4,7 @@ import (
 	"context"
 
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
+	"github.com/lucas-woo/cloud-drive/internal/database"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -22,8 +23,8 @@ func (s *Server) ValidateApiKey(ctx context.Context, req *iamv1.ValidateApiKeyRe
 }
 
 
-func NewIamServer() *Server {
+func NewIamServer(iamResources *database.IamResources) *Server {
 	return &Server{
-
+		service: NewIamService(iamResources),
 	}
 }

@@ -21,6 +21,10 @@ type MediaResources struct {
 	AuthClient authv1.AuthServiceClient
 }
 
+type IamResources struct {
+
+}
+
 func NewAuthResources() *AuthResources {
 
 	mongoClient, err := ConnectMongo()
@@ -56,4 +60,8 @@ func NewMediaResources() *MediaResources {
 		ProjectRepository: projectRepo,
 		AuthClient: authClient,
 	}
+}
+
+func NewIamResources() *IamResources {
+	return &IamResources{}
 }
