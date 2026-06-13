@@ -1,4 +1,5 @@
 CREATE TABLE project_admin (
+    
     user_id BINARY(16) NOT NULL,
     project_id BINARY(16) NOT NULL,
 
