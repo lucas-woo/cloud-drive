@@ -10,6 +10,6 @@ service IAMService {
   
   rpc GenerateNewApiKey(GenerateNewApiKeyRequest) returns (GenerateNewApiKeyResponse);
 
-  rpc ValidateApiKey(ValidateApiKeyRequest) returns (ValidateApiKeyResponse);
+  rpc ValidateApiKeyPermission(ValidateApiKeyPermissionRequest) returns (ValidateApiKeyPermissionResponse);
 
 }
