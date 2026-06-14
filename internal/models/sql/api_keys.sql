@@ -9,7 +9,7 @@ CREATE TABLE api_keys (
 
     api_secret VARCHAR(255) NOT NULL,
 
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP NOT NULL
 
     PRIMARY KEY (id),
 
@@ -17,11 +17,11 @@ CREATE TABLE api_keys (
 );
 
 
-CREATE TABLE api_key_roles (
+CREATE TABLE api_key_permissions (
     api_key_id BINARY(16) NOT NULL,
-    role VARCHAR(50) NOT NULL,
+    permission VARCHAR(50) NOT NULL,
 
-    PRIMARY KEY (api_key_id, role),
+    PRIMARY KEY (api_key_id, permission)
 
     INDEX idx_api_key (api_key_id)
 );

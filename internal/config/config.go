@@ -20,7 +20,10 @@ var (
 
 	ProjectUserRolesTable = "project_user_roles"
 	ApiKeysTable = "api_keys"
-	ApiKeyRolesTable = "api_key_roles"
+	ApiKeyPermissionsTable = "api_key_permissions"
+
+	UploadPermission = "upload"
+	DeletePermission = "delete"
 
 	ADMIN_ROLE = "admin"
 
