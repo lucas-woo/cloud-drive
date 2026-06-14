@@ -8,6 +8,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
@@ -17,7 +18,7 @@ type ProjectRepository struct {
 	sqldb *sql.DB
 }
 
-func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UUID, projectRequest *projectmodels.CreateNewProjectRequest) (projectName string, projectId string, err error) {
+func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UUID, projectRequest *dto.CreateNewProjectRequest) (projectName string, projectId string, err error) {
 
 	if projectRequest.ProjectName == "" {
 		projectName = "New_Project"

@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 	"github.com/lucas-woo/cloud-drive/internal/models/auth"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -31,7 +32,7 @@ func (r *AuthRepo) EmailTaken(ctx context.Context, email string) (bool, error) {
 	return false, nil
 }
 
-func (r *AuthRepo) CreateNewUser(ctx context.Context, user authmodels.SignUpUserRequest) (string, error) {
+func (r *AuthRepo) CreateNewUser(ctx context.Context, user *dto.SignUpUserRequest) (string, error) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -55,7 +56,7 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user authmodels.SignUpUser
 	return newUserId.String(), nil
 }
 
-func (r *AuthRepo) LoginUser(ctx context.Context, user authmodels.LoginUserRequest) (string, error) {
+func (r *AuthRepo) LoginUser(ctx context.Context, user *dto.LoginUserRequest) (string, error) {
 
 	filter := bson.D{
 		bson.E{Key: "email", Value: user.Email},
