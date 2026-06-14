@@ -42,52 +42,53 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 		return
 	}
 
-	err = r.AddProjectAdmin(userId, pId)
+	err = r.AddProjectUserRole(userId, pId, config.ADMIN_ROLE)
 
 	return
 }
 
 
-func (r *ProjectRepository) AddProjectAdmin(userId uuid.UUID, projectId uuid.UUID) error {
-    query := fmt.Sprintf(`
-        INSERT INTO %s (user_id, project_id)
-        VALUES (?, ?)
-    `, config.ProjectAdminTable)
+func (r *ProjectRepository) AddProjectUserRole(userId uuid.UUID, projectId uuid.UUID, role string) error {
+	query := fmt.Sprintf(`
+		INSERT INTO %s (user_id, project_id, role)
+		VALUES (?, ?, ?)
+	`, config.ProjectUserRolesTable)
 
-    _, err := r.sqldb.Exec(query, userId[:], projectId[:])
-    return err
+	_, err := r.sqldb.Exec(query, userId[:], projectId[:], role)
+	return err
 }
 
-func (r *ProjectRepository) IsProjectAdmin(userId uuid.UUID, projectId uuid.UUID) (bool, error) {
-
+func (r *ProjectRepository) CheckProjectUserRole(userId uuid.UUID, projectId uuid.UUID, role string) (bool, error) {
 	query := fmt.Sprintf(`
-			SELECT EXISTS(
-					SELECT 1
-					FROM %s
-					WHERE user_id = ?
-						AND project_id = ?
-			)
-	`, config.ProjectAdminTable)
+		SELECT EXISTS(
+			SELECT 1
+			FROM %s
+			WHERE user_id = ?
+			AND project_id = ?
+			AND role = ?
+		)
+	`, config.ProjectUserRolesTable)
 
 	var exists bool
 
-	err := r.sqldb.QueryRow(
-			query,
-			userId[:],
-			projectId[:],
-	).Scan(&exists)
+	err := r.sqldb.QueryRow(query,userId[:],projectId[:],role,).Scan(&exists)
 
-	return exists, err	
+	if err != nil {
+		return false, err
+	}
+
+	return exists, nil
 }
 
-func (r *ProjectRepository) DeleteProjectAdmin(userId uuid.UUID, projectId uuid.UUID) (error) {
+func (r *ProjectRepository) DeleteProjectUserRole(userId uuid.UUID, projectId uuid.UUID, role string) error {
 	query := fmt.Sprintf(`
-			DELETE FROM %s
-			WHERE user_id = ?
-				AND project_id = ?
-	`, config.ProjectAdminTable)
+		DELETE FROM %s
+		WHERE user_id = ?
+		  AND project_id = ?
+		  AND role = ?
+	`, config.ProjectUserRolesTable)
 
-	_, err := r.sqldb.Exec(query, userId[:], projectId[:])
+	_, err := r.sqldb.Exec(query, userId[:], projectId[:], role)
 	return err
 }
 

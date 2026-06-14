@@ -17,7 +17,12 @@ var (
 	ProjectCollectionName string = "projects";
 	ApiKeysCollectionName string = "api_keys";
 
-	ProjectAdminTable string = "project_admin"
+
+	ProjectUserRolesTable = "project_user_roles"
+	ApiKeysTable = "api_keys"
+	ApiKeyRolesTable = "api_key_roles"
+
+	ADMIN_ROLE = "admin"
 
 	CookieSessionIDString string
 	CookieUserId string
