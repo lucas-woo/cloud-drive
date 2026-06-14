@@ -22,7 +22,8 @@ type MediaResources struct {
 }
 
 type IamResources struct {
-
+	ProjectRepository *projectrepository.ProjectRepository
+	AuthClient authv1.AuthServiceClient	
 }
 
 func NewAuthResources() *AuthResources {
