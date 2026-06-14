@@ -6,6 +6,7 @@ import (
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 
 	authclient "github.com/lucas-woo/cloud-drive/internal/grpc/auth/client"
+	apikeysrepository "github.com/lucas-woo/cloud-drive/internal/repository/apikeys"
 	"github.com/lucas-woo/cloud-drive/internal/repository/auth"
 	projectrepository "github.com/lucas-woo/cloud-drive/internal/repository/project"
 	redisrepo "github.com/lucas-woo/cloud-drive/internal/repository/redis"
@@ -23,6 +24,7 @@ type MediaResources struct {
 
 type IamResources struct {
 	ProjectRepository *projectrepository.ProjectRepository
+	ApiKeysRepository *apikeysrepository.ApiKeysRepository
 	AuthClient authv1.AuthServiceClient	
 }
 

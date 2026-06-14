@@ -33,7 +33,7 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *apikeysmodels.Gene
 		return "", "", time.Time{}, err
 	}
 	
-	ok, err := s.iamResources.ProjectRepository.CheckProjectUserRole(uid, pid, config.ADMIN_ROLE)
+	ok, err := s.iamResources.ProjectRepository.CheckProjectUserRole(ctx, uid, pid, config.ADMIN_ROLE)
 	if err != nil {
 		return "", "", time.Time{}, err
 	}
