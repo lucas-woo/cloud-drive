@@ -9,14 +9,14 @@ import (
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	apikeysmodels "github.com/lucas-woo/cloud-drive/internal/models/apikeys"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 )
 
 type Service struct {
 	iamResources *database.IamResources
 }
 
-func (s *Service) GenerateNewApiKey(ctx context.Context, req *apikeysmodels.GenerateNewApiKeyRequest) (string, string, time.Time, error) {
+func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApiKeyRequest) (string, string, time.Time, error) {
 
 	res, err := s.iamResources.AuthClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
 		SessionId: req.SessionId,
@@ -40,8 +40,10 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *apikeysmodels.Gene
 	if !ok {
 		return "", "", time.Time{}, errors.New("not allowed")
 	}
+
+	
 	//table for userid and project id
-	return 
+	return "", "", time.Time{}, errors.New("not allowed")
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {

@@ -5,7 +5,7 @@ import (
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,7 +17,7 @@ type Server struct {
 
 func (s *Server) CreateNewProject(ctx context.Context, req *mediav1.CreateNewProjectRequest) (*mediav1.CreateNewProjectResponse, error) {
 
-	projReq := &projectmodels.CreateNewProjectRequest{
+	projReq := &dto.CreateNewProjectRequest{
 		SessionId: req.GetSessionId(),
 		ProjectName: req.GetProjectName(),
 		Description: req.GetDescription(),
