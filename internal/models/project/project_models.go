@@ -7,13 +7,6 @@ import (
 )
 
 
-type CreateNewProjectRequest struct {
-	SessionId string
-	ProjectName string
-	Description string
-}
-
-
 type ProjectModel struct {
 	CreatorId uuid.UUID `bson:"creator_id,omitempty"`
 	ProjectId uuid.UUID `bson:"project_id,omitempty"`
