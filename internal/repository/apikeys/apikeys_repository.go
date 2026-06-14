@@ -1,16 +1,16 @@
 package apikeysrepository
 
 import (
-	"github.com/lucas-woo/cloud-drive/internal/config"
-	"go.mongodb.org/mongo-driver/v2/mongo"
+	"database/sql"
 )
 
 type ApiKeysRepository struct {
-	db *mongo.Collection
+	mysql *sql.DB
 }
 
-func NewApiKeysRepository(mongoClient *mongo.Client) *ApiKeysRepository {
+
+func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {
 	return &ApiKeysRepository{
-		db: mongoClient.Database(config.IamDatabaseName).Collection(config.ApiKeysCollectionName),
+		mysql: mySqlClient,
 	}
 }
