@@ -42,23 +42,23 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 		return
 	}
 
-	err = r.AddProjectUserRole(userId, pId, config.ADMIN_ROLE)
+	err = r.AddProjectUserRole(ctx, userId, pId, config.ADMIN_ROLE)
 
 	return
 }
 
 
-func (r *ProjectRepository) AddProjectUserRole(userId uuid.UUID, projectId uuid.UUID, role string) error {
+func (r *ProjectRepository) AddProjectUserRole(ctx context.Context,userId uuid.UUID, projectId uuid.UUID, role string) error {
 	query := fmt.Sprintf(`
 		INSERT INTO %s (user_id, project_id, role)
 		VALUES (?, ?, ?)
 	`, config.ProjectUserRolesTable)
 
-	_, err := r.sqldb.Exec(query, userId[:], projectId[:], role)
+	_, err := r.sqldb.ExecContext(ctx ,query, userId[:], projectId[:], role)
 	return err
 }
 
-func (r *ProjectRepository) CheckProjectUserRole(userId uuid.UUID, projectId uuid.UUID, role string) (bool, error) {
+func (r *ProjectRepository) CheckProjectUserRole(ctx context.Context, userId uuid.UUID, projectId uuid.UUID, role string) (bool, error) {
 	query := fmt.Sprintf(`
 		SELECT EXISTS(
 			SELECT 1
@@ -71,7 +71,7 @@ func (r *ProjectRepository) CheckProjectUserRole(userId uuid.UUID, projectId uui
 
 	var exists bool
 
-	err := r.sqldb.QueryRow(query,userId[:],projectId[:],role,).Scan(&exists)
+	err := r.sqldb.QueryRowContext(ctx, query,userId[:],projectId[:],role,).Scan(&exists)
 
 	if err != nil {
 		return false, err
@@ -80,7 +80,7 @@ func (r *ProjectRepository) CheckProjectUserRole(userId uuid.UUID, projectId uui
 	return exists, nil
 }
 
-func (r *ProjectRepository) DeleteProjectUserRole(userId uuid.UUID, projectId uuid.UUID, role string) error {
+func (r *ProjectRepository) DeleteProjectUserRole(ctx context.Context, userId uuid.UUID, projectId uuid.UUID, role string) error {
 	query := fmt.Sprintf(`
 		DELETE FROM %s
 		WHERE user_id = ?
@@ -88,7 +88,7 @@ func (r *ProjectRepository) DeleteProjectUserRole(userId uuid.UUID, projectId uu
 		  AND role = ?
 	`, config.ProjectUserRolesTable)
 
-	_, err := r.sqldb.Exec(query, userId[:], projectId[:], role)
+	_, err := r.sqldb.ExecContext(ctx, query, userId[:], projectId[:], role)
 	return err
 }
 
