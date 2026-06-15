@@ -58,6 +58,11 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApi
 	return createdKeyResponse, nil
 }
 
+
+func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) {
+	
+}
+
 func NewIamService(iamResources *database.IamResources) *Service {
 	return &Service{
 		iamResources: iamResources,
