@@ -35,10 +35,9 @@ func (s *Server) GenerateNewApiKey(ctx context.Context, req *iamv1.GenerateNewAp
 }
 
 
-func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.ValidateApiKeyRequest) (*iamv1.ValidateApiKeyResponse, error) {
+func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.ValidateApiKeyPermissionRequest) (*iamv1.ValidateApiKeyPermissionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ValidateApiKey not implemented")
 }
-
 
 func NewIamServer(iamResources *database.IamResources) *Server {
 	return &Server{
