@@ -22,6 +22,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ValidateApiKeyPermissionRequest_Permission int32
+
+const (
+	ValidateApiKeyPermissionRequest_PERMISSION_STATUS_UNSPECIFIED ValidateApiKeyPermissionRequest_Permission = 0
+	ValidateApiKeyPermissionRequest_PERMISSION_CREATE             ValidateApiKeyPermissionRequest_Permission = 1
+	ValidateApiKeyPermissionRequest_PERMISSION_DELETE             ValidateApiKeyPermissionRequest_Permission = 2
+)
+
+// Enum value maps for ValidateApiKeyPermissionRequest_Permission.
+var (
+	ValidateApiKeyPermissionRequest_Permission_name = map[int32]string{
+		0: "PERMISSION_STATUS_UNSPECIFIED",
+		1: "PERMISSION_CREATE",
+		2: "PERMISSION_DELETE",
+	}
+	ValidateApiKeyPermissionRequest_Permission_value = map[string]int32{
+		"PERMISSION_STATUS_UNSPECIFIED": 0,
+		"PERMISSION_CREATE":             1,
+		"PERMISSION_DELETE":             2,
+	}
+)
+
+func (x ValidateApiKeyPermissionRequest_Permission) Enum() *ValidateApiKeyPermissionRequest_Permission {
+	p := new(ValidateApiKeyPermissionRequest_Permission)
+	*p = x
+	return p
+}
+
+func (x ValidateApiKeyPermissionRequest_Permission) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ValidateApiKeyPermissionRequest_Permission) Descriptor() protoreflect.EnumDescriptor {
+	return file_iam_v1_iam_proto_enumTypes[0].Descriptor()
+}
+
+func (ValidateApiKeyPermissionRequest_Permission) Type() protoreflect.EnumType {
+	return &file_iam_v1_iam_proto_enumTypes[0]
+}
+
+func (x ValidateApiKeyPermissionRequest_Permission) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ValidateApiKeyPermissionRequest_Permission.Descriptor instead.
+func (ValidateApiKeyPermissionRequest_Permission) EnumDescriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{2, 0}
+}
+
 type GenerateNewApiKeyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
@@ -142,26 +191,29 @@ func (x *GenerateNewApiKeyResponse) GetCreatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
-type ValidateApiKeyRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+type ValidateApiKeyPermissionRequest struct {
+	state         protoimpl.MessageState                     `protogen:"open.v1"`
+	ApiKey        string                                     `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	ApiSecret     string                                     `protobuf:"bytes,2,opt,name=api_secret,json=apiSecret,proto3" json:"api_secret,omitempty"`
+	Permission    ValidateApiKeyPermissionRequest_Permission `protobuf:"varint,3,opt,name=permission,proto3,enum=iam.v1.ValidateApiKeyPermissionRequest_Permission" json:"permission,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ValidateApiKeyRequest) Reset() {
-	*x = ValidateApiKeyRequest{}
+func (x *ValidateApiKeyPermissionRequest) Reset() {
+	*x = ValidateApiKeyPermissionRequest{}
 	mi := &file_iam_v1_iam_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ValidateApiKeyRequest) String() string {
+func (x *ValidateApiKeyPermissionRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ValidateApiKeyRequest) ProtoMessage() {}
+func (*ValidateApiKeyPermissionRequest) ProtoMessage() {}
 
-func (x *ValidateApiKeyRequest) ProtoReflect() protoreflect.Message {
+func (x *ValidateApiKeyPermissionRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_iam_v1_iam_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -173,31 +225,53 @@ func (x *ValidateApiKeyRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ValidateApiKeyRequest.ProtoReflect.Descriptor instead.
-func (*ValidateApiKeyRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ValidateApiKeyPermissionRequest.ProtoReflect.Descriptor instead.
+func (*ValidateApiKeyPermissionRequest) Descriptor() ([]byte, []int) {
 	return file_iam_v1_iam_proto_rawDescGZIP(), []int{2}
 }
 
-type ValidateApiKeyResponse struct {
+func (x *ValidateApiKeyPermissionRequest) GetApiKey() string {
+	if x != nil {
+		return x.ApiKey
+	}
+	return ""
+}
+
+func (x *ValidateApiKeyPermissionRequest) GetApiSecret() string {
+	if x != nil {
+		return x.ApiSecret
+	}
+	return ""
+}
+
+func (x *ValidateApiKeyPermissionRequest) GetPermission() ValidateApiKeyPermissionRequest_Permission {
+	if x != nil {
+		return x.Permission
+	}
+	return ValidateApiKeyPermissionRequest_PERMISSION_STATUS_UNSPECIFIED
+}
+
+type ValidateApiKeyPermissionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Authorized    bool                   `protobuf:"varint,1,opt,name=authorized,proto3" json:"authorized,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ValidateApiKeyResponse) Reset() {
-	*x = ValidateApiKeyResponse{}
+func (x *ValidateApiKeyPermissionResponse) Reset() {
+	*x = ValidateApiKeyPermissionResponse{}
 	mi := &file_iam_v1_iam_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ValidateApiKeyResponse) String() string {
+func (x *ValidateApiKeyPermissionResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ValidateApiKeyResponse) ProtoMessage() {}
+func (*ValidateApiKeyPermissionResponse) ProtoMessage() {}
 
-func (x *ValidateApiKeyResponse) ProtoReflect() protoreflect.Message {
+func (x *ValidateApiKeyPermissionResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_iam_v1_iam_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -209,9 +283,16 @@ func (x *ValidateApiKeyResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ValidateApiKeyResponse.ProtoReflect.Descriptor instead.
-func (*ValidateApiKeyResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ValidateApiKeyPermissionResponse.ProtoReflect.Descriptor instead.
+func (*ValidateApiKeyPermissionResponse) Descriptor() ([]byte, []int) {
 	return file_iam_v1_iam_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ValidateApiKeyPermissionResponse) GetAuthorized() bool {
+	if x != nil {
+		return x.Authorized
+	}
+	return false
 }
 
 var File_iam_v1_iam_proto protoreflect.FileDescriptor
@@ -230,9 +311,23 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"api_secret\x18\x02 \x01(\tR\tapiSecret\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x17\n" +
-	"\x15ValidateApiKeyRequest\"\x18\n" +
-	"\x16ValidateApiKeyResponseB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x8c\x02\n" +
+	"\x1fValidateApiKeyPermissionRequest\x12\x17\n" +
+	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x1d\n" +
+	"\n" +
+	"api_secret\x18\x02 \x01(\tR\tapiSecret\x12R\n" +
+	"\n" +
+	"permission\x18\x03 \x01(\x0e22.iam.v1.ValidateApiKeyPermissionRequest.PermissionR\n" +
+	"permission\"]\n" +
+	"\n" +
+	"Permission\x12!\n" +
+	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11PERMISSION_CREATE\x10\x01\x12\x15\n" +
+	"\x11PERMISSION_DELETE\x10\x02\"B\n" +
+	" ValidateApiKeyPermissionResponse\x12\x1e\n" +
+	"\n" +
+	"authorized\x18\x01 \x01(\bR\n" +
+	"authorizedB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
 	file_iam_v1_iam_proto_rawDescOnce sync.Once
@@ -246,21 +341,24 @@ func file_iam_v1_iam_proto_rawDescGZIP() []byte {
 	return file_iam_v1_iam_proto_rawDescData
 }
 
+var file_iam_v1_iam_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_iam_v1_iam_proto_goTypes = []any{
-	(*GenerateNewApiKeyRequest)(nil),  // 0: iam.v1.GenerateNewApiKeyRequest
-	(*GenerateNewApiKeyResponse)(nil), // 1: iam.v1.GenerateNewApiKeyResponse
-	(*ValidateApiKeyRequest)(nil),     // 2: iam.v1.ValidateApiKeyRequest
-	(*ValidateApiKeyResponse)(nil),    // 3: iam.v1.ValidateApiKeyResponse
-	(*timestamppb.Timestamp)(nil),     // 4: google.protobuf.Timestamp
+	(ValidateApiKeyPermissionRequest_Permission)(0), // 0: iam.v1.ValidateApiKeyPermissionRequest.Permission
+	(*GenerateNewApiKeyRequest)(nil),                // 1: iam.v1.GenerateNewApiKeyRequest
+	(*GenerateNewApiKeyResponse)(nil),               // 2: iam.v1.GenerateNewApiKeyResponse
+	(*ValidateApiKeyPermissionRequest)(nil),         // 3: iam.v1.ValidateApiKeyPermissionRequest
+	(*ValidateApiKeyPermissionResponse)(nil),        // 4: iam.v1.ValidateApiKeyPermissionResponse
+	(*timestamppb.Timestamp)(nil),                   // 5: google.protobuf.Timestamp
 }
 var file_iam_v1_iam_proto_depIdxs = []int32{
-	4, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	5, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
+	0, // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_iam_v1_iam_proto_init() }
@@ -273,13 +371,14 @@ func file_iam_v1_iam_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_iam_proto_rawDesc), len(file_iam_v1_iam_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_iam_v1_iam_proto_goTypes,
 		DependencyIndexes: file_iam_v1_iam_proto_depIdxs,
+		EnumInfos:         file_iam_v1_iam_proto_enumTypes,
 		MessageInfos:      file_iam_v1_iam_proto_msgTypes,
 	}.Build()
 	File_iam_v1_iam_proto = out.File

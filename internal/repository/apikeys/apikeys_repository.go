@@ -35,14 +35,15 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 			project_id,
 			name,
 			api_key,
-			api_secret
+			api_secret,
+			is_active,
 			created_at
-		) VALUES (?, ?, ?, ?, ?, ?)
+		) VALUES (?, ?, ?, ?, ?, ?, ?)
 	`, config.ApiKeysTable)
 
 	apiId := uuid.New()
 
-	_, err = r.mysql.ExecContext(ctx, query,apiId[:],projectId[:],req.KeyName, apiKey, apiSecret,createdAt)
+	_, err = r.mysql.ExecContext(ctx, query,apiId[:],projectId[:],req.KeyName, apiKey, apiSecret,true,createdAt)
 
 	if err != nil {
 		return nil, err

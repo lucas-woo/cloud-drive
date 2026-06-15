@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	IAMService_GenerateNewApiKey_FullMethodName = "/iam.v1.IAMService/GenerateNewApiKey"
-	IAMService_ValidateApiKey_FullMethodName    = "/iam.v1.IAMService/ValidateApiKey"
+	IAMService_GenerateNewApiKey_FullMethodName        = "/iam.v1.IAMService/GenerateNewApiKey"
+	IAMService_ValidateApiKeyPermission_FullMethodName = "/iam.v1.IAMService/ValidateApiKeyPermission"
 )
 
 // IAMServiceClient is the client API for IAMService service.
@@ -28,7 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type IAMServiceClient interface {
 	GenerateNewApiKey(ctx context.Context, in *GenerateNewApiKeyRequest, opts ...grpc.CallOption) (*GenerateNewApiKeyResponse, error)
-	ValidateApiKey(ctx context.Context, in *ValidateApiKeyRequest, opts ...grpc.CallOption) (*ValidateApiKeyResponse, error)
+	ValidateApiKeyPermission(ctx context.Context, in *ValidateApiKeyPermissionRequest, opts ...grpc.CallOption) (*ValidateApiKeyPermissionResponse, error)
 }
 
 type iAMServiceClient struct {
@@ -49,10 +49,10 @@ func (c *iAMServiceClient) GenerateNewApiKey(ctx context.Context, in *GenerateNe
 	return out, nil
 }
 
-func (c *iAMServiceClient) ValidateApiKey(ctx context.Context, in *ValidateApiKeyRequest, opts ...grpc.CallOption) (*ValidateApiKeyResponse, error) {
+func (c *iAMServiceClient) ValidateApiKeyPermission(ctx context.Context, in *ValidateApiKeyPermissionRequest, opts ...grpc.CallOption) (*ValidateApiKeyPermissionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ValidateApiKeyResponse)
-	err := c.cc.Invoke(ctx, IAMService_ValidateApiKey_FullMethodName, in, out, cOpts...)
+	out := new(ValidateApiKeyPermissionResponse)
+	err := c.cc.Invoke(ctx, IAMService_ValidateApiKeyPermission_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (c *iAMServiceClient) ValidateApiKey(ctx context.Context, in *ValidateApiKe
 // for forward compatibility.
 type IAMServiceServer interface {
 	GenerateNewApiKey(context.Context, *GenerateNewApiKeyRequest) (*GenerateNewApiKeyResponse, error)
-	ValidateApiKey(context.Context, *ValidateApiKeyRequest) (*ValidateApiKeyResponse, error)
+	ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error)
 	mustEmbedUnimplementedIAMServiceServer()
 }
 
@@ -78,8 +78,8 @@ type UnimplementedIAMServiceServer struct{}
 func (UnimplementedIAMServiceServer) GenerateNewApiKey(context.Context, *GenerateNewApiKeyRequest) (*GenerateNewApiKeyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GenerateNewApiKey not implemented")
 }
-func (UnimplementedIAMServiceServer) ValidateApiKey(context.Context, *ValidateApiKeyRequest) (*ValidateApiKeyResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ValidateApiKey not implemented")
+func (UnimplementedIAMServiceServer) ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ValidateApiKeyPermission not implemented")
 }
 func (UnimplementedIAMServiceServer) mustEmbedUnimplementedIAMServiceServer() {}
 func (UnimplementedIAMServiceServer) testEmbeddedByValue()                    {}
@@ -120,20 +120,20 @@ func _IAMService_GenerateNewApiKey_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _IAMService_ValidateApiKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ValidateApiKeyRequest)
+func _IAMService_ValidateApiKeyPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateApiKeyPermissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(IAMServiceServer).ValidateApiKey(ctx, in)
+		return srv.(IAMServiceServer).ValidateApiKeyPermission(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: IAMService_ValidateApiKey_FullMethodName,
+		FullMethod: IAMService_ValidateApiKeyPermission_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(IAMServiceServer).ValidateApiKey(ctx, req.(*ValidateApiKeyRequest))
+		return srv.(IAMServiceServer).ValidateApiKeyPermission(ctx, req.(*ValidateApiKeyPermissionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -150,8 +150,8 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _IAMService_GenerateNewApiKey_Handler,
 		},
 		{
-			MethodName: "ValidateApiKey",
-			Handler:    _IAMService_ValidateApiKey_Handler,
+			MethodName: "ValidateApiKeyPermission",
+			Handler:    _IAMService_ValidateApiKeyPermission_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

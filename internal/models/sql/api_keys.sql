@@ -9,11 +9,14 @@ CREATE TABLE api_keys (
 
     api_secret VARCHAR(255) NOT NULL,
 
-    created_at TIMESTAMP NOT NULL
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP NOT NULL,
 
     PRIMARY KEY (id),
 
-    INDEX idx_project (project_id)
+    INDEX idx_project (project_id),
+    INDEX idx_api_key (api_key)
 );
 
 
