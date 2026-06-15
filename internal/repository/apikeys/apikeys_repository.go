@@ -74,6 +74,28 @@ func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKeyID uu
 
 func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
 
+	query := fmt.Sprintf(`
+		SELECT EXISTS (
+			SELECT 1
+			FROM %s ak
+			INNER JOIN %s ap
+				ON ak.id = ap.api_key_id
+			WHERE ak.api_key = ?
+			  AND ak.api_secret = ?
+			  AND ak.is_active = TRUE
+			  AND ap.permission = ?
+		)
+	`, config.ApiKeysTable, config.ApiKeyPermissionsTable)
+
+	var exists bool
+
+	err := r.mysql.QueryRowContext(ctx, query, req.ApiKey, req.ApiSecret, req.PermissionRequest).Scan(&exists)
+
+	if err != nil {
+		return false, err
+	}
+
+	return exists, nil
 }
 
 
