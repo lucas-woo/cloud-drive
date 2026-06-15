@@ -72,6 +72,10 @@ func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKeyID uu
 	return err
 }
 
+func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
+
+}
+
 
 func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {
 	return &ApiKeysRepository{
