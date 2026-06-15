@@ -47,13 +47,19 @@ func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.Valida
 		return nil, status.Error(codes.InvalidArgument, "")
 	}
 	
-	s.service.ValidateApiKeyPermission(ctx, &dto.ValidateApiKeyPermissionRequest{
+	exist, err := s.service.ValidateApiKeyPermission(ctx, &dto.ValidateApiKeyPermissionRequest{
 		PermissionRequest: permissionRequest,
 		ApiKey: req.GetApiKey(),
 		ApiSecret: req.GetApiSecret(),
 	})
 
-	return nil, status.Error(codes.Unimplemented, "method ValidateApiKey not implemented")
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &iamv1.ValidateApiKeyPermissionResponse{
+		Authorized: exist,
+	}, nil
 }
 
 func NewIamServer(iamResources *database.IamResources) *Server {

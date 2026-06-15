@@ -59,8 +59,9 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApi
 }
 
 
-func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) {
-	
+func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
+	ok, err := s.iamResources.ApiKeysRepository.ValidateApiKeyPermission(ctx, req)
+	return ok, err
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {
