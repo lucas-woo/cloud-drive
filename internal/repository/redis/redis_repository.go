@@ -34,15 +34,12 @@ func (r *RedisRepository) SetUserSession(ctx context.Context, userId string, rem
 
 // func (r *RedisRepository) GetUserIdBySession(ctx context.Context, sessionId string)
 
-func (r *RedisRepository) FindExist(ctx context.Context, sessionId string) (bool, error) {
-	_, err := r.client.Get(ctx, config.SessionPrefix + sessionId).Result()
+func (r *RedisRepository) FindUserId(ctx context.Context, sessionId string) (string, error) {
+	userId, err := r.client.Get(ctx, config.SessionPrefix + sessionId).Result()
 	if err != nil {
-		if err == redis.Nil {
-			return false, nil
-		}
-		return false, err
+		return "", err
 	}
-	return true, nil
+	return userId, nil
 }
 
 func (r *RedisRepository) RemoveUserSession(ctx context.Context, sessionId string) (bool, error) {

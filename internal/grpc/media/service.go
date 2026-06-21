@@ -1,0 +1,41 @@
+package mediagrpc
+
+import (
+	"context"
+
+	"github.com/google/uuid"
+	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
+	"github.com/lucas-woo/cloud-drive/internal/database"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
+)
+
+type Service struct {
+	mediaResources *database.MediaResources
+}
+
+func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest *dto.CreateNewProjectRequest) (projectName string, projectId string, err error) {
+
+	res, err := s.mediaResources.AuthClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
+		SessionId: createNewProjectRequest.SessionId,
+	})
+
+	if err != nil {
+		return
+	}
+
+	userId, err := uuid.Parse(res.GetUserId())
+
+	if err != nil {
+		return
+	}
+
+	projectName, projectId, err = s.mediaResources.ProjectRepository.CreateNewProject(ctx, userId, createNewProjectRequest)
+
+	return
+}
+
+func NewMediaService(mediaResources *database.MediaResources) *Service {
+	return &Service{
+		mediaResources: mediaResources,
+	}
+}

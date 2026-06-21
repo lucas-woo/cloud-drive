@@ -1,21 +1,21 @@
-package apikeys
+package mediaclient
 
 import (
 	"log"
 	"os"
 
-	apikeysv1 "github.com/lucas-woo/cloud-drive/api/apikeys/v1"
+	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 
-func NewApiKeysClient() apikeysv1.ApiKeysServiceClient {
+func NewMediaServiceClient() mediav1.MediaServiceClient {
 	
-	port, found := os.LookupEnv("APIKEYS_CLIENT_PORT")
+	port, found := os.LookupEnv("MEDIA_SERVER_PORT")
 
 	if !found {
-		log.Fatal("error with auth port env");
+		log.Fatal("error with media port env");
 	}
 
 	conn, err := grpc.NewClient("localhost:" + port, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -24,7 +24,7 @@ func NewApiKeysClient() apikeysv1.ApiKeysServiceClient {
 		log.Fatal()
 	}
 
-	client := apikeysv1.NewApiKeysServiceClient(conn)
+	client := mediav1.NewMediaServiceClient(conn)
 
 	return client
 }

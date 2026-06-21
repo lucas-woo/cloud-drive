@@ -10,7 +10,22 @@ import (
 
 var (
 	UserDatabaseName string = "user_database"
+	IamDatabaseName string = "iam_database";
+	MediaDatabaseName string = "media_database"
+
 	UserCollectionName string = "user_credentials";
+	ProjectCollectionName string = "projects";
+	ApiKeysCollectionName string = "api_keys";
+
+
+	ProjectUserRolesTable = "project_user_roles"
+	ApiKeysTable = "api_keys"
+	ApiKeyPermissionsTable = "api_key_permissions"
+
+	UploadPermission = "upload"
+	DeletePermission = "delete"
+
+	ADMIN_ROLE = "admin"
 
 	CookieSessionIDString string
 	CookieUserId string

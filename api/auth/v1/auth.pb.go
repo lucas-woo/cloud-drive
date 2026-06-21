@@ -370,11 +370,10 @@ func (x *ValidateUserSessionRequest) GetSessionId() string {
 }
 
 type ValidateUserSessionResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	LoggedIn        bool                   `protobuf:"varint,1,opt,name=logged_in,json=loggedIn,proto3" json:"logged_in,omitempty"`
-	PriviledgeLevel uint32                 `protobuf:"varint,2,opt,name=priviledge_level,json=priviledgeLevel,proto3" json:"priviledge_level,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *ValidateUserSessionResponse) Reset() {
@@ -407,18 +406,11 @@ func (*ValidateUserSessionResponse) Descriptor() ([]byte, []int) {
 	return file_auth_v1_auth_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *ValidateUserSessionResponse) GetLoggedIn() bool {
+func (x *ValidateUserSessionResponse) GetUserId() string {
 	if x != nil {
-		return x.LoggedIn
+		return x.UserId
 	}
-	return false
-}
-
-func (x *ValidateUserSessionResponse) GetPriviledgeLevel() uint32 {
-	if x != nil {
-		return x.PriviledgeLevel
-	}
-	return 0
+	return ""
 }
 
 var File_auth_v1_auth_proto protoreflect.FileDescriptor
@@ -451,10 +443,9 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"logged_out\x18\x01 \x01(\bR\tloggedOut\";\n" +
 	"\x1aValidateUserSessionRequest\x12\x1d\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\"e\n" +
-	"\x1bValidateUserSessionResponse\x12\x1b\n" +
-	"\tlogged_in\x18\x01 \x01(\bR\bloggedIn\x12)\n" +
-	"\x10priviledge_level\x18\x02 \x01(\rR\x0fpriviledgeLevelB5Z3github.com/lucas-woo/cloud-drive/api/auth/v1/authv1b\x06proto3"
+	"session_id\x18\x01 \x01(\tR\tsessionId\"6\n" +
+	"\x1bValidateUserSessionResponse\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userIdB5Z3github.com/lucas-woo/cloud-drive/api/auth/v1/authv1b\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once
