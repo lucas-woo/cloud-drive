@@ -1,0 +1,37 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1";
+
+package iam.v1;
+
+import "google/protobuf/timestamp.proto";
+
+//should implement being be able to create roles with certain priviledges
+//upload priviledges, delete, activate/disactivate, generate api keys
+
+message GenerateNewApiKeyRequest {
+  string session_id = 1;
+  string project_id = 2;
+  string key_name = 3;
+}
+
+message GenerateNewApiKeyResponse {
+  string api_key = 1;
+  string api_secret = 2;
+  google.protobuf.Timestamp created_at = 3; 
+}
+
+message ValidateApiKeyPermissionRequest {
+  enum Permission {
+    PERMISSION_STATUS_UNSPECIFIED = 0;
+    PERMISSION_CREATE = 1;
+    PERMISSION_DELETE = 2;
+  }
+  string api_key = 1;
+  string api_secret = 2;
+  Permission permission = 3;
+}
+
+message ValidateApiKeyPermissionResponse {
+  bool authorized = 1;
+}

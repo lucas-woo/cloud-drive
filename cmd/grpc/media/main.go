@@ -6,11 +6,10 @@ import (
 	"net"
 	"os"
 
-	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
-
+	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	authgrpc "github.com/lucas-woo/cloud-drive/internal/grpc/auth"
+	mediagrpc "github.com/lucas-woo/cloud-drive/internal/grpc/media"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -25,12 +24,12 @@ func main() {
 	}
 	config.InitCookiesEnv()
 
-	authResources := database.NewAuthResources()
+	mediaResources := database.NewMediaResources()
 
-	port, found := os.LookupEnv("AUTH_SERVER_PORT")
+	port, found := os.LookupEnv("MEDIA_SERVER_PORT")
 
 	if !found {
-		log.Fatal("error with auth port env");
+		log.Fatal("error with media port env");
 	}	
 
 	lis, err := net.Listen("tcp", ":" + port)
@@ -41,11 +40,11 @@ func main() {
 
 	grpcServer := grpc.NewServer();
 
-	authv1.RegisterAuthServiceServer(grpcServer, authgrpc.NewAuthServer(authResources))
+	mediav1.RegisterMediaServiceServer(grpcServer, mediagrpc.NewMediaServer(mediaResources))
 
 	healthServer := health.NewServer()
 	healthv1.RegisterHealthServer(grpcServer, healthServer);
-	fmt.Println("auth server running")
+	fmt.Println("media server running")
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("err in starting grpc server: %v",err)

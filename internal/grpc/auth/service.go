@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	"github.com/lucas-woo/cloud-drive/internal/models/auth"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 )
 
 type Service struct {	
@@ -13,7 +13,7 @@ type Service struct {
 }
 
 // returns session id, err
-func (s *Service) Register(ctx context.Context, user authmodels.SignUpUserRequest) (string, error) {
+func (s *Service) Register(ctx context.Context, user *dto.SignUpUserRequest) (string, error) {
 	
 	taken, err := s.authResources.AuthRepo.EmailTaken(ctx, user.Email)
 	if err != nil || taken {
@@ -30,7 +30,7 @@ func (s *Service) Register(ctx context.Context, user authmodels.SignUpUserReques
 	return sessionId, nil
 }
 
-func (s *Service) Login(ctx context.Context, user authmodels.LoginUserRequest) (string, error) {
+func (s *Service) Login(ctx context.Context, user *dto.LoginUserRequest) (string, error) {
 	userId, err := s.authResources.AuthRepo.LoginUser(ctx, user)
 	if err != nil {
 		return "", err
@@ -51,9 +51,9 @@ func (s *Service) Logout(ctx context.Context, sessionId string) (bool, error) {
 	return ok, err
 }
 
-func (s *Service) ValidateUserSession(ctx context.Context, sessionId string) (bool, error) {
-	exists, err := s.authResources.RedisRepo.FindExist(ctx, sessionId)
-	return exists, err
+func (s *Service) ValidateUserSession(ctx context.Context, sessionId string) (string, error) {
+	userId, err := s.authResources.RedisRepo.FindUserId(ctx, sessionId)
+	return userId, err
 }
 
 func NewService(authResources *database.AuthResources) *Service {

@@ -3,6 +3,7 @@ module github.com/lucas-woo/cloud-drive
 go 1.25.2
 
 require (
+	github.com/go-sql-driver/mysql v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/lucas-woo/godotenv v1.0.0
 	github.com/redis/go-redis/v9 v9.20.0
@@ -13,6 +14,7 @@ require (
 )
 
 require (
+	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/klauspost/compress v1.17.6 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

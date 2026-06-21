@@ -6,11 +6,10 @@ import (
 	"net"
 	"os"
 
-	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
-
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
-	authgrpc "github.com/lucas-woo/cloud-drive/internal/grpc/auth"
+	iamgrpc "github.com/lucas-woo/cloud-drive/internal/grpc/iam"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -25,12 +24,12 @@ func main() {
 	}
 	config.InitCookiesEnv()
 
-	authResources := database.NewAuthResources()
+	iamResources := database.NewIamResources()
 
-	port, found := os.LookupEnv("AUTH_SERVER_PORT")
+	port, found := os.LookupEnv("IAM_SERVER_PORT")
 
 	if !found {
-		log.Fatal("error with auth port env");
+		log.Fatal("error with iam port env");
 	}	
 
 	lis, err := net.Listen("tcp", ":" + port)
@@ -41,14 +40,14 @@ func main() {
 
 	grpcServer := grpc.NewServer();
 
-	authv1.RegisterAuthServiceServer(grpcServer, authgrpc.NewAuthServer(authResources))
+	iamv1.RegisterIAMServiceServer(grpcServer, iamgrpc.NewIamServer(iamResources))
+
 
 	healthServer := health.NewServer()
 	healthv1.RegisterHealthServer(grpcServer, healthServer);
-	fmt.Println("auth server running")
+	fmt.Println("iam server running")
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("err in starting grpc server: %v",err)
 	}	
 }
-
