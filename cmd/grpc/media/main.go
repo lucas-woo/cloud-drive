@@ -29,7 +29,7 @@ func main() {
 	port, found := os.LookupEnv("MEDIA_SERVER_PORT")
 
 	if !found {
-		log.Fatal("error with auth port env");
+		log.Fatal("error with media port env");
 	}	
 
 	lis, err := net.Listen("tcp", ":" + port)
