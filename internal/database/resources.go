@@ -68,5 +68,24 @@ func NewMediaResources() *MediaResources {
 }
 
 func NewIamResources() *IamResources {
-	return &IamResources{}
+
+	mongoClient, err := ConnectMongo()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	mysqlClient := ConnectMySql()
+
+	projectRepo := projectrepository.NewProjectRepository(mongoClient, mysqlClient)
+	apikeysRepo := apikeysrepository.NewApiKeysRepository(mysqlClient)
+
+	authClient := authclient.NewAuthServiceClient()
+	
+
+	return &IamResources{
+		ProjectRepository: projectRepo,
+		ApiKeysRepository: apikeysRepo,
+		AuthClient: authClient,
+
+	}	
 }
