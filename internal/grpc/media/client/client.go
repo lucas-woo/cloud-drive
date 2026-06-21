@@ -12,7 +12,7 @@ import (
 
 func NewMediaServiceClient() mediav1.MediaServiceClient {
 	
-	port, found := os.LookupEnv("MEDIA_CLIENT_PORT")
+	port, found := os.LookupEnv("MEDIA_SERVER_PORT")
 
 	if !found {
 		log.Fatal("error with media port env");
