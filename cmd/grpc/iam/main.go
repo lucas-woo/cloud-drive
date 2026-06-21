@@ -29,7 +29,7 @@ func main() {
 	port, found := os.LookupEnv("IAM_SERVER_PORT")
 
 	if !found {
-		log.Fatal("error with auth port env");
+		log.Fatal("error with iam port env");
 	}	
 
 	lis, err := net.Listen("tcp", ":" + port)
@@ -45,7 +45,7 @@ func main() {
 
 	healthServer := health.NewServer()
 	healthv1.RegisterHealthServer(grpcServer, healthServer);
-	fmt.Println("media server running")
+	fmt.Println("iam server running")
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("err in starting grpc server: %v",err)

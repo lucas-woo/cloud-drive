@@ -24,7 +24,7 @@ CREATE TABLE api_key_permissions (
     api_key_id BINARY(16) NOT NULL,
     permission VARCHAR(50) NOT NULL,
 
-    PRIMARY KEY (api_key_id, permission)
+    PRIMARY KEY (api_key_id, permission),
 
     INDEX idx_api_key (api_key_id)
 );
