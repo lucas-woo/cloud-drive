@@ -1,4 +1,4 @@
-package apikeys
+package apikeysclient
 
 import (
 	"log"
@@ -12,7 +12,7 @@ import (
 
 func NewApiKeysClient() apikeysv1.ApiKeysServiceClient {
 	
-	port, found := os.LookupEnv("APIKEYS_CLIENT_PORT")
+	port, found := os.LookupEnv("APIKEYS_SERVER_PORT")
 
 	if !found {
 		log.Fatal("error with auth port env");

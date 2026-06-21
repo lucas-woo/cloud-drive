@@ -12,7 +12,7 @@ import (
 
 func NewIamServiceClient() iamv1.IAMServiceClient {
 	
-	port, found := os.LookupEnv("IAM_CLIENT_PORT")
+	port, found := os.LookupEnv("IAM_SERVER_PORT")
 
 	if !found {
 		log.Fatal("error with iam port env");

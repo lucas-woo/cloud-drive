@@ -27,7 +27,7 @@ func main() {
 
 	authResources := database.NewAuthResources()
 
-	port, found := os.LookupEnv("AUTH_CLIENT_PORT")
+	port, found := os.LookupEnv("AUTH_SERVER_PORT")
 
 	if !found {
 		log.Fatal("error with auth port env");
