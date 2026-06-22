@@ -10,6 +10,7 @@ service MediaService {
   
   rpc CreateNewProject(CreateNewProjectRequest) returns (CreateNewProjectResponse);
 
-
+  rpc UploadObject(UploadObjectRequest) returns (UploadObjectResponse);
+  
   //rpc ChangeProjectName()
 }
