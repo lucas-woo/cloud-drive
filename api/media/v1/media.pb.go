@@ -133,6 +133,118 @@ func (x *CreateNewProjectResponse) GetProjectId() string {
 	return ""
 }
 
+type UploadObjectRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	ObjectName    string                 `protobuf:"bytes,3,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
+	Folder        string                 `protobuf:"bytes,4,opt,name=folder,proto3" json:"folder,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadObjectRequest) Reset() {
+	*x = UploadObjectRequest{}
+	mi := &file_media_v1_media_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadObjectRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadObjectRequest) ProtoMessage() {}
+
+func (x *UploadObjectRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadObjectRequest.ProtoReflect.Descriptor instead.
+func (*UploadObjectRequest) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UploadObjectRequest) GetSessionId() string {
+	if x != nil {
+		return x.SessionId
+	}
+	return ""
+}
+
+func (x *UploadObjectRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *UploadObjectRequest) GetObjectName() string {
+	if x != nil {
+		return x.ObjectName
+	}
+	return ""
+}
+
+func (x *UploadObjectRequest) GetFolder() string {
+	if x != nil {
+		return x.Folder
+	}
+	return ""
+}
+
+type UploadObjectResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SignedUrl     string                 `protobuf:"bytes,1,opt,name=signed_url,json=signedUrl,proto3" json:"signed_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadObjectResponse) Reset() {
+	*x = UploadObjectResponse{}
+	mi := &file_media_v1_media_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadObjectResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadObjectResponse) ProtoMessage() {}
+
+func (x *UploadObjectResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadObjectResponse.ProtoReflect.Descriptor instead.
+func (*UploadObjectResponse) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UploadObjectResponse) GetSignedUrl() string {
+	if x != nil {
+		return x.SignedUrl
+	}
+	return ""
+}
+
 var File_media_v1_media_proto protoreflect.FileDescriptor
 
 const file_media_v1_media_proto_rawDesc = "" +
@@ -146,7 +258,18 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x18CreateNewProjectResponse\x12!\n" +
 	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectIdB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"project_id\x18\x02 \x01(\tR\tprojectId\"\x8c\x01\n" +
+	"\x13UploadObjectRequest\x12\x1d\n" +
+	"\n" +
+	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x1f\n" +
+	"\vobject_name\x18\x03 \x01(\tR\n" +
+	"objectName\x12\x16\n" +
+	"\x06folder\x18\x04 \x01(\tR\x06folder\"5\n" +
+	"\x14UploadObjectResponse\x12\x1d\n" +
+	"\n" +
+	"signed_url\x18\x01 \x01(\tR\tsignedUrlB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_media_proto_rawDescOnce sync.Once
@@ -160,10 +283,12 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 	return file_media_v1_media_proto_rawDescData
 }
 
-var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_media_v1_media_proto_goTypes = []any{
 	(*CreateNewProjectRequest)(nil),  // 0: media.v1.CreateNewProjectRequest
 	(*CreateNewProjectResponse)(nil), // 1: media.v1.CreateNewProjectResponse
+	(*UploadObjectRequest)(nil),      // 2: media.v1.UploadObjectRequest
+	(*UploadObjectResponse)(nil),     // 3: media.v1.UploadObjectResponse
 }
 var file_media_v1_media_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -184,7 +309,7 @@ func file_media_v1_media_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_media_proto_rawDesc), len(file_media_v1_media_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

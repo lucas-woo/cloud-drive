@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	MediaService_CreateNewProject_FullMethodName = "/media.v1.MediaService/CreateNewProject"
+	MediaService_UploadObject_FullMethodName     = "/media.v1.MediaService/UploadObject"
 )
 
 // MediaServiceClient is the client API for MediaService service.
@@ -27,6 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MediaServiceClient interface {
 	CreateNewProject(ctx context.Context, in *CreateNewProjectRequest, opts ...grpc.CallOption) (*CreateNewProjectResponse, error)
+	UploadObject(ctx context.Context, in *UploadObjectRequest, opts ...grpc.CallOption) (*UploadObjectResponse, error)
 }
 
 type mediaServiceClient struct {
@@ -47,11 +49,22 @@ func (c *mediaServiceClient) CreateNewProject(ctx context.Context, in *CreateNew
 	return out, nil
 }
 
+func (c *mediaServiceClient) UploadObject(ctx context.Context, in *UploadObjectRequest, opts ...grpc.CallOption) (*UploadObjectResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UploadObjectResponse)
+	err := c.cc.Invoke(ctx, MediaService_UploadObject_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MediaServiceServer is the server API for MediaService service.
 // All implementations must embed UnimplementedMediaServiceServer
 // for forward compatibility.
 type MediaServiceServer interface {
 	CreateNewProject(context.Context, *CreateNewProjectRequest) (*CreateNewProjectResponse, error)
+	UploadObject(context.Context, *UploadObjectRequest) (*UploadObjectResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
 
@@ -64,6 +77,9 @@ type UnimplementedMediaServiceServer struct{}
 
 func (UnimplementedMediaServiceServer) CreateNewProject(context.Context, *CreateNewProjectRequest) (*CreateNewProjectResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateNewProject not implemented")
+}
+func (UnimplementedMediaServiceServer) UploadObject(context.Context, *UploadObjectRequest) (*UploadObjectResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UploadObject not implemented")
 }
 func (UnimplementedMediaServiceServer) mustEmbedUnimplementedMediaServiceServer() {}
 func (UnimplementedMediaServiceServer) testEmbeddedByValue()                      {}
@@ -104,6 +120,24 @@ func _MediaService_CreateNewProject_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MediaService_UploadObject_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadObjectRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).UploadObject(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_UploadObject_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).UploadObject(ctx, req.(*UploadObjectRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MediaService_ServiceDesc is the grpc.ServiceDesc for MediaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -114,6 +148,10 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateNewProject",
 			Handler:    _MediaService_CreateNewProject_Handler,
+		},
+		{
+			MethodName: "UploadObject",
+			Handler:    _MediaService_UploadObject_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -35,6 +35,12 @@ func (s *Server) CreateNewProject(ctx context.Context, req *mediav1.CreateNewPro
 	}, nil
 }
 
+
+func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequest) (*mediav1.UploadObjectResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UploadObject not implemented")
+}
+
+
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
 		service: NewMediaService(mediaResources),
