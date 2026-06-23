@@ -69,6 +69,10 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 	return 
 }
 
+func (s *Service) ConfirmObjectUpload(req *dto.LambdaS3UploadConfirmationRequest) error {
+	return nil
+}
+
 
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
