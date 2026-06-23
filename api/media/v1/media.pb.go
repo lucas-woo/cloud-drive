@@ -201,6 +201,102 @@ func (x *UploadObjectRequest) GetFolder() string {
 	return ""
 }
 
+type LambdaS3UploadConfirmationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ObjectId      string                 `protobuf:"bytes,1,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
+	FileSize      uint64                 `protobuf:"varint,2,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
+	Format        string                 `protobuf:"bytes,3,opt,name=format,proto3" json:"format,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LambdaS3UploadConfirmationRequest) Reset() {
+	*x = LambdaS3UploadConfirmationRequest{}
+	mi := &file_media_v1_media_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LambdaS3UploadConfirmationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LambdaS3UploadConfirmationRequest) ProtoMessage() {}
+
+func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LambdaS3UploadConfirmationRequest.ProtoReflect.Descriptor instead.
+func (*LambdaS3UploadConfirmationRequest) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *LambdaS3UploadConfirmationRequest) GetObjectId() string {
+	if x != nil {
+		return x.ObjectId
+	}
+	return ""
+}
+
+func (x *LambdaS3UploadConfirmationRequest) GetFileSize() uint64 {
+	if x != nil {
+		return x.FileSize
+	}
+	return 0
+}
+
+func (x *LambdaS3UploadConfirmationRequest) GetFormat() string {
+	if x != nil {
+		return x.Format
+	}
+	return ""
+}
+
+type LambdaS3UploadConfirmationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LambdaS3UploadConfirmationResponse) Reset() {
+	*x = LambdaS3UploadConfirmationResponse{}
+	mi := &file_media_v1_media_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LambdaS3UploadConfirmationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LambdaS3UploadConfirmationResponse) ProtoMessage() {}
+
+func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LambdaS3UploadConfirmationResponse.ProtoReflect.Descriptor instead.
+func (*LambdaS3UploadConfirmationResponse) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{4}
+}
+
 type UploadObjectResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SignedUrl     string                 `protobuf:"bytes,1,opt,name=signed_url,json=signedUrl,proto3" json:"signed_url,omitempty"`
@@ -210,7 +306,7 @@ type UploadObjectResponse struct {
 
 func (x *UploadObjectResponse) Reset() {
 	*x = UploadObjectResponse{}
-	mi := &file_media_v1_media_proto_msgTypes[3]
+	mi := &file_media_v1_media_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -222,7 +318,7 @@ func (x *UploadObjectResponse) String() string {
 func (*UploadObjectResponse) ProtoMessage() {}
 
 func (x *UploadObjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[3]
+	mi := &file_media_v1_media_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -235,7 +331,7 @@ func (x *UploadObjectResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadObjectResponse.ProtoReflect.Descriptor instead.
 func (*UploadObjectResponse) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{3}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UploadObjectResponse) GetSignedUrl() string {
@@ -266,7 +362,12 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x03 \x01(\tR\n" +
 	"objectName\x12\x16\n" +
-	"\x06folder\x18\x04 \x01(\tR\x06folder\"5\n" +
+	"\x06folder\x18\x04 \x01(\tR\x06folder\"u\n" +
+	"!LambdaS3UploadConfirmationRequest\x12\x1b\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\x12\x1b\n" +
+	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\x12\x16\n" +
+	"\x06format\x18\x03 \x01(\tR\x06format\"$\n" +
+	"\"LambdaS3UploadConfirmationResponse\"5\n" +
 	"\x14UploadObjectResponse\x12\x1d\n" +
 	"\n" +
 	"signed_url\x18\x01 \x01(\tR\tsignedUrlB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
@@ -283,12 +384,14 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 	return file_media_v1_media_proto_rawDescData
 }
 
-var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_media_v1_media_proto_goTypes = []any{
-	(*CreateNewProjectRequest)(nil),  // 0: media.v1.CreateNewProjectRequest
-	(*CreateNewProjectResponse)(nil), // 1: media.v1.CreateNewProjectResponse
-	(*UploadObjectRequest)(nil),      // 2: media.v1.UploadObjectRequest
-	(*UploadObjectResponse)(nil),     // 3: media.v1.UploadObjectResponse
+	(*CreateNewProjectRequest)(nil),            // 0: media.v1.CreateNewProjectRequest
+	(*CreateNewProjectResponse)(nil),           // 1: media.v1.CreateNewProjectResponse
+	(*UploadObjectRequest)(nil),                // 2: media.v1.UploadObjectRequest
+	(*LambdaS3UploadConfirmationRequest)(nil),  // 3: media.v1.LambdaS3UploadConfirmationRequest
+	(*LambdaS3UploadConfirmationResponse)(nil), // 4: media.v1.LambdaS3UploadConfirmationResponse
+	(*UploadObjectResponse)(nil),               // 5: media.v1.UploadObjectResponse
 }
 var file_media_v1_media_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -309,7 +412,7 @@ func file_media_v1_media_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_media_proto_rawDesc), len(file_media_v1_media_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -24,24 +24,29 @@ var File_media_v1_service_proto protoreflect.FileDescriptor
 
 const file_media_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xb8\x01\n" +
+	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xb1\x02\n" +
 	"\fMediaService\x12Y\n" +
 	"\x10CreateNewProject\x12!.media.v1.CreateNewProjectRequest\x1a\".media.v1.CreateNewProjectResponse\x12M\n" +
-	"\fUploadObject\x12\x1d.media.v1.UploadObjectRequest\x1a\x1e.media.v1.UploadObjectResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\fUploadObject\x12\x1d.media.v1.UploadObjectRequest\x1a\x1e.media.v1.UploadObjectResponse\x12w\n" +
+	"\x1aLambdaS3UploadConfirmation\x12+.media.v1.LambdaS3UploadConfirmationRequest\x1a,.media.v1.LambdaS3UploadConfirmationResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var file_media_v1_service_proto_goTypes = []any{
-	(*CreateNewProjectRequest)(nil),  // 0: media.v1.CreateNewProjectRequest
-	(*UploadObjectRequest)(nil),      // 1: media.v1.UploadObjectRequest
-	(*CreateNewProjectResponse)(nil), // 2: media.v1.CreateNewProjectResponse
-	(*UploadObjectResponse)(nil),     // 3: media.v1.UploadObjectResponse
+	(*CreateNewProjectRequest)(nil),            // 0: media.v1.CreateNewProjectRequest
+	(*UploadObjectRequest)(nil),                // 1: media.v1.UploadObjectRequest
+	(*LambdaS3UploadConfirmationRequest)(nil),  // 2: media.v1.LambdaS3UploadConfirmationRequest
+	(*CreateNewProjectResponse)(nil),           // 3: media.v1.CreateNewProjectResponse
+	(*UploadObjectResponse)(nil),               // 4: media.v1.UploadObjectResponse
+	(*LambdaS3UploadConfirmationResponse)(nil), // 5: media.v1.LambdaS3UploadConfirmationResponse
 }
 var file_media_v1_service_proto_depIdxs = []int32{
 	0, // 0: media.v1.MediaService.CreateNewProject:input_type -> media.v1.CreateNewProjectRequest
 	1, // 1: media.v1.MediaService.UploadObject:input_type -> media.v1.UploadObjectRequest
-	2, // 2: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
-	3, // 3: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	2, // 2: media.v1.MediaService.LambdaS3UploadConfirmation:input_type -> media.v1.LambdaS3UploadConfirmationRequest
+	3, // 3: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
+	4, // 4: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
+	5, // 5: media.v1.MediaService.LambdaS3UploadConfirmation:output_type -> media.v1.LambdaS3UploadConfirmationResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
