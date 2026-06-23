@@ -13,3 +13,9 @@ type UploadObjectRequest struct {
 	ObjectName string
 	Folder string
 }
+
+type LambdaS3UploadConfirmationRequest struct {
+	ObjectId string
+	FileSize uint64
+	Format string
+}

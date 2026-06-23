@@ -51,6 +51,13 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 	}, nil
 }
 
+func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.LambdaS3UploadConfirmationRequest) (*mediav1.LambdaS3UploadConfirmationResponse, error) {
+
+	
+
+	return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")
+}
+
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{

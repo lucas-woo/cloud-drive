@@ -4,6 +4,9 @@ CREATE TABLE project_objects (
 
     folder VARCHAR(255) NOT NULL,
 
+    file_size BIGINT UNSIGNED NULL,
+    format VARCHAR(255) NULL,
+
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     is_pending BOOLEAN NOT NULL DEFAULT TRUE,
 
