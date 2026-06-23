@@ -6,3 +6,10 @@ type CreateNewProjectRequest struct {
 	ProjectName string
 	Description string
 }
+
+type UploadObjectRequest struct {
+	SessionId string
+	ProjectId string
+	ObjectName string
+	Folder string
+}

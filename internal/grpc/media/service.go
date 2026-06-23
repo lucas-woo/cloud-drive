@@ -34,6 +34,11 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 	return
 }
 
+func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadObjectRequest) (url string, err error) {
+	return "", nil
+}
+
+
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
 		mediaResources: mediaResources,

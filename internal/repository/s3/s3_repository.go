@@ -10,6 +10,11 @@ type S3Repository struct {
 	BucketName string
 }
 
+
+func (r *S3Repository) GetSignedUploadUrl() {
+
+}
+
 func NewS3Repository(	s3Client *s3.Client, presignClient *s3.PresignClient, bucketName string) *S3Repository {
 	return &S3Repository{
 		S3Client: s3Client,
