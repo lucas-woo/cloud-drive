@@ -69,8 +69,13 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 	return 
 }
 
-func (s *Service) ConfirmObjectUpload(req *dto.LambdaS3UploadConfirmationRequest) error {
-	return nil
+func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.LambdaS3UploadConfirmationRequest) error {
+	objectId, err := uuid.Parse(req.ObjectId)
+	if err != nil {
+		return err
+	}
+	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
+	return err 
 }
 
 

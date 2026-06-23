@@ -53,9 +53,15 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 
 func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.LambdaS3UploadConfirmationRequest) (*mediav1.LambdaS3UploadConfirmationResponse, error) {
 
-	
-
-	return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")
+	err := s.service.ConfirmObjectUpload(ctx, &dto.LambdaS3UploadConfirmationRequest{
+		ObjectId: req.GetObjectId(),
+		FileSize: req.GetFileSize(),
+		Format: req.GetFormat(),
+	})
+	if err != nil {
+		return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")		
+	}
+	return &mediav1.LambdaS3UploadConfirmationResponse{}, nil
 }
 
 
