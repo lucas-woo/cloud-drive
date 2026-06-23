@@ -12,5 +12,6 @@ service MediaService {
 
   rpc UploadObject(UploadObjectRequest) returns (UploadObjectResponse);
   
+  rpc LambdaS3UploadConfirmation(LambdaS3UploadConfirmationRequest) returns(LambdaS3UploadConfirmationResponse);
   //rpc ChangeProjectName()
 }

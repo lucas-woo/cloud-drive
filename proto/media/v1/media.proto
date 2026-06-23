@@ -23,6 +23,14 @@ message UploadObjectRequest {
   string folder = 4;
 }
 
+message LambdaS3UploadConfirmationRequest {
+  string object_id = 1;
+  uint64 file_size = 2;
+  string format = 3;
+}
+
+message LambdaS3UploadConfirmationResponse {}
+
 message UploadObjectResponse {
   string signed_url = 1;
 }
