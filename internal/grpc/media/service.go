@@ -58,9 +58,13 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 	if !ok {
 		return "", errors.New("doesn't have role")
 	}
+	objectId := uuid.New()
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, req.Folder)
+	if err != nil{
+		return 
+	}
+
 	
-
-
 
 
 	return "", nil
