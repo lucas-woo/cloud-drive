@@ -58,8 +58,9 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 	if !ok {
 		return "", errors.New("doesn't have role")
 	}
-
 	
+
+
 
 
 	return "", nil
