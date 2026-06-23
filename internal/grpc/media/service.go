@@ -64,10 +64,9 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 		return 
 	}
 
-	
+	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId.String())
 
-
-	return "", nil
+	return 
 }
 
 

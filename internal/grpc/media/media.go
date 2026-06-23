@@ -37,13 +37,18 @@ func (s *Server) CreateNewProject(ctx context.Context, req *mediav1.CreateNewPro
 
 
 func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequest) (*mediav1.UploadObjectResponse, error) {
-	s.service.GetUploadObjectSignedUrl(ctx, &dto.UploadObjectRequest{
+	url, err := s.service.GetUploadObjectSignedUrl(ctx, &dto.UploadObjectRequest{
 		SessionId: req.GetSessionId(),
 		ProjectId: req.GetProjectId(),
 		ObjectName: req.GetObjectName(),
 		Folder: req.GetFolder(),
 	})
-	return nil, status.Error(codes.Unimplemented, "method UploadObject not implemented")
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	return &mediav1.UploadObjectResponse{
+		SignedUrl: url,
+	}, nil
 }
 
 

@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/lucas-woo/godotenv"
 )
@@ -27,6 +28,8 @@ var (
 	DeletePermission = "delete"
 
 	ADMIN_ROLE = "admin"
+
+	PreSignedUrlTime time.Duration = time.Minute * 3
 
 	CookieSessionIDString string
 	CookieUserId string
