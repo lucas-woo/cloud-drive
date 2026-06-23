@@ -13,5 +13,7 @@ CREATE TABLE project_objects (
     created_at TIMESTAMP NULL,
     modified_at TIMESTAMP NULL,
 
-    PRIMARY KEY (project_id, object_id)
+    PRIMARY KEY (object_id),
+
+    INDEX idx_project_id (project_id)
 );
