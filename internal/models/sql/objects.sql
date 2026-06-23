@@ -1,6 +1,6 @@
 CREATE TABLE project_objects (
     project_id BINARY(16) NOT NULL,
-    object_id VARCHAR(255) NOT NULL,
+    object_id BINARY(16) NOT NULL,
 
     folder VARCHAR(255) NOT NULL,
 
