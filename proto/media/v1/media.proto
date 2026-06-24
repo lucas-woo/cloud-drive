@@ -23,6 +23,30 @@ message UploadObjectRequest {
   string folder = 4;
 }
 
+message UploadObjectResponse {
+  string signed_url = 1;
+  string object_id = 2;
+}
+
+
+message ImageUploadData {
+  string project_id = 1;
+  string object_name = 2;
+  string folder = 3;
+
+  uint32 width = 4;
+  uint32 height = 5;
+  string crop = 6;
+}
+
+message UploadImageApiRequest {
+
+}
+
+message UploadImageApiResponse {
+  string object_id = 1;
+}
+
 message LambdaS3UploadConfirmationRequest {
   string object_id = 1;
   uint64 file_size = 2;
@@ -30,7 +54,3 @@ message LambdaS3UploadConfirmationRequest {
 }
 
 message LambdaS3UploadConfirmationResponse {}
-
-message UploadObjectResponse {
-  string signed_url = 1;
-}
