@@ -341,7 +341,7 @@ type UploadImageApiRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Payload:
 	//
-	//	*UploadImageApiRequest_ImageData
+	//	*UploadImageApiRequest_UploadInfo
 	//	*UploadImageApiRequest_ImageChunk
 	Payload       isUploadImageApiRequest_Payload `protobuf_oneof:"payload"`
 	unknownFields protoimpl.UnknownFields
@@ -385,10 +385,10 @@ func (x *UploadImageApiRequest) GetPayload() isUploadImageApiRequest_Payload {
 	return nil
 }
 
-func (x *UploadImageApiRequest) GetImageData() *ImageUploadData {
+func (x *UploadImageApiRequest) GetUploadInfo() *ImageUploadData {
 	if x != nil {
-		if x, ok := x.Payload.(*UploadImageApiRequest_ImageData); ok {
-			return x.ImageData
+		if x, ok := x.Payload.(*UploadImageApiRequest_UploadInfo); ok {
+			return x.UploadInfo
 		}
 	}
 	return nil
@@ -407,15 +407,15 @@ type isUploadImageApiRequest_Payload interface {
 	isUploadImageApiRequest_Payload()
 }
 
-type UploadImageApiRequest_ImageData struct {
-	ImageData *ImageUploadData `protobuf:"bytes,1,opt,name=image_data,json=imageData,proto3,oneof"`
+type UploadImageApiRequest_UploadInfo struct {
+	UploadInfo *ImageUploadData `protobuf:"bytes,1,opt,name=upload_info,json=uploadInfo,proto3,oneof"`
 }
 
 type UploadImageApiRequest_ImageChunk struct {
 	ImageChunk []byte `protobuf:"bytes,2,opt,name=image_chunk,json=imageChunk,proto3,oneof"`
 }
 
-func (*UploadImageApiRequest_ImageData) isUploadImageApiRequest_Payload() {}
+func (*UploadImageApiRequest_UploadInfo) isUploadImageApiRequest_Payload() {}
 
 func (*UploadImageApiRequest_ImageChunk) isUploadImageApiRequest_Payload() {}
 
@@ -665,10 +665,10 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x06folder\x18\x03 \x01(\tR\x06folder\x12\x14\n" +
 	"\x05width\x18\x04 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x05 \x01(\rR\x06height\x12\x12\n" +
-	"\x04crop\x18\x06 \x01(\tR\x04crop\"\x81\x01\n" +
-	"\x15UploadImageApiRequest\x12:\n" +
-	"\n" +
-	"image_data\x18\x01 \x01(\v2\x19.media.v1.ImageUploadDataH\x00R\timageData\x12!\n" +
+	"\x04crop\x18\x06 \x01(\tR\x04crop\"\x83\x01\n" +
+	"\x15UploadImageApiRequest\x12<\n" +
+	"\vupload_info\x18\x01 \x01(\v2\x19.media.v1.ImageUploadDataH\x00R\n" +
+	"uploadInfo\x12!\n" +
 	"\vimage_chunk\x18\x02 \x01(\fH\x00R\n" +
 	"imageChunkB\t\n" +
 	"\apayload\"5\n" +
@@ -709,7 +709,7 @@ var file_media_v1_media_proto_goTypes = []any{
 	(*LambdaS3UploadConfirmationResponse)(nil), // 10: media.v1.LambdaS3UploadConfirmationResponse
 }
 var file_media_v1_media_proto_depIdxs = []int32{
-	4, // 0: media.v1.UploadImageApiRequest.image_data:type_name -> media.v1.ImageUploadData
+	4, // 0: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadData
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -723,7 +723,7 @@ func file_media_v1_media_proto_init() {
 		return
 	}
 	file_media_v1_media_proto_msgTypes[5].OneofWrappers = []any{
-		(*UploadImageApiRequest_ImageData)(nil),
+		(*UploadImageApiRequest_UploadInfo)(nil),
 		(*UploadImageApiRequest_ImageChunk)(nil),
 	}
 	type x struct{}

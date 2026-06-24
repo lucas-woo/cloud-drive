@@ -41,7 +41,7 @@ message ImageUploadData {
 
 message UploadImageApiRequest {
   oneof payload {
-    ImageUploadData image_data = 1;
+    ImageUploadData upload_info = 1;
     bytes image_chunk = 2;
   }
 }
