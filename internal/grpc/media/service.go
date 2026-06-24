@@ -17,15 +17,7 @@ type Service struct {
 
 func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest *dto.CreateNewProjectRequest) (projectName string, projectId string, err error) {
 
-	res, err := s.mediaResources.AuthClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
-		SessionId: createNewProjectRequest.SessionId,
-	})
-
-	if err != nil {
-		return
-	}
-
-	userId, err := uuid.Parse(res.GetUserId())
+	userId, err := uuid.Parse(createNewProjectRequest.UserId)
 
 	if err != nil {
 		return

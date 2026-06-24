@@ -18,7 +18,7 @@ type Server struct {
 func (s *Server) CreateNewProject(ctx context.Context, req *mediav1.CreateNewProjectRequest) (*mediav1.CreateNewProjectResponse, error) {
 
 	projReq := &dto.CreateNewProjectRequest{
-		SessionId: req.GetSessionId(),
+		UserId: req.GetUserId(),
 		ProjectName: req.GetProjectName(),
 		Description: req.GetDescription(),
 	}

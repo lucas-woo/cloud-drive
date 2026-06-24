@@ -23,7 +23,7 @@ const (
 
 type CreateNewProjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	ProjectName   string                 `protobuf:"bytes,2,opt,name=project_name,json=projectName,proto3" json:"project_name,omitempty"`
 	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -60,9 +60,9 @@ func (*CreateNewProjectRequest) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateNewProjectRequest) GetSessionId() string {
+func (x *CreateNewProjectRequest) GetUserId() string {
 	if x != nil {
-		return x.SessionId
+		return x.UserId
 	}
 	return ""
 }
@@ -727,10 +727,9 @@ var File_media_v1_media_proto protoreflect.FileDescriptor
 
 const file_media_v1_media_proto_rawDesc = "" +
 	"\n" +
-	"\x14media/v1/media.proto\x12\bmedia.v1\"}\n" +
-	"\x17CreateNewProjectRequest\x12\x1d\n" +
-	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12!\n" +
+	"\x14media/v1/media.proto\x12\bmedia.v1\"w\n" +
+	"\x17CreateNewProjectRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12!\n" +
 	"\fproject_name\x18\x02 \x01(\tR\vprojectName\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\"\\\n" +
 	"\x18CreateNewProjectResponse\x12!\n" +
