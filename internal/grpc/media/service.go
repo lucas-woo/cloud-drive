@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
-	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
@@ -29,17 +28,11 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 }
 
 func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadObjectRequest) (url string, objectId string, err error) {
-	res, err := s.mediaResources.AuthClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
-		SessionId: req.SessionId,
-	})
-	if err != nil{
-		return
-	}
-	userId, err := uuid.Parse(res.GetUserId())
+	userId, err := uuid.Parse(req.UserId)
 	if err != nil{
 		return 
 	}
-	projectId, err := uuid.Parse(res.GetUserId())
+	projectId, err := uuid.Parse(req.ProjectId)
 	if err != nil{
 		return 
 	}

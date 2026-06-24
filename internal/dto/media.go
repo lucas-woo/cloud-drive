@@ -8,7 +8,7 @@ type CreateNewProjectRequest struct {
 }
 
 type UploadObjectRequest struct {
-	SessionId string
+	UserId string
 	ProjectId string
 	ObjectName string
 	Folder string
