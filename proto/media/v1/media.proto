@@ -17,7 +17,7 @@ message CreateNewProjectResponse {
 }
 
 message UploadObjectRequest {
-  string session_id = 1;
+  string user_id = 1;
   string project_id = 2;
   string object_name = 3;
   string folder = 4;

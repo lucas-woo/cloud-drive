@@ -135,7 +135,7 @@ func (x *CreateNewProjectResponse) GetProjectId() string {
 
 type UploadObjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	ObjectName    string                 `protobuf:"bytes,3,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	Folder        string                 `protobuf:"bytes,4,opt,name=folder,proto3" json:"folder,omitempty"`
@@ -173,9 +173,9 @@ func (*UploadObjectRequest) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *UploadObjectRequest) GetSessionId() string {
+func (x *UploadObjectRequest) GetUserId() string {
 	if x != nil {
-		return x.SessionId
+		return x.UserId
 	}
 	return ""
 }
@@ -735,10 +735,9 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x18CreateNewProjectResponse\x12!\n" +
 	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\"\x8c\x01\n" +
-	"\x13UploadObjectRequest\x12\x1d\n" +
-	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x1d\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\"\x86\x01\n" +
+	"\x13UploadObjectRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x03 \x01(\tR\n" +
