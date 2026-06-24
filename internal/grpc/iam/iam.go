@@ -21,7 +21,7 @@ type Server struct {
 func (s *Server) GenerateNewApiKey(ctx context.Context, req *iamv1.GenerateNewApiKeyRequest) (*iamv1.GenerateNewApiKeyResponse, error) {
 
 	res, err := s.service.GenerateNewApiKey(ctx, &dto.GenerateNewApiKeyRequest{
-		SessionId: req.GetSessionId(),
+		UserId: req.GetUserId(),
 		KeyName: req.GetKeyName(),
 		ProjectId: req.GetProjectId(),
 	})
