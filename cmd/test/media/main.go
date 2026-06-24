@@ -35,9 +35,15 @@ func main() {
 	}
 
 	fmt.Println(authResponse.GetSessionId())
+	userIdReq, err := authClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
+		SessionId: authResponse.GetSessionId(),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	res, err := mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
-		SessionId: authResponse.GetSessionId(),
+		UserId: userIdReq.GetUserId(),
 	})
 
 	if err != nil {
