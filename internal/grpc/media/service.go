@@ -36,7 +36,7 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 	return
 }
 
-func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadObjectRequest) (url string, err error) {
+func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadObjectRequest) (url string, objectId string, err error) {
 	res, err := s.mediaResources.AuthClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
 		SessionId: req.SessionId,
 	})
@@ -56,15 +56,17 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 		return 
 	}
 	if !ok {
-		return "", errors.New("doesn't have role")
+		return "", "", errors.New("doesn't have role")
 	}
-	objectId := uuid.New()
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, req.Folder)
+	oId := uuid.New()
+	objectId = oId.String()
+
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, req.Folder)
 	if err != nil{
 		return 
 	}
 
-	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId.String())
+	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId)
 
 	return 
 }

@@ -37,7 +37,7 @@ func (s *Server) CreateNewProject(ctx context.Context, req *mediav1.CreateNewPro
 
 
 func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequest) (*mediav1.UploadObjectResponse, error) {
-	url, err := s.service.GetUploadObjectSignedUrl(ctx, &dto.UploadObjectRequest{
+	url, objectId, err := s.service.GetUploadObjectSignedUrl(ctx, &dto.UploadObjectRequest{
 		SessionId: req.GetSessionId(),
 		ProjectId: req.GetProjectId(),
 		ObjectName: req.GetObjectName(),
@@ -48,6 +48,7 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 	}
 	return &mediav1.UploadObjectResponse{
 		SignedUrl: url,
+		ObjectId: objectId,
 	}, nil
 }
 
