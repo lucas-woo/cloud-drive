@@ -29,7 +29,7 @@ message UploadObjectResponse {
 }
 
 
-message ImageUploadData {
+message ImageUploadInfo {
   string project_id = 1;
   string object_name = 2;
   string folder = 3;
@@ -39,9 +39,15 @@ message ImageUploadData {
   string crop = 6;
 }
 
+message FileUploadInfo {
+  string project_id = 1;
+  string object_name = 2;
+  string folder = 3;  
+}
+
 message UploadImageApiRequest {
   oneof payload {
-    ImageUploadData upload_info = 1;
+    ImageUploadInfo upload_info = 1;
     bytes image_chunk = 2;
   }
 }
@@ -50,14 +56,14 @@ message UploadImageApiResponse {
   string object_id = 1;
 }
 
-
-
 message UploadFileApiRequest {
-
+  string project_id = 1;
+  string object_name = 2;
+  string folder = 3;  
 }
 
 message UploadFileApiResponse {
-
+  string object_id = 1;
 }
 
 
