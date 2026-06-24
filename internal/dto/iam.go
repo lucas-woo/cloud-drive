@@ -7,7 +7,7 @@ import (
 )
 
 type GenerateNewApiKeyRequest struct {
-	SessionId string
+	UserId string
 	ProjectId string
 	KeyName string
 }
