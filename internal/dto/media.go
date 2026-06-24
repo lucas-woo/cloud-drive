@@ -2,7 +2,7 @@ package dto
 
 
 type CreateNewProjectRequest struct {
-	SessionId string
+	UserId string
 	ProjectName string
 	Description string
 }

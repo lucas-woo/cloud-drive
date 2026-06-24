@@ -6,7 +6,7 @@ package media.v1;
 
 
 message CreateNewProjectRequest {
-  string session_id = 1;
+  string user_id = 1;
   string project_name = 2;
   string description = 3;
 }
