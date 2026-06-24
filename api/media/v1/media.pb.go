@@ -338,7 +338,12 @@ func (x *ImageUploadData) GetCrop() string {
 }
 
 type UploadImageApiRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Payload:
+	//
+	//	*UploadImageApiRequest_ImageData
+	//	*UploadImageApiRequest_ImageChunk
+	Payload       isUploadImageApiRequest_Payload `protobuf_oneof:"payload"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -372,6 +377,47 @@ func (x *UploadImageApiRequest) ProtoReflect() protoreflect.Message {
 func (*UploadImageApiRequest) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{5}
 }
+
+func (x *UploadImageApiRequest) GetPayload() isUploadImageApiRequest_Payload {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *UploadImageApiRequest) GetImageData() *ImageUploadData {
+	if x != nil {
+		if x, ok := x.Payload.(*UploadImageApiRequest_ImageData); ok {
+			return x.ImageData
+		}
+	}
+	return nil
+}
+
+func (x *UploadImageApiRequest) GetImageChunk() []byte {
+	if x != nil {
+		if x, ok := x.Payload.(*UploadImageApiRequest_ImageChunk); ok {
+			return x.ImageChunk
+		}
+	}
+	return nil
+}
+
+type isUploadImageApiRequest_Payload interface {
+	isUploadImageApiRequest_Payload()
+}
+
+type UploadImageApiRequest_ImageData struct {
+	ImageData *ImageUploadData `protobuf:"bytes,1,opt,name=image_data,json=imageData,proto3,oneof"`
+}
+
+type UploadImageApiRequest_ImageChunk struct {
+	ImageChunk []byte `protobuf:"bytes,2,opt,name=image_chunk,json=imageChunk,proto3,oneof"`
+}
+
+func (*UploadImageApiRequest_ImageData) isUploadImageApiRequest_Payload() {}
+
+func (*UploadImageApiRequest_ImageChunk) isUploadImageApiRequest_Payload() {}
 
 type UploadImageApiResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -417,6 +463,78 @@ func (x *UploadImageApiResponse) GetObjectId() string {
 	return ""
 }
 
+type UploadFileApiRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadFileApiRequest) Reset() {
+	*x = UploadFileApiRequest{}
+	mi := &file_media_v1_media_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadFileApiRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadFileApiRequest) ProtoMessage() {}
+
+func (x *UploadFileApiRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadFileApiRequest.ProtoReflect.Descriptor instead.
+func (*UploadFileApiRequest) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{7}
+}
+
+type UploadFileApiResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadFileApiResponse) Reset() {
+	*x = UploadFileApiResponse{}
+	mi := &file_media_v1_media_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadFileApiResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadFileApiResponse) ProtoMessage() {}
+
+func (x *UploadFileApiResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadFileApiResponse.ProtoReflect.Descriptor instead.
+func (*UploadFileApiResponse) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{8}
+}
+
 type LambdaS3UploadConfirmationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ObjectId      string                 `protobuf:"bytes,1,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
@@ -428,7 +546,7 @@ type LambdaS3UploadConfirmationRequest struct {
 
 func (x *LambdaS3UploadConfirmationRequest) Reset() {
 	*x = LambdaS3UploadConfirmationRequest{}
-	mi := &file_media_v1_media_proto_msgTypes[7]
+	mi := &file_media_v1_media_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -440,7 +558,7 @@ func (x *LambdaS3UploadConfirmationRequest) String() string {
 func (*LambdaS3UploadConfirmationRequest) ProtoMessage() {}
 
 func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[7]
+	mi := &file_media_v1_media_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -453,7 +571,7 @@ func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use LambdaS3UploadConfirmationRequest.ProtoReflect.Descriptor instead.
 func (*LambdaS3UploadConfirmationRequest) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{7}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *LambdaS3UploadConfirmationRequest) GetObjectId() string {
@@ -485,7 +603,7 @@ type LambdaS3UploadConfirmationResponse struct {
 
 func (x *LambdaS3UploadConfirmationResponse) Reset() {
 	*x = LambdaS3UploadConfirmationResponse{}
-	mi := &file_media_v1_media_proto_msgTypes[8]
+	mi := &file_media_v1_media_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -497,7 +615,7 @@ func (x *LambdaS3UploadConfirmationResponse) String() string {
 func (*LambdaS3UploadConfirmationResponse) ProtoMessage() {}
 
 func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[8]
+	mi := &file_media_v1_media_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -510,7 +628,7 @@ func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use LambdaS3UploadConfirmationResponse.ProtoReflect.Descriptor instead.
 func (*LambdaS3UploadConfirmationResponse) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{8}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{10}
 }
 
 var File_media_v1_media_proto protoreflect.FileDescriptor
@@ -547,10 +665,17 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x06folder\x18\x03 \x01(\tR\x06folder\x12\x14\n" +
 	"\x05width\x18\x04 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x05 \x01(\rR\x06height\x12\x12\n" +
-	"\x04crop\x18\x06 \x01(\tR\x04crop\"\x17\n" +
-	"\x15UploadImageApiRequest\"5\n" +
+	"\x04crop\x18\x06 \x01(\tR\x04crop\"\x81\x01\n" +
+	"\x15UploadImageApiRequest\x12:\n" +
+	"\n" +
+	"image_data\x18\x01 \x01(\v2\x19.media.v1.ImageUploadDataH\x00R\timageData\x12!\n" +
+	"\vimage_chunk\x18\x02 \x01(\fH\x00R\n" +
+	"imageChunkB\t\n" +
+	"\apayload\"5\n" +
 	"\x16UploadImageApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"u\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\x16\n" +
+	"\x14UploadFileApiRequest\"\x17\n" +
+	"\x15UploadFileApiResponse\"u\n" +
 	"!LambdaS3UploadConfirmationRequest\x12\x1b\n" +
 	"\tobject_id\x18\x01 \x01(\tR\bobjectId\x12\x1b\n" +
 	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\x12\x16\n" +
@@ -569,7 +694,7 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 	return file_media_v1_media_proto_rawDescData
 }
 
-var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_media_v1_media_proto_goTypes = []any{
 	(*CreateNewProjectRequest)(nil),            // 0: media.v1.CreateNewProjectRequest
 	(*CreateNewProjectResponse)(nil),           // 1: media.v1.CreateNewProjectResponse
@@ -578,15 +703,18 @@ var file_media_v1_media_proto_goTypes = []any{
 	(*ImageUploadData)(nil),                    // 4: media.v1.ImageUploadData
 	(*UploadImageApiRequest)(nil),              // 5: media.v1.UploadImageApiRequest
 	(*UploadImageApiResponse)(nil),             // 6: media.v1.UploadImageApiResponse
-	(*LambdaS3UploadConfirmationRequest)(nil),  // 7: media.v1.LambdaS3UploadConfirmationRequest
-	(*LambdaS3UploadConfirmationResponse)(nil), // 8: media.v1.LambdaS3UploadConfirmationResponse
+	(*UploadFileApiRequest)(nil),               // 7: media.v1.UploadFileApiRequest
+	(*UploadFileApiResponse)(nil),              // 8: media.v1.UploadFileApiResponse
+	(*LambdaS3UploadConfirmationRequest)(nil),  // 9: media.v1.LambdaS3UploadConfirmationRequest
+	(*LambdaS3UploadConfirmationResponse)(nil), // 10: media.v1.LambdaS3UploadConfirmationResponse
 }
 var file_media_v1_media_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: media.v1.UploadImageApiRequest.image_data:type_name -> media.v1.ImageUploadData
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_media_proto_init() }
@@ -594,13 +722,17 @@ func file_media_v1_media_proto_init() {
 	if File_media_v1_media_proto != nil {
 		return
 	}
+	file_media_v1_media_proto_msgTypes[5].OneofWrappers = []any{
+		(*UploadImageApiRequest_ImageData)(nil),
+		(*UploadImageApiRequest_ImageChunk)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_media_proto_rawDesc), len(file_media_v1_media_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

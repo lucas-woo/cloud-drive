@@ -40,12 +40,28 @@ message ImageUploadData {
 }
 
 message UploadImageApiRequest {
-
+  oneof payload {
+    ImageUploadData image_data = 1;
+    bytes image_chunk = 2;
+  }
 }
 
 message UploadImageApiResponse {
   string object_id = 1;
 }
+
+
+
+message UploadFileApiRequest {
+
+}
+
+message UploadFileApiResponse {
+
+}
+
+
+
 
 message LambdaS3UploadConfirmationRequest {
   string object_id = 1;
