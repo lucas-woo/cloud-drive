@@ -34,15 +34,10 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder = 3;
 
+  //params
   uint32 width = 4;
   uint32 height = 5;
   string crop = 6;
-}
-
-message FileUploadInfo {
-  string project_id = 1;
-  string object_name = 2;
-  string folder = 3;  
 }
 
 message UploadImageApiRequest {
@@ -55,17 +50,6 @@ message UploadImageApiRequest {
 message UploadImageApiResponse {
   string object_id = 1;
 }
-
-message UploadFileApiRequest {
-  string project_id = 1;
-  string object_name = 2;
-  string folder = 3;  
-}
-
-message UploadFileApiResponse {
-  string object_id = 1;
-}
-
 
 
 
