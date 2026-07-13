@@ -254,13 +254,14 @@ func (x *UploadObjectResponse) GetObjectId() string {
 }
 
 type ImageUploadInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
-	Folder        string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
-	Width         uint32                 `protobuf:"varint,4,opt,name=width,proto3" json:"width,omitempty"`
-	Height        uint32                 `protobuf:"varint,5,opt,name=height,proto3" json:"height,omitempty"`
-	Crop          string                 `protobuf:"bytes,6,opt,name=crop,proto3" json:"crop,omitempty"`
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId  string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	ObjectName string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
+	Folder     string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
+	// params
+	Width         uint32 `protobuf:"varint,4,opt,name=width,proto3" json:"width,omitempty"`
+	Height        uint32 `protobuf:"varint,5,opt,name=height,proto3" json:"height,omitempty"`
+	Crop          string `protobuf:"bytes,6,opt,name=crop,proto3" json:"crop,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -337,66 +338,6 @@ func (x *ImageUploadInfo) GetCrop() string {
 	return ""
 }
 
-type FileUploadInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
-	Folder        string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FileUploadInfo) Reset() {
-	*x = FileUploadInfo{}
-	mi := &file_media_v1_media_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FileUploadInfo) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FileUploadInfo) ProtoMessage() {}
-
-func (x *FileUploadInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FileUploadInfo.ProtoReflect.Descriptor instead.
-func (*FileUploadInfo) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *FileUploadInfo) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *FileUploadInfo) GetObjectName() string {
-	if x != nil {
-		return x.ObjectName
-	}
-	return ""
-}
-
-func (x *FileUploadInfo) GetFolder() string {
-	if x != nil {
-		return x.Folder
-	}
-	return ""
-}
-
 type UploadImageApiRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Payload:
@@ -410,7 +351,7 @@ type UploadImageApiRequest struct {
 
 func (x *UploadImageApiRequest) Reset() {
 	*x = UploadImageApiRequest{}
-	mi := &file_media_v1_media_proto_msgTypes[6]
+	mi := &file_media_v1_media_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -422,7 +363,7 @@ func (x *UploadImageApiRequest) String() string {
 func (*UploadImageApiRequest) ProtoMessage() {}
 
 func (x *UploadImageApiRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[6]
+	mi := &file_media_v1_media_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -435,7 +376,7 @@ func (x *UploadImageApiRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadImageApiRequest.ProtoReflect.Descriptor instead.
 func (*UploadImageApiRequest) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{6}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UploadImageApiRequest) GetPayload() isUploadImageApiRequest_Payload {
@@ -488,7 +429,7 @@ type UploadImageApiResponse struct {
 
 func (x *UploadImageApiResponse) Reset() {
 	*x = UploadImageApiResponse{}
-	mi := &file_media_v1_media_proto_msgTypes[7]
+	mi := &file_media_v1_media_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -500,7 +441,7 @@ func (x *UploadImageApiResponse) String() string {
 func (*UploadImageApiResponse) ProtoMessage() {}
 
 func (x *UploadImageApiResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[7]
+	mi := &file_media_v1_media_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -513,114 +454,10 @@ func (x *UploadImageApiResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadImageApiResponse.ProtoReflect.Descriptor instead.
 func (*UploadImageApiResponse) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{7}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UploadImageApiResponse) GetObjectId() string {
-	if x != nil {
-		return x.ObjectId
-	}
-	return ""
-}
-
-type UploadFileApiRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
-	Folder        string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UploadFileApiRequest) Reset() {
-	*x = UploadFileApiRequest{}
-	mi := &file_media_v1_media_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UploadFileApiRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UploadFileApiRequest) ProtoMessage() {}
-
-func (x *UploadFileApiRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UploadFileApiRequest.ProtoReflect.Descriptor instead.
-func (*UploadFileApiRequest) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *UploadFileApiRequest) GetProjectId() string {
-	if x != nil {
-		return x.ProjectId
-	}
-	return ""
-}
-
-func (x *UploadFileApiRequest) GetObjectName() string {
-	if x != nil {
-		return x.ObjectName
-	}
-	return ""
-}
-
-func (x *UploadFileApiRequest) GetFolder() string {
-	if x != nil {
-		return x.Folder
-	}
-	return ""
-}
-
-type UploadFileApiResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ObjectId      string                 `protobuf:"bytes,1,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UploadFileApiResponse) Reset() {
-	*x = UploadFileApiResponse{}
-	mi := &file_media_v1_media_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UploadFileApiResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UploadFileApiResponse) ProtoMessage() {}
-
-func (x *UploadFileApiResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UploadFileApiResponse.ProtoReflect.Descriptor instead.
-func (*UploadFileApiResponse) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *UploadFileApiResponse) GetObjectId() string {
 	if x != nil {
 		return x.ObjectId
 	}
@@ -638,7 +475,7 @@ type LambdaS3UploadConfirmationRequest struct {
 
 func (x *LambdaS3UploadConfirmationRequest) Reset() {
 	*x = LambdaS3UploadConfirmationRequest{}
-	mi := &file_media_v1_media_proto_msgTypes[10]
+	mi := &file_media_v1_media_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -650,7 +487,7 @@ func (x *LambdaS3UploadConfirmationRequest) String() string {
 func (*LambdaS3UploadConfirmationRequest) ProtoMessage() {}
 
 func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[10]
+	mi := &file_media_v1_media_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -663,7 +500,7 @@ func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use LambdaS3UploadConfirmationRequest.ProtoReflect.Descriptor instead.
 func (*LambdaS3UploadConfirmationRequest) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{10}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *LambdaS3UploadConfirmationRequest) GetObjectId() string {
@@ -695,7 +532,7 @@ type LambdaS3UploadConfirmationResponse struct {
 
 func (x *LambdaS3UploadConfirmationResponse) Reset() {
 	*x = LambdaS3UploadConfirmationResponse{}
-	mi := &file_media_v1_media_proto_msgTypes[11]
+	mi := &file_media_v1_media_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -707,7 +544,7 @@ func (x *LambdaS3UploadConfirmationResponse) String() string {
 func (*LambdaS3UploadConfirmationResponse) ProtoMessage() {}
 
 func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_media_v1_media_proto_msgTypes[11]
+	mi := &file_media_v1_media_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -720,7 +557,7 @@ func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use LambdaS3UploadConfirmationResponse.ProtoReflect.Descriptor instead.
 func (*LambdaS3UploadConfirmationResponse) Descriptor() ([]byte, []int) {
-	return file_media_v1_media_proto_rawDescGZIP(), []int{11}
+	return file_media_v1_media_proto_rawDescGZIP(), []int{8}
 }
 
 var File_media_v1_media_proto protoreflect.FileDescriptor
@@ -755,13 +592,7 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x06folder\x18\x03 \x01(\tR\x06folder\x12\x14\n" +
 	"\x05width\x18\x04 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x05 \x01(\rR\x06height\x12\x12\n" +
-	"\x04crop\x18\x06 \x01(\tR\x04crop\"h\n" +
-	"\x0eFileUploadInfo\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
-	"\vobject_name\x18\x02 \x01(\tR\n" +
-	"objectName\x12\x16\n" +
-	"\x06folder\x18\x03 \x01(\tR\x06folder\"\x83\x01\n" +
+	"\x04crop\x18\x06 \x01(\tR\x04crop\"\x83\x01\n" +
 	"\x15UploadImageApiRequest\x12<\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x19.media.v1.ImageUploadInfoH\x00R\n" +
 	"uploadInfo\x12!\n" +
@@ -769,14 +600,6 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"imageChunkB\t\n" +
 	"\apayload\"5\n" +
 	"\x16UploadImageApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"n\n" +
-	"\x14UploadFileApiRequest\x12\x1d\n" +
-	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
-	"\vobject_name\x18\x02 \x01(\tR\n" +
-	"objectName\x12\x16\n" +
-	"\x06folder\x18\x03 \x01(\tR\x06folder\"4\n" +
-	"\x15UploadFileApiResponse\x12\x1b\n" +
 	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"u\n" +
 	"!LambdaS3UploadConfirmationRequest\x12\x1b\n" +
 	"\tobject_id\x18\x01 \x01(\tR\bobjectId\x12\x1b\n" +
@@ -796,20 +619,17 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 	return file_media_v1_media_proto_rawDescData
 }
 
-var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_media_v1_media_proto_goTypes = []any{
 	(*CreateNewProjectRequest)(nil),            // 0: media.v1.CreateNewProjectRequest
 	(*CreateNewProjectResponse)(nil),           // 1: media.v1.CreateNewProjectResponse
 	(*UploadObjectRequest)(nil),                // 2: media.v1.UploadObjectRequest
 	(*UploadObjectResponse)(nil),               // 3: media.v1.UploadObjectResponse
 	(*ImageUploadInfo)(nil),                    // 4: media.v1.ImageUploadInfo
-	(*FileUploadInfo)(nil),                     // 5: media.v1.FileUploadInfo
-	(*UploadImageApiRequest)(nil),              // 6: media.v1.UploadImageApiRequest
-	(*UploadImageApiResponse)(nil),             // 7: media.v1.UploadImageApiResponse
-	(*UploadFileApiRequest)(nil),               // 8: media.v1.UploadFileApiRequest
-	(*UploadFileApiResponse)(nil),              // 9: media.v1.UploadFileApiResponse
-	(*LambdaS3UploadConfirmationRequest)(nil),  // 10: media.v1.LambdaS3UploadConfirmationRequest
-	(*LambdaS3UploadConfirmationResponse)(nil), // 11: media.v1.LambdaS3UploadConfirmationResponse
+	(*UploadImageApiRequest)(nil),              // 5: media.v1.UploadImageApiRequest
+	(*UploadImageApiResponse)(nil),             // 6: media.v1.UploadImageApiResponse
+	(*LambdaS3UploadConfirmationRequest)(nil),  // 7: media.v1.LambdaS3UploadConfirmationRequest
+	(*LambdaS3UploadConfirmationResponse)(nil), // 8: media.v1.LambdaS3UploadConfirmationResponse
 }
 var file_media_v1_media_proto_depIdxs = []int32{
 	4, // 0: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
@@ -825,7 +645,7 @@ func file_media_v1_media_proto_init() {
 	if File_media_v1_media_proto != nil {
 		return
 	}
-	file_media_v1_media_proto_msgTypes[6].OneofWrappers = []any{
+	file_media_v1_media_proto_msgTypes[5].OneofWrappers = []any{
 		(*UploadImageApiRequest_UploadInfo)(nil),
 		(*UploadImageApiRequest_ImageChunk)(nil),
 	}
@@ -835,7 +655,7 @@ func file_media_v1_media_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_media_proto_rawDesc), len(file_media_v1_media_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   12,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

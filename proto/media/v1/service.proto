@@ -13,8 +13,6 @@ service MediaService {
   rpc UploadObject(UploadObjectRequest) returns (UploadObjectResponse);
   
   rpc UploadImageApi(stream UploadImageApiRequest) returns (UploadImageApiResponse);
-
-  rpc UploadFileApi(stream UploadFileApiRequest) returns (UploadFileApiResponse);
   
   rpc LambdaS3UploadConfirmation(LambdaS3UploadConfirmationRequest) returns(LambdaS3UploadConfirmationResponse);
 

@@ -22,7 +22,6 @@ const (
 	MediaService_CreateNewProject_FullMethodName           = "/media.v1.MediaService/CreateNewProject"
 	MediaService_UploadObject_FullMethodName               = "/media.v1.MediaService/UploadObject"
 	MediaService_UploadImageApi_FullMethodName             = "/media.v1.MediaService/UploadImageApi"
-	MediaService_UploadFileApi_FullMethodName              = "/media.v1.MediaService/UploadFileApi"
 	MediaService_LambdaS3UploadConfirmation_FullMethodName = "/media.v1.MediaService/LambdaS3UploadConfirmation"
 )
 
@@ -33,7 +32,6 @@ type MediaServiceClient interface {
 	CreateNewProject(ctx context.Context, in *CreateNewProjectRequest, opts ...grpc.CallOption) (*CreateNewProjectResponse, error)
 	UploadObject(ctx context.Context, in *UploadObjectRequest, opts ...grpc.CallOption) (*UploadObjectResponse, error)
 	UploadImageApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageApiRequest, UploadImageApiResponse], error)
-	UploadFileApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse], error)
 	LambdaS3UploadConfirmation(ctx context.Context, in *LambdaS3UploadConfirmationRequest, opts ...grpc.CallOption) (*LambdaS3UploadConfirmationResponse, error)
 }
 
@@ -78,19 +76,6 @@ func (c *mediaServiceClient) UploadImageApi(ctx context.Context, opts ...grpc.Ca
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type MediaService_UploadImageApiClient = grpc.ClientStreamingClient[UploadImageApiRequest, UploadImageApiResponse]
 
-func (c *mediaServiceClient) UploadFileApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse], error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &MediaService_ServiceDesc.Streams[1], MediaService_UploadFileApi_FullMethodName, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &grpc.GenericClientStream[UploadFileApiRequest, UploadFileApiResponse]{ClientStream: stream}
-	return x, nil
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type MediaService_UploadFileApiClient = grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse]
-
 func (c *mediaServiceClient) LambdaS3UploadConfirmation(ctx context.Context, in *LambdaS3UploadConfirmationRequest, opts ...grpc.CallOption) (*LambdaS3UploadConfirmationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LambdaS3UploadConfirmationResponse)
@@ -108,7 +93,6 @@ type MediaServiceServer interface {
 	CreateNewProject(context.Context, *CreateNewProjectRequest) (*CreateNewProjectResponse, error)
 	UploadObject(context.Context, *UploadObjectRequest) (*UploadObjectResponse, error)
 	UploadImageApi(grpc.ClientStreamingServer[UploadImageApiRequest, UploadImageApiResponse]) error
-	UploadFileApi(grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]) error
 	LambdaS3UploadConfirmation(context.Context, *LambdaS3UploadConfirmationRequest) (*LambdaS3UploadConfirmationResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
@@ -128,9 +112,6 @@ func (UnimplementedMediaServiceServer) UploadObject(context.Context, *UploadObje
 }
 func (UnimplementedMediaServiceServer) UploadImageApi(grpc.ClientStreamingServer[UploadImageApiRequest, UploadImageApiResponse]) error {
 	return status.Error(codes.Unimplemented, "method UploadImageApi not implemented")
-}
-func (UnimplementedMediaServiceServer) UploadFileApi(grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]) error {
-	return status.Error(codes.Unimplemented, "method UploadFileApi not implemented")
 }
 func (UnimplementedMediaServiceServer) LambdaS3UploadConfirmation(context.Context, *LambdaS3UploadConfirmationRequest) (*LambdaS3UploadConfirmationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")
@@ -199,13 +180,6 @@ func _MediaService_UploadImageApi_Handler(srv interface{}, stream grpc.ServerStr
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type MediaService_UploadImageApiServer = grpc.ClientStreamingServer[UploadImageApiRequest, UploadImageApiResponse]
 
-func _MediaService_UploadFileApi_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(MediaServiceServer).UploadFileApi(&grpc.GenericServerStream[UploadFileApiRequest, UploadFileApiResponse]{ServerStream: stream})
-}
-
-// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type MediaService_UploadFileApiServer = grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]
-
 func _MediaService_LambdaS3UploadConfirmation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LambdaS3UploadConfirmationRequest)
 	if err := dec(in); err != nil {
@@ -248,11 +222,6 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "UploadImageApi",
 			Handler:       _MediaService_UploadImageApi_Handler,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "UploadFileApi",
-			Handler:       _MediaService_UploadFileApi_Handler,
 			ClientStreams: true,
 		},
 	},
