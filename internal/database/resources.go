@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 
@@ -74,9 +75,11 @@ func NewMediaResources() *MediaResources {
 	}
 
 	s3Client := s3.NewFromConfig(cfg)
-	presignClient := s3.NewPresignClient(s3Client)	
+	presignClient := s3.NewPresignClient(s3Client)
 
-	s3repo := s3repository.NewS3Repository(s3Client, presignClient, bucketName)
+	uploader := transfermanager.New(s3Client)
+
+	s3repo := s3repository.NewS3Repository(s3Client, presignClient, bucketName, uploader)
 
 	mongoClient, err := ConnectMongo()
 	if err != nil {
