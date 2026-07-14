@@ -55,9 +55,19 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 func (s *Server) UploadImageApi(stream mediav1.MediaService_UploadImageApiServer) error {
 	objectId, err := s.service.UploadImageApiService(stream)
 	if err != nil {
-		return status.Error(codes.Internal, err.Error())
+		return status.Error(codes.InvalidArgument, err.Error())
 	}
 	return stream.SendAndClose(&mediav1.UploadImageApiResponse{
+		ObjectId: objectId,
+	})
+}
+
+func (s *Server) UploadFileApi(stream mediav1.MediaService_UploadFileApiServer) error {
+	objectId, err := s.service.UploadFileApiService(stream)
+	if err != nil {
+		return status.Error(codes.InvalidArgument, err.Error())
+	}
+	return stream.SendAndClose(&mediav1.UploadFileApiResponse{
 		ObjectId: objectId,
 	})
 }

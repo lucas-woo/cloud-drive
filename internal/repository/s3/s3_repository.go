@@ -55,6 +55,23 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, 
 	return nil	
 }
 
+func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId string) error {
+	
+	input := &transfermanager.UploadObjectInput{
+		Bucket: aws.String(r.bucketName),
+		Key: aws.String(objectId),
+		Body: reader,
+	}
+
+	_, err := r.uploader.UploadObject(ctx, input)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func NewS3Repository(	s3Client *s3.Client, presignClient *s3.PresignClient, bucketName string, uploader *transfermanager.Client) *S3Repository {
 	return &S3Repository{
 		uploader: uploader,
