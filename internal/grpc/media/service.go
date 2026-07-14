@@ -79,28 +79,32 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 		return "", err
 	}
 
-	imageInfo, ok := req.GetPayload().(*mediav1.UploadImageApiRequest_UploadInfo)
+	imageInfo := req.GetUploadInfo()
 	
-	if !ok || imageInfo == nil {
+	if imageInfo == nil {
 		return "", errors.New("no image info")
 	}
+
+	metadata, err := utils.ExtractImageParams() //this needs to be completed later
+	if err != nil {
+		return "", errors.New("error with metadata")
+	}	
 	
-	pId := imageInfo.UploadInfo.GetProjectId()
+	pId := imageInfo.GetProjectId()
 	projectId, err := uuid.Parse(pId)
 	if err != nil {
 		return "", errors.New("invalid project id")
 	}
 
-	folder := imageInfo.UploadInfo.GetFolder()
+	folder := imageInfo.GetFolder()
 
 	objectId := uuid.New()
 	objectIdString := objectId.String()
+	
 	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
 	if err != nil{
 		return "", errors.New("error creating new object")
 	}
-
-	metadata, err := utils.ExtractImageParams() //this needs to be completed later
 
 	pr, pw := io.Pipe()
 
@@ -123,7 +127,14 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 			return "", err
 		}
 
-		_, err = pw.Write(req.GetImageChunk())
+		chunk := req.GetImageChunk()
+		if chunk == nil {
+			err = errors.New("no chunks")
+			pw.CloseWithError(err)
+			return "", err
+		}
+
+		_, err = pw.Write(chunk)
 		if err != nil {
 			return "", err
 		}
@@ -136,6 +147,82 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 	return objectIdString, nil
 }
 
+
+func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApiServer) (string, error) {
+
+	ctx := stream.Context()
+
+	req, err  := stream.Recv()
+
+	if err != nil {
+		return "", err
+	}
+
+	fileInfo := req.GetUploadInfo()
+
+	
+	if fileInfo == nil {
+		return "", errors.New("no image info")
+	}
+
+	pId := fileInfo.GetProjectId()
+	projectId, err := uuid.Parse(pId)
+	if err != nil {
+		return "", errors.New("invalid project id")
+	}
+
+	folder := fileInfo.GetFolder()
+
+	objectId := uuid.New()
+	objectIdString := objectId.String()
+
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
+	if err != nil{
+		return "", errors.New("error creating new object")
+	}
+
+	pr, pw := io.Pipe()
+
+	errChan := make(chan error, 1)
+
+	go func() {
+		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString)
+	}()
+
+	for {
+		req, err = stream.Recv()
+
+		if err == io.EOF {
+			pw.Close()
+			break;
+		}
+
+		if err != nil {
+			pw.CloseWithError(err)
+			return "", err
+		}
+
+		chunk := req.GetFileChunk()
+
+		if chunk == nil {
+			err = errors.New("no file chunk")
+			pw.CloseWithError(err)
+			return "", err
+		}
+
+		_, err = pw.Write(chunk)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	if err = <-errChan; err != nil {
+		return "", err
+	}
+
+	return objectIdString, nil	
+
+}
 
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
