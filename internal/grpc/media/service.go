@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
+	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
@@ -63,6 +64,28 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.LambdaS3Uplo
 	}
 	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
 	return err 
+}
+
+
+
+func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (string, error) {
+
+	req, err  := stream.Recv()
+
+	if err != nil {
+		return "", err
+	}
+
+	imageInfo, ok := req.GetPayload().(*mediav1.UploadImageApiRequest_UploadInfo)
+	
+	if !ok || imageInfo == nil {
+		return "", errors.New("invalid")
+	}
+
+	oId := uuid.New()
+	objectId := oId.String()	
+
+	return objectId, nil
 }
 
 

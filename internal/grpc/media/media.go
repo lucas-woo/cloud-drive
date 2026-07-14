@@ -52,6 +52,11 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 	}, nil
 }
 
+func (s *Server) UploadImageApi(stream mediav1.MediaService_UploadImageApiServer) error {
+	s.service.UploadImageApiService(stream)
+	return nil
+}
+
 func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.LambdaS3UploadConfirmationRequest) (*mediav1.LambdaS3UploadConfirmationResponse, error) {
 
 	err := s.service.ConfirmObjectUpload(ctx, &dto.LambdaS3UploadConfirmationRequest{
