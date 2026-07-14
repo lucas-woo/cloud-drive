@@ -34,7 +34,7 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder = 3;
 
-  //params
+  // processing params
   uint32 width = 4;
   uint32 height = 5;
   string crop = 6;
@@ -52,6 +52,22 @@ message UploadImageApiResponse {
 }
 
 
+message FileUploadInfo {
+  string project_id = 1;
+  string object_name = 2;
+  string folder = 3;
+}
+
+message UploadFileApiRequest {
+  oneof payload {
+    FileUploadInfo upload_info = 1;
+    bytes file_chunk = 2;
+  }
+}
+
+message UploadFileApiResponse {
+  string object_id = 1;
+}
 
 message LambdaS3UploadConfirmationRequest {
   string object_id = 1;
