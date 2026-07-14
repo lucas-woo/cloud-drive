@@ -35,7 +35,7 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId strin
 	return req.URL, nil
 }
 
-func (r *S3Repository) UploadAndProcessImage(ctx context.Context, reader io.Reader, objectId string, metadata map[string]string) error {
+func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, objectId string, metadata map[string]string) error {
 
 	s3Key := fmt.Sprintf("process/%s", objectId)
 	

@@ -3,12 +3,14 @@ package mediagrpc
 import (
 	"context"
 	"errors"
+	"io"
 
 	"github.com/google/uuid"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type Service struct {
@@ -70,6 +72,7 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.LambdaS3Uplo
 
 func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (string, error) {
 
+	ctx := stream.Context()
 	req, err  := stream.Recv()
 
 	if err != nil {
@@ -79,13 +82,58 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 	imageInfo, ok := req.GetPayload().(*mediav1.UploadImageApiRequest_UploadInfo)
 	
 	if !ok || imageInfo == nil {
-		return "", errors.New("invalid")
+		return "", errors.New("no image info")
+	}
+	
+	pId := imageInfo.UploadInfo.GetProjectId()
+	projectId, err := uuid.Parse(pId)
+	if err != nil {
+		return "", errors.New("invalid project id")
 	}
 
-	oId := uuid.New()
-	objectId := oId.String()	
+	folder := imageInfo.UploadInfo.GetFolder()
 
-	return objectId, nil
+	objectId := uuid.New()
+	objectIdString := objectId.String()
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
+	if err != nil{
+		return "", errors.New("error creating new object")
+	}
+
+	metadata, err := utils.ExtractImageParams() //this needs to be completed later
+
+	pr, pw := io.Pipe()
+
+	errChan := make(chan error, 1)
+
+	go func() {
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, pr, objectIdString, metadata)
+	}()
+
+	for {
+		req, err = stream.Recv()
+
+		if err == io.EOF {
+			pw.Close()
+			break;
+		}
+
+		if err != nil {
+			pw.CloseWithError(err)
+			return "", err
+		}
+
+		_, err = pw.Write(req.GetImageChunk())
+		if err != nil {
+			return "", err
+		}
+	}
+
+	if err = <-errChan; err != nil {
+		return "", err
+	}
+
+	return objectIdString, nil
 }
 
 

@@ -53,8 +53,13 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 }
 
 func (s *Server) UploadImageApi(stream mediav1.MediaService_UploadImageApiServer) error {
-	s.service.UploadImageApiService(stream)
-	return nil
+	objectId, err := s.service.UploadImageApiService(stream)
+	if err != nil {
+		return status.Error(codes.Internal, err.Error())
+	}
+	return stream.SendAndClose(&mediav1.UploadImageApiResponse{
+		ObjectId: objectId,
+	})
 }
 
 func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.LambdaS3UploadConfirmationRequest) (*mediav1.LambdaS3UploadConfirmationResponse, error) {
