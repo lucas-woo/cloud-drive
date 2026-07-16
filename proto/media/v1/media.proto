@@ -28,16 +28,18 @@ message UploadObjectResponse {
   string object_id = 2;
 }
 
+message ImageTransformations {
+  uint32 width = 1;
+  uint32 height = 2;
+  string crop = 3;
+}
 
 message ImageUploadInfo {
   string project_id = 1;
   string object_name = 2;
   string folder = 3;
 
-  // processing params
-  uint32 width = 4;
-  uint32 height = 5;
-  string crop = 6;
+  ImageTransformations transformations = 4;
 }
 
 message UploadImageApiRequest {
