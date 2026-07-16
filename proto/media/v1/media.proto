@@ -4,6 +4,10 @@ option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
 
 package media.v1;
 
+message ErrorStatus {
+  int32 code = 1;
+  string message = 2;
+}
 
 message CreateNewProjectRequest {
   string user_id = 1;
@@ -77,6 +81,8 @@ message LambdaS3UploadConfirmationRequest {
   string object_id = 1;
   uint64 file_size = 2;
   string format = 3;
+
+  ErrorStatus status = 4;
 }
 
 message LambdaS3UploadConfirmationResponse {}
