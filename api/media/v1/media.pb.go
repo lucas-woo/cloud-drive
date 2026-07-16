@@ -318,7 +318,8 @@ type ImageUploadInfo struct {
 	ProjectId       string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	ObjectName      string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	Folder          string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
-	Transformations *ImageTransformations  `protobuf:"bytes,4,opt,name=transformations,proto3" json:"transformations,omitempty"`
+	ContentType     string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
+	Transformations *ImageTransformations  `protobuf:"bytes,5,opt,name=transformations,proto3" json:"transformations,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -370,6 +371,13 @@ func (x *ImageUploadInfo) GetObjectName() string {
 func (x *ImageUploadInfo) GetFolder() string {
 	if x != nil {
 		return x.Folder
+	}
+	return ""
+}
+
+func (x *ImageUploadInfo) GetContentType() string {
+	if x != nil {
+		return x.ContentType
 	}
 	return ""
 }
@@ -512,6 +520,7 @@ type FileUploadInfo struct {
 	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
 	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	Folder        string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
+	ContentType   string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -563,6 +572,13 @@ func (x *FileUploadInfo) GetObjectName() string {
 func (x *FileUploadInfo) GetFolder() string {
 	if x != nil {
 		return x.Folder
+	}
+	return ""
+}
+
+func (x *FileUploadInfo) GetContentType() string {
+	if x != nil {
+		return x.ContentType
 	}
 	return ""
 }
@@ -816,14 +832,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x14ImageTransformations\x12\x14\n" +
 	"\x05width\x18\x01 \x01(\rR\x05width\x12\x16\n" +
 	"\x06height\x18\x02 \x01(\rR\x06height\x12\x12\n" +
-	"\x04crop\x18\x03 \x01(\tR\x04crop\"\xb3\x01\n" +
+	"\x04crop\x18\x03 \x01(\tR\x04crop\"\xd6\x01\n" +
 	"\x0fImageUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x16\n" +
-	"\x06folder\x18\x03 \x01(\tR\x06folder\x12H\n" +
-	"\x0ftransformations\x18\x04 \x01(\v2\x1e.media.v1.ImageTransformationsR\x0ftransformations\"\x83\x01\n" +
+	"\x06folder\x18\x03 \x01(\tR\x06folder\x12!\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12H\n" +
+	"\x0ftransformations\x18\x05 \x01(\v2\x1e.media.v1.ImageTransformationsR\x0ftransformations\"\x83\x01\n" +
 	"\x15UploadImageApiRequest\x12<\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x19.media.v1.ImageUploadInfoH\x00R\n" +
 	"uploadInfo\x12!\n" +
@@ -831,13 +848,14 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"imageChunkB\t\n" +
 	"\apayload\"5\n" +
 	"\x16UploadImageApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"h\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\x8b\x01\n" +
 	"\x0eFileUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x16\n" +
-	"\x06folder\x18\x03 \x01(\tR\x06folder\"\x7f\n" +
+	"\x06folder\x18\x03 \x01(\tR\x06folder\x12!\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\"\x7f\n" +
 	"\x14UploadFileApiRequest\x12;\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x18.media.v1.FileUploadInfoH\x00R\n" +
 	"uploadInfo\x12\x1f\n" +
