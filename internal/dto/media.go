@@ -18,4 +18,5 @@ type LambdaS3UploadConfirmationRequest struct {
 	ObjectId string
 	FileSize uint64
 	Format string
+	ErrorStatus error
 }

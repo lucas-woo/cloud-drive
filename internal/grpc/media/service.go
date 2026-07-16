@@ -64,6 +64,12 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.LambdaS3Uplo
 	if err != nil {
 		return err
 	}
+
+	if req.ErrorStatus != nil {
+		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
+		return req.ErrorStatus
+	}
+	
 	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
 	return err 
 }
