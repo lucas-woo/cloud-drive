@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
+	"os"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
@@ -25,8 +27,8 @@ func main() {
 	ctx := context.Background()
 
 	authResponse, err := authClient.SignUpUser(ctx, &authv1.SignUpUserRequest{
-		Username: "lucas",
-		Email: "test3@gmail.com",
+		Username: "lucass",
+		Email: "t3wewes@gmail.com",
 		Password: "1234",
 		RememberMe: false,
 	})
@@ -34,7 +36,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(authResponse.GetSessionId())
 	userIdReq, err := authClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
 		SessionId: authResponse.GetSessionId(),
 	})
@@ -42,13 +43,73 @@ func main() {
 		log.Fatal(err)
 	}
 
-	res, err := mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
+	proj, err := mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
 		UserId: userIdReq.GetUserId(),
 	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	
 
+	stream, err := mediaClient.UploadFileApi(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(res.ProjectId, res.ProjectName)
+	file, err := os.Open("image.jpeg")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	err = stream.Send(&mediav1.UploadFileApiRequest{
+		Payload: &mediav1.UploadFileApiRequest_UploadInfo{
+			UploadInfo: &mediav1.FileUploadInfo{
+				ProjectId: proj.ProjectId,
+				ObjectName: "test",
+				Folder: "/",
+			},
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	buffer := make([]byte, 64*1024)
+
+	for {
+		n, err := file.Read(buffer)
+
+		if n > 0 {
+			err = stream.Send(&mediav1.UploadFileApiRequest{
+				Payload: &mediav1.UploadFileApiRequest_FileChunk{
+					FileChunk: buffer[:n],
+				},
+			})
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+
+		if err == io.EOF {
+			fmt.Println("finished")
+			break;
+		}
+
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+
+	err = stream.CloseSend()
+	if err != nil {
+		log.Fatal(err)
+	}
+	resp, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(resp)
 }
