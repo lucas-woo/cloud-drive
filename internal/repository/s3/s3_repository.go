@@ -74,6 +74,19 @@ func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, o
 	return nil
 }
 
+
+func (r *S3Repository) DeleteObject(ctx context.Context, objectName string) error {
+	_, err := r.s3Client.DeleteObject(ctx, &s3.DeleteObjectInput{
+		Bucket: aws.String(r.bucketName),
+		Key: aws.String(objectName),
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func NewS3Repository(	s3Client *s3.Client, presignClient *s3.PresignClient, bucketName string, uploader *transfermanager.Client) *S3Repository {
 	return &S3Repository{
 		uploader: uploader,

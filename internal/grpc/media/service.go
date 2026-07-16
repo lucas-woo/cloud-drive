@@ -125,12 +125,14 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 		}
 
 		if err != nil {
+			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 			pw.CloseWithError(err)
 			return "", err
 		}
 
 		chunk := req.GetImageChunk()
 		if chunk == nil {
+			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 			err = errors.New("no chunks")
 			pw.CloseWithError(err)
 			return "", err
@@ -138,11 +140,13 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 		_, err = pw.Write(chunk)
 		if err != nil {
+			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 			return "", err
 		}
 	}
 
 	if err = <-errChan; err != nil {
+		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 		return "", err
 	}
 
@@ -201,6 +205,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 		}
 
 		if err != nil {
+			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 			pw.CloseWithError(err)
 			return "", err
 		}
@@ -209,17 +214,21 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 		if chunk == nil {
 			err = errors.New("no file chunk")
+			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 			pw.CloseWithError(err)
 			return "", err
 		}
 
 		_, err = pw.Write(chunk)
 		if err != nil {
+			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
+			pw.CloseWithError(err)
 			return "", err
 		}
 	}
 
 	if err = <-errChan; err != nil {
+		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 		return "", err
 	}
 
