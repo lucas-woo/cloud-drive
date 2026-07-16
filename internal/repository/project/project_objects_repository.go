@@ -77,3 +77,66 @@ func (r *ProjectRepository) UpdateObjectInfo(ctx context.Context, objectId uuid.
 	)
 	return err
 }
+
+
+func (r *ProjectRepository) DeleteObject(ctx context.Context, objectId uuid.UUID) error {
+	query := fmt.Sprintf(`
+		DELETE FROM %s
+		WHERE object_id = ?
+	`, config.ProjectObjectsTable)
+
+	_, err := r.sqldb.ExecContext(
+		ctx,
+		query,
+		objectId[:],
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *ProjectRepository) ActivateObject(ctx context.Context, objectId uuid.UUID) error {
+	query := fmt.Sprintf(`
+		UPDATE %s
+		SET
+			is_active = TRUE,
+			modified_at = ?
+		WHERE object_id = ?
+	`, config.ProjectObjectsTable)
+
+	_, err := r.sqldb.ExecContext(
+		ctx,
+		query,
+		time.Now().UTC(),
+		objectId[:],
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *ProjectRepository) DisableObject(ctx context.Context, objectId uuid.UUID) error {
+	query := fmt.Sprintf(`
+		UPDATE %s
+		SET
+			is_active = FALSE,
+			modified_at = ?
+		WHERE object_id = ?
+	`, config.ProjectObjectsTable)
+
+	_, err := r.sqldb.ExecContext(
+		ctx,
+		query,
+		time.Now().UTC(),
+		objectId[:],
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
