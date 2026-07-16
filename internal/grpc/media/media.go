@@ -76,7 +76,6 @@ func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.La
 
 	err := s.service.ConfirmObjectUpload(ctx, &dto.LambdaS3UploadConfirmationRequest{
 		ObjectId: req.GetObjectId(),
-		Error: req.getE
 		FileSize: req.GetFileSize(),
 		Format: req.GetFormat(),
 	})
