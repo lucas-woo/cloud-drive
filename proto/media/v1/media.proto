@@ -38,8 +38,9 @@ message ImageUploadInfo {
   string project_id = 1;
   string object_name = 2;
   string folder = 3;
+  string content_type = 4;
 
-  ImageTransformations transformations = 4;
+  ImageTransformations transformations = 5;
 }
 
 message UploadImageApiRequest {
@@ -58,6 +59,7 @@ message FileUploadInfo {
   string project_id = 1;
   string object_name = 2;
   string folder = 3;
+  string content_type = 4;
 }
 
 message UploadFileApiRequest {
