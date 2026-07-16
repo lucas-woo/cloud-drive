@@ -2,6 +2,7 @@ package mediagrpc
 
 import (
 	"context"
+	"errors"
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"
@@ -74,10 +75,18 @@ func (s *Server) UploadFileApi(stream mediav1.MediaService_UploadFileApiServer) 
 
 func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.LambdaS3UploadConfirmationRequest) (*mediav1.LambdaS3UploadConfirmationResponse, error) {
 
+	reqStatus := req.GetStatus()
+
+	var errorStatus error
+	if reqStatus != nil {
+		errorStatus = errors.New(reqStatus.GetMessage())
+	}
+
 	err := s.service.ConfirmObjectUpload(ctx, &dto.LambdaS3UploadConfirmationRequest{
 		ObjectId: req.GetObjectId(),
 		FileSize: req.GetFileSize(),
 		Format: req.GetFormat(),
+		ErrorStatus: errorStatus,
 	})
 	if err != nil {
 		return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")		
