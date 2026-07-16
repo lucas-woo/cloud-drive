@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"io"
+	"net/http"
 
 	"github.com/google/uuid"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
@@ -110,9 +111,31 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	errChan := make(chan error, 1)
 
+
+	req, err = stream.Recv()
+	if err != nil {
+		pw.CloseWithError(err)
+		return "", err
+	}
+
+	chunk := req.GetImageChunk()
+
+	if chunk == nil {
+		err = errors.New("no file chunk")
+		pw.CloseWithError(err)
+		return "", err
+	}
+
+	contentType := http.DetectContentType(chunk)
+
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, pr, objectIdString, metadata)
-	}()
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, pr, objectIdString, contentType, metadata)
+	}()	
+
+	_, err = pw.Write(chunk)
+	if err != nil {
+		return "", err
+	}	
 
 	for {
 		req, err = stream.Recv()
@@ -185,9 +208,30 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 	errChan := make(chan error, 1)
 
+	req, err = stream.Recv()
+	if err != nil {
+		pw.CloseWithError(err)
+		return "", err
+	}
+
+	chunk := req.GetFileChunk()
+
+	if chunk == nil {
+		err = errors.New("no file chunk")
+		pw.CloseWithError(err)
+		return "", err
+	}
+
+	contentType := http.DetectContentType(chunk)
+
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString)
-	}()
+		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString, contentType)
+	}()	
+
+	_, err = pw.Write(chunk)
+	if err != nil {
+		return "", err
+	}	
 
 	for {
 		req, err = stream.Recv()

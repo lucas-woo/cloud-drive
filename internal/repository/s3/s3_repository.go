@@ -35,7 +35,7 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId strin
 	return req.URL, nil
 }
 
-func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, objectId string, metadata map[string]string) error {
+func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, objectId, contentType string, metadata map[string]string) error {
 
 	s3Key := fmt.Sprintf("process/%s", objectId)
 	
@@ -43,6 +43,7 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, 
 		Bucket: aws.String(r.bucketName),
 		Key: aws.String(s3Key),
 		Body: reader,
+		ContentType: aws.String(contentType),
 		Metadata: metadata,
 	}
 
@@ -55,12 +56,13 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, 
 	return nil	
 }
 
-func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId string) error {
+func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId, contentType string) error {
 	
 	input := &transfermanager.UploadObjectInput{
 		Bucket: aws.String(r.bucketName),
 		Key: aws.String(objectId),
 		Body: reader,
+		ContentType: aws.String(contentType),
 	}
 
 	_, err := r.uploader.UploadObject(ctx, input)
