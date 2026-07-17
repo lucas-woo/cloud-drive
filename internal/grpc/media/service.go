@@ -3,14 +3,15 @@ package mediagrpc
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
+	"os/exec"
 
 	"github.com/google/uuid"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
-	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type Service struct {
@@ -82,89 +83,96 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.LambdaS3Uplo
 
 func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (string, error) {
 
-	ctx := stream.Context()
-	req, err  := stream.Recv()
+	ctx, cancel := context.WithCancel(stream.Context())
+	defer cancel()
 
+	req, err := stream.Recv()
 	if err != nil {
 		return "", err
 	}
 
 	imageInfo := req.GetUploadInfo()
-	
 	if imageInfo == nil {
 		return "", errors.New("no image info")
 	}
 
-	metadata, err := utils.ExtractImageParams() //this needs to be completed later
-	if err != nil {
-		return "", errors.New("error with metadata")
-	}	
-	
-	pId := imageInfo.GetProjectId()
-	projectId, err := uuid.Parse(pId)
+	projectId, err := uuid.Parse(imageInfo.GetProjectId())
 	if err != nil {
 		return "", errors.New("invalid project id")
 	}
-
-	folder := imageInfo.GetFolder()
-
-	contentType := imageInfo.GetContentType()
 
 	objectId, err := uuid.NewV7()
 	if err != nil {
 		return "", err
 	}
-
 	objectIdString := objectId.String()
-	
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
-	if err != nil{
+
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, imageInfo.GetFolder())
+	if err != nil {
 		return "", errors.New("error creating new object")
 	}
 
-	pr, pw := io.Pipe()
+
+	var uploadSuccessful bool
+	defer func() {
+		if !uploadSuccessful {
+
+			s.mediaResources.ProjectRepository.DeleteObject(context.Background(), objectId)
+		}
+	}()
+
+	pipeReader, pipeWriter := io.Pipe()
+	
+	cmd := exec.CommandContext(ctx, "./image-processor")
+	cmd.Stdin = pipeReader
+	cppStdout, err := cmd.StdoutPipe()
+	if err != nil {
+		return "", fmt.Errorf("failed to create stdout pipe: %w", err)
+	}
+
+	if err := cmd.Start(); err != nil {
+		return "", fmt.Errorf("failed to start processor: %w", err)
+	}
 
 	errChan := make(chan error, 1)
-
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, pr, objectIdString, contentType, metadata)
-	}()	
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, cppStdout, objectIdString, imageInfo.GetContentType())
+	}()
 
 	for {
 		req, err = stream.Recv()
-
 		if err == io.EOF {
-			pw.Close()
-			break;
+			pipeWriter.Close()
+			break
 		}
-
 		if err != nil {
-			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-			pw.CloseWithError(err)
-			return "", err
+			pipeWriter.CloseWithError(err)
+			return "", fmt.Errorf("stream receive error: %w", err)
 		}
 
 		chunk := req.GetImageChunk()
 		if chunk == nil {
-			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-			err = errors.New("no chunks")
-			pw.CloseWithError(err)
+			err = errors.New("empty chunk received")
+			pipeWriter.CloseWithError(err)
 			return "", err
 		}
 
-		_, err = pw.Write(chunk)
+		_, err = pipeWriter.Write(chunk)
 		if err != nil {
-			pw.CloseWithError(err)
-			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-			return "", err
+			pipeWriter.CloseWithError(err)
+			return "", fmt.Errorf("failed to write to processor: %w", err)
 		}
 	}
 
-	if err = <-errChan; err != nil {
-		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-		return "", err
+	if err := <-errChan; err != nil {
+		return "", fmt.Errorf("s3 upload failed: %w", err)
 	}
 
+	if err := cmd.Wait(); err != nil {
+		return "", fmt.Errorf("image processor exited with error: %w", err)
+	}
+
+	uploadSuccessful = true
 	return objectIdString, nil
 }
 
@@ -199,7 +207,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 	if err != nil {
 		return "", err
 	}
-	
+
 	objectIdString := objectId.String()
 
 	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
