@@ -2,13 +2,11 @@ package authmodels
 
 import (
 	"github.com/google/uuid"
-	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 
 type UserModel struct {
-	ID bson.ObjectID `bson:"_id,omitempty"`
-	Email string `bson:"email,omitempty"`
-	Hash []byte `bson:"hash,omitempty"`
-	UserID uuid.UUID `bson:"user_id,omitempty"` 
+	UserID uuid.UUID `bson:"_id"`
+	Email  string    `bson:"email,omitempty"`
+	Hash   []byte    `bson:"hash,omitempty"`
 }

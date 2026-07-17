@@ -39,7 +39,7 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user *dto.SignUpUserReques
 		return "", err
 	}
 
-	newUserId := uuid.New()
+	newUserId := uuid.Must(uuid.NewV7())
 
 	newUser := &authmodels.UserModel{
 		Hash: hash,
@@ -74,7 +74,7 @@ func (r *AuthRepo) LoginUser(ctx context.Context, user *dto.LoginUserRequest) (s
 		return "", err
 	}	
 
-	return existingUser.ID.String(), nil
+	return existingUser.UserID.String(), nil
 }
 
 func NewAuthRepo(mongoClient *mongo.Client) *AuthRepo {
