@@ -5,13 +5,13 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"os/exec"
 
 	"github.com/google/uuid"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type Service struct {
@@ -121,9 +121,14 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 		}
 	}()
 
+
+	cmd, err := utils.SelectImageProcessor(ctx, imageInfo.GetTransformations())
+	if err != nil {
+		return "", errors.New("error with transformations")
+	}
+
 	pipeReader, pipeWriter := io.Pipe()
-	
-	cmd := exec.CommandContext(ctx, "./image-processor")
+
 	cmd.Stdin = pipeReader
 	cppStdout, err := cmd.StdoutPipe()
 	if err != nil {
