@@ -41,7 +41,7 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 		) VALUES (?, ?, ?, ?, ?, ?, ?)
 	`, config.ApiKeysTable)
 
-	apiId := uuid.New()
+	apiId := uuid.Must(uuid.NewV7())
 
 	_, err = r.mysql.ExecContext(ctx, query,apiId[:],projectId[:],req.KeyName, apiKey, apiSecret,true,createdAt)
 
