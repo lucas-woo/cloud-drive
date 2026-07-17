@@ -146,6 +146,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 		_, err = pw.Write(chunk)
 		if err != nil {
+			pw.CloseWithError(err)
 			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
 			return "", err
 		}

@@ -29,7 +29,7 @@ func (s *Server) GenerateNewApiKey(ctx context.Context, req *iamv1.GenerateNewAp
 		return nil, status.Error(codes.PermissionDenied, err.Error())
 	}
 	return &iamv1.GenerateNewApiKeyResponse{
-		ApiKey: res.ApiKey,
+		ApiKey: res.ApiKey.String(),
 		ApiSecret: res.ApiSecret,
 		CreatedAt: timestamppb.New(res.CreatedAt),
 	}, nil

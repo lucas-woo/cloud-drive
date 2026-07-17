@@ -13,10 +13,9 @@ type GenerateNewApiKeyRequest struct {
 }
 
 type GenerateNewApiKeyResponse struct {
-	ApiKey string
+	ApiKey uuid.UUID
 	ApiSecret string
 	CreatedAt time.Time
-	ApiId uuid.UUID
 }
 
 type ValidateApiKeyPermissionRequest struct {
