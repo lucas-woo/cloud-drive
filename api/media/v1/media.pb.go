@@ -307,9 +307,10 @@ func (x *UploadObjectResponse) GetObjectId() string {
 
 type ImageTransformations struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Width         uint32                 `protobuf:"varint,1,opt,name=width,proto3" json:"width,omitempty"`
-	Height        uint32                 `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
-	Crop          string                 `protobuf:"bytes,3,opt,name=crop,proto3" json:"crop,omitempty"`
+	Crop          *Crop                  `protobuf:"bytes,1,opt,name=crop,proto3" json:"crop,omitempty"`
+	Scale         *Scale                 `protobuf:"bytes,2,opt,name=scale,proto3" json:"scale,omitempty"`
+	Compression   *Compression           `protobuf:"bytes,3,opt,name=compression,proto3" json:"compression,omitempty"`
+	Conversion    *Conversion            `protobuf:"bytes,4,opt,name=conversion,proto3" json:"conversion,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -344,25 +345,32 @@ func (*ImageTransformations) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ImageTransformations) GetWidth() uint32 {
-	if x != nil {
-		return x.Width
-	}
-	return 0
-}
-
-func (x *ImageTransformations) GetHeight() uint32 {
-	if x != nil {
-		return x.Height
-	}
-	return 0
-}
-
-func (x *ImageTransformations) GetCrop() string {
+func (x *ImageTransformations) GetCrop() *Crop {
 	if x != nil {
 		return x.Crop
 	}
-	return ""
+	return nil
+}
+
+func (x *ImageTransformations) GetScale() *Scale {
+	if x != nil {
+		return x.Scale
+	}
+	return nil
+}
+
+func (x *ImageTransformations) GetCompression() *Compression {
+	if x != nil {
+		return x.Compression
+	}
+	return nil
+}
+
+func (x *ImageTransformations) GetConversion() *Conversion {
+	if x != nil {
+		return x.Conversion
+	}
+	return nil
 }
 
 type ImageUploadInfo struct {
@@ -869,7 +877,7 @@ var File_media_v1_media_proto protoreflect.FileDescriptor
 
 const file_media_v1_media_proto_rawDesc = "" +
 	"\n" +
-	"\x14media/v1/media.proto\x12\bmedia.v1\";\n" +
+	"\x14media/v1/media.proto\x12\bmedia.v1\x1a\x1emedia/v1/transformations.proto\";\n" +
 	"\vErrorStatus\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"w\n" +
@@ -891,11 +899,14 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x14UploadObjectResponse\x12\x1d\n" +
 	"\n" +
 	"signed_url\x18\x01 \x01(\tR\tsignedUrl\x12\x1b\n" +
-	"\tobject_id\x18\x02 \x01(\tR\bobjectId\"X\n" +
-	"\x14ImageTransformations\x12\x14\n" +
-	"\x05width\x18\x01 \x01(\rR\x05width\x12\x16\n" +
-	"\x06height\x18\x02 \x01(\rR\x06height\x12\x12\n" +
-	"\x04crop\x18\x03 \x01(\tR\x04crop\"\xd6\x01\n" +
+	"\tobject_id\x18\x02 \x01(\tR\bobjectId\"\xd0\x01\n" +
+	"\x14ImageTransformations\x12\"\n" +
+	"\x04crop\x18\x01 \x01(\v2\x0e.media.v1.CropR\x04crop\x12%\n" +
+	"\x05scale\x18\x02 \x01(\v2\x0f.media.v1.ScaleR\x05scale\x127\n" +
+	"\vcompression\x18\x03 \x01(\v2\x15.media.v1.CompressionR\vcompression\x124\n" +
+	"\n" +
+	"conversion\x18\x04 \x01(\v2\x14.media.v1.ConversionR\n" +
+	"conversion\"\xd6\x01\n" +
 	"\x0fImageUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
@@ -962,17 +973,25 @@ var file_media_v1_media_proto_goTypes = []any{
 	(*UploadFileApiResponse)(nil),              // 11: media.v1.UploadFileApiResponse
 	(*LambdaS3UploadConfirmationRequest)(nil),  // 12: media.v1.LambdaS3UploadConfirmationRequest
 	(*LambdaS3UploadConfirmationResponse)(nil), // 13: media.v1.LambdaS3UploadConfirmationResponse
+	(*Crop)(nil),                               // 14: media.v1.Crop
+	(*Scale)(nil),                              // 15: media.v1.Scale
+	(*Compression)(nil),                        // 16: media.v1.Compression
+	(*Conversion)(nil),                         // 17: media.v1.Conversion
 }
 var file_media_v1_media_proto_depIdxs = []int32{
-	5, // 0: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
-	6, // 1: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
-	9, // 2: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
-	0, // 3: media.v1.LambdaS3UploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	14, // 0: media.v1.ImageTransformations.crop:type_name -> media.v1.Crop
+	15, // 1: media.v1.ImageTransformations.scale:type_name -> media.v1.Scale
+	16, // 2: media.v1.ImageTransformations.compression:type_name -> media.v1.Compression
+	17, // 3: media.v1.ImageTransformations.conversion:type_name -> media.v1.Conversion
+	5,  // 4: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
+	6,  // 5: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
+	9,  // 6: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
+	0,  // 7: media.v1.LambdaS3UploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
+	8,  // [8:8] is the sub-list for method output_type
+	8,  // [8:8] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_media_proto_init() }
@@ -980,6 +999,7 @@ func file_media_v1_media_proto_init() {
 	if File_media_v1_media_proto != nil {
 		return
 	}
+	file_media_v1_transformations_proto_init()
 	file_media_v1_media_proto_msgTypes[7].OneofWrappers = []any{
 		(*UploadImageApiRequest_UploadInfo)(nil),
 		(*UploadImageApiRequest_ImageChunk)(nil),

@@ -1,0 +1,23 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
+
+package media.v1;
+
+message Crop {
+  uint32 width = 1;
+  uint32 height = 2;
+}
+
+message Scale {
+  uint32 width = 1;
+  uint32 height = 2;
+}
+
+message Compression {
+  bool compress = 1;
+}
+
+message Conversion {
+  string format = 1;
+}
