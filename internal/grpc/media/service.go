@@ -46,7 +46,11 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 	if !ok {
 		return "", "", errors.New("doesn't have role")
 	}
-	oId := uuid.Must(uuid.NewV7())
+	oId, err := uuid.NewV7()
+	if err != nil {
+		return "", "", err
+	}
+
 	objectId = oId.String()
 
 	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, req.Folder)
@@ -106,7 +110,11 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	contentType := imageInfo.GetContentType()
 
-	objectId := uuid.Must(uuid.NewV7())
+	objectId, err := uuid.NewV7()
+	if err != nil {
+		return "", err
+	}
+
 	objectIdString := objectId.String()
 	
 	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
@@ -187,7 +195,11 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 	contentType := fileInfo.GetContentType()
 
-	objectId := uuid.Must(uuid.NewV7())
+	objectId, err := uuid.NewV7()
+	if err != nil {
+		return "", err
+	}
+	
 	objectIdString := objectId.String()
 
 	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
