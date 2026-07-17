@@ -25,7 +25,10 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 		projectName = projectRequest.ProjectName
 	}
 
-	pId := uuid.Must(uuid.NewV7())
+	pId, err := uuid.NewV7()
+	if err != nil {
+		return "", "", err
+	}
 	projectId = pId.String()
 
 	newProject := &projectmodels.ProjectModel{

@@ -39,7 +39,10 @@ func (r *AuthRepo) CreateNewUser(ctx context.Context, user *dto.SignUpUserReques
 		return "", err
 	}
 
-	newUserId := uuid.Must(uuid.NewV7())
+	newUserId, err := uuid.NewV7()
+	if err != nil {
+		return "", err
+	}
 
 	newUser := &authmodels.UserModel{
 		Hash: hash,
