@@ -16,7 +16,7 @@ func SelectImageProcessor(ctx context.Context, transformation *mediav1.ImageTran
 		return nil, errors.New("no Scale")
 	}
 
-	cmd := exec.CommandContext(ctx, "bin/image-processor", fmt.Sprintf("%d", transformation.Scale.GetWidth()), fmt.Sprintf("%d", transformation.Scale.GetHeight()))
+	cmd := exec.CommandContext(ctx, "bin/image-processor", "scale", fmt.Sprintf("%d", transformation.Scale.GetWidth()), fmt.Sprintf("%d", transformation.Scale.GetHeight()))
 
 	return cmd, nil
 }

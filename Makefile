@@ -24,3 +24,24 @@ run-iam-test: cmd/test/iam/main.go
 
 run-media-test: cmd/test/media/main.go
 	go run cmd/test/media/main.go;
+
+CXX=g++
+
+CXXFLAGS=-std=c++17 -Ihelper/include
+
+OPENCV_FLAGS=$(shell pkg-config --cflags --libs opencv5)
+
+SRC=helper/src
+BIN=bin
+
+processor:
+	$(CXX) \
+		$(SRC)/main.cpp \
+		$(SRC)/scale.cpp \
+		$(CXXFLAGS) \
+		$(OPENCV_FLAGS) \
+		-o $(BIN)/image-processor
+
+
+clean:
+	rm -f $(BIN)/processor	
