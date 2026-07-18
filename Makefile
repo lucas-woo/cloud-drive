@@ -35,14 +35,15 @@ SRC=helper/src
 BIN=bin
 
 processor:
-  $(CXX) \
-    $(SRC)/main.cpp \
-    $(SRC)/scale.cpp \
-    $(SRC)/converter.cpp \
-    $(CXXFLAGS) \
-    $(OPENCV_FLAGS) \
-    -o $(BIN)/image-processor
+	$(CXX) \
+		$(SRC)/main.cpp \
+		$(SRC)/scale.cpp \
+		$(SRC)/converter.cpp \
+		$(CXXFLAGS) \
+		$(OPENCV_FLAGS) \
+		-o $(BIN)/image-processor
+	clear;
 
 
 clean:
-	rm -f $(BIN)/processor	
+	rm -f $(BIN)/image-processor
