@@ -17,6 +17,17 @@ type S3Repository struct {
 	uploader *transfermanager.Client
 }
 
+type UnseekableReader struct {
+	R io.ReadCloser
+}
+
+func (u UnseekableReader) Read(p []byte) (int, error) {
+	return u.R.Read(p)
+}
+
+func (u UnseekableReader) Close() error {
+	return u.R.Close()
+}
 
 func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId string) (string, error) {
 	params := &s3.PutObjectInput{
