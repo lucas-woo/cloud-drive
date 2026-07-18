@@ -28,14 +28,13 @@ func main() {
 
 	authResponse, err := authClient.SignUpUser(ctx, &authv1.SignUpUserRequest{
 		Username: "lucass",
-		Email: "t3wewes@gmail.com",
+		Email: "8@gmail.com",
 		Password: "1234",
 		RememberMe: false,
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	userIdReq, err := authClient.ValidateUserSession(ctx, &authv1.ValidateUserSessionRequest{
 		SessionId: authResponse.GetSessionId(),
 	})
@@ -51,7 +50,7 @@ func main() {
 	}
 	
 
-	stream, err := mediaClient.UploadFileApi(ctx)
+	stream, err := mediaClient.UploadImageApi(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,12 +61,19 @@ func main() {
 	}
 	defer file.Close()
 
-	err = stream.Send(&mediav1.UploadFileApiRequest{
-		Payload: &mediav1.UploadFileApiRequest_UploadInfo{
-			UploadInfo: &mediav1.FileUploadInfo{
-				ProjectId: proj.ProjectId,
-				ObjectName: "test",
+	err = stream.Send(&mediav1.UploadImageApiRequest{
+		Payload: &mediav1.UploadImageApiRequest_UploadInfo{
+			UploadInfo: &mediav1.ImageUploadInfo{
+				ProjectId: proj.GetProjectId(),
+				ObjectName: "t",
 				Folder: "/",
+				ContentType: "image/jpeg",
+				Transformations: &mediav1.ImageTransformations{
+					Scale: &mediav1.Scale{
+						Width: 10,
+						Height: 10,
+					},
+				},
 			},
 		},
 	})
@@ -81,9 +87,9 @@ func main() {
 		n, err := file.Read(buffer)
 
 		if n > 0 {
-			err = stream.Send(&mediav1.UploadFileApiRequest{
-				Payload: &mediav1.UploadFileApiRequest_FileChunk{
-					FileChunk: buffer[:n],
+			err = stream.Send(&mediav1.UploadImageApiRequest{
+				Payload: &mediav1.UploadImageApiRequest_ImageChunk{
+					ImageChunk: buffer[:n],
 				},
 			})
 			if err != nil {
@@ -100,12 +106,12 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
-
+	fmt.Println("here 1")
 	err = stream.CloseSend()
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("here 2")
 	resp, err := stream.CloseAndRecv()
 	if err != nil {
 		log.Fatal(err)
