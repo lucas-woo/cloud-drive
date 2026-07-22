@@ -10,6 +10,15 @@ service MediaService {
   
   rpc CreateNewProject(CreateNewProjectRequest) returns (CreateNewProjectResponse);
 
+  rpc UploadObject(UploadObjectRequest) returns (UploadObjectResponse);
+  
+  rpc UploadImageApi(stream UploadImageApiRequest) returns (UploadImageApiResponse);
+  
+  rpc UploadFileApi(stream UploadFileApiRequest) returns (UploadFileApiResponse);
 
+  rpc LambdaS3UploadConfirmation(LambdaS3UploadConfirmationRequest) returns(LambdaS3UploadConfirmationResponse);
+
+  //get image data by objectId : 
+  //uploading file by api should just be returned a signedurl 
   //rpc ChangeProjectName()
 }
