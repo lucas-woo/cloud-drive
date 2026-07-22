@@ -2,6 +2,7 @@ package s3repository
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -29,10 +30,17 @@ func (u UnseekableReader) Close() error {
 	return u.R.Close()
 }
 
-func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId string) (string, error) {
+func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId string, isActive bool) (string, error) {
+	prefix := "private"
+	if isActive {
+		prefix = "public"
+	}
+
+	key := fmt.Sprintf("%s/%s", prefix, objectId)
+
 	params := &s3.PutObjectInput{
 		Bucket: aws.String(r.bucketName),
-		Key:    aws.String(objectId), 
+		Key:    aws.String(key),
 	}
 
 	req, err := r.presignClient.PresignPutObject(ctx, params, func(opts *s3.PresignOptions) {
@@ -45,10 +53,18 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId strin
 	return req.URL, nil
 }
 
-func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, contentType string) error {	
+func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, contentType string, isActive bool) error {	
+
+	prefix := "private"
+	if isActive {
+		prefix = "public"
+	}
+
+	key := fmt.Sprintf("%s/%s", prefix, objectId)
+
 	input := &transfermanager.UploadObjectInput{
 		Bucket: aws.String(r.bucketName),
-		Key: aws.String(objectId),
+		Key: aws.String(key),
 		Body: reader,
 		ContentType: aws.String(contentType),
 	}
@@ -62,11 +78,18 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadClos
 	return nil	
 }
 
-func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId, contentType string) error {
+func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId, contentType string, isActive bool) error {
+	
+	prefix := "private"
+	if isActive {
+		prefix = "public"
+	}
+
+	key := fmt.Sprintf("%s/%s", prefix, objectId)
 	
 	input := &transfermanager.UploadObjectInput{
 		Bucket: aws.String(r.bucketName),
-		Key: aws.String(objectId),
+		Key: aws.String(key),
 		Body: reader,
 		ContentType: aws.String(contentType),
 	}

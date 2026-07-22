@@ -9,13 +9,14 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/config"
 )
 
-func (r *ProjectRepository) CreateNewObject(ctx context.Context, projectId uuid.UUID, objectId uuid.UUID, folder string) error {
+func (r *ProjectRepository) CreateNewObject(ctx context.Context, projectId uuid.UUID, objectId uuid.UUID, folder string, isActive bool) error {
 	timeNow := time.Now().UTC()
 	query := fmt.Sprintf(`
 		INSERT INTO %s (
 			project_id,
 			object_id,
 			folder,
+			is_active,
 			modified_at
 		) VALUES (?, ?, ?, ?)
 	`, config.ProjectObjectsTable)
@@ -26,6 +27,7 @@ func (r *ProjectRepository) CreateNewObject(ctx context.Context, projectId uuid.
 		projectId[:],
 		objectId[:],
 		folder,
+		isActive,
 		timeNow,
 	)
 

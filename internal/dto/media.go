@@ -12,6 +12,7 @@ type UploadObjectRequest struct {
 	ProjectId string
 	ObjectName string
 	Folder string
+	IsActive bool
 }
 
 type LambdaS3UploadConfirmationRequest struct {

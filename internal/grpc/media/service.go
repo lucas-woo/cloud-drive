@@ -55,12 +55,12 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 
 	objectId = oId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, req.Folder)
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, req.Folder, req.IsActive)
 	if err != nil{
 		return 
 	}
 
-	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId)
+	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId, req.IsActive)
 
 	return 
 }
@@ -108,7 +108,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 	}
 	objectIdString := objectId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, imageInfo.GetFolder())
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, imageInfo.GetFolder(), imageInfo.GetIsActive())
 	if err != nil {
 		return "", errors.New("error creating new object")
 	}
@@ -144,7 +144,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	errChan := make(chan error, 1)
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetContentType())
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetContentType(), imageInfo.GetIsActive())
 	}()
 
 	for {
@@ -218,7 +218,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 	objectIdString := objectId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder)
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder, fileInfo.GetIsActive())
 	if err != nil{
 		return "", errors.New("error creating new object")
 	}
@@ -228,7 +228,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 	errChan := make(chan error, 1)
 
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString, contentType)
+		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString, contentType, fileInfo.GetIsActive())
 	}()	
 
 	for {
