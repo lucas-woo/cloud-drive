@@ -46,8 +46,9 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder = 3;
   string content_type = 4;
+  bool is_public = 6;
 
-  ImageTransformations transformations = 5;
+  ImageTransformations transformations = 7;
 }
 
 message UploadImageApiRequest {
@@ -67,6 +68,7 @@ message FileUploadInfo {
   string object_name = 2;
   string folder = 3;
   string content_type = 4;
+  bool is_public = 5;
 }
 
 message UploadFileApiRequest {
