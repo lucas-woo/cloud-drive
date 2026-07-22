@@ -103,6 +103,48 @@ func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, o
 	return nil
 }
 
+func (r *S3Repository) ActivateObject(ctx context.Context, objectId string) (error) {
+	_, err := r.s3Client.CopyObject(ctx, &s3.CopyObjectInput{
+			Bucket:     aws.String(r.bucketName),
+			CopySource: aws.String(r.bucketName + "/private/" + objectId),
+			Key:        aws.String("public/" + objectId),
+	})
+	if err != nil {
+			return err
+	}
+
+	_, err = r.s3Client.DeleteObject(ctx, &s3.DeleteObjectInput{
+			Bucket: aws.String(r.bucketName),
+			Key:    aws.String("public/" + objectId),
+	})
+	if err != nil {
+			return err
+	}
+	return nil
+}	
+
+
+func (r *S3Repository) DisactivateObject(ctx context.Context, objectId string) (error) {
+	_, err := r.s3Client.CopyObject(ctx, &s3.CopyObjectInput{
+			Bucket:     aws.String(r.bucketName),
+			CopySource: aws.String(r.bucketName + "/public/" + objectId),
+			Key:        aws.String("private/" + objectId),
+	})
+	if err != nil {
+			return err
+	}
+
+	_, err = r.s3Client.DeleteObject(ctx, &s3.DeleteObjectInput{
+			Bucket: aws.String(r.bucketName),
+			Key:    aws.String("public/" + objectId),
+	})
+	if err != nil {
+			return err
+	}
+	return nil
+} 
+
+
 
 func (r *S3Repository) DeleteObject(ctx context.Context, objectName string) error {
 	_, err := r.s3Client.DeleteObject(ctx, &s3.DeleteObjectInput{
