@@ -2,11 +2,17 @@ syntax="proto3";
 
 option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
 
+import "media/v1/transformations.proto";
+
 package media.v1;
 
+message ErrorStatus {
+  int32 code = 1;
+  string message = 2;
+}
 
 message CreateNewProjectRequest {
-  string session_id = 1;
+  string user_id = 1;
   string project_name = 2;
   string description = 3;
 }
@@ -15,3 +21,71 @@ message CreateNewProjectResponse {
   string project_name = 1;
   string project_id = 2;
 }
+
+message UploadObjectRequest {
+  string user_id = 1;
+  string project_id = 2;
+  string object_name = 3;
+  string folder = 4;
+}
+
+message UploadObjectResponse {
+  string signed_url = 1;
+  string object_id = 2;
+}
+
+message ImageTransformations {
+  Crop crop = 1;
+  Scale scale = 2;
+  Compression compression = 3;
+  Conversion conversion = 4;
+}
+
+message ImageUploadInfo {
+  string project_id = 1;
+  string object_name = 2;
+  string folder = 3;
+  string content_type = 4;
+
+  ImageTransformations transformations = 5;
+}
+
+message UploadImageApiRequest {
+  oneof payload {
+    ImageUploadInfo upload_info = 1;
+    bytes image_chunk = 2;
+  }
+}
+
+message UploadImageApiResponse {
+  string object_id = 1;
+}
+
+
+message FileUploadInfo {
+  string project_id = 1;
+  string object_name = 2;
+  string folder = 3;
+  string content_type = 4;
+}
+
+message UploadFileApiRequest {
+  oneof payload {
+    FileUploadInfo upload_info = 1;
+    bytes file_chunk = 2;
+  }
+}
+
+message UploadFileApiResponse {
+  string object_id = 1;
+}
+
+message LambdaS3UploadConfirmationRequest {
+  string object_id = 1;
+  uint64 file_size = 2;
+  string format = 3;
+
+  ErrorStatus status = 4;
+}
+
+message LambdaS3UploadConfirmationResponse {}

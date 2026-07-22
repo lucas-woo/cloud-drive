@@ -1,0 +1,19 @@
+CREATE TABLE project_objects (
+    project_id BINARY(16) NOT NULL,
+    object_id BINARY(16) NOT NULL,
+
+    folder VARCHAR(255) NOT NULL,
+
+    file_size BIGINT UNSIGNED NULL,
+    format VARCHAR(255) NULL,
+
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    is_pending BOOLEAN NOT NULL DEFAULT TRUE,
+
+    created_at TIMESTAMP NULL,
+    modified_at TIMESTAMP NULL,
+
+    PRIMARY KEY (object_id),
+
+    INDEX idx_project_id (project_id)
+);

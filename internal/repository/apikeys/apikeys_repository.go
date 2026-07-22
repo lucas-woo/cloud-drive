@@ -3,6 +3,7 @@ package apikeysrepository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -23,27 +24,35 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 	if err != nil {
 		return nil, err
 	}
-	apiSecret, err := utils.GenerateApiSecret()
+
+	apiSecret, dbHash, err := utils.GenerateApiSecret()
 	if err != nil {
 		return nil, err
 	}
 
 	createdAt := time.Now().UTC()
+
 	query := fmt.Sprintf(`
 		INSERT INTO %s (
-			id,
 			project_id,
 			name,
 			api_key,
-			api_secret,
+			api_secret_hash,
 			is_active,
 			created_at
-		) VALUES (?, ?, ?, ?, ?, ?, ?)
+		) VALUES (?, ?, ?, ?, ?, ?)
 	`, config.ApiKeysTable)
 
-	apiId := uuid.New()
-
-	_, err = r.mysql.ExecContext(ctx, query,apiId[:],projectId[:],req.KeyName, apiKey, apiSecret,true,createdAt)
+	_, err = r.mysql.ExecContext(
+		ctx,
+		query,
+		projectId[:],
+		req.KeyName,
+		apiKey[:],
+		dbHash,
+		true,
+		createdAt,
+	)
 
 	if err != nil {
 		return nil, err
@@ -53,51 +62,84 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 		CreatedAt: createdAt,
 		ApiKey: apiKey,
 		ApiSecret: apiSecret,
-		ApiId: apiId,
 	}, nil
 }
 
 
-func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKeyID uuid.UUID, permission string) error {
+func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission string) error {
 
 	query := fmt.Sprintf(`
 		INSERT IGNORE INTO %s (
-			api_key_id,
+			api_key,
 			permission
 		) VALUES (?, ?)
 	`, config.ApiKeyPermissionsTable)
 
-	_, err := r.mysql.ExecContext(ctx, query, apiKeyID[:],permission,)
+	_, err := r.mysql.ExecContext(ctx, query, apiKey[:],permission,)
 
 	return err
 }
 
-func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
+func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
 
+	apiKey, err := uuid.Parse(req.ApiKey)
+	if err != nil {
+		return false, err
+	}
 	query := fmt.Sprintf(`
+		SELECT 
+			api_secret_hash,
+			is_active
+		FROM %s
+		WHERE api_key = ?
+	`, config.ApiKeysTable)
+
+	var (
+		apiSecretHash []byte
+		isActive bool
+	)
+
+	err = r.mysql.QueryRowContext(ctx, query, apiKey[:]).Scan(&apiSecretHash,&isActive)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return false, nil
+		}
+		return false, err
+	}
+
+	if !isActive {
+		return false, nil
+	}
+
+	if !utils.CompareSecret(req.ApiSecret, apiSecretHash) {
+		return false, nil
+	}
+
+	permissionQuery := fmt.Sprintf(`
 		SELECT EXISTS (
 			SELECT 1
-			FROM %s ak
-			INNER JOIN %s ap
-				ON ak.id = ap.api_key_id
-			WHERE ak.api_key = ?
-			  AND ak.api_secret = ?
-			  AND ak.is_active = TRUE
-			  AND ap.permission = ?
+			FROM %s
+			WHERE api_key = ?
+			  AND permission = ?
 		)
-	`, config.ApiKeysTable, config.ApiKeyPermissionsTable)
+	`, config.ApiKeyPermissionsTable)
 
-	var exists bool
+	var hasPermission bool
 
-	err := r.mysql.QueryRowContext(ctx, query, req.ApiKey, req.ApiSecret, req.PermissionRequest).Scan(&exists)
+	err = r.mysql.QueryRowContext(
+		ctx,
+		permissionQuery,
+		req.ApiKey[:],
+		req.PermissionRequest,
+	).Scan(&hasPermission)
 
 	if err != nil {
 		return false, err
 	}
 
-	return exists, nil
+	return hasPermission, nil
 }
-
 
 func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {
 	return &ApiKeysRepository{

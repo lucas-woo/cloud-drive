@@ -8,8 +8,8 @@ import (
 
 
 type ProjectModel struct {
+	ProjectId uuid.UUID `bson:"_id"`
 	CreatorId uuid.UUID `bson:"creator_id,omitempty"`
-	ProjectId uuid.UUID `bson:"project_id,omitempty"`
 	ProjectName string `bson:"project_name,omitempty"`
 	Description string `bson:"description,omitempty"`
 	IsActive bool `bson:"active,omitempty"`

@@ -23,7 +23,7 @@ func main() {
 	ctx := context.Background()
 
 	req, err := iamClient.GenerateNewApiKey(ctx, &iamv1.GenerateNewApiKeyRequest{
-		SessionId: "Rlk1p-iRXM4xC2jompmFp0rslbK9YMqpDjxk5ypqpHI=",
+		UserId: "Rlk1p-iRXM4xC2jompmFp0rslbK9YMqpDjxk5ypqpHI=",
 		ProjectId: "a0698c21-cc0a-4185-8b74-9bfa572b3a07",
 		KeyName: "testkey",
 	})
