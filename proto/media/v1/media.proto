@@ -27,6 +27,7 @@ message UploadObjectRequest {
   string project_id = 2;
   string object_name = 3;
   string folder = 4;
+  bool is_active = 5;
 }
 
 message UploadObjectResponse {
@@ -46,7 +47,7 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder = 3;
   string content_type = 4;
-  bool is_public = 6;
+  bool is_active = 6;
 
   ImageTransformations transformations = 7;
 }
@@ -68,7 +69,7 @@ message FileUploadInfo {
   string object_name = 2;
   string folder = 3;
   string content_type = 4;
-  bool is_public = 5;
+  bool is_active = 5;
 }
 
 message UploadFileApiRequest {
