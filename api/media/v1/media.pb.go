@@ -379,7 +379,8 @@ type ImageUploadInfo struct {
 	ObjectName      string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	Folder          string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
 	ContentType     string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
-	Transformations *ImageTransformations  `protobuf:"bytes,5,opt,name=transformations,proto3" json:"transformations,omitempty"`
+	IsPublic        bool                   `protobuf:"varint,6,opt,name=is_public,json=isPublic,proto3" json:"is_public,omitempty"`
+	Transformations *ImageTransformations  `protobuf:"bytes,7,opt,name=transformations,proto3" json:"transformations,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -440,6 +441,13 @@ func (x *ImageUploadInfo) GetContentType() string {
 		return x.ContentType
 	}
 	return ""
+}
+
+func (x *ImageUploadInfo) GetIsPublic() bool {
+	if x != nil {
+		return x.IsPublic
+	}
+	return false
 }
 
 func (x *ImageUploadInfo) GetTransformations() *ImageTransformations {
@@ -581,6 +589,7 @@ type FileUploadInfo struct {
 	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	Folder        string                 `protobuf:"bytes,3,opt,name=folder,proto3" json:"folder,omitempty"`
 	ContentType   string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
+	IsPublic      bool                   `protobuf:"varint,5,opt,name=is_public,json=isPublic,proto3" json:"is_public,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -641,6 +650,13 @@ func (x *FileUploadInfo) GetContentType() string {
 		return x.ContentType
 	}
 	return ""
+}
+
+func (x *FileUploadInfo) GetIsPublic() bool {
+	if x != nil {
+		return x.IsPublic
+	}
+	return false
 }
 
 type UploadFileApiRequest struct {
@@ -906,15 +922,16 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\vcompression\x18\x03 \x01(\v2\x15.media.v1.CompressionR\vcompression\x124\n" +
 	"\n" +
 	"conversion\x18\x04 \x01(\v2\x14.media.v1.ConversionR\n" +
-	"conversion\"\xd6\x01\n" +
+	"conversion\"\xf3\x01\n" +
 	"\x0fImageUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x16\n" +
 	"\x06folder\x18\x03 \x01(\tR\x06folder\x12!\n" +
-	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12H\n" +
-	"\x0ftransformations\x18\x05 \x01(\v2\x1e.media.v1.ImageTransformationsR\x0ftransformations\"\x83\x01\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x1b\n" +
+	"\tis_public\x18\x06 \x01(\bR\bisPublic\x12H\n" +
+	"\x0ftransformations\x18\a \x01(\v2\x1e.media.v1.ImageTransformationsR\x0ftransformations\"\x83\x01\n" +
 	"\x15UploadImageApiRequest\x12<\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x19.media.v1.ImageUploadInfoH\x00R\n" +
 	"uploadInfo\x12!\n" +
@@ -922,14 +939,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"imageChunkB\t\n" +
 	"\apayload\"5\n" +
 	"\x16UploadImageApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\x8b\x01\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xa8\x01\n" +
 	"\x0eFileUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x16\n" +
 	"\x06folder\x18\x03 \x01(\tR\x06folder\x12!\n" +
-	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\"\x7f\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x1b\n" +
+	"\tis_public\x18\x05 \x01(\bR\bisPublic\"\x7f\n" +
 	"\x14UploadFileApiRequest\x12;\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x18.media.v1.FileUploadInfoH\x00R\n" +
 	"uploadInfo\x12\x1f\n" +
