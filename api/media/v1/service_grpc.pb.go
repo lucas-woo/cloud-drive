@@ -19,11 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	MediaService_CreateNewProject_FullMethodName           = "/media.v1.MediaService/CreateNewProject"
-	MediaService_UploadObject_FullMethodName               = "/media.v1.MediaService/UploadObject"
-	MediaService_UploadImageApi_FullMethodName             = "/media.v1.MediaService/UploadImageApi"
-	MediaService_UploadFileApi_FullMethodName              = "/media.v1.MediaService/UploadFileApi"
-	MediaService_LambdaS3UploadConfirmation_FullMethodName = "/media.v1.MediaService/LambdaS3UploadConfirmation"
+	MediaService_CreateNewProject_FullMethodName         = "/media.v1.MediaService/CreateNewProject"
+	MediaService_UploadObject_FullMethodName             = "/media.v1.MediaService/UploadObject"
+	MediaService_UploadImageApi_FullMethodName           = "/media.v1.MediaService/UploadImageApi"
+	MediaService_UploadFileApi_FullMethodName            = "/media.v1.MediaService/UploadFileApi"
+	MediaService_ObjectUploadConfirmation_FullMethodName = "/media.v1.MediaService/ObjectUploadConfirmation"
 )
 
 // MediaServiceClient is the client API for MediaService service.
@@ -34,7 +34,7 @@ type MediaServiceClient interface {
 	UploadObject(ctx context.Context, in *UploadObjectRequest, opts ...grpc.CallOption) (*UploadObjectResponse, error)
 	UploadImageApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageApiRequest, UploadImageApiResponse], error)
 	UploadFileApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse], error)
-	LambdaS3UploadConfirmation(ctx context.Context, in *LambdaS3UploadConfirmationRequest, opts ...grpc.CallOption) (*LambdaS3UploadConfirmationResponse, error)
+	ObjectUploadConfirmation(ctx context.Context, in *ObjectUploadConfirmationRequest, opts ...grpc.CallOption) (*ObjectUploadConfirmationResponse, error)
 }
 
 type mediaServiceClient struct {
@@ -91,10 +91,10 @@ func (c *mediaServiceClient) UploadFileApi(ctx context.Context, opts ...grpc.Cal
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type MediaService_UploadFileApiClient = grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse]
 
-func (c *mediaServiceClient) LambdaS3UploadConfirmation(ctx context.Context, in *LambdaS3UploadConfirmationRequest, opts ...grpc.CallOption) (*LambdaS3UploadConfirmationResponse, error) {
+func (c *mediaServiceClient) ObjectUploadConfirmation(ctx context.Context, in *ObjectUploadConfirmationRequest, opts ...grpc.CallOption) (*ObjectUploadConfirmationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(LambdaS3UploadConfirmationResponse)
-	err := c.cc.Invoke(ctx, MediaService_LambdaS3UploadConfirmation_FullMethodName, in, out, cOpts...)
+	out := new(ObjectUploadConfirmationResponse)
+	err := c.cc.Invoke(ctx, MediaService_ObjectUploadConfirmation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ type MediaServiceServer interface {
 	UploadObject(context.Context, *UploadObjectRequest) (*UploadObjectResponse, error)
 	UploadImageApi(grpc.ClientStreamingServer[UploadImageApiRequest, UploadImageApiResponse]) error
 	UploadFileApi(grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]) error
-	LambdaS3UploadConfirmation(context.Context, *LambdaS3UploadConfirmationRequest) (*LambdaS3UploadConfirmationResponse, error)
+	ObjectUploadConfirmation(context.Context, *ObjectUploadConfirmationRequest) (*ObjectUploadConfirmationResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
 
@@ -132,8 +132,8 @@ func (UnimplementedMediaServiceServer) UploadImageApi(grpc.ClientStreamingServer
 func (UnimplementedMediaServiceServer) UploadFileApi(grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]) error {
 	return status.Error(codes.Unimplemented, "method UploadFileApi not implemented")
 }
-func (UnimplementedMediaServiceServer) LambdaS3UploadConfirmation(context.Context, *LambdaS3UploadConfirmationRequest) (*LambdaS3UploadConfirmationResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")
+func (UnimplementedMediaServiceServer) ObjectUploadConfirmation(context.Context, *ObjectUploadConfirmationRequest) (*ObjectUploadConfirmationResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ObjectUploadConfirmation not implemented")
 }
 func (UnimplementedMediaServiceServer) mustEmbedUnimplementedMediaServiceServer() {}
 func (UnimplementedMediaServiceServer) testEmbeddedByValue()                      {}
@@ -206,20 +206,20 @@ func _MediaService_UploadFileApi_Handler(srv interface{}, stream grpc.ServerStre
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type MediaService_UploadFileApiServer = grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]
 
-func _MediaService_LambdaS3UploadConfirmation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LambdaS3UploadConfirmationRequest)
+func _MediaService_ObjectUploadConfirmation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ObjectUploadConfirmationRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MediaServiceServer).LambdaS3UploadConfirmation(ctx, in)
+		return srv.(MediaServiceServer).ObjectUploadConfirmation(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: MediaService_LambdaS3UploadConfirmation_FullMethodName,
+		FullMethod: MediaService_ObjectUploadConfirmation_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MediaServiceServer).LambdaS3UploadConfirmation(ctx, req.(*LambdaS3UploadConfirmationRequest))
+		return srv.(MediaServiceServer).ObjectUploadConfirmation(ctx, req.(*ObjectUploadConfirmationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -240,8 +240,8 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _MediaService_UploadObject_Handler,
 		},
 		{
-			MethodName: "LambdaS3UploadConfirmation",
-			Handler:    _MediaService_LambdaS3UploadConfirmation_Handler,
+			MethodName: "ObjectUploadConfirmation",
+			Handler:    _MediaService_ObjectUploadConfirmation_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
