@@ -27,6 +27,7 @@ message UploadObjectRequest {
   string project_id = 2;
   string object_name = 3;
   string folder = 4;
+  bool is_active = 5;
 }
 
 message UploadObjectResponse {
@@ -46,8 +47,9 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder = 3;
   string content_type = 4;
+  bool is_active = 6;
 
-  ImageTransformations transformations = 5;
+  ImageTransformations transformations = 7;
 }
 
 message UploadImageApiRequest {
@@ -67,6 +69,7 @@ message FileUploadInfo {
   string object_name = 2;
   string folder = 3;
   string content_type = 4;
+  bool is_active = 5;
 }
 
 message UploadFileApiRequest {
@@ -80,7 +83,7 @@ message UploadFileApiResponse {
   string object_id = 1;
 }
 
-message LambdaS3UploadConfirmationRequest {
+message ObjectUploadConfirmationRequest {
   string object_id = 1;
   uint64 file_size = 2;
   string format = 3;
@@ -88,4 +91,4 @@ message LambdaS3UploadConfirmationRequest {
   ErrorStatus status = 4;
 }
 
-message LambdaS3UploadConfirmationResponse {}
+message ObjectUploadConfirmationResponse {}
