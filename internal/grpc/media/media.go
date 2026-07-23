@@ -74,7 +74,7 @@ func (s *Server) UploadFileApi(stream mediav1.MediaService_UploadFileApiServer) 
 	})
 }
 
-func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.LambdaS3UploadConfirmationRequest) (*mediav1.LambdaS3UploadConfirmationResponse, error) {
+func (s *Server) ObjectUploadConfirmation(ctx context.Context, req *mediav1.ObjectUploadConfirmationRequest) (*mediav1.ObjectUploadConfirmationResponse, error) {
 
 	reqStatus := req.GetStatus()
 
@@ -83,7 +83,7 @@ func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.La
 		errorStatus = errors.New(reqStatus.GetMessage())
 	}
 
-	err := s.service.ConfirmObjectUpload(ctx, &dto.LambdaS3UploadConfirmationRequest{
+	err := s.service.ConfirmObjectUpload(ctx, &dto.ObjectUploadConfirmationRequest{
 		ObjectId: req.GetObjectId(),
 		FileSize: req.GetFileSize(),
 		Format: req.GetFormat(),
@@ -92,7 +92,7 @@ func (s *Server) LambdaS3UploadConfirmation(ctx context.Context, req *mediav1.La
 	if err != nil {
 		return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")		
 	}
-	return &mediav1.LambdaS3UploadConfirmationResponse{}, nil
+	return &mediav1.ObjectUploadConfirmationResponse{}, nil
 }
 
 

@@ -15,7 +15,7 @@ type UploadObjectRequest struct {
 	IsActive bool
 }
 
-type LambdaS3UploadConfirmationRequest struct {
+type ObjectUploadConfirmationRequest struct {
 	ObjectId string
 	FileSize uint64
 	Format string
