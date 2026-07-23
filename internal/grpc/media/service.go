@@ -65,7 +65,7 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 	return 
 }
 
-func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.LambdaS3UploadConfirmationRequest) error {
+func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUploadConfirmationRequest) error {
 	objectId, err := uuid.Parse(req.ObjectId)
 	if err != nil {
 		return err
