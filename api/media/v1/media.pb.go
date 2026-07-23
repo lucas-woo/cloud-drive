@@ -793,7 +793,7 @@ func (x *UploadFileApiResponse) GetObjectId() string {
 	return ""
 }
 
-type LambdaS3UploadConfirmationRequest struct {
+type ObjectUploadConfirmationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ObjectId      string                 `protobuf:"bytes,1,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
 	FileSize      uint64                 `protobuf:"varint,2,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
@@ -803,20 +803,20 @@ type LambdaS3UploadConfirmationRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LambdaS3UploadConfirmationRequest) Reset() {
-	*x = LambdaS3UploadConfirmationRequest{}
+func (x *ObjectUploadConfirmationRequest) Reset() {
+	*x = ObjectUploadConfirmationRequest{}
 	mi := &file_media_v1_media_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LambdaS3UploadConfirmationRequest) String() string {
+func (x *ObjectUploadConfirmationRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LambdaS3UploadConfirmationRequest) ProtoMessage() {}
+func (*ObjectUploadConfirmationRequest) ProtoMessage() {}
 
-func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message {
+func (x *ObjectUploadConfirmationRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_media_v1_media_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -828,59 +828,59 @@ func (x *LambdaS3UploadConfirmationRequest) ProtoReflect() protoreflect.Message 
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LambdaS3UploadConfirmationRequest.ProtoReflect.Descriptor instead.
-func (*LambdaS3UploadConfirmationRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ObjectUploadConfirmationRequest.ProtoReflect.Descriptor instead.
+func (*ObjectUploadConfirmationRequest) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *LambdaS3UploadConfirmationRequest) GetObjectId() string {
+func (x *ObjectUploadConfirmationRequest) GetObjectId() string {
 	if x != nil {
 		return x.ObjectId
 	}
 	return ""
 }
 
-func (x *LambdaS3UploadConfirmationRequest) GetFileSize() uint64 {
+func (x *ObjectUploadConfirmationRequest) GetFileSize() uint64 {
 	if x != nil {
 		return x.FileSize
 	}
 	return 0
 }
 
-func (x *LambdaS3UploadConfirmationRequest) GetFormat() string {
+func (x *ObjectUploadConfirmationRequest) GetFormat() string {
 	if x != nil {
 		return x.Format
 	}
 	return ""
 }
 
-func (x *LambdaS3UploadConfirmationRequest) GetStatus() *ErrorStatus {
+func (x *ObjectUploadConfirmationRequest) GetStatus() *ErrorStatus {
 	if x != nil {
 		return x.Status
 	}
 	return nil
 }
 
-type LambdaS3UploadConfirmationResponse struct {
+type ObjectUploadConfirmationResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LambdaS3UploadConfirmationResponse) Reset() {
-	*x = LambdaS3UploadConfirmationResponse{}
+func (x *ObjectUploadConfirmationResponse) Reset() {
+	*x = ObjectUploadConfirmationResponse{}
 	mi := &file_media_v1_media_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LambdaS3UploadConfirmationResponse) String() string {
+func (x *ObjectUploadConfirmationResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LambdaS3UploadConfirmationResponse) ProtoMessage() {}
+func (*ObjectUploadConfirmationResponse) ProtoMessage() {}
 
-func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message {
+func (x *ObjectUploadConfirmationResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_media_v1_media_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -892,8 +892,8 @@ func (x *LambdaS3UploadConfirmationResponse) ProtoReflect() protoreflect.Message
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LambdaS3UploadConfirmationResponse.ProtoReflect.Descriptor instead.
-func (*LambdaS3UploadConfirmationResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ObjectUploadConfirmationResponse.ProtoReflect.Descriptor instead.
+func (*ObjectUploadConfirmationResponse) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{13}
 }
 
@@ -964,13 +964,13 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"file_chunk\x18\x02 \x01(\fH\x00R\tfileChunkB\t\n" +
 	"\apayload\"4\n" +
 	"\x15UploadFileApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xa4\x01\n" +
-	"!LambdaS3UploadConfirmationRequest\x12\x1b\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xa2\x01\n" +
+	"\x1fObjectUploadConfirmationRequest\x12\x1b\n" +
 	"\tobject_id\x18\x01 \x01(\tR\bobjectId\x12\x1b\n" +
 	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\x12\x16\n" +
 	"\x06format\x18\x03 \x01(\tR\x06format\x12-\n" +
-	"\x06status\x18\x04 \x01(\v2\x15.media.v1.ErrorStatusR\x06status\"$\n" +
-	"\"LambdaS3UploadConfirmationResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\x06status\x18\x04 \x01(\v2\x15.media.v1.ErrorStatusR\x06status\"\"\n" +
+	" ObjectUploadConfirmationResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_media_proto_rawDescOnce sync.Once
@@ -986,24 +986,24 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 
 var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_media_v1_media_proto_goTypes = []any{
-	(*ErrorStatus)(nil),                        // 0: media.v1.ErrorStatus
-	(*CreateNewProjectRequest)(nil),            // 1: media.v1.CreateNewProjectRequest
-	(*CreateNewProjectResponse)(nil),           // 2: media.v1.CreateNewProjectResponse
-	(*UploadObjectRequest)(nil),                // 3: media.v1.UploadObjectRequest
-	(*UploadObjectResponse)(nil),               // 4: media.v1.UploadObjectResponse
-	(*ImageTransformations)(nil),               // 5: media.v1.ImageTransformations
-	(*ImageUploadInfo)(nil),                    // 6: media.v1.ImageUploadInfo
-	(*UploadImageApiRequest)(nil),              // 7: media.v1.UploadImageApiRequest
-	(*UploadImageApiResponse)(nil),             // 8: media.v1.UploadImageApiResponse
-	(*FileUploadInfo)(nil),                     // 9: media.v1.FileUploadInfo
-	(*UploadFileApiRequest)(nil),               // 10: media.v1.UploadFileApiRequest
-	(*UploadFileApiResponse)(nil),              // 11: media.v1.UploadFileApiResponse
-	(*LambdaS3UploadConfirmationRequest)(nil),  // 12: media.v1.LambdaS3UploadConfirmationRequest
-	(*LambdaS3UploadConfirmationResponse)(nil), // 13: media.v1.LambdaS3UploadConfirmationResponse
-	(*Crop)(nil),                               // 14: media.v1.Crop
-	(*Scale)(nil),                              // 15: media.v1.Scale
-	(*Compression)(nil),                        // 16: media.v1.Compression
-	(*Conversion)(nil),                         // 17: media.v1.Conversion
+	(*ErrorStatus)(nil),                      // 0: media.v1.ErrorStatus
+	(*CreateNewProjectRequest)(nil),          // 1: media.v1.CreateNewProjectRequest
+	(*CreateNewProjectResponse)(nil),         // 2: media.v1.CreateNewProjectResponse
+	(*UploadObjectRequest)(nil),              // 3: media.v1.UploadObjectRequest
+	(*UploadObjectResponse)(nil),             // 4: media.v1.UploadObjectResponse
+	(*ImageTransformations)(nil),             // 5: media.v1.ImageTransformations
+	(*ImageUploadInfo)(nil),                  // 6: media.v1.ImageUploadInfo
+	(*UploadImageApiRequest)(nil),            // 7: media.v1.UploadImageApiRequest
+	(*UploadImageApiResponse)(nil),           // 8: media.v1.UploadImageApiResponse
+	(*FileUploadInfo)(nil),                   // 9: media.v1.FileUploadInfo
+	(*UploadFileApiRequest)(nil),             // 10: media.v1.UploadFileApiRequest
+	(*UploadFileApiResponse)(nil),            // 11: media.v1.UploadFileApiResponse
+	(*ObjectUploadConfirmationRequest)(nil),  // 12: media.v1.ObjectUploadConfirmationRequest
+	(*ObjectUploadConfirmationResponse)(nil), // 13: media.v1.ObjectUploadConfirmationResponse
+	(*Crop)(nil),                             // 14: media.v1.Crop
+	(*Scale)(nil),                            // 15: media.v1.Scale
+	(*Compression)(nil),                      // 16: media.v1.Compression
+	(*Conversion)(nil),                       // 17: media.v1.Conversion
 }
 var file_media_v1_media_proto_depIdxs = []int32{
 	14, // 0: media.v1.ImageTransformations.crop:type_name -> media.v1.Crop
@@ -1013,7 +1013,7 @@ var file_media_v1_media_proto_depIdxs = []int32{
 	5,  // 4: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
 	6,  // 5: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
 	9,  // 6: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
-	0,  // 7: media.v1.LambdaS3UploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
+	0,  // 7: media.v1.ObjectUploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
 	8,  // [8:8] is the sub-list for method output_type
 	8,  // [8:8] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name

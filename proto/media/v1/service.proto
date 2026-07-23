@@ -16,7 +16,7 @@ service MediaService {
   
   rpc UploadFileApi(stream UploadFileApiRequest) returns (UploadFileApiResponse);
 
-  rpc LambdaS3UploadConfirmation(LambdaS3UploadConfirmationRequest) returns(LambdaS3UploadConfirmationResponse);
+  rpc ObjectUploadConfirmation(ObjectUploadConfirmationRequest) returns(ObjectUploadConfirmationResponse);
 
   //get image data by objectId : 
   //uploading file by api should just be returned a signedurl 

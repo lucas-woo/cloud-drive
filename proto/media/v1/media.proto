@@ -83,7 +83,7 @@ message UploadFileApiResponse {
   string object_id = 1;
 }
 
-message LambdaS3UploadConfirmationRequest {
+message ObjectUploadConfirmationRequest {
   string object_id = 1;
   uint64 file_size = 2;
   string format = 3;
@@ -91,4 +91,4 @@ message LambdaS3UploadConfirmationRequest {
   ErrorStatus status = 4;
 }
 
-message LambdaS3UploadConfirmationResponse {}
+message ObjectUploadConfirmationResponse {}
