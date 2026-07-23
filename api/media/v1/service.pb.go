@@ -24,37 +24,37 @@ var File_media_v1_service_proto protoreflect.FileDescriptor
 
 const file_media_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xdc\x03\n" +
+	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xd6\x03\n" +
 	"\fMediaService\x12Y\n" +
 	"\x10CreateNewProject\x12!.media.v1.CreateNewProjectRequest\x1a\".media.v1.CreateNewProjectResponse\x12M\n" +
 	"\fUploadObject\x12\x1d.media.v1.UploadObjectRequest\x1a\x1e.media.v1.UploadObjectResponse\x12U\n" +
 	"\x0eUploadImageApi\x12\x1f.media.v1.UploadImageApiRequest\x1a .media.v1.UploadImageApiResponse(\x01\x12R\n" +
-	"\rUploadFileApi\x12\x1e.media.v1.UploadFileApiRequest\x1a\x1f.media.v1.UploadFileApiResponse(\x01\x12w\n" +
-	"\x1aLambdaS3UploadConfirmation\x12+.media.v1.LambdaS3UploadConfirmationRequest\x1a,.media.v1.LambdaS3UploadConfirmationResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\rUploadFileApi\x12\x1e.media.v1.UploadFileApiRequest\x1a\x1f.media.v1.UploadFileApiResponse(\x01\x12q\n" +
+	"\x18ObjectUploadConfirmation\x12).media.v1.ObjectUploadConfirmationRequest\x1a*.media.v1.ObjectUploadConfirmationResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var file_media_v1_service_proto_goTypes = []any{
-	(*CreateNewProjectRequest)(nil),            // 0: media.v1.CreateNewProjectRequest
-	(*UploadObjectRequest)(nil),                // 1: media.v1.UploadObjectRequest
-	(*UploadImageApiRequest)(nil),              // 2: media.v1.UploadImageApiRequest
-	(*UploadFileApiRequest)(nil),               // 3: media.v1.UploadFileApiRequest
-	(*LambdaS3UploadConfirmationRequest)(nil),  // 4: media.v1.LambdaS3UploadConfirmationRequest
-	(*CreateNewProjectResponse)(nil),           // 5: media.v1.CreateNewProjectResponse
-	(*UploadObjectResponse)(nil),               // 6: media.v1.UploadObjectResponse
-	(*UploadImageApiResponse)(nil),             // 7: media.v1.UploadImageApiResponse
-	(*UploadFileApiResponse)(nil),              // 8: media.v1.UploadFileApiResponse
-	(*LambdaS3UploadConfirmationResponse)(nil), // 9: media.v1.LambdaS3UploadConfirmationResponse
+	(*CreateNewProjectRequest)(nil),          // 0: media.v1.CreateNewProjectRequest
+	(*UploadObjectRequest)(nil),              // 1: media.v1.UploadObjectRequest
+	(*UploadImageApiRequest)(nil),            // 2: media.v1.UploadImageApiRequest
+	(*UploadFileApiRequest)(nil),             // 3: media.v1.UploadFileApiRequest
+	(*ObjectUploadConfirmationRequest)(nil),  // 4: media.v1.ObjectUploadConfirmationRequest
+	(*CreateNewProjectResponse)(nil),         // 5: media.v1.CreateNewProjectResponse
+	(*UploadObjectResponse)(nil),             // 6: media.v1.UploadObjectResponse
+	(*UploadImageApiResponse)(nil),           // 7: media.v1.UploadImageApiResponse
+	(*UploadFileApiResponse)(nil),            // 8: media.v1.UploadFileApiResponse
+	(*ObjectUploadConfirmationResponse)(nil), // 9: media.v1.ObjectUploadConfirmationResponse
 }
 var file_media_v1_service_proto_depIdxs = []int32{
 	0, // 0: media.v1.MediaService.CreateNewProject:input_type -> media.v1.CreateNewProjectRequest
 	1, // 1: media.v1.MediaService.UploadObject:input_type -> media.v1.UploadObjectRequest
 	2, // 2: media.v1.MediaService.UploadImageApi:input_type -> media.v1.UploadImageApiRequest
 	3, // 3: media.v1.MediaService.UploadFileApi:input_type -> media.v1.UploadFileApiRequest
-	4, // 4: media.v1.MediaService.LambdaS3UploadConfirmation:input_type -> media.v1.LambdaS3UploadConfirmationRequest
+	4, // 4: media.v1.MediaService.ObjectUploadConfirmation:input_type -> media.v1.ObjectUploadConfirmationRequest
 	5, // 5: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
 	6, // 6: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
 	7, // 7: media.v1.MediaService.UploadImageApi:output_type -> media.v1.UploadImageApiResponse
 	8, // 8: media.v1.MediaService.UploadFileApi:output_type -> media.v1.UploadFileApiResponse
-	9, // 9: media.v1.MediaService.LambdaS3UploadConfirmation:output_type -> media.v1.LambdaS3UploadConfirmationResponse
+	9, // 9: media.v1.MediaService.ObjectUploadConfirmation:output_type -> media.v1.ObjectUploadConfirmationResponse
 	5, // [5:10] is the sub-list for method output_type
 	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
