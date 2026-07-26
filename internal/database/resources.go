@@ -9,12 +9,10 @@ import (
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
-	apikeysv1 "github.com/lucas-woo/cloud-drive/api/apikeys/v1"
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 
-	apikeysclient "github.com/lucas-woo/cloud-drive/internal/grpc/apikeys/client"
 	authclient "github.com/lucas-woo/cloud-drive/internal/grpc/auth/client"
 	iamclient "github.com/lucas-woo/cloud-drive/internal/grpc/iam/client"
 	mediaclient "github.com/lucas-woo/cloud-drive/internal/grpc/media/client"
@@ -47,7 +45,6 @@ type GatewayResources struct {
 	AuthClient authv1.AuthServiceClient	
 	IamClient iamv1.IAMServiceClient
 	MediaClient mediav1.MediaServiceClient
-	ApiKeysClient apikeysv1.ApiKeysServiceClient
 }
 
 func NewAuthResources() *AuthResources {
@@ -152,10 +149,8 @@ func NewGatewayResources() *GatewayResources {
 
 	mediaClient := mediaclient.NewMediaServiceClient()
 
-	apikeysClient := apikeysclient.NewApiKeysClient()
 
 	return &GatewayResources{
-		ApiKeysClient: apikeysClient,
 		IamClient: iamClient,
 		AuthClient: authClient,
 		RedisRepo: redisRepo,
