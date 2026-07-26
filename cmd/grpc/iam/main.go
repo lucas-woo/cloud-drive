@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
 	"os"
+	"time"
 
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
@@ -24,7 +26,14 @@ func main() {
 	}
 	config.InitCookiesEnv()
 
-	iamResources := database.NewIamResources()
+	startupCtx, startupCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer startupCancel()	
+
+	iamResources := database.NewIamResources(startupCtx)
+
+	defer func(){
+		iamResources.Close()
+	}()	
 
 	port, found := os.LookupEnv("IAM_SERVER_PORT")
 

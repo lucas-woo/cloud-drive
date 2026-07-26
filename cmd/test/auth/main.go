@@ -17,8 +17,8 @@ func main() {
 		log.Fatal("env err")
 	}
 
-	client := authclient.NewAuthServiceClient()
-	
+	client, conn := authclient.NewAuthServiceClient()
+	defer func(){conn.Close()}()
 
 	ctx := context.Background()
 

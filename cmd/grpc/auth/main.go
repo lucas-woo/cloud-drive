@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
 	"os"
+	"time"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 
@@ -25,7 +27,13 @@ func main() {
 	}
 	config.InitCookiesEnv()
 
-	authResources := database.NewAuthResources()
+	startupCtx, startupCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer startupCancel()	
+
+	authResources := database.NewAuthResources(startupCtx)
+	defer func(){
+		authResources.Close()
+	}()	
 
 	port, found := os.LookupEnv("AUTH_SERVER_PORT")
 
