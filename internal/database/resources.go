@@ -14,7 +14,10 @@ import (
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 
+	apikeysclient "github.com/lucas-woo/cloud-drive/internal/grpc/apikeys/client"
 	authclient "github.com/lucas-woo/cloud-drive/internal/grpc/auth/client"
+	iamclient "github.com/lucas-woo/cloud-drive/internal/grpc/iam/client"
+	mediaclient "github.com/lucas-woo/cloud-drive/internal/grpc/media/client"
 	apikeysrepository "github.com/lucas-woo/cloud-drive/internal/repository/apikeys"
 	"github.com/lucas-woo/cloud-drive/internal/repository/auth"
 	projectrepository "github.com/lucas-woo/cloud-drive/internal/repository/project"
@@ -135,5 +138,27 @@ func NewIamResources() *IamResources {
 
 
 func NewGatewayResources() *GatewayResources {
-	return &GatewayResources{}
+
+	redisClient, err := ConnectRedis()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	redisRepo := redisrepo.NewRedisRepository(redisClient)
+
+	authClient := authclient.NewAuthServiceClient()
+
+	iamClient := iamclient.NewIamServiceClient()
+
+	mediaClient := mediaclient.NewMediaServiceClient()
+
+	apikeysClient := apikeysclient.NewApiKeysClient()
+
+	return &GatewayResources{
+		ApiKeysClient: apikeysClient,
+		IamClient: iamClient,
+		AuthClient: authClient,
+		RedisRepo: redisRepo,
+		MediaClient: mediaClient,
+	}
 }
