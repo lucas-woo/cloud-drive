@@ -21,8 +21,13 @@ func main() {
 		log.Fatal("env err")
 	}
 
-	mediaClient := mediaclient.NewMediaServiceClient()
-	authClient := authclient.NewAuthServiceClient()
+	mediaClient, conn1 := mediaclient.NewMediaServiceClient()
+	authClient, conn2 := authclient.NewAuthServiceClient()
+
+	defer func(){
+		conn1.Close()
+		conn2.Close()
+	}()
 
 	ctx := context.Background()
 

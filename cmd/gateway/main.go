@@ -5,6 +5,7 @@ import (
 
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
+	"github.com/lucas-woo/cloud-drive/internal/gateway"
 )
 
 func main() {
@@ -16,5 +17,10 @@ func main() {
 	config.InitCookiesEnv()
 
 	resources := database.NewGatewayResources()
-	
+
+	defer func(){
+		resources.Close()
+	}()
+		
+	gateway.NewServer(resources)
 }
