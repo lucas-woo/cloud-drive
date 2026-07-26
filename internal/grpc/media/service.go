@@ -60,7 +60,7 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 		return 
 	}
 
-	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId, req.IsActive)
+	url, err = s.mediaResources.S3Repository.GetPreSignedUploadUrl(ctx, objectId, req.ProjectId, req.IsActive)
 
 	return 
 }
@@ -144,7 +144,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	errChan := make(chan error, 1)
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetContentType(), imageInfo.GetIsActive())
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetProjectId(), imageInfo.GetContentType(), imageInfo.GetIsActive())
 	}()
 
 	for {
@@ -228,7 +228,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 	errChan := make(chan error, 1)
 
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString, contentType, fileInfo.GetIsActive())
+		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString, fileInfo.GetProjectId(), contentType, fileInfo.GetIsActive())
 	}()	
 
 	for {
