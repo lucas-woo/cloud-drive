@@ -32,7 +32,6 @@ func (r *RedisRepository) SetUserSession(ctx context.Context, userId string, rem
 	return sessionId, nil
 }
 
-// func (r *RedisRepository) GetUserIdBySession(ctx context.Context, sessionId string)
 
 func (r *RedisRepository) FindUserId(ctx context.Context, sessionId string) (string, error) {
 	userId, err := r.client.Get(ctx, config.SessionPrefix + sessionId).Result()
