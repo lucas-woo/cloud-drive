@@ -7,7 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lucas-woo/cloud-drive/internal/database"
+	"github.com/lucas-woo/cloud-drive/internal/gateway/handlers"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/routes"
+	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
 )
 
 
@@ -35,7 +37,11 @@ func NewServer(resources *database.GatewayResources) *Server {
 		gin: ginEngine,
 	}
 
-	routes.InitializeRouter(ginEngine)
+	authService := services.NewAuthServer(resources.AuthClient)
+
+	authHandler := handlers.NewAuthHandler(authService)
+
+	routes.InitializeRouter(ginEngine, authHandler)
 
 	return server
 }

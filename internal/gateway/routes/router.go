@@ -1,9 +1,12 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/lucas-woo/cloud-drive/internal/gateway/handlers"
+)
 
 
 
-func InitializeRouter(ginEngine *gin.Engine) {
-	ginEngine.GET("/") 
+func InitializeRouter(ginEngine *gin.Engine, authHandler *handlers.AuthHandler) {
+	ginEngine.GET("/", authHandler.Login) 
 }
