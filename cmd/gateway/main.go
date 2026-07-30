@@ -14,7 +14,7 @@ func main() {
 		log.Fatal("error init env")
 	}
 
-	config.InitCookiesEnv()
+
 
 	resources := database.NewGatewayResources()
 

@@ -38,7 +38,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 		gin: ginEngine,
 	}
 
-	middlewares := middlewares.NewMiddlewares(resources.RedisRepo)
+	middlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
 
 	authService := services.NewAuthServer(resources.AuthClient)
 

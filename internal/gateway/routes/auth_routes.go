@@ -6,7 +6,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/middlewares"
 )
 
-func InitializeAuthRoutes(ginEngine *gin.Engine, middlewares *middlewares.Middlewares ,authHandler *handlers.AuthHandler) {
+func InitializeAuthRoutes(ginEngine *gin.Engine, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
 
 	ginEngine.POST("/login", authHandler.Login)
 

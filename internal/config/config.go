@@ -29,11 +29,16 @@ var (
 	PreSignedUrlTime time.Duration = time.Minute * 3
 
 	SessionPrefix string = "session:"
+
+	//cookies
+	CookieSession string = "session_id"
+	CookieSessionMaxAge int
+	CookieSessionPath string
+	CookieSessionDomain string
+	CookieSessionSecure bool
+	CookieSessionHttpOnly bool 	
 )
 
-func InitCookiesEnv() {
-
-}
 
 func InitializeEnv() error {
 	return godotenv.LoadEnv()
