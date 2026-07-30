@@ -8,5 +8,5 @@ import (
 
 
 func InitializeRouter(ginEngine *gin.Engine, authHandler *handlers.AuthHandler) {
-	ginEngine.GET("/", authHandler.Login) 
+	InitializeAuthRoutes(ginEngine, authHandler)
 }
