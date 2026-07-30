@@ -7,12 +7,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/lucas-woo/cloud-drive/internal/database"
+	"github.com/lucas-woo/cloud-drive/internal/gateway/routes"
 )
 
 
 type Server struct {
 	gin *gin.Engine
-	resources *database.GatewayResources
 }
 
 func (s *Server) Run() {
@@ -29,12 +29,13 @@ func (s *Server) Run() {
 
 func NewServer(resources *database.GatewayResources) *Server {
 
+	ginEngine := gin.Default()
+
 	server := &Server{
-		gin: gin.Default(),
-		resources: resources,
+		gin: ginEngine,
 	}
 
-	server.InitializeRouter()
+	routes.InitializeRouter(ginEngine)
 
 	return server
 }
