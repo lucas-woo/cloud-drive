@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"log"
 	"os"
 	"time"
@@ -240,8 +241,20 @@ func (r *GatewayResources) Close() {
 		}
 	}
 
-	r.authConn.Close()
-	r.iamConn.Close()
-	r.mediaConn.Close()
+	var errs error
+
+	if err := r.authConn.Close(); err != nil {
+		errs = errors.Join(errs, err)
+	}
+
+	if err := r.iamConn.Close(); err != nil {
+		errs = errors.Join(errs, err)
+	}
+	if err := r.mediaConn.Close(); err != nil {
+		errs = errors.Join(errs, err)
+	}
 	
+	if errs != nil {
+		log.Printf("error closing grpc clients:\n %v", errs)
+	}
 }

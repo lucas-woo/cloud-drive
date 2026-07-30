@@ -1,1 +1,12 @@
 package routes
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/lucas-woo/cloud-drive/internal/gateway/handlers"
+)
+
+func InitializeAuthRoutes(ginEngine *gin.Engine, authHandler *handlers.AuthHandler) {
+
+	ginEngine.POST("/login", authHandler.Login)
+
+}

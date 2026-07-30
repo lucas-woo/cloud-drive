@@ -13,6 +13,10 @@ func (h *AuthHandler) Login(ctx *gin.Context) {
 
 }
 
+func (h *AuthHandler) SignUp(ctx *gin.Context) {
+	
+}
+
 
 func NewAuthHandler(authService *services.AuthService) *AuthHandler {
 	return &AuthHandler{
