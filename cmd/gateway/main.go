@@ -22,5 +22,6 @@ func main() {
 		resources.Close()
 	}()
 		
-	gateway.NewServer(resources)
+	server := gateway.NewServer(resources)
+	server.Run()
 }
