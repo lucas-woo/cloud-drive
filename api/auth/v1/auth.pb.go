@@ -92,6 +92,7 @@ func (x *SignUpUserRequest) GetRememberMe() bool {
 type SignUpUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -129,6 +130,13 @@ func (*SignUpUserResponse) Descriptor() ([]byte, []int) {
 func (x *SignUpUserResponse) GetSessionId() string {
 	if x != nil {
 		return x.SessionId
+	}
+	return ""
+}
+
+func (x *SignUpUserResponse) GetUserId() string {
+	if x != nil {
+		return x.UserId
 	}
 	return ""
 }
@@ -196,6 +204,7 @@ func (x *LoginUserRequest) GetRememberMe() bool {
 type LoginUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SessionId     string                 `protobuf:"bytes,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -233,6 +242,13 @@ func (*LoginUserResponse) Descriptor() ([]byte, []int) {
 func (x *LoginUserResponse) GetSessionId() string {
 	if x != nil {
 		return x.SessionId
+	}
+	return ""
+}
+
+func (x *LoginUserResponse) GetUserId() string {
+	if x != nil {
+		return x.UserId
 	}
 	return ""
 }
@@ -423,18 +439,20 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1f\n" +
 	"\vremember_me\x18\x04 \x01(\bR\n" +
-	"rememberMe\"3\n" +
+	"rememberMe\"L\n" +
 	"\x12SignUpUserResponse\x12\x1d\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\"e\n" +
+	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\"e\n" +
 	"\x10LoginUserRequest\x12\x1a\n" +
 	"\bpassword\x18\x01 \x01(\tR\bpassword\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1f\n" +
 	"\vremember_me\x18\x03 \x01(\bR\n" +
-	"rememberMe\"2\n" +
+	"rememberMe\"K\n" +
 	"\x11LoginUserResponse\x12\x1d\n" +
 	"\n" +
-	"session_id\x18\x01 \x01(\tR\tsessionId\"2\n" +
+	"session_id\x18\x01 \x01(\tR\tsessionId\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\tR\x06userId\"2\n" +
 	"\x11LogoutUserRequest\x12\x1d\n" +
 	"\n" +
 	"session_id\x18\x01 \x01(\tR\tsessionId\"3\n" +
