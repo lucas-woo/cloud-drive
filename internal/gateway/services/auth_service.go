@@ -4,26 +4,28 @@ import (
 	"context"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
+	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 )
 
 
 type AuthService struct {
-	authclient authv1.AuthServiceClient
+	authClient authv1.AuthServiceClient
+	mediaClient mediav1.MediaServiceClient
 }
 
-func (s *AuthService) SignUp(ctx context.Context, req *dto.GatewaySignUpRequest) (string, error){
-	res, err := s.authclient.SignUpUser(ctx, &authv1.SignUpUserRequest{
+func (s *AuthService) SignUp(ctx context.Context, req *dto.GatewaySignUpRequest) (string, string, error){
+	res, err := s.authClient.SignUpUser(ctx, &authv1.SignUpUserRequest{
 		Username: req.Username,
 		Email: req.Email,
 		Password: req.Password,
 		RememberMe: req.RememberMe,
 	})
-	return res.GetSessionId(), err
+	return res.GetSessionId(), res.GetUserId(), err
 }
 
 func (s *AuthService) Login(ctx context.Context, req *dto.GatewayLoginRequest) (string, error) {
-	res, err := s.authclient.LoginUser(ctx, &authv1.LoginUserRequest{
+	res, err := s.authClient.LoginUser(ctx, &authv1.LoginUserRequest{
 		Email: req.Email,
 		Password: req.Password,
 		RememberMe: req.RememberMe,
@@ -32,15 +34,22 @@ func (s *AuthService) Login(ctx context.Context, req *dto.GatewayLoginRequest) (
 }
 
 func (s *AuthService) Logout(ctx context.Context, sessionId string) (bool, error){
-	res, err := s.authclient.LogoutUser(ctx, &authv1.LogoutUserRequest{
+	res, err := s.authClient.LogoutUser(ctx, &authv1.LogoutUserRequest{
 		SessionId: sessionId,
 	})
 	return res.GetLoggedOut(), err
 }
 
+func (s *AuthService) CreateNewProject(ctx context.Context, userId string) (error) {
+	_, err := s.mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
+		UserId: userId,
+	})
+	return err
+}
 
-func NewAuthServer(authclient authv1.AuthServiceClient) *AuthService {
+func NewAuthServer(authClient authv1.AuthServiceClient, mediaClient mediav1.MediaServiceClient) *AuthService {
 	return &AuthService{
-		authclient: authclient,
+		authClient: authClient,
+		mediaClient: mediaClient,
 	}
 }

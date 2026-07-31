@@ -40,7 +40,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 
 	middlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
 
-	authService := services.NewAuthServer(resources.AuthClient)
+	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient)
 
 	authHandler := handlers.NewAuthHandler(authService)
 

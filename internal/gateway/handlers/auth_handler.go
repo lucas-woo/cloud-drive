@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,11 +21,18 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 		return
 	}
 
-	sessionId, err := h.authService.SignUp(c.Request.Context(), &signUpReq)
+	sessionId, userId, err := h.authService.SignUp(c.Request.Context(), &signUpReq)
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return		
 	}
+
+	err = h.authService.CreateNewProject(c.Request.Context(), userId)
+	if err != nil {
+		log.Printf("error creating new user project: %v", err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}	
 	
 	c.SetCookie(config.CookieSession, sessionId, config.CookieSessionMaxAge, config.CookieSessionPath, config.CookieSessionDomain, config.CookieSessionSecure, config.CookieSessionHttpOnly)
 
