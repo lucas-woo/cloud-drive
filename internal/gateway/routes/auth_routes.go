@@ -7,9 +7,9 @@ import (
 )
 
 func InitializeAuthRoutes(ginEngine *gin.Engine, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
-
+	//needs validation middleware
+	ginEngine.POST("/signup", middlewares.RedirectIfAuthenticated(), authHandler.SignUp)
 	ginEngine.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
-	ginEngine.POST("/signup", middlewares.RedirectIfAuthenticated(), )
 	ginEngine.POST("/logout", )
 
 }
