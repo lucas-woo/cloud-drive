@@ -8,6 +8,8 @@ import (
 
 func InitializeAuthRoutes(ginEngine *gin.Engine, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
 
-	ginEngine.POST("/login", authHandler.Login)
+	ginEngine.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
+	ginEngine.POST("/signup", middlewares.RedirectIfAuthenticated(), )
+	ginEngine.POST("/logout", )
 
 }
