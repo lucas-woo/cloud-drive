@@ -29,6 +29,7 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 
 	err = h.authService.CreateNewProject(c.Request.Context(), userId)
 	if err != nil {
+		//should either retry or delete the user
 		log.Printf("error creating new user project: %v", err)
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
