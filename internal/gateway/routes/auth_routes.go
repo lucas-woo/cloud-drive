@@ -10,6 +10,6 @@ func InitializeAuthRoutes(ginEngine *gin.Engine, middlewares *middlewares.AuthMi
 	//needs validation middleware
 	ginEngine.POST("/signup", middlewares.RedirectIfAuthenticated(), authHandler.SignUp)
 	ginEngine.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
-	ginEngine.POST("/logout", )
+	ginEngine.POST("/logout", middlewares.CheckIfSessionExists(), authHandler.Logout)
 
 }

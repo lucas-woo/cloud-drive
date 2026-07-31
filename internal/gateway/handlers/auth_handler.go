@@ -29,15 +29,46 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 	c.SetCookie(config.CookieSession, sessionId, config.CookieSessionMaxAge, config.CookieSessionPath, config.CookieSessionDomain, config.CookieSessionSecure, config.CookieSessionHttpOnly)
 
 	c.JSON(http.StatusCreated, "created")
-
 }
 
 func (h *AuthHandler) Login(c *gin.Context) {
+	var loginReq dto.GatewayLoginRequest
+
+	if err := c.ShouldBindBodyWithJSON(&loginReq); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+	
+	sessionId, err := h.authService.Login(c.Request.Context(), &loginReq)
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return		
+	}
+	
+	c.SetCookie(config.CookieSession, sessionId, config.CookieSessionMaxAge, config.CookieSessionPath, config.CookieSessionDomain, config.CookieSessionSecure, config.CookieSessionHttpOnly)
+
+	c.JSON(http.StatusCreated, "ok")
 }
 
 
 func (h *AuthHandler) Logout(c *gin.Context) {
-	
+	sessCookie, _ := c.Get(config.CookieSession)
+	sessionId, ok := sessCookie.(string)
+	if !ok {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return					
+	}
+	ok, err := h.authService.Logout(c.Request.Context(), sessionId)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return				
+	}
+	if !ok {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return					
+	}
+	c.JSON(http.StatusOK, "ok")
 }
 
 

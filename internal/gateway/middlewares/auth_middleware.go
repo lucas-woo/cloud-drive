@@ -32,6 +32,27 @@ func (m *AuthMiddleware) RedirectIfAuthenticated() gin.HandlerFunc {
 	}
 }
 
+func (m *AuthMiddleware) CheckIfSessionExists() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		sessCookie, exists := c.Get(config.CookieSession)
+
+		if !exists {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}		
+		sessionId, ok := sessCookie.(string)
+		if !ok {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return					
+		}		
+		_, err := m.RedisRepository.FindUserId(c.Request.Context(), sessionId)
+		if err != nil {
+			c.AbortWithStatus(http.StatusUnauthorized)
+			return
+		}
+	}
+}
+
 func NewAuthMiddleware(redisRepo *redisrepo.RedisRepository) *AuthMiddleware {
 	return &AuthMiddleware{
 		RedisRepository: redisRepo,
