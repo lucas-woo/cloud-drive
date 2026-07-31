@@ -8,6 +8,6 @@ import (
 
 
 
-func InitializeRouter(ginEngine *gin.Engine, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
-	InitializeAuthRoutes(ginEngine, middlewares, authHandler)
+func InitializeRouter(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
+	InitializeAuthRoutes(webGroup, middlewares, authHandler)
 }

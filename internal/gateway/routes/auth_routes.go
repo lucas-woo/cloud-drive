@@ -6,10 +6,10 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/middlewares"
 )
 
-func InitializeAuthRoutes(ginEngine *gin.Engine, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
+func InitializeAuthRoutes(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
 	//needs validation middleware
-	ginEngine.POST("/signup", middlewares.RedirectIfAuthenticated(), authHandler.SignUp)
-	ginEngine.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
-	ginEngine.POST("/logout", middlewares.CheckIfSessionExists(), authHandler.Logout)
+	webGroup.POST("/signup", middlewares.RedirectIfAuthenticated(), authHandler.SignUp)
+	webGroup.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
+	webGroup.POST("/logout", middlewares.CheckIfSessionExists(), authHandler.Logout)
 
 }
