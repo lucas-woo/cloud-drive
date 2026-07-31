@@ -12,7 +12,7 @@ type AuthMiddleware struct {
 	RedisRepository *redisrepo.RedisRepository
 }
 
-func (m *AuthMiddleware) IsAlreadyLoggedIn() gin.HandlerFunc {
+func (m *AuthMiddleware) RedirectIfAuthenticated() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		
 		sessionID, err := c.Cookie(config.CookieSession);
