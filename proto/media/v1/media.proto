@@ -92,3 +92,17 @@ message ObjectUploadConfirmationRequest {
 }
 
 message ObjectUploadConfirmationResponse {}
+
+message GetDashboardRequest {
+  string user_id = 1;
+}
+
+message GetDashboardResponse {
+  string username = 1;
+  string project_name = 2;
+  string project_id = 3;
+  int assets_amount = 4;
+  int transformations = 5;
+  int64 storage_bytes = 6;
+  string description = 7;
+}

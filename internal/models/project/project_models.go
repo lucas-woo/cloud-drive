@@ -16,5 +16,5 @@ type ProjectModel struct {
 	CreatedAt       time.Time `bson:"created_at,omitempty"`
 	Transformations int       `bson:"transformations,omitempty"`
 	StorageBytes    int64     `bson:"storage_bytes,omitempty"`
-	AssetsAmount int64				 `bson:"assets_amount,omitempty"`
+	AssetsAmount int				 `bson:"assets_amount,omitempty"`
 }
