@@ -20,10 +20,7 @@ service MediaService {
 
   rpc GetDashboard(GetDashboardRequest) returns(GetDashboardResponse);
 
-  //rpc get folders
 
-  
-  //get image data by objectId : 
-  //uploading file by api should just be returned a signedurl 
-  //rpc ChangeProjectName()
+  // rpc create new folder
+  //rpc get folders
 }

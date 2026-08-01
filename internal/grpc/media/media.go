@@ -95,6 +95,13 @@ func (s *Server) ObjectUploadConfirmation(ctx context.Context, req *mediav1.Obje
 	return &mediav1.ObjectUploadConfirmationResponse{}, nil
 }
 
+func (s *Server) GetDashboard(ctx context.Context, req *mediav1.GetDashboardRequest) (*mediav1.GetDashboardResponse, error) {
+	s.service.GetDashboard(ctx, &dto.GetDashboardRequest{
+		UserId: req.GetUserId(),
+	})
+	return nil, status.Error(codes.Unimplemented, "method GetDashboard not implemented")
+}
+
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{

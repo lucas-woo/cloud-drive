@@ -21,3 +21,7 @@ type ObjectUploadConfirmationRequest struct {
 	Format string
 	ErrorStatus error
 }
+
+type GetDashboardRequest struct {
+	UserId string
+}

@@ -98,11 +98,10 @@ message GetDashboardRequest {
 }
 
 message GetDashboardResponse {
-  string username = 1;
-  string project_name = 2;
-  string project_id = 3;
-  int32 assets_amount = 4;
-  int32 transformations = 5;
-  int64 storage_bytes = 6;
-  string description = 7;
+  string project_name = 1;
+  string project_id = 2;
+  int32 assets_amount = 3;
+  int32 transformations = 4;
+  int64 storage_bytes = 5;
+  string description = 6;
 }

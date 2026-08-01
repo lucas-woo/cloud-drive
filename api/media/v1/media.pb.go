@@ -943,13 +943,12 @@ func (x *GetDashboardRequest) GetUserId() string {
 
 type GetDashboardResponse struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	Username        string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	ProjectName     string                 `protobuf:"bytes,2,opt,name=project_name,json=projectName,proto3" json:"project_name,omitempty"`
-	ProjectId       string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	AssetsAmount    int32                  `protobuf:"varint,4,opt,name=assets_amount,json=assetsAmount,proto3" json:"assets_amount,omitempty"`
-	Transformations int32                  `protobuf:"varint,5,opt,name=transformations,proto3" json:"transformations,omitempty"`
-	StorageBytes    int64                  `protobuf:"varint,6,opt,name=storage_bytes,json=storageBytes,proto3" json:"storage_bytes,omitempty"`
-	Description     string                 `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
+	ProjectName     string                 `protobuf:"bytes,1,opt,name=project_name,json=projectName,proto3" json:"project_name,omitempty"`
+	ProjectId       string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	AssetsAmount    int32                  `protobuf:"varint,3,opt,name=assets_amount,json=assetsAmount,proto3" json:"assets_amount,omitempty"`
+	Transformations int32                  `protobuf:"varint,4,opt,name=transformations,proto3" json:"transformations,omitempty"`
+	StorageBytes    int64                  `protobuf:"varint,5,opt,name=storage_bytes,json=storageBytes,proto3" json:"storage_bytes,omitempty"`
+	Description     string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -982,13 +981,6 @@ func (x *GetDashboardResponse) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GetDashboardResponse.ProtoReflect.Descriptor instead.
 func (*GetDashboardResponse) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *GetDashboardResponse) GetUsername() string {
-	if x != nil {
-		return x.Username
-	}
-	return ""
 }
 
 func (x *GetDashboardResponse) GetProjectName() string {
@@ -1108,16 +1100,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x06status\x18\x04 \x01(\v2\x15.media.v1.ErrorStatusR\x06status\"\"\n" +
 	" ObjectUploadConfirmationResponse\".\n" +
 	"\x13GetDashboardRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\x8a\x02\n" +
-	"\x14GetDashboardResponse\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12!\n" +
-	"\fproject_name\x18\x02 \x01(\tR\vprojectName\x12\x1d\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xee\x01\n" +
+	"\x14GetDashboardResponse\x12!\n" +
+	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x03 \x01(\tR\tprojectId\x12#\n" +
-	"\rassets_amount\x18\x04 \x01(\x05R\fassetsAmount\x12(\n" +
-	"\x0ftransformations\x18\x05 \x01(\x05R\x0ftransformations\x12#\n" +
-	"\rstorage_bytes\x18\x06 \x01(\x03R\fstorageBytes\x12 \n" +
-	"\vdescription\x18\a \x01(\tR\vdescriptionB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12#\n" +
+	"\rassets_amount\x18\x03 \x01(\x05R\fassetsAmount\x12(\n" +
+	"\x0ftransformations\x18\x04 \x01(\x05R\x0ftransformations\x12#\n" +
+	"\rstorage_bytes\x18\x05 \x01(\x03R\fstorageBytes\x12 \n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescriptionB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_media_proto_rawDescOnce sync.Once
