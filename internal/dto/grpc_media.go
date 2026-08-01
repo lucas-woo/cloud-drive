@@ -25,3 +25,5 @@ type ObjectUploadConfirmationRequest struct {
 type GetDashboardRequest struct {
 	UserId string
 }
+
+type 

@@ -11,6 +11,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
 	s3repository "github.com/lucas-woo/cloud-drive/internal/repository/s3"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
@@ -92,14 +93,22 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 	return err 
 }
 
-func (s *Service) GetDashboard(ctx context.Context, req *dto.GetDashboardRequest) (*mediav1.GetDashboardResponse, error) {
+func (s *Service) GetDashboard(ctx context.Context, req *dto.GetDashboardRequest) (*projectmodels.ProjectModel, error) {
 	userId, err := uuid.Parse(req.UserId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return nil, nil
+	projectId, err := s.mediaResources.ProjectRepository.GetOneProject(ctx, userId)
+
+	projectInfo, err := s.mediaResources.ProjectRepository.GetProjectInfo(ctx, projectId)
+
+	if err != nil {
+		return nil, err
+	}		
+
+	return projectInfo, nil
 }
 
 func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (string, error) {
