@@ -37,6 +37,9 @@ var (
 	CookieSessionDomain string
 	CookieSessionSecure bool
 	CookieSessionHttpOnly bool 	
+
+	//gin set/get
+	GinUserId string = "user_id"
 )
 
 

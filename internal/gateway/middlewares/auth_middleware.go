@@ -22,34 +22,35 @@ func (m *AuthMiddleware) RedirectIfAuthenticated() gin.HandlerFunc {
 			return 
 		}
 
-		_, err = m.RedisRepository.FindUserId(c.Request.Context(), sessionID);
+		id, err := m.RedisRepository.FindUserId(c.Request.Context(), sessionID);
 
-		if err != nil {
-			c.AbortWithError(http.StatusInternalServerError, err)
-			return
+		if err != nil || len(id) == 0 {
+			c.Next()
+			return 			
 		}
-		c.Next()
+		c.AbortWithError(http.StatusBadRequest, err)
 	}
 }
 
-func (m *AuthMiddleware) CheckIfSessionExists() gin.HandlerFunc {
+func (m *AuthMiddleware) IsAuthenticated() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		sessCookie, exists := c.Get(config.CookieSession)
+		sessionId, err := c.Cookie(config.CookieSession)
 
-		if !exists {
+		if err != nil {
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
-		}		
-		sessionId, ok := sessCookie.(string)
-		if !ok {
-			c.AbortWithStatus(http.StatusBadRequest)
-			return					
-		}		
-		_, err := m.RedisRepository.FindUserId(c.Request.Context(), sessionId)
+		}
+
+		userId, err := m.RedisRepository.FindUserId(c.Request.Context(), sessionId)
+
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
+
+		c.Set(config.GinUserId, userId)
+
+		c.Next()
 	}
 }
 
