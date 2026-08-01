@@ -49,6 +49,12 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 		return
 	}
 
+	_, err = r.CreateRootFolder(ctx, pId)
+	
+	if err != nil {
+		return 
+	}
+
 	err = r.AddProjectUserRole(ctx, userId, pId, config.ADMIN_ROLE)
 
 	return

@@ -17,6 +17,7 @@ var (
 
 
 	ProjectUserRolesTable = "project_user_roles"
+	ProjectFoldersTable = "project_folders"
 	ApiKeysTable = "api_keys"
 	ApiKeyPermissionsTable = "api_key_permissions"
 	ProjectObjectsTable = "project_objects"
