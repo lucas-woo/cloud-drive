@@ -10,6 +10,6 @@ func InitializeAuthWebRoutes(webGroup *gin.RouterGroup, middlewares *middlewares
 	//needs validation middleware
 	webGroup.POST("/signup", middlewares.RedirectIfAuthenticated(), authHandler.SignUp)
 	webGroup.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
-	webGroup.POST("/logout", middlewares.CheckIfSessionExists(), authHandler.Logout)
+	webGroup.POST("/logout", middlewares.IsAuthenticated(), authHandler.Logout)
 
 }

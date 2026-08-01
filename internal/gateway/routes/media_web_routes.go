@@ -8,6 +8,6 @@ import (
 
 func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, mediaHandler *handlers.MediaHandler) {
 	//needs validation middleware
-	webGroup.POST("")
+	webGroup.GET("/dashboard", )
 
 }
