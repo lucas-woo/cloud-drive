@@ -26,7 +26,7 @@ message UploadObjectRequest {
   string user_id = 1;
   string project_id = 2;
   string object_name = 3;
-  string folder = 4;
+  string folder_id = 4;
   bool is_active = 5;
 }
 
@@ -45,7 +45,7 @@ message ImageTransformations {
 message ImageUploadInfo {
   string project_id = 1;
   string object_name = 2;
-  string folder = 3;
+  string folder_id = 3;
   string content_type = 4;
   bool is_active = 6;
 
@@ -67,7 +67,7 @@ message UploadImageApiResponse {
 message FileUploadInfo {
   string project_id = 1;
   string object_name = 2;
-  string folder = 3;
+  string folder_id = 3;
   string content_type = 4;
   bool is_active = 5;
 }
@@ -101,8 +101,8 @@ message GetDashboardResponse {
   string username = 1;
   string project_name = 2;
   string project_id = 3;
-  int assets_amount = 4;
-  int transformations = 5;
+  int32 assets_amount = 4;
+  int32 transformations = 5;
   int64 storage_bytes = 6;
   string description = 7;
 }

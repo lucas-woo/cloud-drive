@@ -24,13 +24,14 @@ var File_media_v1_service_proto protoreflect.FileDescriptor
 
 const file_media_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xd6\x03\n" +
+	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xa5\x04\n" +
 	"\fMediaService\x12Y\n" +
 	"\x10CreateNewProject\x12!.media.v1.CreateNewProjectRequest\x1a\".media.v1.CreateNewProjectResponse\x12M\n" +
 	"\fUploadObject\x12\x1d.media.v1.UploadObjectRequest\x1a\x1e.media.v1.UploadObjectResponse\x12U\n" +
 	"\x0eUploadImageApi\x12\x1f.media.v1.UploadImageApiRequest\x1a .media.v1.UploadImageApiResponse(\x01\x12R\n" +
 	"\rUploadFileApi\x12\x1e.media.v1.UploadFileApiRequest\x1a\x1f.media.v1.UploadFileApiResponse(\x01\x12q\n" +
-	"\x18ObjectUploadConfirmation\x12).media.v1.ObjectUploadConfirmationRequest\x1a*.media.v1.ObjectUploadConfirmationResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\x18ObjectUploadConfirmation\x12).media.v1.ObjectUploadConfirmationRequest\x1a*.media.v1.ObjectUploadConfirmationResponse\x12M\n" +
+	"\fGetDashboard\x12\x1d.media.v1.GetDashboardRequest\x1a\x1e.media.v1.GetDashboardResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var file_media_v1_service_proto_goTypes = []any{
 	(*CreateNewProjectRequest)(nil),          // 0: media.v1.CreateNewProjectRequest
@@ -38,28 +39,32 @@ var file_media_v1_service_proto_goTypes = []any{
 	(*UploadImageApiRequest)(nil),            // 2: media.v1.UploadImageApiRequest
 	(*UploadFileApiRequest)(nil),             // 3: media.v1.UploadFileApiRequest
 	(*ObjectUploadConfirmationRequest)(nil),  // 4: media.v1.ObjectUploadConfirmationRequest
-	(*CreateNewProjectResponse)(nil),         // 5: media.v1.CreateNewProjectResponse
-	(*UploadObjectResponse)(nil),             // 6: media.v1.UploadObjectResponse
-	(*UploadImageApiResponse)(nil),           // 7: media.v1.UploadImageApiResponse
-	(*UploadFileApiResponse)(nil),            // 8: media.v1.UploadFileApiResponse
-	(*ObjectUploadConfirmationResponse)(nil), // 9: media.v1.ObjectUploadConfirmationResponse
+	(*GetDashboardRequest)(nil),              // 5: media.v1.GetDashboardRequest
+	(*CreateNewProjectResponse)(nil),         // 6: media.v1.CreateNewProjectResponse
+	(*UploadObjectResponse)(nil),             // 7: media.v1.UploadObjectResponse
+	(*UploadImageApiResponse)(nil),           // 8: media.v1.UploadImageApiResponse
+	(*UploadFileApiResponse)(nil),            // 9: media.v1.UploadFileApiResponse
+	(*ObjectUploadConfirmationResponse)(nil), // 10: media.v1.ObjectUploadConfirmationResponse
+	(*GetDashboardResponse)(nil),             // 11: media.v1.GetDashboardResponse
 }
 var file_media_v1_service_proto_depIdxs = []int32{
-	0, // 0: media.v1.MediaService.CreateNewProject:input_type -> media.v1.CreateNewProjectRequest
-	1, // 1: media.v1.MediaService.UploadObject:input_type -> media.v1.UploadObjectRequest
-	2, // 2: media.v1.MediaService.UploadImageApi:input_type -> media.v1.UploadImageApiRequest
-	3, // 3: media.v1.MediaService.UploadFileApi:input_type -> media.v1.UploadFileApiRequest
-	4, // 4: media.v1.MediaService.ObjectUploadConfirmation:input_type -> media.v1.ObjectUploadConfirmationRequest
-	5, // 5: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
-	6, // 6: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
-	7, // 7: media.v1.MediaService.UploadImageApi:output_type -> media.v1.UploadImageApiResponse
-	8, // 8: media.v1.MediaService.UploadFileApi:output_type -> media.v1.UploadFileApiResponse
-	9, // 9: media.v1.MediaService.ObjectUploadConfirmation:output_type -> media.v1.ObjectUploadConfirmationResponse
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: media.v1.MediaService.CreateNewProject:input_type -> media.v1.CreateNewProjectRequest
+	1,  // 1: media.v1.MediaService.UploadObject:input_type -> media.v1.UploadObjectRequest
+	2,  // 2: media.v1.MediaService.UploadImageApi:input_type -> media.v1.UploadImageApiRequest
+	3,  // 3: media.v1.MediaService.UploadFileApi:input_type -> media.v1.UploadFileApiRequest
+	4,  // 4: media.v1.MediaService.ObjectUploadConfirmation:input_type -> media.v1.ObjectUploadConfirmationRequest
+	5,  // 5: media.v1.MediaService.GetDashboard:input_type -> media.v1.GetDashboardRequest
+	6,  // 6: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
+	7,  // 7: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
+	8,  // 8: media.v1.MediaService.UploadImageApi:output_type -> media.v1.UploadImageApiResponse
+	9,  // 9: media.v1.MediaService.UploadFileApi:output_type -> media.v1.UploadFileApiResponse
+	10, // 10: media.v1.MediaService.ObjectUploadConfirmation:output_type -> media.v1.ObjectUploadConfirmationResponse
+	11, // 11: media.v1.MediaService.GetDashboard:output_type -> media.v1.GetDashboardResponse
+	6,  // [6:12] is the sub-list for method output_type
+	0,  // [0:6] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_service_proto_init() }

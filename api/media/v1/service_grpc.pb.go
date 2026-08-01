@@ -24,6 +24,7 @@ const (
 	MediaService_UploadImageApi_FullMethodName           = "/media.v1.MediaService/UploadImageApi"
 	MediaService_UploadFileApi_FullMethodName            = "/media.v1.MediaService/UploadFileApi"
 	MediaService_ObjectUploadConfirmation_FullMethodName = "/media.v1.MediaService/ObjectUploadConfirmation"
+	MediaService_GetDashboard_FullMethodName             = "/media.v1.MediaService/GetDashboard"
 )
 
 // MediaServiceClient is the client API for MediaService service.
@@ -35,6 +36,7 @@ type MediaServiceClient interface {
 	UploadImageApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageApiRequest, UploadImageApiResponse], error)
 	UploadFileApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse], error)
 	ObjectUploadConfirmation(ctx context.Context, in *ObjectUploadConfirmationRequest, opts ...grpc.CallOption) (*ObjectUploadConfirmationResponse, error)
+	GetDashboard(ctx context.Context, in *GetDashboardRequest, opts ...grpc.CallOption) (*GetDashboardResponse, error)
 }
 
 type mediaServiceClient struct {
@@ -101,6 +103,16 @@ func (c *mediaServiceClient) ObjectUploadConfirmation(ctx context.Context, in *O
 	return out, nil
 }
 
+func (c *mediaServiceClient) GetDashboard(ctx context.Context, in *GetDashboardRequest, opts ...grpc.CallOption) (*GetDashboardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDashboardResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetDashboard_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MediaServiceServer is the server API for MediaService service.
 // All implementations must embed UnimplementedMediaServiceServer
 // for forward compatibility.
@@ -110,6 +122,7 @@ type MediaServiceServer interface {
 	UploadImageApi(grpc.ClientStreamingServer[UploadImageApiRequest, UploadImageApiResponse]) error
 	UploadFileApi(grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]) error
 	ObjectUploadConfirmation(context.Context, *ObjectUploadConfirmationRequest) (*ObjectUploadConfirmationResponse, error)
+	GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
 
@@ -134,6 +147,9 @@ func (UnimplementedMediaServiceServer) UploadFileApi(grpc.ClientStreamingServer[
 }
 func (UnimplementedMediaServiceServer) ObjectUploadConfirmation(context.Context, *ObjectUploadConfirmationRequest) (*ObjectUploadConfirmationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ObjectUploadConfirmation not implemented")
+}
+func (UnimplementedMediaServiceServer) GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetDashboard not implemented")
 }
 func (UnimplementedMediaServiceServer) mustEmbedUnimplementedMediaServiceServer() {}
 func (UnimplementedMediaServiceServer) testEmbeddedByValue()                      {}
@@ -224,6 +240,24 @@ func _MediaService_ObjectUploadConfirmation_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MediaService_GetDashboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDashboardRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetDashboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetDashboard_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetDashboard(ctx, req.(*GetDashboardRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MediaService_ServiceDesc is the grpc.ServiceDesc for MediaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +276,10 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ObjectUploadConfirmation",
 			Handler:    _MediaService_ObjectUploadConfirmation_Handler,
+		},
+		{
+			MethodName: "GetDashboard",
+			Handler:    _MediaService_GetDashboard_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
