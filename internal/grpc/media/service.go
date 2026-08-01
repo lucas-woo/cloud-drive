@@ -29,6 +29,13 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 
 	projectName, projectId, err = s.mediaResources.ProjectRepository.CreateNewProject(ctx, userId, createNewProjectRequest)
 
+	pId, err := uuid.Parse(projectId)
+
+	if err != nil {
+		return
+	}
+	_, err = s.mediaResources.ProjectRepository.CreateRootFolder(ctx, pId)
+
 	return
 }
 
@@ -55,7 +62,12 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 
 	objectId = oId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, req.Folder, req.IsActive)
+	folderId, err := uuid.Parse(req.FolderId)
+	if err != nil {
+		return "", "", err
+	}
+
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, folderId, req.IsActive)
 	if err != nil{
 		return 
 	}
@@ -108,7 +120,13 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 	}
 	objectIdString := objectId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, imageInfo.GetFolder(), imageInfo.GetIsActive())
+	folderId, err := uuid.Parse(imageInfo.FolderId)
+
+	if err != nil {
+		return "", err
+	}
+
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, imageInfo.GetIsActive())
 
 	if err != nil {
 		return "", errors.New("error creating new object")
@@ -214,7 +232,13 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 		return "", errors.New("invalid project id")
 	}
 
-	folder := fileInfo.GetFolder()
+
+
+	folderId, err := uuid.Parse(fileInfo.GetFolderId())
+
+	if err != nil {
+		return "", err
+	}
 
 	contentType := fileInfo.GetContentType()
 
@@ -225,7 +249,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 	objectIdString := objectId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folder, fileInfo.GetIsActive())
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, fileInfo.GetIsActive())
 	if err != nil{
 		return "", errors.New("error creating new object")
 	}

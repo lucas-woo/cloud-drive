@@ -42,7 +42,7 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 		UserId: req.GetUserId(),
 		ProjectId: req.GetProjectId(),
 		ObjectName: req.GetObjectName(),
-		Folder: req.GetFolder(),
+		FolderId: req.GetFolderId(),
 		IsActive: req.GetIsActive(),
 	})
 	if err != nil {

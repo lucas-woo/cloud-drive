@@ -11,7 +11,7 @@ type UploadObjectRequest struct {
 	UserId string
 	ProjectId string
 	ObjectName string
-	Folder string
+	FolderId string
 	IsActive bool
 }
 

@@ -20,7 +20,7 @@ service MediaService {
 
   rpc GetDashboard(GetDashboardRequest) returns(GetDashboardResponse);
 
-
+  //rpc get folders
 
   
   //get image data by objectId : 
