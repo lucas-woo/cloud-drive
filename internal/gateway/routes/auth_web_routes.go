@@ -6,7 +6,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/middlewares"
 )
 
-func InitializeAuthRoutes(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
+func InitializeAuthWebRoutes(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler) {
 	//needs validation middleware
 	webGroup.POST("/signup", middlewares.RedirectIfAuthenticated(), authHandler.SignUp)
 	webGroup.POST("/login", middlewares.RedirectIfAuthenticated(), authHandler.Login)
