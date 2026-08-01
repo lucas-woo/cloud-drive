@@ -37,7 +37,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	ginEngine := gin.Default()
 
 	webCors := cors.New(cors.Config{
-		AllowOrigins: []string{"https://yourwebsite.com", "https://yourwebsite.com"},
+		AllowOrigins: []string{"localhost:3000", "localhost:3000"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders: []string{"Content-Length"},
@@ -63,11 +63,16 @@ func NewServer(resources *database.GatewayResources) *Server {
 
 	middlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
 
+	// auth routes
 	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient)
-
 	authHandler := handlers.NewAuthHandler(authService)
 
-	routes.InitializeRouter(webGroup, middlewares, authHandler)
+	//media routes
+	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient)
+	mediaHandler := handlers.NewMediaHandler(mediaService)
+
+
+	routes.InitializeRouter(webGroup, middlewares, authHandler, mediaHandler)
 
 	return server
 }
