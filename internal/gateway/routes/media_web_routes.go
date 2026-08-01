@@ -21,16 +21,18 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 	
 	webGroup.GET("/collections-page")
 
+	webGroup.POST("/create-collection")
+
 	webGroup.POST("/create-folder")
 
 	//returns first 40 assets in that folder
 	webGroup.GET("/folder")
 
-
+	webGroup.POST("/add-assets-to-collection")
 	//get upload url link
-	webGroup.POST("/upload-image")
+	webGroup.POST("/upload-asset")
 
 
-	webGroup.POST("update-access-control")
+	webGroup.POST("update-asset-access-control")
 
 }
