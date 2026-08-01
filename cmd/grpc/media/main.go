@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
 	"os"
+	"time"
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
@@ -22,9 +24,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	config.InitCookiesEnv()
 
-	mediaResources := database.NewMediaResources()
+	startupCtx, startupCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer startupCancel()	
+
+	mediaResources := database.NewMediaResources(startupCtx)
+
+	defer func(){
+		mediaResources.Close()
+	}()
 
 	port, found := os.LookupEnv("MEDIA_SERVER_PORT")
 

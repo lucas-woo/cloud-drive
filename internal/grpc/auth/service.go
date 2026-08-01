@@ -13,35 +13,35 @@ type Service struct {
 }
 
 // returns session id, err
-func (s *Service) Register(ctx context.Context, user *dto.SignUpUserRequest) (string, error) {
+func (s *Service) Register(ctx context.Context, user *dto.SignUpUserRequest) (string, string, error) {
 	
 	taken, err := s.authResources.AuthRepo.EmailTaken(ctx, user.Email)
 	if err != nil || taken {
-		return "", errors.New("email taken")
+		return "", "",errors.New("email taken")
 	}
 
 	userId, err := s.authResources.AuthRepo.CreateNewUser(ctx, user)
 	
 	sessionId, err := s.authResources.RedisRepo.SetUserSession(ctx, userId, user.RememberMe)
 	if err != nil || taken {
-		return "", err
+		return "", "", err
 	}
 
-	return sessionId, nil
+	return sessionId, userId, nil
 }
 
-func (s *Service) Login(ctx context.Context, user *dto.LoginUserRequest) (string, error) {
+func (s *Service) Login(ctx context.Context, user *dto.LoginUserRequest) (string, string, error) {
 	userId, err := s.authResources.AuthRepo.LoginUser(ctx, user)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	sessionId, err := s.authResources.RedisRepo.SetUserSession(ctx, userId, user.RememberMe)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}	
 	
-	return sessionId, nil
+	return sessionId, userId, nil
 }
 
 func (s *Service) Logout(ctx context.Context, sessionId string) (bool, error) {
