@@ -109,12 +109,19 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 	objectIdString := objectId.String()
 
 	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, imageInfo.GetFolder(), imageInfo.GetIsActive())
+
 	if err != nil {
 		return "", errors.New("error creating new object")
 	}
 
-
+	
 	var uploadSuccessful bool
+	err = s.mediaResources.ProjectRepository.IncrementTransformationCount(ctx, projectId)
+
+	if err != nil {
+		return "", errors.New("error incrementing transformations")
+	}
+	
 	defer func() {
 		if !uploadSuccessful {
 

@@ -9,6 +9,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
@@ -38,6 +39,9 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 		ProjectName: projectName,
 		Description: projectRequest.Description,
 		IsActive: true,
+		Transformations: 0,
+		StorageBytes: 0,
+		AssetsAmount: 0,
 	}
 
 	_, err = r.mongodb.InsertOne(ctx, newProject)
@@ -48,6 +52,17 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 	err = r.AddProjectUserRole(ctx, userId, pId, config.ADMIN_ROLE)
 
 	return
+}
+
+func (r *ProjectRepository) IncrementTransformationCount(ctx context.Context, projectId uuid.UUID) error {
+	filter := bson.M{"_id": projectId}
+	update := bson.M{
+		"$inc": bson.M{
+			"transformations": 1,
+		},
+	}
+	_, err := r.mongodb.UpdateOne(ctx, filter, update)
+	return err
 }
 
 func NewProjectRepository(mongoClient *mongo.Client, mysqlClient *sql.DB) *ProjectRepository {

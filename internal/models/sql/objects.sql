@@ -1,5 +1,6 @@
 CREATE TABLE project_objects (
     project_id BINARY(16) NOT NULL,
+    collection_id BINARY(16) NULL,
     object_id BINARY(16) NOT NULL,
 
     folder VARCHAR(255) NOT NULL,
@@ -15,5 +16,6 @@ CREATE TABLE project_objects (
 
     PRIMARY KEY (object_id),
 
-    INDEX idx_project_id (project_id)
+    INDEX idx_project_id (project_id),
+    INDEX idx_collection_id (collection_id)
 );
