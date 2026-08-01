@@ -10,7 +10,7 @@ import (
 )
 
 
-func NewIamServiceClient() iamv1.IAMServiceClient {
+func NewIamServiceClient() (iamv1.IAMServiceClient, *grpc.ClientConn) {
 	
 	port, found := os.LookupEnv("IAM_SERVER_PORT")
 
@@ -21,10 +21,11 @@ func NewIamServiceClient() iamv1.IAMServiceClient {
 	conn, err := grpc.NewClient("localhost:" + port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
+		conn.Close()
 		log.Fatal()
 	}
 
 	client := iamv1.NewIAMServiceClient(conn)
 
-	return client
+	return client, conn
 }

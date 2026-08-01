@@ -18,7 +18,8 @@ func main() {
 		log.Fatal("env err")
 	}
 
-	iamClient := iamclient.NewIamServiceClient()
+	iamClient, conn := iamclient.NewIamServiceClient()
+	defer func(){conn.Close()}()
 
 	ctx := context.Background()
 
