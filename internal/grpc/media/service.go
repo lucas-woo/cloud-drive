@@ -92,7 +92,15 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 	return err 
 }
 
+func (s *Service) GetDashboard(ctx context.Context, req *dto.GetDashboardRequest) (*mediav1.GetDashboardResponse, error) {
+	userId, err := uuid.Parse(req.UserId)
 
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
+}
 
 func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (string, error) {
 
