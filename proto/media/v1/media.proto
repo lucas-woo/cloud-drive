@@ -3,6 +3,7 @@ syntax="proto3";
 option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
 
 import "media/v1/transformations.proto";
+import "google/protobuf/timestamp.proto";
 
 package media.v1;
 
@@ -104,4 +105,5 @@ message GetDashboardResponse {
   int32 transformations = 4;
   int64 storage_bytes = 5;
   string description = 6;
+  google.protobuf.Timestamp created_at = 7;
 }

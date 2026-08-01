@@ -96,10 +96,16 @@ func (s *Server) ObjectUploadConfirmation(ctx context.Context, req *mediav1.Obje
 }
 
 func (s *Server) GetDashboard(ctx context.Context, req *mediav1.GetDashboardRequest) (*mediav1.GetDashboardResponse, error) {
-	s.service.GetDashboard(ctx, &dto.GetDashboardRequest{
+	projectInfo, err := s.service.GetDashboard(ctx, &dto.GetDashboardRequest{
 		UserId: req.GetUserId(),
 	})
-	return nil, status.Error(codes.Unimplemented, "method GetDashboard not implemented")
+
+	if err != nil {
+		return nil, status.Error(codes.Unimplemented, "method GetDashboard not implemented")
+	}
+	return &mediav1.GetDashboardResponse{
+		
+	}, nil
 }
 
 

@@ -54,6 +54,18 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 	return
 }
 
+func (r *ProjectRepository) GetAllProjects(ctx context.Context, userId uuid.UUID) {
+	// TODO!!!
+}
+
+func (r *ProjectRepository) GetOneProject(ctx context.Context, userId uuid.UUID) (uuid.UUID, error) {
+
+}
+
+func (r *ProjectRepository) GetProjectInfo(ctx context.Context, projectId uuid.UUID) (*projectmodels.ProjectModel, error) {
+
+}
+
 func (r *ProjectRepository) IncrementTransformationCount(ctx context.Context, projectId uuid.UUID) error {
 	filter := bson.M{"_id": projectId}
 	update := bson.M{
