@@ -31,6 +31,9 @@ var (
 
 	SessionPrefix string = "session:"
 
+	//assets
+	AmountImagesToFetch int = 40
+
 	//cookies
 	CookieSession string = "session_id"
 	CookieSessionMaxAge int

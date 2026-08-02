@@ -317,6 +317,14 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 }
 
+
+func (s *Service) GetAssets(ctx context.Context, ) (error){
+	
+	s.mediaResources.ProjectRepository.GetAssets(ctx, )
+	return nil
+}
+
+
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
 		mediaResources: mediaResources,
