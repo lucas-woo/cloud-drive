@@ -17,5 +17,11 @@ CREATE TABLE project_objects (
 
     INDEX idx_project_id (project_id),
     INDEX idx_collection_id (collection_id),
-    INDEX idx_folder_id (folder_id)
+    INDEX idx_folder_id (folder_id),
+
+    INDEX idx_project_created_object (
+        project_id,
+        created_at DESC,
+        object_id DESC
+    )
 );

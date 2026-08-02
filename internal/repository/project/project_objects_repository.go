@@ -7,6 +7,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 )
 
 func (r *ProjectRepository) CreateNewObject(
@@ -185,4 +186,90 @@ func (r *ProjectRepository) DisableObject(ctx context.Context, objectId uuid.UUI
 	}
 
 	return nil
+}
+
+
+func (r *ProjectRepository) GetAllAssets(
+	ctx context.Context,
+	projectId uuid.UUID,
+	cursor *dto.AssetCursor,
+	limit int,
+) ([]*dto.ProjectObject, error) {
+
+	if limit <= 0 {
+		limit = 40
+	}
+
+	query := `
+		SELECT
+			project_id,
+			collection_id,
+			folder_id,
+			object_id,
+			file_size,
+			format,
+			is_active,
+			created_at,
+			modified_at
+		FROM project_objects
+		WHERE project_id = ?
+	`
+
+	args := []any{projectId[:]}
+
+	if cursor != nil {
+		query += `
+			AND (
+				created_at < ?
+				OR (created_at = ? AND object_id < ?)
+			)
+		`
+		args = append(args,
+			cursor.CreatedAt,
+			cursor.CreatedAt,
+			cursor.ObjectId[:],
+		)
+	}
+
+	query += `
+		ORDER BY created_at DESC, object_id DESC
+		LIMIT ?
+	`
+
+	args = append(args, limit)
+
+	rows, err := r.sqldb.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var assets []*dto.ProjectObject
+
+	for rows.Next() {
+		var asset dto.ProjectObject
+
+		err := rows.Scan(
+			&asset.ProjectId,
+			&asset.CollectionId,
+			&asset.FolderId,
+			&asset.ObjectId,
+			&asset.FileSize,
+			&asset.Format,
+			&asset.IsActive,
+			&asset.CreatedAt,
+			&asset.ModifiedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		assets = append(assets, &asset)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return assets, nil
 }

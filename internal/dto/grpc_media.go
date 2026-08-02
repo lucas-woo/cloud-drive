@@ -1,5 +1,11 @@
 package dto
 
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
+
 
 type CreateNewProjectRequest struct {
 	UserId string
@@ -24,4 +30,24 @@ type ObjectUploadConfirmationRequest struct {
 
 type GetDashboardRequest struct {
 	UserId string
+}
+
+type ProjectObject struct {
+	ProjectId    uuid.UUID
+	CollectionId uuid.UUID
+	FolderId     uuid.UUID
+	ObjectId     uuid.UUID
+
+	FileSize int64
+	Format   string
+
+	IsActive bool
+
+	CreatedAt  time.Time
+	ModifiedAt time.Time
+}
+
+type AssetCursor struct {
+    CreatedAt time.Time
+    ObjectId  uuid.UUID
 }
