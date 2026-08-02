@@ -1,0 +1,40 @@
+syntax="proto3";
+
+option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
+
+import "google/protobuf/timestamp.proto";
+
+package media.v1;
+
+message AssetCursor {
+  google.protobuf.Timestamp created_at = 1;
+  string object_id = 2;
+}
+
+message ProjectFolder {
+  string folder_id = 1;
+  
+  string folder_name = 2;
+
+	int64 folder_size = 3;
+  int32 asset_count = 4;
+
+  google.protobuf.Timestamp last_uplaod = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp modified_at = 7;
+}
+
+message ProjectObject {
+	string project_id = 1;
+	string collection_id = 2;
+	string folder_id = 3;
+	string object_id = 4;
+
+	int64 file_size = 5;
+	string format = 6;
+
+	bool is_active = 7;
+
+	google.protobuf.Timestamp created_at = 8;
+	google.protobuf.Timestamp modified_at = 9;
+}
