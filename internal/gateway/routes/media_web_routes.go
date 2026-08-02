@@ -19,7 +19,7 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 	webGroup.GET("/folders-page")
 
 	
-	webGroup.GET("/collections-page")
+	webGroup.GET("/collections-page") // done
 
 	webGroup.POST("/create-collection")
 
