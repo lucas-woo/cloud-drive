@@ -143,6 +143,18 @@ func (s *Server) GetAssets(ctx context.Context, req *mediav1.GetAssetsRequest) (
 	}, nil
 }
 
+func (s *Server) GetAllFolders(ctx context.Context, req *mediav1.GetAllFoldersRequest) (*mediav1.GetAllFoldersResponse, error) {
+
+	allFolders, err := s.service.GetAllFolders(ctx, req.GetProjectId())
+
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	return &mediav1.GetAllFoldersResponse{
+		ProjectFolders: utils.ConvertProjectFoldersToResponse(allFolders),
+	}, nil
+}
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
