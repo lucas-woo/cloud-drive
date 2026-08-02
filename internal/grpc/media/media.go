@@ -92,7 +92,7 @@ func (s *Server) ObjectUploadConfirmation(ctx context.Context, req *mediav1.Obje
 		ErrorStatus: errorStatus,
 	})
 	if err != nil {
-		return nil, status.Error(codes.Unimplemented, "method LambdaS3UploadConfirmation not implemented")		
+		return nil, status.Error(codes.Internal, "method LambdaS3UploadConfirmation not implemented")		
 	}
 	return &mediav1.ObjectUploadConfirmationResponse{}, nil
 }
@@ -155,6 +155,20 @@ func (s *Server) GetAllFolders(ctx context.Context, req *mediav1.GetAllFoldersRe
 		ProjectFolders: utils.ConvertProjectFoldersToResponse(allFolders),
 	}, nil
 }
+
+
+func (s *Server) GetAllCollections(ctx context.Context, req *mediav1.GetAllCollectionsRequest) (*mediav1.GetAllCollectionsResponse, error) {
+	
+	collections, err := s.service.GetAllCollections(ctx, req.GetProjectId())
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &mediav1.GetAllCollectionsResponse{
+		ProjectCollections: utils.ConvertProjectCollectionsToResponse(collections),
+	}, nil
+}
+
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{

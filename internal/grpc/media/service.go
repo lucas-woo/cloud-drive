@@ -11,6 +11,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	assetsmodels "github.com/lucas-woo/cloud-drive/internal/models/assets"
 	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
 	s3repository "github.com/lucas-woo/cloud-drive/internal/repository/s3"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
@@ -352,6 +353,15 @@ func (s *Service) GetAllFolders(ctx context.Context, pId string) ([]*dto.Project
 	}
 
 	return s.mediaResources.ProjectRepository.GetAllFolders(ctx, projectId)
+}
+
+func (s *Service) GetAllCollections(ctx context.Context, pId string) ([]*assetsmodels.CollectionModel, error ) {
+	projectId, err := uuid.Parse(pId)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.mediaResources.ProjectRepository.GetAllCollections(ctx, projectId)
 }
 
 func NewMediaService(mediaResources *database.MediaResources) *Service {

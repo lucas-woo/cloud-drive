@@ -3,6 +3,7 @@ package utils
 import (
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	assetsmodels "github.com/lucas-woo/cloud-drive/internal/models/assets"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -48,6 +49,32 @@ func ConvertProjectFoldersToResponse(folders []*dto.ProjectFolder) []*mediav1.Pr
 			LastUplaod: timestamppb.New(folder.LastUpload),
 			CreatedAt:  timestamppb.New(folder.CreatedAt),
 			ModifiedAt: timestamppb.New(folder.ModifiedAt),
+		})
+	}
+
+	return resp
+}
+
+
+func ConvertProjectCollectionsToResponse(collections []*assetsmodels.CollectionModel) []*mediav1.ProjectCollection {
+	if collections == nil {
+		return nil
+	}
+
+	resp := make([]*mediav1.ProjectCollection, 0, len(collections))
+
+	for _, collection := range collections {
+		if collection == nil {
+			continue
+		}
+
+		resp = append(resp, &mediav1.ProjectCollection{
+			CollectionId: collection.CollectionId.String(),
+			Name:         collection.Name,
+			Description:  collection.Description,
+			CreatedAt:    timestamppb.New(collection.CreatedAt),
+			LastModified: timestamppb.New(collection.LastModified),
+			IsPublic:     collection.IsPublic,
 		})
 	}
 
