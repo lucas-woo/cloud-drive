@@ -189,7 +189,7 @@ func (r *ProjectRepository) DisableObject(ctx context.Context, objectId uuid.UUI
 }
 
 
-func (r *ProjectRepository) GetAllAssets(
+func (r *ProjectRepository) GetAssets(
 	ctx context.Context,
 	projectId uuid.UUID,
 	cursor *dto.AssetCursor,
@@ -272,4 +272,12 @@ func (r *ProjectRepository) GetAllAssets(
 	}
 
 	return assets, nil
+}
+
+func (r *ProjectRepository) GetAllFolders(ctx context.Context, projectId uuid.UUID) {
+
+}
+
+func (r *ProjectRepository) GetAllCollections() {
+
 }
