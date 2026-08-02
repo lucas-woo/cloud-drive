@@ -38,3 +38,16 @@ message ProjectObject {
 	google.protobuf.Timestamp created_at = 8;
 	google.protobuf.Timestamp modified_at = 9;
 }
+
+
+message ProjectCollection {
+
+	string collection_id = 1;
+	string name = 2;
+	string description = 3;
+
+	google.protobuf.Timestamp created_at = 4;
+	google.protobuf.Timestamp last_modified = 5;
+
+	bool is_public = 6;
+}
