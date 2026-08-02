@@ -20,7 +20,9 @@ service MediaService {
 
   rpc GetDashboard(GetDashboardRequest) returns(GetDashboardResponse);
 
+  rpc GetAssets(GetAssetsRequest) returns (GetAssetsResponse);
 
+  rpc GetAllFolders(GetAllFoldersRequest) returns (GetAllFoldersResponse);
   // rpc create new folder
   //rpc get folders
 }

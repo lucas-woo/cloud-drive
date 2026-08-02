@@ -107,3 +107,40 @@ message GetDashboardResponse {
   string description = 6;
   google.protobuf.Timestamp created_at = 7;
 }
+
+message AssetCursor {
+  google.protobuf.Timestamp created_at = 1;
+  string object_id = 2;
+}
+
+message ProjectObject {
+	string project_id = 1;
+	string collection_id = 2;
+	string folder_id = 3;
+	string object_id = 4;
+
+	int64 file_size = 5;
+	string format = 6;
+
+	bool is_active = 7;
+
+	google.protobuf.Timestamp created_at = 8;
+	google.protobuf.Timestamp modified_at = 9;
+}
+
+message GetAssetsRequest {
+  string project_id = 1;
+  AssetCursor asset_cursor = 2;
+}
+
+message GetAssetsResponse {
+  repeated ProjectObject project_objects = 1;
+}
+
+message GetAllFoldersRequest {
+
+}
+
+message GetAllFoldersResponse {
+
+}
