@@ -100,9 +100,7 @@ func (s *Service) GetDashboard(ctx context.Context, req *dto.GetDashboardRequest
 		return nil, err
 	}
 
-	projectId, err := s.mediaResources.ProjectRepository.GetOneProject(ctx, userId)
-
-	projectInfo, err := s.mediaResources.ProjectRepository.GetProjectInfo(ctx, projectId)
+	projectInfo, err := s.mediaResources.ProjectRepository.GetOneProjectByUserId(ctx, userId)
 
 	if err != nil {
 		return nil, err
