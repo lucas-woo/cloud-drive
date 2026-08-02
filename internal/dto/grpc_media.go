@@ -51,3 +51,16 @@ type AssetCursor struct {
     CreatedAt time.Time
     ObjectId  uuid.UUID
 }
+
+type ProjectFolder struct {
+  FolderId uuid.UUID
+
+  FolderName string
+
+	FolderSize int64
+  AssetCount int32 
+
+  LastUpload time.Time
+  CreatedAt time.Time
+  ModifiedAt time.Time
+}
