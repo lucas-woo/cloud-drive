@@ -1247,10 +1247,11 @@ func (x *GetAssetsRequest) GetAssetCursor() *AssetCursor {
 }
 
 type GetAssetsResponse struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	ProjectObjects []*ProjectObject       `protobuf:"bytes,1,rep,name=project_objects,json=projectObjects,proto3" json:"project_objects,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	ProjectObjects  []*ProjectObject       `protobuf:"bytes,1,rep,name=project_objects,json=projectObjects,proto3" json:"project_objects,omitempty"`
+	NextAssetCursor *AssetCursor           `protobuf:"bytes,2,opt,name=next_asset_cursor,json=nextAssetCursor,proto3" json:"next_asset_cursor,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *GetAssetsResponse) Reset() {
@@ -1286,6 +1287,13 @@ func (*GetAssetsResponse) Descriptor() ([]byte, []int) {
 func (x *GetAssetsResponse) GetProjectObjects() []*ProjectObject {
 	if x != nil {
 		return x.ProjectObjects
+	}
+	return nil
+}
+
+func (x *GetAssetsResponse) GetNextAssetCursor() *AssetCursor {
+	if x != nil {
+		return x.NextAssetCursor
 	}
 	return nil
 }
@@ -1468,9 +1476,10 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x10GetAssetsRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x128\n" +
-	"\fasset_cursor\x18\x02 \x01(\v2\x15.media.v1.AssetCursorR\vassetCursor\"U\n" +
+	"\fasset_cursor\x18\x02 \x01(\v2\x15.media.v1.AssetCursorR\vassetCursor\"\x98\x01\n" +
 	"\x11GetAssetsResponse\x12@\n" +
-	"\x0fproject_objects\x18\x01 \x03(\v2\x17.media.v1.ProjectObjectR\x0eprojectObjects\"\x16\n" +
+	"\x0fproject_objects\x18\x01 \x03(\v2\x17.media.v1.ProjectObjectR\x0eprojectObjects\x12A\n" +
+	"\x11next_asset_cursor\x18\x02 \x01(\v2\x15.media.v1.AssetCursorR\x0fnextAssetCursor\"\x16\n" +
 	"\x14GetAllFoldersRequest\"\x17\n" +
 	"\x15GetAllFoldersResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
@@ -1531,11 +1540,12 @@ var file_media_v1_media_proto_depIdxs = []int32{
 	26, // 11: media.v1.ProjectObject.modified_at:type_name -> google.protobuf.Timestamp
 	16, // 12: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
 	17, // 13: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
-	14, // [14:14] is the sub-list for method output_type
-	14, // [14:14] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	16, // 14: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_media_proto_init() }

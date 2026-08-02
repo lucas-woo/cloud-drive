@@ -318,17 +318,17 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 }
 
 
-func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*dto.ProjectObject, error) {
+func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*dto.ProjectObject, *dto.AssetCursor, error) {
 
 	projectId, err := uuid.Parse(req.ProjectId)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	var assets []*dto.ProjectObject
 	if req.AssetCursor != nil {
 		lastObjectId, err := uuid.Parse(req.AssetCursor.ObjectId)
 		if err != nil {
-			return nil, err
+			return nil,nil, err
 		}
 		assets, err = s.mediaResources.ProjectRepository.GetAssets(ctx, projectId, &dto.AssetCursor{
 			ObjectId: lastObjectId,
@@ -337,8 +337,11 @@ func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssets(ctx, projectId, nil, config.AmountImagesToFetch)
 	}
-
-	return assets, err
+	nextCursor := &dto.AssetCursor{
+			CreatedAt: assets[len(assets)-1].CreatedAt,
+			ObjectId:  assets[len(assets)-1].ObjectId,
+	}
+	return assets, nextCursor, err
 }
 
 
