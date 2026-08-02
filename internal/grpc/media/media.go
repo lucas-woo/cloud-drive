@@ -122,7 +122,7 @@ func (s *Server) GetAssets(ctx context.Context, req *mediav1.GetAssetsRequest) (
 			ObjectId: req.GetAssetCursor().GetObjectId(),
 		}
 	}
-	assets, err := s.service.GetAssets(ctx, &dto.GetAssetsRequest{
+	assets, nextCursor, err := s.service.GetAssets(ctx, &dto.GetAssetsRequest{
 		ProjectId: req.GetProjectId(),
 		AssetCursor: assetCursor,
 	})
@@ -131,9 +131,11 @@ func (s *Server) GetAssets(ctx context.Context, req *mediav1.GetAssetsRequest) (
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	
 
-	return nil, status.Error(codes.Unimplemented, "method GetAssets not implemented")
+
+	return &mediav1.GetAssetsResponse{
+		
+	}, nil
 }
 
 
