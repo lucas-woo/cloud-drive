@@ -317,7 +317,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 }
 
-
+//change config.AmountImagesToFetch to change number of assets returned
 func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*dto.ProjectObject, *dto.AssetCursor, error) {
 
 	projectId, err := uuid.Parse(req.ProjectId)
@@ -344,6 +344,15 @@ func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*
 	return assets, nextCursor, err
 }
 
+func (s *Service) GetAllFolders(ctx context.Context, pId string) ([]*dto.ProjectFolder, error) {
+
+	projectId, err := uuid.Parse(pId)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.mediaResources.ProjectRepository.GetAllFolders(ctx, projectId)
+}
 
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{

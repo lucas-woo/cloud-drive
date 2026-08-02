@@ -26,3 +26,30 @@ func ConvertProjectObjectsToResponse(objects []*dto.ProjectObject) ([]*mediav1.P
 
 	return resp
 }
+
+
+func ConvertProjectFoldersToResponse(folders []*dto.ProjectFolder) []*mediav1.ProjectFolder {
+	if folders == nil {
+		return nil
+	}
+
+	resp := make([]*mediav1.ProjectFolder, 0, len(folders))
+
+	for _, folder := range folders {
+		if folder == nil {
+			continue
+		}
+
+		resp = append(resp, &mediav1.ProjectFolder{
+			FolderId:   folder.FolderId.String(),
+			FolderName: folder.FolderName,
+			FolderSize: folder.FolderSize,
+			AssetCount: folder.AssetCount,
+			LastUplaod: timestamppb.New(folder.LastUpload),
+			CreatedAt:  timestamppb.New(folder.CreatedAt),
+			ModifiedAt: timestamppb.New(folder.ModifiedAt),
+		})
+	}
+
+	return resp
+}
