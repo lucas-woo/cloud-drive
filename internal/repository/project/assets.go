@@ -161,7 +161,7 @@ func (r *ProjectRepository) GetAllFolders(
 func (r *ProjectRepository) GetAllCollections(
 	ctx context.Context,
 	projectId uuid.UUID,
-) ([]assetsmodels.CollectionModel, error) {
+) ([]*assetsmodels.CollectionModel, error) {
 
 	filter := bson.M{
 		"project_id": projectId,
@@ -173,7 +173,7 @@ func (r *ProjectRepository) GetAllCollections(
 	}
 	defer cursor.Close(ctx)
 
-	collections := make([]assetsmodels.CollectionModel, 0)
+	collections := make([]*assetsmodels.CollectionModel, 0)
 
 	for cursor.Next(ctx) {
 		var collection assetsmodels.CollectionModel
@@ -182,7 +182,7 @@ func (r *ProjectRepository) GetAllCollections(
 			return nil, err
 		}
 
-		collections = append(collections, collection)
+		collections = append(collections, &collection)
 	}
 
 	if err := cursor.Err(); err != nil {
