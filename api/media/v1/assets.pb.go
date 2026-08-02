@@ -274,6 +274,90 @@ func (x *ProjectObject) GetModifiedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type ProjectCollection struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CollectionId  string                 `protobuf:"bytes,1,opt,name=collection_id,json=collectionId,proto3" json:"collection_id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	LastModified  *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_modified,json=lastModified,proto3" json:"last_modified,omitempty"`
+	IsPublic      bool                   `protobuf:"varint,6,opt,name=is_public,json=isPublic,proto3" json:"is_public,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProjectCollection) Reset() {
+	*x = ProjectCollection{}
+	mi := &file_media_v1_assets_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProjectCollection) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProjectCollection) ProtoMessage() {}
+
+func (x *ProjectCollection) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_assets_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProjectCollection.ProtoReflect.Descriptor instead.
+func (*ProjectCollection) Descriptor() ([]byte, []int) {
+	return file_media_v1_assets_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ProjectCollection) GetCollectionId() string {
+	if x != nil {
+		return x.CollectionId
+	}
+	return ""
+}
+
+func (x *ProjectCollection) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ProjectCollection) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ProjectCollection) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *ProjectCollection) GetLastModified() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastModified
+	}
+	return nil
+}
+
+func (x *ProjectCollection) GetIsPublic() bool {
+	if x != nil {
+		return x.IsPublic
+	}
+	return false
+}
+
 var File_media_v1_assets_proto protoreflect.FileDescriptor
 
 const file_media_v1_assets_proto_rawDesc = "" +
@@ -309,7 +393,15 @@ const file_media_v1_assets_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12;\n" +
 	"\vmodified_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"modifiedAtB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"modifiedAt\"\x87\x02\n" +
+	"\x11ProjectCollection\x12#\n" +
+	"\rcollection_id\x18\x01 \x01(\tR\fcollectionId\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x129\n" +
+	"\n" +
+	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12?\n" +
+	"\rlast_modified\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\flastModified\x12\x1b\n" +
+	"\tis_public\x18\x06 \x01(\bR\bisPublicB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_assets_proto_rawDescOnce sync.Once
@@ -323,25 +415,28 @@ func file_media_v1_assets_proto_rawDescGZIP() []byte {
 	return file_media_v1_assets_proto_rawDescData
 }
 
-var file_media_v1_assets_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_media_v1_assets_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_media_v1_assets_proto_goTypes = []any{
 	(*AssetCursor)(nil),           // 0: media.v1.AssetCursor
 	(*ProjectFolder)(nil),         // 1: media.v1.ProjectFolder
 	(*ProjectObject)(nil),         // 2: media.v1.ProjectObject
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*ProjectCollection)(nil),     // 3: media.v1.ProjectCollection
+	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 }
 var file_media_v1_assets_proto_depIdxs = []int32{
-	3, // 0: media.v1.AssetCursor.created_at:type_name -> google.protobuf.Timestamp
-	3, // 1: media.v1.ProjectFolder.last_uplaod:type_name -> google.protobuf.Timestamp
-	3, // 2: media.v1.ProjectFolder.created_at:type_name -> google.protobuf.Timestamp
-	3, // 3: media.v1.ProjectFolder.modified_at:type_name -> google.protobuf.Timestamp
-	3, // 4: media.v1.ProjectObject.created_at:type_name -> google.protobuf.Timestamp
-	3, // 5: media.v1.ProjectObject.modified_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	4, // 0: media.v1.AssetCursor.created_at:type_name -> google.protobuf.Timestamp
+	4, // 1: media.v1.ProjectFolder.last_uplaod:type_name -> google.protobuf.Timestamp
+	4, // 2: media.v1.ProjectFolder.created_at:type_name -> google.protobuf.Timestamp
+	4, // 3: media.v1.ProjectFolder.modified_at:type_name -> google.protobuf.Timestamp
+	4, // 4: media.v1.ProjectObject.created_at:type_name -> google.protobuf.Timestamp
+	4, // 5: media.v1.ProjectObject.modified_at:type_name -> google.protobuf.Timestamp
+	4, // 6: media.v1.ProjectCollection.created_at:type_name -> google.protobuf.Timestamp
+	4, // 7: media.v1.ProjectCollection.last_modified:type_name -> google.protobuf.Timestamp
+	8, // [8:8] is the sub-list for method output_type
+	8, // [8:8] is the sub-list for method input_type
+	8, // [8:8] is the sub-list for extension type_name
+	8, // [8:8] is the sub-list for extension extendee
+	0, // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_assets_proto_init() }
@@ -355,7 +450,7 @@ func file_media_v1_assets_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_assets_proto_rawDesc), len(file_media_v1_assets_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

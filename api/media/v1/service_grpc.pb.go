@@ -27,6 +27,7 @@ const (
 	MediaService_GetDashboard_FullMethodName             = "/media.v1.MediaService/GetDashboard"
 	MediaService_GetAssets_FullMethodName                = "/media.v1.MediaService/GetAssets"
 	MediaService_GetAllFolders_FullMethodName            = "/media.v1.MediaService/GetAllFolders"
+	MediaService_GetAllCollections_FullMethodName        = "/media.v1.MediaService/GetAllCollections"
 )
 
 // MediaServiceClient is the client API for MediaService service.
@@ -41,6 +42,7 @@ type MediaServiceClient interface {
 	GetDashboard(ctx context.Context, in *GetDashboardRequest, opts ...grpc.CallOption) (*GetDashboardResponse, error)
 	GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error)
 	GetAllFolders(ctx context.Context, in *GetAllFoldersRequest, opts ...grpc.CallOption) (*GetAllFoldersResponse, error)
+	GetAllCollections(ctx context.Context, in *GetAllCollectionsRequest, opts ...grpc.CallOption) (*GetAllCollectionsResponse, error)
 }
 
 type mediaServiceClient struct {
@@ -137,6 +139,16 @@ func (c *mediaServiceClient) GetAllFolders(ctx context.Context, in *GetAllFolder
 	return out, nil
 }
 
+func (c *mediaServiceClient) GetAllCollections(ctx context.Context, in *GetAllCollectionsRequest, opts ...grpc.CallOption) (*GetAllCollectionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllCollectionsResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetAllCollections_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MediaServiceServer is the server API for MediaService service.
 // All implementations must embed UnimplementedMediaServiceServer
 // for forward compatibility.
@@ -149,6 +161,7 @@ type MediaServiceServer interface {
 	GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error)
 	GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error)
 	GetAllFolders(context.Context, *GetAllFoldersRequest) (*GetAllFoldersResponse, error)
+	GetAllCollections(context.Context, *GetAllCollectionsRequest) (*GetAllCollectionsResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
 
@@ -182,6 +195,9 @@ func (UnimplementedMediaServiceServer) GetAssets(context.Context, *GetAssetsRequ
 }
 func (UnimplementedMediaServiceServer) GetAllFolders(context.Context, *GetAllFoldersRequest) (*GetAllFoldersResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetAllFolders not implemented")
+}
+func (UnimplementedMediaServiceServer) GetAllCollections(context.Context, *GetAllCollectionsRequest) (*GetAllCollectionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllCollections not implemented")
 }
 func (UnimplementedMediaServiceServer) mustEmbedUnimplementedMediaServiceServer() {}
 func (UnimplementedMediaServiceServer) testEmbeddedByValue()                      {}
@@ -326,6 +342,24 @@ func _MediaService_GetAllFolders_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MediaService_GetAllCollections_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllCollectionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetAllCollections(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetAllCollections_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetAllCollections(ctx, req.(*GetAllCollectionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MediaService_ServiceDesc is the grpc.ServiceDesc for MediaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -356,6 +390,10 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllFolders",
 			Handler:    _MediaService_GetAllFolders_Handler,
+		},
+		{
+			MethodName: "GetAllCollections",
+			Handler:    _MediaService_GetAllCollections_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

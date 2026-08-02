@@ -24,6 +24,7 @@ service MediaService {
 
   rpc GetAllFolders(GetAllFoldersRequest) returns (GetAllFoldersResponse);
 
+  rpc GetAllCollections(GetAllCollectionsRequest) returns (GetAllCollectionsResponse);
   //rpc GetCdnCookie
   // rpc create new folder
   //rpc get folders
