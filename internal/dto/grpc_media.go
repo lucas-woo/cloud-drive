@@ -74,3 +74,9 @@ type AssetCursorRequest struct {
 	CreatedAt time.Time
 	ObjectId string
 }
+
+type GetAssetsInFolderRequest struct {
+	ProjectId string
+	FolderId string 
+	AssetCursor *AssetCursorRequest
+}

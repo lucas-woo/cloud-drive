@@ -364,6 +364,42 @@ func (s *Service) GetAllCollections(ctx context.Context, pId string) ([]*assetsm
 	return s.mediaResources.ProjectRepository.GetAllCollections(ctx, projectId)
 }
 
+
+func (s *Service) GetAssetsInFolder(ctx context.Context, req *dto.GetAssetsInFolderRequest) ([]*dto.ProjectObject, *dto.AssetCursor, error) {
+
+	projectId, err := uuid.Parse(req.ProjectId)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	folderId, err := uuid.Parse(req.FolderId)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var assets []*dto.ProjectObject
+
+	if req.AssetCursor != nil {
+		lastObjectId, err := uuid.Parse(req.AssetCursor.ObjectId)
+		if err != nil {
+			return nil,nil, err
+		}
+		assets, err = s.mediaResources.ProjectRepository.GetAssetsInFolder(ctx, projectId, folderId, &dto.AssetCursor{
+			ObjectId: lastObjectId,
+			CreatedAt: req.AssetCursor.CreatedAt,
+		}, config.AmountImagesToFetch)
+	} else {
+		assets, err = s.mediaResources.ProjectRepository.GetAssetsInFolder(ctx, projectId, folderId, nil, config.AmountImagesToFetch)
+	}	
+
+	nextCursor := &dto.AssetCursor{
+			CreatedAt: assets[len(assets)-1].CreatedAt,
+			ObjectId:  assets[len(assets)-1].ObjectId,
+	}
+	return assets, nextCursor, err	
+}
+
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
 		mediaResources: mediaResources,

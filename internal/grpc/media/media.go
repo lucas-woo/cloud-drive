@@ -170,8 +170,32 @@ func (s *Server) GetAllCollections(ctx context.Context, req *mediav1.GetAllColle
 }
 
 func (s *Server) GetAssetsInFolder(ctx context.Context, req *mediav1.GetAssetsInFolderRequest) (*mediav1.GetAssetsInFolderResponse, error) {
+	var assetCursor *dto.AssetCursorRequest
 	
-	return nil, status.Error(codes.Unimplemented, "method GetAssetsInFolder not implemented")
+	if req.GetAssetCursor() != nil {
+		assetCursor = &dto.AssetCursorRequest{
+			CreatedAt: req.GetAssetCursor().GetCreatedAt().AsTime(),
+			ObjectId: req.GetAssetCursor().GetObjectId(),
+		}
+	}
+
+	assets, nextAssetCursor, err := s.service.GetAssetsInFolder(ctx, &dto.GetAssetsInFolderRequest{
+		ProjectId: req.GetProjectId(),
+		FolderId: req.GetFolderId(),
+		AssetCursor: assetCursor,
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	return &mediav1.GetAssetsInFolderResponse{
+		NextAssetCursor: &mediav1.AssetCursor{
+			CreatedAt: timestamppb.New(nextAssetCursor.CreatedAt),
+			ObjectId: nextAssetCursor.ObjectId.String(),
+		},
+		ProjectObjects: utils.ConvertProjectObjectsToResponse(assets),
+	}, nil
 }
 
 
