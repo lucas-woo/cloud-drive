@@ -9,6 +9,7 @@ package mediav1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -949,6 +950,7 @@ type GetDashboardResponse struct {
 	Transformations int32                  `protobuf:"varint,4,opt,name=transformations,proto3" json:"transformations,omitempty"`
 	StorageBytes    int64                  `protobuf:"varint,5,opt,name=storage_bytes,json=storageBytes,proto3" json:"storage_bytes,omitempty"`
 	Description     string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1025,11 +1027,346 @@ func (x *GetDashboardResponse) GetDescription() string {
 	return ""
 }
 
+func (x *GetDashboardResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+type AssetCursor struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ObjectId      string                 `protobuf:"bytes,2,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AssetCursor) Reset() {
+	*x = AssetCursor{}
+	mi := &file_media_v1_media_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AssetCursor) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AssetCursor) ProtoMessage() {}
+
+func (x *AssetCursor) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AssetCursor.ProtoReflect.Descriptor instead.
+func (*AssetCursor) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *AssetCursor) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *AssetCursor) GetObjectId() string {
+	if x != nil {
+		return x.ObjectId
+	}
+	return ""
+}
+
+type ProjectObject struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	CollectionId  string                 `protobuf:"bytes,2,opt,name=collection_id,json=collectionId,proto3" json:"collection_id,omitempty"`
+	FolderId      string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
+	ObjectId      string                 `protobuf:"bytes,4,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
+	FileSize      int64                  `protobuf:"varint,5,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
+	Format        string                 `protobuf:"bytes,6,opt,name=format,proto3" json:"format,omitempty"`
+	IsActive      bool                   `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ModifiedAt    *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=modified_at,json=modifiedAt,proto3" json:"modified_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ProjectObject) Reset() {
+	*x = ProjectObject{}
+	mi := &file_media_v1_media_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ProjectObject) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ProjectObject) ProtoMessage() {}
+
+func (x *ProjectObject) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ProjectObject.ProtoReflect.Descriptor instead.
+func (*ProjectObject) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ProjectObject) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *ProjectObject) GetCollectionId() string {
+	if x != nil {
+		return x.CollectionId
+	}
+	return ""
+}
+
+func (x *ProjectObject) GetFolderId() string {
+	if x != nil {
+		return x.FolderId
+	}
+	return ""
+}
+
+func (x *ProjectObject) GetObjectId() string {
+	if x != nil {
+		return x.ObjectId
+	}
+	return ""
+}
+
+func (x *ProjectObject) GetFileSize() int64 {
+	if x != nil {
+		return x.FileSize
+	}
+	return 0
+}
+
+func (x *ProjectObject) GetFormat() string {
+	if x != nil {
+		return x.Format
+	}
+	return ""
+}
+
+func (x *ProjectObject) GetIsActive() bool {
+	if x != nil {
+		return x.IsActive
+	}
+	return false
+}
+
+func (x *ProjectObject) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *ProjectObject) GetModifiedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ModifiedAt
+	}
+	return nil
+}
+
+type GetAssetsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	AssetCursor   *AssetCursor           `protobuf:"bytes,2,opt,name=asset_cursor,json=assetCursor,proto3" json:"asset_cursor,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAssetsRequest) Reset() {
+	*x = GetAssetsRequest{}
+	mi := &file_media_v1_media_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetsRequest) ProtoMessage() {}
+
+func (x *GetAssetsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetsRequest.ProtoReflect.Descriptor instead.
+func (*GetAssetsRequest) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetAssetsRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *GetAssetsRequest) GetAssetCursor() *AssetCursor {
+	if x != nil {
+		return x.AssetCursor
+	}
+	return nil
+}
+
+type GetAssetsResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ProjectObjects []*ProjectObject       `protobuf:"bytes,1,rep,name=project_objects,json=projectObjects,proto3" json:"project_objects,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetAssetsResponse) Reset() {
+	*x = GetAssetsResponse{}
+	mi := &file_media_v1_media_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAssetsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAssetsResponse) ProtoMessage() {}
+
+func (x *GetAssetsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAssetsResponse.ProtoReflect.Descriptor instead.
+func (*GetAssetsResponse) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *GetAssetsResponse) GetProjectObjects() []*ProjectObject {
+	if x != nil {
+		return x.ProjectObjects
+	}
+	return nil
+}
+
+type GetAllFoldersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllFoldersRequest) Reset() {
+	*x = GetAllFoldersRequest{}
+	mi := &file_media_v1_media_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllFoldersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllFoldersRequest) ProtoMessage() {}
+
+func (x *GetAllFoldersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllFoldersRequest.ProtoReflect.Descriptor instead.
+func (*GetAllFoldersRequest) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{20}
+}
+
+type GetAllFoldersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllFoldersResponse) Reset() {
+	*x = GetAllFoldersResponse{}
+	mi := &file_media_v1_media_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllFoldersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllFoldersResponse) ProtoMessage() {}
+
+func (x *GetAllFoldersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllFoldersResponse.ProtoReflect.Descriptor instead.
+func (*GetAllFoldersResponse) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{21}
+}
+
 var File_media_v1_media_proto protoreflect.FileDescriptor
 
 const file_media_v1_media_proto_rawDesc = "" +
 	"\n" +
-	"\x14media/v1/media.proto\x12\bmedia.v1\x1a\x1emedia/v1/transformations.proto\";\n" +
+	"\x14media/v1/media.proto\x12\bmedia.v1\x1a\x1emedia/v1/transformations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\";\n" +
 	"\vErrorStatus\x12\x12\n" +
 	"\x04code\x18\x01 \x01(\x05R\x04code\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"w\n" +
@@ -1100,7 +1437,7 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x06status\x18\x04 \x01(\v2\x15.media.v1.ErrorStatusR\x06status\"\"\n" +
 	" ObjectUploadConfirmationResponse\".\n" +
 	"\x13GetDashboardRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xee\x01\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xa9\x02\n" +
 	"\x14GetDashboardResponse\x12!\n" +
 	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
@@ -1108,7 +1445,34 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\rassets_amount\x18\x03 \x01(\x05R\fassetsAmount\x12(\n" +
 	"\x0ftransformations\x18\x04 \x01(\x05R\x0ftransformations\x12#\n" +
 	"\rstorage_bytes\x18\x05 \x01(\x03R\fstorageBytes\x12 \n" +
-	"\vdescription\x18\x06 \x01(\tR\vdescriptionB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\vdescription\x18\x06 \x01(\tR\vdescription\x129\n" +
+	"\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"e\n" +
+	"\vAssetCursor\x129\n" +
+	"\n" +
+	"created_at\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12\x1b\n" +
+	"\tobject_id\x18\x02 \x01(\tR\bobjectId\"\xd7\x02\n" +
+	"\rProjectObject\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12#\n" +
+	"\rcollection_id\x18\x02 \x01(\tR\fcollectionId\x12\x1b\n" +
+	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12\x1b\n" +
+	"\tobject_id\x18\x04 \x01(\tR\bobjectId\x12\x1b\n" +
+	"\tfile_size\x18\x05 \x01(\x03R\bfileSize\x12\x16\n" +
+	"\x06format\x18\x06 \x01(\tR\x06format\x12\x1b\n" +
+	"\tis_active\x18\a \x01(\bR\bisActive\x129\n" +
+	"\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12;\n" +
+	"\vmodified_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"modifiedAt\"k\n" +
+	"\x10GetAssetsRequest\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x128\n" +
+	"\fasset_cursor\x18\x02 \x01(\v2\x15.media.v1.AssetCursorR\vassetCursor\"U\n" +
+	"\x11GetAssetsResponse\x12@\n" +
+	"\x0fproject_objects\x18\x01 \x03(\v2\x17.media.v1.ProjectObjectR\x0eprojectObjects\"\x16\n" +
+	"\x14GetAllFoldersRequest\"\x17\n" +
+	"\x15GetAllFoldersResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_media_proto_rawDescOnce sync.Once
@@ -1122,7 +1486,7 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 	return file_media_v1_media_proto_rawDescData
 }
 
-var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_media_v1_media_proto_goTypes = []any{
 	(*ErrorStatus)(nil),                      // 0: media.v1.ErrorStatus
 	(*CreateNewProjectRequest)(nil),          // 1: media.v1.CreateNewProjectRequest
@@ -1140,25 +1504,38 @@ var file_media_v1_media_proto_goTypes = []any{
 	(*ObjectUploadConfirmationResponse)(nil), // 13: media.v1.ObjectUploadConfirmationResponse
 	(*GetDashboardRequest)(nil),              // 14: media.v1.GetDashboardRequest
 	(*GetDashboardResponse)(nil),             // 15: media.v1.GetDashboardResponse
-	(*Crop)(nil),                             // 16: media.v1.Crop
-	(*Scale)(nil),                            // 17: media.v1.Scale
-	(*Compression)(nil),                      // 18: media.v1.Compression
-	(*Conversion)(nil),                       // 19: media.v1.Conversion
+	(*AssetCursor)(nil),                      // 16: media.v1.AssetCursor
+	(*ProjectObject)(nil),                    // 17: media.v1.ProjectObject
+	(*GetAssetsRequest)(nil),                 // 18: media.v1.GetAssetsRequest
+	(*GetAssetsResponse)(nil),                // 19: media.v1.GetAssetsResponse
+	(*GetAllFoldersRequest)(nil),             // 20: media.v1.GetAllFoldersRequest
+	(*GetAllFoldersResponse)(nil),            // 21: media.v1.GetAllFoldersResponse
+	(*Crop)(nil),                             // 22: media.v1.Crop
+	(*Scale)(nil),                            // 23: media.v1.Scale
+	(*Compression)(nil),                      // 24: media.v1.Compression
+	(*Conversion)(nil),                       // 25: media.v1.Conversion
+	(*timestamppb.Timestamp)(nil),            // 26: google.protobuf.Timestamp
 }
 var file_media_v1_media_proto_depIdxs = []int32{
-	16, // 0: media.v1.ImageTransformations.crop:type_name -> media.v1.Crop
-	17, // 1: media.v1.ImageTransformations.scale:type_name -> media.v1.Scale
-	18, // 2: media.v1.ImageTransformations.compression:type_name -> media.v1.Compression
-	19, // 3: media.v1.ImageTransformations.conversion:type_name -> media.v1.Conversion
+	22, // 0: media.v1.ImageTransformations.crop:type_name -> media.v1.Crop
+	23, // 1: media.v1.ImageTransformations.scale:type_name -> media.v1.Scale
+	24, // 2: media.v1.ImageTransformations.compression:type_name -> media.v1.Compression
+	25, // 3: media.v1.ImageTransformations.conversion:type_name -> media.v1.Conversion
 	5,  // 4: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
 	6,  // 5: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
 	9,  // 6: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
 	0,  // 7: media.v1.ObjectUploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
-	8,  // [8:8] is the sub-list for method output_type
-	8,  // [8:8] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	26, // 8: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
+	26, // 9: media.v1.AssetCursor.created_at:type_name -> google.protobuf.Timestamp
+	26, // 10: media.v1.ProjectObject.created_at:type_name -> google.protobuf.Timestamp
+	26, // 11: media.v1.ProjectObject.modified_at:type_name -> google.protobuf.Timestamp
+	16, // 12: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	17, // 13: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
+	14, // [14:14] is the sub-list for method output_type
+	14, // [14:14] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_media_proto_init() }
@@ -1181,7 +1558,7 @@ func file_media_v1_media_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_media_proto_rawDesc), len(file_media_v1_media_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
