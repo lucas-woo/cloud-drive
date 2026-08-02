@@ -7,8 +7,10 @@ import (
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type Server struct {
@@ -132,12 +134,14 @@ func (s *Server) GetAssets(ctx context.Context, req *mediav1.GetAssetsRequest) (
 	}
 
 
-
 	return &mediav1.GetAssetsResponse{
-		
+		NextAssetCursor: &mediav1.AssetCursor{
+			ObjectId: nextCursor.ObjectId.String(),
+			CreatedAt: timestamppb.New(nextCursor.CreatedAt),
+		},
+		ProjectObjects: utils.ConvertProjectObjectsToResponse(assets),
 	}, nil
 }
-
 
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
