@@ -3,6 +3,7 @@ package projectrepository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
@@ -54,16 +55,54 @@ func (r *ProjectRepository) CreateNewProject(ctx context.Context, userId uuid.UU
 	return
 }
 
-func (r *ProjectRepository) GetAllProjects(ctx context.Context, userId uuid.UUID) {
-	// TODO!!!
+func (r *ProjectRepository) GetAllProjects(ctx context.Context, userId uuid.UUID) ([]*projectmodels.ProjectModel, error) {
+
+	filter := bson.M{
+		"creator_id": userId,
+	}
+
+	cursor, err := r.mongodb.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var projects []*projectmodels.ProjectModel
+
+	for cursor.Next(ctx) {
+		var project projectmodels.ProjectModel
+
+		if err := cursor.Decode(&project); err != nil {
+			return nil, err
+		}
+
+		projects = append(projects, &project)
+	}
+
+	if err := cursor.Err(); err != nil {
+		return nil, err
+	}
+
+	return projects, nil
 }
 
-func (r *ProjectRepository) GetOneProject(ctx context.Context, userId uuid.UUID) (uuid.UUID, error) {
+func (r *ProjectRepository) GetOneProjectByUserId(ctx context.Context, userId uuid.UUID) (*projectmodels.ProjectModel, error) {
 
-}
+	filter := bson.M{
+		"creator_id": userId,
+	}
 
-func (r *ProjectRepository) GetProjectInfo(ctx context.Context, projectId uuid.UUID) (*projectmodels.ProjectModel, error) {
+	var project projectmodels.ProjectModel
 
+	err := r.mongodb.FindOne(ctx, filter).Decode(&project)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return nil, nil // or return mongo.ErrNoDocuments if you prefer
+		}
+		return nil, err
+	}
+
+	return &project, nil
 }
 
 func (r *ProjectRepository) IncrementTransformationCount(ctx context.Context, projectId uuid.UUID) error {

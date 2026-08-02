@@ -104,7 +104,12 @@ func (s *Server) GetDashboard(ctx context.Context, req *mediav1.GetDashboardRequ
 		return nil, status.Error(codes.Unimplemented, "method GetDashboard not implemented")
 	}
 	return &mediav1.GetDashboardResponse{
-		
+		ProjectName: projectInfo.ProjectName,
+		ProjectId: projectInfo.ProjectId.String(),
+		AssetsAmount: int32(projectInfo.AssetsAmount),
+		Transformations: int32(projectInfo.Transformations),
+		StorageBytes: projectInfo.StorageBytes,
+		Description: projectInfo.Description,
 	}, nil
 }
 
