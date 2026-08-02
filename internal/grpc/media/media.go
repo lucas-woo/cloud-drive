@@ -113,6 +113,13 @@ func (s *Server) GetDashboard(ctx context.Context, req *mediav1.GetDashboardRequ
 	}, nil
 }
 
+func (s *Server) GetAssets(ctx context.Context, req *mediav1.GetAssetsRequest) (*mediav1.GetAssetsResponse, error) {
+	
+	s.service.GetAssets(ctx, )
+	return nil, status.Error(codes.Unimplemented, "method GetAssets not implemented")
+}
+
+
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
