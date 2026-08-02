@@ -146,10 +146,10 @@ func (r *S3Repository) DisactivateObject(ctx context.Context, objectId string) (
 
 
 
-func (r *S3Repository) DeleteObject(ctx context.Context, objectName string) error {
+func (r *S3Repository) DeleteObject(ctx context.Context, objectPath string) error {
 	_, err := r.s3Client.DeleteObject(ctx, &s3.DeleteObjectInput{
 		Bucket: aws.String(r.bucketName),
-		Key: aws.String(objectName),
+		Key: aws.String(objectPath),
 	})
 	if err != nil {
 		return err
