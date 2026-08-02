@@ -114,8 +114,18 @@ func (s *Server) GetDashboard(ctx context.Context, req *mediav1.GetDashboardRequ
 }
 
 func (s *Server) GetAssets(ctx context.Context, req *mediav1.GetAssetsRequest) (*mediav1.GetAssetsResponse, error) {
+	var assetCursor *dto.AssetCursorRequest
 	
-	s.service.GetAssets(ctx, )
+	if req.GetAssetCursor() != nil {
+		assetCursor = &dto.AssetCursorRequest{
+			CreatedAt: req.GetAssetCursor().GetCreatedAt().AsTime(),
+			ObjectId: req.GetAssetCursor().GetObjectId(),
+		}
+	}
+	s.service.GetAssets(ctx, &dto.GetAssetsRequest{
+		ProjectId: req.GetProjectId(),
+		AssetCursor: assetCursor,
+	})
 	return nil, status.Error(codes.Unimplemented, "method GetAssets not implemented")
 }
 

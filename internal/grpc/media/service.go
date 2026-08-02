@@ -318,9 +318,13 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 }
 
 
-func (s *Service) GetAssets(ctx context.Context, ) (error){
-	
-	s.mediaResources.ProjectRepository.GetAssets(ctx, )
+func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) (error){
+
+	// var assetCursor *dto.AssetCursor
+
+
+
+	// s.mediaResources.ProjectRepository.GetAssets(ctx, )
 	return nil
 }
 
