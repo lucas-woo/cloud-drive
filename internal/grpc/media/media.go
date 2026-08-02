@@ -169,6 +169,11 @@ func (s *Server) GetAllCollections(ctx context.Context, req *mediav1.GetAllColle
 	}, nil
 }
 
+func (s *Server) GetAssetsInFolder(ctx context.Context, req *mediav1.GetAssetsInFolderRequest) (*mediav1.GetAssetsInFolderResponse, error) {
+	
+	return nil, status.Error(codes.Unimplemented, "method GetAssetsInFolder not implemented")
+}
+
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{

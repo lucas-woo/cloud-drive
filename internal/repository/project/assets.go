@@ -191,3 +191,114 @@ func (r *ProjectRepository) GetAllCollections(
 
 	return collections, nil
 }
+
+func (r *ProjectRepository) GetAssetsInFolder(
+	ctx context.Context,
+	projectId uuid.UUID,
+	folderId uuid.UUID,
+	assetCursor *dto.AssetCursor,
+	limit int,
+) ([]*dto.ProjectObject, error) {
+	var (
+		query string
+		args  []any
+	)
+
+	if assetCursor == nil {
+		query = fmt.Sprintf(`
+			SELECT
+				project_id,
+				collection_id,
+				folder_id,
+				object_id,
+				file_size,
+				format,
+				is_active,
+				is_pending,
+				created_at,
+				modified_at
+			FROM %s
+			WHERE
+				project_id = ?
+				AND folder_id = ?
+			ORDER BY created_at DESC, object_id DESC
+			LIMIT ?
+		`, config.ProjectObjectsTable)
+
+		args = []any{
+			projectId[:],
+			folderId[:],
+			limit,
+		}
+	} else {
+		query = fmt.Sprintf(`
+			SELECT
+				project_id,
+				collection_id,
+				folder_id,
+				object_id,
+				file_size,
+				format,
+				is_active,
+				is_pending,
+				created_at,
+				modified_at
+			FROM %s
+			WHERE
+				project_id = ?
+				AND folder_id = ?
+				AND (
+					created_at < ?
+					OR (
+						created_at = ?
+						AND object_id < ?
+					)
+				)
+			ORDER BY created_at DESC, object_id DESC
+			LIMIT ?
+		`, config.ProjectObjectsTable)
+
+		args = []any{
+			projectId[:],
+			folderId[:],
+			assetCursor.CreatedAt,
+			assetCursor.CreatedAt,
+			assetCursor.ObjectId[:],
+			limit,
+		}
+	}
+
+	rows, err := r.sqldb.QueryContext(ctx, query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var assets []*dto.ProjectObject
+
+	for rows.Next() {
+		var asset dto.ProjectObject
+
+		if err := rows.Scan(
+			&asset.ProjectId,
+			&asset.CollectionId,
+			&asset.FolderId,
+			&asset.ObjectId,
+			&asset.FileSize,
+			&asset.Format,
+			&asset.IsActive,
+			&asset.CreatedAt,
+			&asset.ModifiedAt,
+		); err != nil {
+			return nil, err
+		}
+
+		assets = append(assets, &asset)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return assets, nil
+}
