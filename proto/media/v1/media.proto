@@ -3,6 +3,7 @@ syntax="proto3";
 option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
 
 import "media/v1/transformations.proto";
+import "media/v1/assets.proto";
 import "google/protobuf/timestamp.proto";
 
 package media.v1;
@@ -108,25 +109,7 @@ message GetDashboardResponse {
   google.protobuf.Timestamp created_at = 7;
 }
 
-message AssetCursor {
-  google.protobuf.Timestamp created_at = 1;
-  string object_id = 2;
-}
 
-message ProjectObject {
-	string project_id = 1;
-	string collection_id = 2;
-	string folder_id = 3;
-	string object_id = 4;
-
-	int64 file_size = 5;
-	string format = 6;
-
-	bool is_active = 7;
-
-	google.protobuf.Timestamp created_at = 8;
-	google.protobuf.Timestamp modified_at = 9;
-}
 
 message GetAssetsRequest {
   string project_id = 1;
@@ -139,9 +122,9 @@ message GetAssetsResponse {
 }
 
 message GetAllFoldersRequest {
-
+  string project_id = 1;
 }
 
 message GetAllFoldersResponse {
-
+  repeated ProjectFolder project_folders = 1;
 }
