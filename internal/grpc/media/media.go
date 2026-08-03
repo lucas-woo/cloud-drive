@@ -198,6 +198,34 @@ func (s *Server) GetAssetsInFolder(ctx context.Context, req *mediav1.GetAssetsIn
 	}, nil
 }
 
+func (s *Server) GetAssetsInCollection(ctx context.Context, req *mediav1.GetAssetsInCollectionRequest) (*mediav1.GetAssetsInCollectionResponse, error) {
+
+	var assetCursor *dto.AssetCursorRequest
+	
+	if req.GetAssetCursor() != nil {
+		assetCursor = &dto.AssetCursorRequest{
+			CreatedAt: req.GetAssetCursor().GetCreatedAt().AsTime(),
+			ObjectId: req.GetAssetCursor().GetObjectId(),
+		}
+	}
+	assets, nextAssetCursor, err := s.service.GetAssetsInCollection(ctx, &dto.GetAssetsInCollectionRequest{
+		ProjectId: req.GetProjectId(),
+		CollectionId: req.GetCollectionId(),
+		AssetCursor: assetCursor,
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+
+	return &mediav1.GetAssetsInCollectionResponse{
+		NextAssetCursor: &mediav1.AssetCursor{
+			CreatedAt: timestamppb.New(nextAssetCursor.CreatedAt),
+			ObjectId: nextAssetCursor.ObjectId.String(),
+		},
+		ProjectObjects: utils.ConvertProjectObjectsToResponse(assets),
+	}, nil
+}
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{

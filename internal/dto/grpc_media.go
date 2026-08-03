@@ -80,3 +80,9 @@ type GetAssetsInFolderRequest struct {
 	FolderId string 
 	AssetCursor *AssetCursorRequest
 }
+
+type GetAssetsInCollectionRequest struct {
+	ProjectId string
+	CollectionId string 
+	AssetCursor *AssetCursorRequest	
+}
