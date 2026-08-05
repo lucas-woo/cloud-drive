@@ -452,3 +452,31 @@ func (r *ProjectRepository) CreateNewFolder(
 
 	return folderId, nil
 }
+
+func (r *ProjectRepository) CreateNewCollection(
+	ctx context.Context,
+	projectId, creatorId uuid.UUID,
+	name, description string,
+) (uuid.UUID, error) {
+
+	collectionId := uuid.New()
+	now := time.Now().UTC()
+
+	collection := assetsmodels.CollectionModel{
+		CollectionId: collectionId,
+		ProjectId:    projectId,
+		CreatedBy:    creatorId,
+		Name:         name,
+		Description:  description,
+		CreatedAt:    now,
+		LastModified: now,
+		IsPublic:     false,
+	}
+
+	_, err := r.mongodb.InsertOne(ctx, collection)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	return collectionId, nil
+}

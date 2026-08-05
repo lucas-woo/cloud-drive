@@ -95,3 +95,14 @@ type CreateNewFolderRequest struct {
 type CreateNewFolderResponse struct {
 	FolderId uuid.UUID
 }
+
+type CreateNewCollectionRequest struct {
+	ProjectId string
+	CreatorId string
+	Name string
+	Description string 
+}
+
+type CreateNewCollectionResponse struct {
+	CollectionId uuid.UUID
+}

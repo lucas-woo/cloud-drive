@@ -462,6 +462,24 @@ func(s *Service) CreateNewFolder(ctx context.Context, req *dto.CreateNewFolderRe
 	return &dto.CreateNewFolderResponse{FolderId: folderId}, nil
 }
 
+func(s *Service) CreateNewCollection(ctx context.Context, req *dto.CreateNewCollectionRequest) (*dto.CreateNewCollectionResponse, error) {
+	projectId, err := uuid.Parse(req.ProjectId)
+	if err != nil {
+		return nil, err
+	}
+
+	creatorId, err := uuid.Parse(req.CreatorId)
+	if err != nil {
+		return nil, err
+	}
+
+	collectionId, err := s.mediaResources.ProjectRepository.CreateNewCollection(ctx, projectId, creatorId, req.Name, req.Description)
+	if err != nil {
+		return nil, err
+	}
+	return &dto.CreateNewCollectionResponse{CollectionId: collectionId}, err
+}
+
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
 		mediaResources: mediaResources,

@@ -228,7 +228,7 @@ func (s *Server) GetAssetsInCollection(ctx context.Context, req *mediav1.GetAsse
 }
 
 func (s *Server) CreateNewFolder(ctx context.Context,req *mediav1.CreateNewFolderRequest) (*mediav1.CreateNewFolderResponse, error) {
-	created, err := s.service.CreateNewFolder(ctx, &dto.CreateNewFolderRequest{
+	createdId, err := s.service.CreateNewFolder(ctx, &dto.CreateNewFolderRequest{
 		FolderName: req.GetFolderName(),
 		ProjectId: req.GetProjectId(),
 	})
@@ -236,10 +236,25 @@ func (s *Server) CreateNewFolder(ctx context.Context,req *mediav1.CreateNewFolde
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 	return &mediav1.CreateNewFolderResponse{
-		FolderId: created.FolderId.String(),
+		FolderId: createdId.FolderId.String(),
 	}, nil
 }
 
+func (s *Server) CreateNewCollection(ctx context.Context, req *mediav1.CreateNewCollectionRequest) (*mediav1.CreateNewCollectionResponse, error) {
+	createdId, err := s.service.CreateNewCollection(ctx, &dto.CreateNewCollectionRequest{
+		ProjectId: req.GetProjectId(),
+		CreatorId: req.GetCreatorId(),
+		Name: req.GetName(),
+		Description: req.GetDescription(),
+	})
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	return &mediav1.CreateNewCollectionResponse{
+		CollectionId: createdId.CollectionId.String(),
+	}, nil
+
+}
 
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
