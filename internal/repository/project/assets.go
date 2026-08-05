@@ -3,6 +3,7 @@ package projectrepository
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/lucas-woo/cloud-drive/internal/config"
@@ -408,4 +409,46 @@ func (r *ProjectRepository) GetAssetsInCollection(
 	}
 
 	return assets, nil
+}
+
+func (r *ProjectRepository) CreateNewFolder(
+	ctx context.Context,
+	projectId uuid.UUID,
+	folderName string,
+) (uuid.UUID, error) {
+
+	folderId := uuid.New()
+	now := time.Now().UTC()
+
+	query := fmt.Sprintf(`
+		INSERT INTO %s (
+			folder_id,
+			project_id,
+			folder_name,
+			folder_size,
+			asset_count,
+			last_upload,
+			created_at,
+			modified_at
+		)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+	`, config.ProjectFoldersTable)
+
+	_, err := r.sqldb.ExecContext(
+		ctx,
+		query,
+		folderId[:],
+		projectId[:],
+		folderName,
+		0,
+		0,
+		nil,
+		now,
+		now,
+	)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	return folderId, nil
 }
