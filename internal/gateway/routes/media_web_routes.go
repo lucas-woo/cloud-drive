@@ -24,16 +24,16 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 	webGroup.GET("/collection") //done
 	webGroup.POST("/upload-asset") // done?
 
-	webGroup.POST("/create-collection")
+	webGroup.POST("/create-collection") // done
 
-	webGroup.POST("/create-folder")
+	webGroup.POST("/create-folder") // done
 
 
+
+	// proto todo:
 	webGroup.POST("/add-assets-to-collection")
-	//get upload url link
-
 
 	webGroup.POST("update-asset-access-control")
-
+	//update isPublic, create a new url link instead of using collectionId? 
 	webGroup.POST("collection-link")
 }
