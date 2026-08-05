@@ -18,7 +18,24 @@ service MediaService {
 
   rpc ObjectUploadConfirmation(ObjectUploadConfirmationRequest) returns(ObjectUploadConfirmationResponse);
 
-  //get image data by objectId : 
-  //uploading file by api should just be returned a signedurl 
-  //rpc ChangeProjectName()
+  rpc GetDashboard(GetDashboardRequest) returns(GetDashboardResponse);
+
+  rpc GetAssets(GetAssetsRequest) returns (GetAssetsResponse);
+
+  rpc GetAllFolders(GetAllFoldersRequest) returns (GetAllFoldersResponse);
+
+  rpc GetAllCollections(GetAllCollectionsRequest) returns (GetAllCollectionsResponse);
+
+  rpc GetAssetsInFolder(GetAssetsInFolderRequest) returns (GetAssetsInFolderResponse);
+
+  rpc GetAssetsInCollection(GetAssetsInCollectionRequest) returns(GetAssetsInCollectionResponse);
+
+  rpc CreateNewFolder(CreateNewFolderRequest) returns (CreateNewFolderResponse);
+
+  rpc CreateNewCollection(CreateNewCollectionRequest) returns(CreateNewCollectionResponse);
+
+
+  //rpc GetCdnCookie
+  // rpc create new folder
+  //rpc get folders
 }

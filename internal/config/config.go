@@ -1,9 +1,6 @@
 package config
 
 import (
-	"log"
-	"os"
-	"strconv"
 	"time"
 
 	"github.com/lucas-woo/godotenv"
@@ -20,6 +17,7 @@ var (
 
 
 	ProjectUserRolesTable = "project_user_roles"
+	ProjectFoldersTable = "project_folders"
 	ApiKeysTable = "api_keys"
 	ApiKeyPermissionsTable = "api_key_permissions"
 	ProjectObjectsTable = "project_objects"
@@ -31,72 +29,23 @@ var (
 
 	PreSignedUrlTime time.Duration = time.Minute * 3
 
-	CookieSessionIDString string
-	CookieUserId string
+	SessionPrefix string = "session:"
+
+	//assets
+	AmountImagesToFetch int = 40
+
+	//cookies
+	CookieSession string = "session_id"
 	CookieSessionMaxAge int
 	CookieSessionPath string
 	CookieSessionDomain string
 	CookieSessionSecure bool
 	CookieSessionHttpOnly bool 	
 
-	SessionPrefix string = "session:"
+	//gin set/get
+	GinUserId string = "user_id"
 )
 
-func InitCookiesEnv() {
-	userId, found := os.LookupEnv("COOKIE_USER_ID")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	CookieUserId = userId;	
-
-	sessID, found := os.LookupEnv("COOKIE_SESSION_ID_STRING")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	CookieSessionIDString = sessID;
-
-	sessMaxAge, found := os.LookupEnv("COOKIE_SESSION_MAX_AGE")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	sessMaxAgeInt, err := strconv.Atoi(sessMaxAge)
-	if err != nil {
-		log.Fatal("error getting cookie env")
-	}
-	CookieSessionMaxAge = sessMaxAgeInt;	
-
-	sessPath, found := os.LookupEnv("COOKIE_SESSION_PATH")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	CookieSessionPath = sessPath;	
-
-	sessDomain, found := os.LookupEnv("COOKIE_SESSION_DOMAIN")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	CookieSessionDomain = sessDomain;	
-
-	sessSecure, found := os.LookupEnv("COOKIE_SESSION_SECURE")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	sessSecureBool, err := strconv.ParseBool(sessSecure)
-	if err != nil {
-		log.Fatal("error getting cookie env")
-	}	
-	CookieSessionSecure = sessSecureBool;		
-
-	sessHttpOnly, found := os.LookupEnv("COOKIE_SESSION_HTTP_ONLY")
-	if !found {
-		log.Fatal("error getting cookie env")
-	}
-	sessHttpOnlyBool, err := strconv.ParseBool(sessHttpOnly)
-	if err != nil {
-		log.Fatal("error getting cookie env")
-	}	
-	CookieSessionHttpOnly = sessHttpOnlyBool;		
-}
 
 func InitializeEnv() error {
 	return godotenv.LoadEnv()
