@@ -91,6 +91,13 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 	}
 	
 	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
+
+	if err != nil {
+		return err
+	}
+	
+	err = s.mediaResources.ProjectRepository.IncrementProjectAssetsCount(ctx, )
+
 	return err 
 }
 
