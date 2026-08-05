@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"os"
-	"time"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -12,11 +11,7 @@ import (
 )
 
 
-func ConnectMongo() (client *mongo.Client, err error) {
-	
-	initContext, timoutFunc := context.WithTimeout(context.Background(), time.Second * 10);
-
-	defer timoutFunc();
+func ConnectMongo(ctx context.Context) (client *mongo.Client, err error) {
 
 	uri, found := os.LookupEnv("MONGO_URI");
 	if !found {
@@ -31,7 +26,10 @@ func ConnectMongo() (client *mongo.Client, err error) {
 		return
 	}
 
-	err = client.Ping(initContext, readpref.PrimaryPreferred())
+	err = client.Ping(ctx, readpref.PrimaryPreferred())
+	if err != nil {
+		return nil, err
+	}
 
-	return 
+	return client, nil
 }

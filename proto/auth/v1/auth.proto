@@ -13,6 +13,7 @@ message SignUpUserRequest {
 
 message SignUpUserResponse {
   string session_id = 1;
+  string user_id = 2;
 }
 
 message LoginUserRequest {
@@ -23,6 +24,7 @@ message LoginUserRequest {
 
 message LoginUserResponse {
   string session_id = 1;
+  string user_id = 2;
 }
 
 message LogoutUserRequest {

@@ -24,6 +24,14 @@ const (
 	MediaService_UploadImageApi_FullMethodName           = "/media.v1.MediaService/UploadImageApi"
 	MediaService_UploadFileApi_FullMethodName            = "/media.v1.MediaService/UploadFileApi"
 	MediaService_ObjectUploadConfirmation_FullMethodName = "/media.v1.MediaService/ObjectUploadConfirmation"
+	MediaService_GetDashboard_FullMethodName             = "/media.v1.MediaService/GetDashboard"
+	MediaService_GetAssets_FullMethodName                = "/media.v1.MediaService/GetAssets"
+	MediaService_GetAllFolders_FullMethodName            = "/media.v1.MediaService/GetAllFolders"
+	MediaService_GetAllCollections_FullMethodName        = "/media.v1.MediaService/GetAllCollections"
+	MediaService_GetAssetsInFolder_FullMethodName        = "/media.v1.MediaService/GetAssetsInFolder"
+	MediaService_GetAssetsInCollection_FullMethodName    = "/media.v1.MediaService/GetAssetsInCollection"
+	MediaService_CreateNewFolder_FullMethodName          = "/media.v1.MediaService/CreateNewFolder"
+	MediaService_CreateNewCollection_FullMethodName      = "/media.v1.MediaService/CreateNewCollection"
 )
 
 // MediaServiceClient is the client API for MediaService service.
@@ -35,6 +43,14 @@ type MediaServiceClient interface {
 	UploadImageApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadImageApiRequest, UploadImageApiResponse], error)
 	UploadFileApi(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[UploadFileApiRequest, UploadFileApiResponse], error)
 	ObjectUploadConfirmation(ctx context.Context, in *ObjectUploadConfirmationRequest, opts ...grpc.CallOption) (*ObjectUploadConfirmationResponse, error)
+	GetDashboard(ctx context.Context, in *GetDashboardRequest, opts ...grpc.CallOption) (*GetDashboardResponse, error)
+	GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error)
+	GetAllFolders(ctx context.Context, in *GetAllFoldersRequest, opts ...grpc.CallOption) (*GetAllFoldersResponse, error)
+	GetAllCollections(ctx context.Context, in *GetAllCollectionsRequest, opts ...grpc.CallOption) (*GetAllCollectionsResponse, error)
+	GetAssetsInFolder(ctx context.Context, in *GetAssetsInFolderRequest, opts ...grpc.CallOption) (*GetAssetsInFolderResponse, error)
+	GetAssetsInCollection(ctx context.Context, in *GetAssetsInCollectionRequest, opts ...grpc.CallOption) (*GetAssetsInCollectionResponse, error)
+	CreateNewFolder(ctx context.Context, in *CreateNewFolderRequest, opts ...grpc.CallOption) (*CreateNewFolderResponse, error)
+	CreateNewCollection(ctx context.Context, in *CreateNewCollectionRequest, opts ...grpc.CallOption) (*CreateNewCollectionResponse, error)
 }
 
 type mediaServiceClient struct {
@@ -101,6 +117,86 @@ func (c *mediaServiceClient) ObjectUploadConfirmation(ctx context.Context, in *O
 	return out, nil
 }
 
+func (c *mediaServiceClient) GetDashboard(ctx context.Context, in *GetDashboardRequest, opts ...grpc.CallOption) (*GetDashboardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDashboardResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetDashboard_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) GetAssets(ctx context.Context, in *GetAssetsRequest, opts ...grpc.CallOption) (*GetAssetsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetsResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetAssets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) GetAllFolders(ctx context.Context, in *GetAllFoldersRequest, opts ...grpc.CallOption) (*GetAllFoldersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllFoldersResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetAllFolders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) GetAllCollections(ctx context.Context, in *GetAllCollectionsRequest, opts ...grpc.CallOption) (*GetAllCollectionsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllCollectionsResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetAllCollections_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) GetAssetsInFolder(ctx context.Context, in *GetAssetsInFolderRequest, opts ...grpc.CallOption) (*GetAssetsInFolderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetsInFolderResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetAssetsInFolder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) GetAssetsInCollection(ctx context.Context, in *GetAssetsInCollectionRequest, opts ...grpc.CallOption) (*GetAssetsInCollectionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAssetsInCollectionResponse)
+	err := c.cc.Invoke(ctx, MediaService_GetAssetsInCollection_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) CreateNewFolder(ctx context.Context, in *CreateNewFolderRequest, opts ...grpc.CallOption) (*CreateNewFolderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateNewFolderResponse)
+	err := c.cc.Invoke(ctx, MediaService_CreateNewFolder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *mediaServiceClient) CreateNewCollection(ctx context.Context, in *CreateNewCollectionRequest, opts ...grpc.CallOption) (*CreateNewCollectionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateNewCollectionResponse)
+	err := c.cc.Invoke(ctx, MediaService_CreateNewCollection_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MediaServiceServer is the server API for MediaService service.
 // All implementations must embed UnimplementedMediaServiceServer
 // for forward compatibility.
@@ -110,6 +206,14 @@ type MediaServiceServer interface {
 	UploadImageApi(grpc.ClientStreamingServer[UploadImageApiRequest, UploadImageApiResponse]) error
 	UploadFileApi(grpc.ClientStreamingServer[UploadFileApiRequest, UploadFileApiResponse]) error
 	ObjectUploadConfirmation(context.Context, *ObjectUploadConfirmationRequest) (*ObjectUploadConfirmationResponse, error)
+	GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error)
+	GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error)
+	GetAllFolders(context.Context, *GetAllFoldersRequest) (*GetAllFoldersResponse, error)
+	GetAllCollections(context.Context, *GetAllCollectionsRequest) (*GetAllCollectionsResponse, error)
+	GetAssetsInFolder(context.Context, *GetAssetsInFolderRequest) (*GetAssetsInFolderResponse, error)
+	GetAssetsInCollection(context.Context, *GetAssetsInCollectionRequest) (*GetAssetsInCollectionResponse, error)
+	CreateNewFolder(context.Context, *CreateNewFolderRequest) (*CreateNewFolderResponse, error)
+	CreateNewCollection(context.Context, *CreateNewCollectionRequest) (*CreateNewCollectionResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
 
@@ -134,6 +238,30 @@ func (UnimplementedMediaServiceServer) UploadFileApi(grpc.ClientStreamingServer[
 }
 func (UnimplementedMediaServiceServer) ObjectUploadConfirmation(context.Context, *ObjectUploadConfirmationRequest) (*ObjectUploadConfirmationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ObjectUploadConfirmation not implemented")
+}
+func (UnimplementedMediaServiceServer) GetDashboard(context.Context, *GetDashboardRequest) (*GetDashboardResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetDashboard not implemented")
+}
+func (UnimplementedMediaServiceServer) GetAssets(context.Context, *GetAssetsRequest) (*GetAssetsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssets not implemented")
+}
+func (UnimplementedMediaServiceServer) GetAllFolders(context.Context, *GetAllFoldersRequest) (*GetAllFoldersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllFolders not implemented")
+}
+func (UnimplementedMediaServiceServer) GetAllCollections(context.Context, *GetAllCollectionsRequest) (*GetAllCollectionsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllCollections not implemented")
+}
+func (UnimplementedMediaServiceServer) GetAssetsInFolder(context.Context, *GetAssetsInFolderRequest) (*GetAssetsInFolderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssetsInFolder not implemented")
+}
+func (UnimplementedMediaServiceServer) GetAssetsInCollection(context.Context, *GetAssetsInCollectionRequest) (*GetAssetsInCollectionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAssetsInCollection not implemented")
+}
+func (UnimplementedMediaServiceServer) CreateNewFolder(context.Context, *CreateNewFolderRequest) (*CreateNewFolderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateNewFolder not implemented")
+}
+func (UnimplementedMediaServiceServer) CreateNewCollection(context.Context, *CreateNewCollectionRequest) (*CreateNewCollectionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateNewCollection not implemented")
 }
 func (UnimplementedMediaServiceServer) mustEmbedUnimplementedMediaServiceServer() {}
 func (UnimplementedMediaServiceServer) testEmbeddedByValue()                      {}
@@ -224,6 +352,150 @@ func _MediaService_ObjectUploadConfirmation_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MediaService_GetDashboard_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDashboardRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetDashboard(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetDashboard_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetDashboard(ctx, req.(*GetDashboardRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_GetAssets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetAssets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetAssets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetAssets(ctx, req.(*GetAssetsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_GetAllFolders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllFoldersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetAllFolders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetAllFolders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetAllFolders(ctx, req.(*GetAllFoldersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_GetAllCollections_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllCollectionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetAllCollections(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetAllCollections_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetAllCollections(ctx, req.(*GetAllCollectionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_GetAssetsInFolder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetsInFolderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetAssetsInFolder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetAssetsInFolder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetAssetsInFolder(ctx, req.(*GetAssetsInFolderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_GetAssetsInCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAssetsInCollectionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).GetAssetsInCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_GetAssetsInCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).GetAssetsInCollection(ctx, req.(*GetAssetsInCollectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_CreateNewFolder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNewFolderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).CreateNewFolder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_CreateNewFolder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).CreateNewFolder(ctx, req.(*CreateNewFolderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MediaService_CreateNewCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNewCollectionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).CreateNewCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_CreateNewCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).CreateNewCollection(ctx, req.(*CreateNewCollectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MediaService_ServiceDesc is the grpc.ServiceDesc for MediaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +514,38 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ObjectUploadConfirmation",
 			Handler:    _MediaService_ObjectUploadConfirmation_Handler,
+		},
+		{
+			MethodName: "GetDashboard",
+			Handler:    _MediaService_GetDashboard_Handler,
+		},
+		{
+			MethodName: "GetAssets",
+			Handler:    _MediaService_GetAssets_Handler,
+		},
+		{
+			MethodName: "GetAllFolders",
+			Handler:    _MediaService_GetAllFolders_Handler,
+		},
+		{
+			MethodName: "GetAllCollections",
+			Handler:    _MediaService_GetAllCollections_Handler,
+		},
+		{
+			MethodName: "GetAssetsInFolder",
+			Handler:    _MediaService_GetAssetsInFolder_Handler,
+		},
+		{
+			MethodName: "GetAssetsInCollection",
+			Handler:    _MediaService_GetAssetsInCollection_Handler,
+		},
+		{
+			MethodName: "CreateNewFolder",
+			Handler:    _MediaService_CreateNewFolder_Handler,
+		},
+		{
+			MethodName: "CreateNewCollection",
+			Handler:    _MediaService_CreateNewCollection_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

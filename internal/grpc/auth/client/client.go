@@ -10,7 +10,7 @@ import (
 )
 
 
-func NewAuthServiceClient() authv1.AuthServiceClient {
+func NewAuthServiceClient() (authv1.AuthServiceClient, *grpc.ClientConn) {
 	
 	port, found := os.LookupEnv("AUTH_SERVER_PORT")
 
@@ -21,10 +21,11 @@ func NewAuthServiceClient() authv1.AuthServiceClient {
 	conn, err := grpc.NewClient("localhost:" + port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
+		conn.Close()
 		log.Fatal()
 	}
 
 	client := authv1.NewAuthServiceClient(conn)
 
-	return client
+	return client, conn
 }

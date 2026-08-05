@@ -17,7 +17,7 @@ type Server struct {
 
 func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) (*authv1.SignUpUserResponse, error) {
 	
-	sessionId, err := s.service.Register(ctx, &dto.SignUpUserRequest{
+	sessionId, userId, err := s.service.Register(ctx, &dto.SignUpUserRequest{
 		Username: req.GetUsername(),
 		Password: req.GetPassword(),
 		Email: req.GetEmail(),
@@ -30,13 +30,14 @@ func (s *Server) SignUpUser(ctx context.Context, req *authv1.SignUpUserRequest) 
 
 
 	return &authv1.SignUpUserResponse{
+		UserId: userId,
 		SessionId: sessionId,
 	}, nil
 }
 
 func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*authv1.LoginUserResponse, error) {
 	
-	sessionId, err := s.service.Login(ctx, &dto.LoginUserRequest{
+	sessionId, userId, err := s.service.Login(ctx, &dto.LoginUserRequest{
 		Email: req.GetEmail(),
 		Password: req.GetPassword(),
 		RememberMe: req.GetRememberMe(),
@@ -47,6 +48,7 @@ func (s *Server) LoginUser(ctx context.Context, req *authv1.LoginUserRequest) (*
 	}
 
 	return &authv1.LoginUserResponse{
+		UserId: userId,
 		SessionId: sessionId,
 	}, nil
 }

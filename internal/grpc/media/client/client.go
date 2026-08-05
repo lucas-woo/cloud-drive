@@ -10,7 +10,7 @@ import (
 )
 
 
-func NewMediaServiceClient() mediav1.MediaServiceClient {
+func NewMediaServiceClient() (mediav1.MediaServiceClient, *grpc.ClientConn) {
 	
 	port, found := os.LookupEnv("MEDIA_SERVER_PORT")
 
@@ -21,10 +21,11 @@ func NewMediaServiceClient() mediav1.MediaServiceClient {
 	conn, err := grpc.NewClient("localhost:" + port, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
+		conn.Close()
 		log.Fatal()
 	}
 
 	client := mediav1.NewMediaServiceClient(conn)
 
-	return client
+	return client, conn
 }

@@ -3,6 +3,8 @@ syntax="proto3";
 option go_package = "github.com/lucas-woo/cloud-drive/api/media/v1/mediav1";
 
 import "media/v1/transformations.proto";
+import "media/v1/assets.proto";
+import "google/protobuf/timestamp.proto";
 
 package media.v1;
 
@@ -26,7 +28,7 @@ message UploadObjectRequest {
   string user_id = 1;
   string project_id = 2;
   string object_name = 3;
-  string folder = 4;
+  string folder_id = 4;
   bool is_active = 5;
 }
 
@@ -45,7 +47,7 @@ message ImageTransformations {
 message ImageUploadInfo {
   string project_id = 1;
   string object_name = 2;
-  string folder = 3;
+  string folder_id = 3;
   string content_type = 4;
   bool is_active = 6;
 
@@ -67,7 +69,7 @@ message UploadImageApiResponse {
 message FileUploadInfo {
   string project_id = 1;
   string object_name = 2;
-  string folder = 3;
+  string folder_id = 3;
   string content_type = 4;
   bool is_active = 5;
 }
@@ -92,3 +94,87 @@ message ObjectUploadConfirmationRequest {
 }
 
 message ObjectUploadConfirmationResponse {}
+
+message GetDashboardRequest {
+  string user_id = 1;
+}
+
+message GetDashboardResponse {
+  string project_name = 1;
+  string project_id = 2;
+  int32 assets_amount = 3;
+  int32 transformations = 4;
+  int64 storage_bytes = 5;
+  string description = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+
+
+message GetAssetsRequest {
+  string project_id = 1;
+  AssetCursor asset_cursor = 2;
+}
+
+message GetAssetsResponse {
+  repeated ProjectObject project_objects = 1;
+  AssetCursor next_asset_cursor = 2;
+}
+
+message GetAllFoldersRequest {
+  string project_id = 1;
+}
+
+message GetAllFoldersResponse {
+  repeated ProjectFolder project_folders = 1;
+}
+
+message GetAllCollectionsRequest {
+  string project_id = 1;
+}
+
+message GetAllCollectionsResponse {
+  repeated ProjectCollection project_collections = 1;
+}
+
+message GetAssetsInFolderRequest {
+  string project_id = 1;
+  string folder_id = 2;
+  AssetCursor asset_cursor = 3;
+}
+
+message GetAssetsInFolderResponse {
+  repeated ProjectObject project_objects = 1;
+  AssetCursor next_asset_cursor = 2;
+}
+
+message GetAssetsInCollectionRequest {
+  string project_id = 1;
+  string collection_id = 2;
+  AssetCursor asset_cursor = 3;
+}
+
+message GetAssetsInCollectionResponse {
+  repeated ProjectObject project_objects = 1;
+  AssetCursor next_asset_cursor = 2;
+}
+
+message CreateNewFolderRequest {
+  string project_id = 1;
+  string folder_name = 2;
+}
+
+message CreateNewFolderResponse {
+  string folder_id = 1;
+}
+
+message CreateNewCollectionRequest {
+  string project_id = 1;
+  string creator_id = 2;
+  string name = 3;
+  string description = 4;
+}
+
+message CreateNewCollectionResponse {
+  string collection_id = 1;
+}
