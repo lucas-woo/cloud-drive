@@ -116,6 +116,28 @@ func (r *ProjectRepository) IncrementTransformationCount(ctx context.Context, pr
 	return err
 }
 
+func (r *ProjectRepository) IncrementProjectAssetsCount(
+	ctx context.Context,
+	projectId uuid.UUID,
+	fileSize uint64,
+) error {
+
+	_, err := r.mongodb.UpdateOne(
+		ctx,
+		bson.M{
+			"_id": projectId,
+		},
+		bson.M{
+			"$inc": bson.M{
+				"assets_amount": 1,
+				"storage_bytes": int64(fileSize),
+			},
+		},
+	)
+
+	return err
+}
+
 func NewProjectRepository(mongoClient *mongo.Client, mysqlClient *sql.DB) *ProjectRepository {
 	return &ProjectRepository{
 		mongodb: mongoClient.Database(config.MediaDatabaseName).Collection(config.ProjectCollectionName),

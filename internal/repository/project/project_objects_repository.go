@@ -187,4 +187,27 @@ func (r *ProjectRepository) DisableObject(ctx context.Context, objectId uuid.UUI
 	return nil
 }
 
+func (r *ProjectRepository) GetProjectIdFromObjectId(
+	ctx context.Context,
+	objectId uuid.UUID,
+) (uuid.UUID, error) {
 
+	query := fmt.Sprintf(`
+		SELECT project_id
+		FROM %s
+		WHERE object_id = ?
+	`, config.ProjectObjectsTable)
+
+	var projectId uuid.UUID
+
+	err := r.sqldb.QueryRowContext(
+		ctx,
+		query,
+		objectId[:],
+	).Scan(&projectId)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	return projectId, nil
+}
