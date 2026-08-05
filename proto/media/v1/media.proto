@@ -158,3 +158,12 @@ message GetAssetsInCollectionResponse {
   repeated ProjectObject project_objects = 1;
   AssetCursor next_asset_cursor = 2;
 }
+
+message CreateNewFolderRequest {
+  string project_id = 1;
+  string folder_name = 2;
+}
+
+message CreateNewFolderResponse {
+  string folder_id = 1;
+}
