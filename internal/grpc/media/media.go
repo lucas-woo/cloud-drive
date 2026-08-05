@@ -227,6 +227,20 @@ func (s *Server) GetAssetsInCollection(ctx context.Context, req *mediav1.GetAsse
 	}, nil
 }
 
+func (s *Server) CreateNewFolder(ctx context.Context,req *mediav1.CreateNewFolderRequest) (*mediav1.CreateNewFolderResponse, error) {
+	created, err := s.service.CreateNewFolder(ctx, &dto.CreateNewFolderRequest{
+		FolderName: req.GetFolderName(),
+		ProjectId: req.GetProjectId(),
+	})
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	return &mediav1.CreateNewFolderResponse{
+		FolderId: created.FolderId.String(),
+	}, nil
+}
+
+
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
 		service: NewMediaService(mediaResources),
