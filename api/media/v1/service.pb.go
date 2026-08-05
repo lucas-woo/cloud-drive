@@ -24,7 +24,7 @@ var File_media_v1_service_proto protoreflect.FileDescriptor
 
 const file_media_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\xbb\b\n" +
+	"\x16media/v1/service.proto\x12\bmedia.v1\x1a\x14media/v1/media.proto2\x9f\t\n" +
 	"\fMediaService\x12Y\n" +
 	"\x10CreateNewProject\x12!.media.v1.CreateNewProjectRequest\x1a\".media.v1.CreateNewProjectResponse\x12M\n" +
 	"\fUploadObject\x12\x1d.media.v1.UploadObjectRequest\x1a\x1e.media.v1.UploadObjectResponse\x12U\n" +
@@ -37,7 +37,8 @@ const file_media_v1_service_proto_rawDesc = "" +
 	"\x11GetAllCollections\x12\".media.v1.GetAllCollectionsRequest\x1a#.media.v1.GetAllCollectionsResponse\x12\\\n" +
 	"\x11GetAssetsInFolder\x12\".media.v1.GetAssetsInFolderRequest\x1a#.media.v1.GetAssetsInFolderResponse\x12h\n" +
 	"\x15GetAssetsInCollection\x12&.media.v1.GetAssetsInCollectionRequest\x1a'.media.v1.GetAssetsInCollectionResponse\x12V\n" +
-	"\x0fCreateNewFolder\x12 .media.v1.CreateNewFolderRequest\x1a!.media.v1.CreateNewFolderResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\x0fCreateNewFolder\x12 .media.v1.CreateNewFolderRequest\x1a!.media.v1.CreateNewFolderResponse\x12b\n" +
+	"\x13CreateNewCollection\x12$.media.v1.CreateNewCollectionRequest\x1a%.media.v1.CreateNewCollectionResponseB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var file_media_v1_service_proto_goTypes = []any{
 	(*CreateNewProjectRequest)(nil),          // 0: media.v1.CreateNewProjectRequest
@@ -52,18 +53,20 @@ var file_media_v1_service_proto_goTypes = []any{
 	(*GetAssetsInFolderRequest)(nil),         // 9: media.v1.GetAssetsInFolderRequest
 	(*GetAssetsInCollectionRequest)(nil),     // 10: media.v1.GetAssetsInCollectionRequest
 	(*CreateNewFolderRequest)(nil),           // 11: media.v1.CreateNewFolderRequest
-	(*CreateNewProjectResponse)(nil),         // 12: media.v1.CreateNewProjectResponse
-	(*UploadObjectResponse)(nil),             // 13: media.v1.UploadObjectResponse
-	(*UploadImageApiResponse)(nil),           // 14: media.v1.UploadImageApiResponse
-	(*UploadFileApiResponse)(nil),            // 15: media.v1.UploadFileApiResponse
-	(*ObjectUploadConfirmationResponse)(nil), // 16: media.v1.ObjectUploadConfirmationResponse
-	(*GetDashboardResponse)(nil),             // 17: media.v1.GetDashboardResponse
-	(*GetAssetsResponse)(nil),                // 18: media.v1.GetAssetsResponse
-	(*GetAllFoldersResponse)(nil),            // 19: media.v1.GetAllFoldersResponse
-	(*GetAllCollectionsResponse)(nil),        // 20: media.v1.GetAllCollectionsResponse
-	(*GetAssetsInFolderResponse)(nil),        // 21: media.v1.GetAssetsInFolderResponse
-	(*GetAssetsInCollectionResponse)(nil),    // 22: media.v1.GetAssetsInCollectionResponse
-	(*CreateNewFolderResponse)(nil),          // 23: media.v1.CreateNewFolderResponse
+	(*CreateNewCollectionRequest)(nil),       // 12: media.v1.CreateNewCollectionRequest
+	(*CreateNewProjectResponse)(nil),         // 13: media.v1.CreateNewProjectResponse
+	(*UploadObjectResponse)(nil),             // 14: media.v1.UploadObjectResponse
+	(*UploadImageApiResponse)(nil),           // 15: media.v1.UploadImageApiResponse
+	(*UploadFileApiResponse)(nil),            // 16: media.v1.UploadFileApiResponse
+	(*ObjectUploadConfirmationResponse)(nil), // 17: media.v1.ObjectUploadConfirmationResponse
+	(*GetDashboardResponse)(nil),             // 18: media.v1.GetDashboardResponse
+	(*GetAssetsResponse)(nil),                // 19: media.v1.GetAssetsResponse
+	(*GetAllFoldersResponse)(nil),            // 20: media.v1.GetAllFoldersResponse
+	(*GetAllCollectionsResponse)(nil),        // 21: media.v1.GetAllCollectionsResponse
+	(*GetAssetsInFolderResponse)(nil),        // 22: media.v1.GetAssetsInFolderResponse
+	(*GetAssetsInCollectionResponse)(nil),    // 23: media.v1.GetAssetsInCollectionResponse
+	(*CreateNewFolderResponse)(nil),          // 24: media.v1.CreateNewFolderResponse
+	(*CreateNewCollectionResponse)(nil),      // 25: media.v1.CreateNewCollectionResponse
 }
 var file_media_v1_service_proto_depIdxs = []int32{
 	0,  // 0: media.v1.MediaService.CreateNewProject:input_type -> media.v1.CreateNewProjectRequest
@@ -78,20 +81,22 @@ var file_media_v1_service_proto_depIdxs = []int32{
 	9,  // 9: media.v1.MediaService.GetAssetsInFolder:input_type -> media.v1.GetAssetsInFolderRequest
 	10, // 10: media.v1.MediaService.GetAssetsInCollection:input_type -> media.v1.GetAssetsInCollectionRequest
 	11, // 11: media.v1.MediaService.CreateNewFolder:input_type -> media.v1.CreateNewFolderRequest
-	12, // 12: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
-	13, // 13: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
-	14, // 14: media.v1.MediaService.UploadImageApi:output_type -> media.v1.UploadImageApiResponse
-	15, // 15: media.v1.MediaService.UploadFileApi:output_type -> media.v1.UploadFileApiResponse
-	16, // 16: media.v1.MediaService.ObjectUploadConfirmation:output_type -> media.v1.ObjectUploadConfirmationResponse
-	17, // 17: media.v1.MediaService.GetDashboard:output_type -> media.v1.GetDashboardResponse
-	18, // 18: media.v1.MediaService.GetAssets:output_type -> media.v1.GetAssetsResponse
-	19, // 19: media.v1.MediaService.GetAllFolders:output_type -> media.v1.GetAllFoldersResponse
-	20, // 20: media.v1.MediaService.GetAllCollections:output_type -> media.v1.GetAllCollectionsResponse
-	21, // 21: media.v1.MediaService.GetAssetsInFolder:output_type -> media.v1.GetAssetsInFolderResponse
-	22, // 22: media.v1.MediaService.GetAssetsInCollection:output_type -> media.v1.GetAssetsInCollectionResponse
-	23, // 23: media.v1.MediaService.CreateNewFolder:output_type -> media.v1.CreateNewFolderResponse
-	12, // [12:24] is the sub-list for method output_type
-	0,  // [0:12] is the sub-list for method input_type
+	12, // 12: media.v1.MediaService.CreateNewCollection:input_type -> media.v1.CreateNewCollectionRequest
+	13, // 13: media.v1.MediaService.CreateNewProject:output_type -> media.v1.CreateNewProjectResponse
+	14, // 14: media.v1.MediaService.UploadObject:output_type -> media.v1.UploadObjectResponse
+	15, // 15: media.v1.MediaService.UploadImageApi:output_type -> media.v1.UploadImageApiResponse
+	16, // 16: media.v1.MediaService.UploadFileApi:output_type -> media.v1.UploadFileApiResponse
+	17, // 17: media.v1.MediaService.ObjectUploadConfirmation:output_type -> media.v1.ObjectUploadConfirmationResponse
+	18, // 18: media.v1.MediaService.GetDashboard:output_type -> media.v1.GetDashboardResponse
+	19, // 19: media.v1.MediaService.GetAssets:output_type -> media.v1.GetAssetsResponse
+	20, // 20: media.v1.MediaService.GetAllFolders:output_type -> media.v1.GetAllFoldersResponse
+	21, // 21: media.v1.MediaService.GetAllCollections:output_type -> media.v1.GetAllCollectionsResponse
+	22, // 22: media.v1.MediaService.GetAssetsInFolder:output_type -> media.v1.GetAssetsInFolderResponse
+	23, // 23: media.v1.MediaService.GetAssetsInCollection:output_type -> media.v1.GetAssetsInCollectionResponse
+	24, // 24: media.v1.MediaService.CreateNewFolder:output_type -> media.v1.CreateNewFolderResponse
+	25, // 25: media.v1.MediaService.CreateNewCollection:output_type -> media.v1.CreateNewCollectionResponse
+	13, // [13:26] is the sub-list for method output_type
+	0,  // [0:13] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name

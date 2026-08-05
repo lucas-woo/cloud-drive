@@ -31,6 +31,7 @@ const (
 	MediaService_GetAssetsInFolder_FullMethodName        = "/media.v1.MediaService/GetAssetsInFolder"
 	MediaService_GetAssetsInCollection_FullMethodName    = "/media.v1.MediaService/GetAssetsInCollection"
 	MediaService_CreateNewFolder_FullMethodName          = "/media.v1.MediaService/CreateNewFolder"
+	MediaService_CreateNewCollection_FullMethodName      = "/media.v1.MediaService/CreateNewCollection"
 )
 
 // MediaServiceClient is the client API for MediaService service.
@@ -49,6 +50,7 @@ type MediaServiceClient interface {
 	GetAssetsInFolder(ctx context.Context, in *GetAssetsInFolderRequest, opts ...grpc.CallOption) (*GetAssetsInFolderResponse, error)
 	GetAssetsInCollection(ctx context.Context, in *GetAssetsInCollectionRequest, opts ...grpc.CallOption) (*GetAssetsInCollectionResponse, error)
 	CreateNewFolder(ctx context.Context, in *CreateNewFolderRequest, opts ...grpc.CallOption) (*CreateNewFolderResponse, error)
+	CreateNewCollection(ctx context.Context, in *CreateNewCollectionRequest, opts ...grpc.CallOption) (*CreateNewCollectionResponse, error)
 }
 
 type mediaServiceClient struct {
@@ -185,6 +187,16 @@ func (c *mediaServiceClient) CreateNewFolder(ctx context.Context, in *CreateNewF
 	return out, nil
 }
 
+func (c *mediaServiceClient) CreateNewCollection(ctx context.Context, in *CreateNewCollectionRequest, opts ...grpc.CallOption) (*CreateNewCollectionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateNewCollectionResponse)
+	err := c.cc.Invoke(ctx, MediaService_CreateNewCollection_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MediaServiceServer is the server API for MediaService service.
 // All implementations must embed UnimplementedMediaServiceServer
 // for forward compatibility.
@@ -201,6 +213,7 @@ type MediaServiceServer interface {
 	GetAssetsInFolder(context.Context, *GetAssetsInFolderRequest) (*GetAssetsInFolderResponse, error)
 	GetAssetsInCollection(context.Context, *GetAssetsInCollectionRequest) (*GetAssetsInCollectionResponse, error)
 	CreateNewFolder(context.Context, *CreateNewFolderRequest) (*CreateNewFolderResponse, error)
+	CreateNewCollection(context.Context, *CreateNewCollectionRequest) (*CreateNewCollectionResponse, error)
 	mustEmbedUnimplementedMediaServiceServer()
 }
 
@@ -246,6 +259,9 @@ func (UnimplementedMediaServiceServer) GetAssetsInCollection(context.Context, *G
 }
 func (UnimplementedMediaServiceServer) CreateNewFolder(context.Context, *CreateNewFolderRequest) (*CreateNewFolderResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateNewFolder not implemented")
+}
+func (UnimplementedMediaServiceServer) CreateNewCollection(context.Context, *CreateNewCollectionRequest) (*CreateNewCollectionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateNewCollection not implemented")
 }
 func (UnimplementedMediaServiceServer) mustEmbedUnimplementedMediaServiceServer() {}
 func (UnimplementedMediaServiceServer) testEmbeddedByValue()                      {}
@@ -462,6 +478,24 @@ func _MediaService_CreateNewFolder_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MediaService_CreateNewCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateNewCollectionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MediaServiceServer).CreateNewCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: MediaService_CreateNewCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MediaServiceServer).CreateNewCollection(ctx, req.(*CreateNewCollectionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MediaService_ServiceDesc is the grpc.ServiceDesc for MediaService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -508,6 +542,10 @@ var MediaService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateNewFolder",
 			Handler:    _MediaService_CreateNewFolder_Handler,
+		},
+		{
+			MethodName: "CreateNewCollection",
+			Handler:    _MediaService_CreateNewCollection_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
