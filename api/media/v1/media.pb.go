@@ -1538,6 +1538,102 @@ func (x *GetAssetsInCollectionResponse) GetNextAssetCursor() *AssetCursor {
 	return nil
 }
 
+type CreateNewFolderRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	FolderName    string                 `protobuf:"bytes,2,opt,name=folder_name,json=folderName,proto3" json:"folder_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateNewFolderRequest) Reset() {
+	*x = CreateNewFolderRequest{}
+	mi := &file_media_v1_media_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateNewFolderRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateNewFolderRequest) ProtoMessage() {}
+
+func (x *CreateNewFolderRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateNewFolderRequest.ProtoReflect.Descriptor instead.
+func (*CreateNewFolderRequest) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *CreateNewFolderRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *CreateNewFolderRequest) GetFolderName() string {
+	if x != nil {
+		return x.FolderName
+	}
+	return ""
+}
+
+type CreateNewFolderResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FolderId      string                 `protobuf:"bytes,1,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateNewFolderResponse) Reset() {
+	*x = CreateNewFolderResponse{}
+	mi := &file_media_v1_media_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateNewFolderResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateNewFolderResponse) ProtoMessage() {}
+
+func (x *CreateNewFolderResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_media_v1_media_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateNewFolderResponse.ProtoReflect.Descriptor instead.
+func (*CreateNewFolderResponse) Descriptor() ([]byte, []int) {
+	return file_media_v1_media_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *CreateNewFolderResponse) GetFolderId() string {
+	if x != nil {
+		return x.FolderId
+	}
+	return ""
+}
+
 var File_media_v1_media_proto protoreflect.FileDescriptor
 
 const file_media_v1_media_proto_rawDesc = "" +
@@ -1656,7 +1752,14 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\fasset_cursor\x18\x03 \x01(\v2\x15.media.v1.AssetCursorR\vassetCursor\"\xa4\x01\n" +
 	"\x1dGetAssetsInCollectionResponse\x12@\n" +
 	"\x0fproject_objects\x18\x01 \x03(\v2\x17.media.v1.ProjectObjectR\x0eprojectObjects\x12A\n" +
-	"\x11next_asset_cursor\x18\x02 \x01(\v2\x15.media.v1.AssetCursorR\x0fnextAssetCursorB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
+	"\x11next_asset_cursor\x18\x02 \x01(\v2\x15.media.v1.AssetCursorR\x0fnextAssetCursor\"X\n" +
+	"\x16CreateNewFolderRequest\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
+	"\vfolder_name\x18\x02 \x01(\tR\n" +
+	"folderName\"6\n" +
+	"\x17CreateNewFolderResponse\x12\x1b\n" +
+	"\tfolder_id\x18\x01 \x01(\tR\bfolderIdB7Z5github.com/lucas-woo/cloud-drive/api/media/v1/mediav1b\x06proto3"
 
 var (
 	file_media_v1_media_proto_rawDescOnce sync.Once
@@ -1670,7 +1773,7 @@ func file_media_v1_media_proto_rawDescGZIP() []byte {
 	return file_media_v1_media_proto_rawDescData
 }
 
-var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_media_v1_media_proto_msgTypes = make([]protoimpl.MessageInfo, 28)
 var file_media_v1_media_proto_goTypes = []any{
 	(*ErrorStatus)(nil),                      // 0: media.v1.ErrorStatus
 	(*CreateNewProjectRequest)(nil),          // 1: media.v1.CreateNewProjectRequest
@@ -1698,37 +1801,39 @@ var file_media_v1_media_proto_goTypes = []any{
 	(*GetAssetsInFolderResponse)(nil),        // 23: media.v1.GetAssetsInFolderResponse
 	(*GetAssetsInCollectionRequest)(nil),     // 24: media.v1.GetAssetsInCollectionRequest
 	(*GetAssetsInCollectionResponse)(nil),    // 25: media.v1.GetAssetsInCollectionResponse
-	(*Crop)(nil),                             // 26: media.v1.Crop
-	(*Scale)(nil),                            // 27: media.v1.Scale
-	(*Compression)(nil),                      // 28: media.v1.Compression
-	(*Conversion)(nil),                       // 29: media.v1.Conversion
-	(*timestamppb.Timestamp)(nil),            // 30: google.protobuf.Timestamp
-	(*AssetCursor)(nil),                      // 31: media.v1.AssetCursor
-	(*ProjectObject)(nil),                    // 32: media.v1.ProjectObject
-	(*ProjectFolder)(nil),                    // 33: media.v1.ProjectFolder
-	(*ProjectCollection)(nil),                // 34: media.v1.ProjectCollection
+	(*CreateNewFolderRequest)(nil),           // 26: media.v1.CreateNewFolderRequest
+	(*CreateNewFolderResponse)(nil),          // 27: media.v1.CreateNewFolderResponse
+	(*Crop)(nil),                             // 28: media.v1.Crop
+	(*Scale)(nil),                            // 29: media.v1.Scale
+	(*Compression)(nil),                      // 30: media.v1.Compression
+	(*Conversion)(nil),                       // 31: media.v1.Conversion
+	(*timestamppb.Timestamp)(nil),            // 32: google.protobuf.Timestamp
+	(*AssetCursor)(nil),                      // 33: media.v1.AssetCursor
+	(*ProjectObject)(nil),                    // 34: media.v1.ProjectObject
+	(*ProjectFolder)(nil),                    // 35: media.v1.ProjectFolder
+	(*ProjectCollection)(nil),                // 36: media.v1.ProjectCollection
 }
 var file_media_v1_media_proto_depIdxs = []int32{
-	26, // 0: media.v1.ImageTransformations.crop:type_name -> media.v1.Crop
-	27, // 1: media.v1.ImageTransformations.scale:type_name -> media.v1.Scale
-	28, // 2: media.v1.ImageTransformations.compression:type_name -> media.v1.Compression
-	29, // 3: media.v1.ImageTransformations.conversion:type_name -> media.v1.Conversion
+	28, // 0: media.v1.ImageTransformations.crop:type_name -> media.v1.Crop
+	29, // 1: media.v1.ImageTransformations.scale:type_name -> media.v1.Scale
+	30, // 2: media.v1.ImageTransformations.compression:type_name -> media.v1.Compression
+	31, // 3: media.v1.ImageTransformations.conversion:type_name -> media.v1.Conversion
 	5,  // 4: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
 	6,  // 5: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
 	9,  // 6: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
 	0,  // 7: media.v1.ObjectUploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
-	30, // 8: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
-	31, // 9: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	32, // 10: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
-	31, // 11: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	33, // 12: media.v1.GetAllFoldersResponse.project_folders:type_name -> media.v1.ProjectFolder
-	34, // 13: media.v1.GetAllCollectionsResponse.project_collections:type_name -> media.v1.ProjectCollection
-	31, // 14: media.v1.GetAssetsInFolderRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	32, // 15: media.v1.GetAssetsInFolderResponse.project_objects:type_name -> media.v1.ProjectObject
-	31, // 16: media.v1.GetAssetsInFolderResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	31, // 17: media.v1.GetAssetsInCollectionRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	32, // 18: media.v1.GetAssetsInCollectionResponse.project_objects:type_name -> media.v1.ProjectObject
-	31, // 19: media.v1.GetAssetsInCollectionResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	32, // 8: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
+	33, // 9: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	34, // 10: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
+	33, // 11: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	35, // 12: media.v1.GetAllFoldersResponse.project_folders:type_name -> media.v1.ProjectFolder
+	36, // 13: media.v1.GetAllCollectionsResponse.project_collections:type_name -> media.v1.ProjectCollection
+	33, // 14: media.v1.GetAssetsInFolderRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	34, // 15: media.v1.GetAssetsInFolderResponse.project_objects:type_name -> media.v1.ProjectObject
+	33, // 16: media.v1.GetAssetsInFolderResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	33, // 17: media.v1.GetAssetsInCollectionRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	34, // 18: media.v1.GetAssetsInCollectionResponse.project_objects:type_name -> media.v1.ProjectObject
+	33, // 19: media.v1.GetAssetsInCollectionResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
 	20, // [20:20] is the sub-list for method output_type
 	20, // [20:20] is the sub-list for method input_type
 	20, // [20:20] is the sub-list for extension type_name
@@ -1757,7 +1862,7 @@ func file_media_v1_media_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_media_v1_media_proto_rawDesc), len(file_media_v1_media_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   26,
+			NumMessages:   28,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

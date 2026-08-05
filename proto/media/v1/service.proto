@@ -30,6 +30,12 @@ service MediaService {
 
   rpc GetAssetsInCollection(GetAssetsInCollectionRequest) returns(GetAssetsInCollectionResponse);
 
+  rpc CreateNewFolder(CreateNewFolderRequest) returns (CreateNewFolderResponse);
+
+  //rpc CreateNewCollection()
+
+
+
   //rpc GetCdnCookie
   // rpc create new folder
   //rpc get folders
