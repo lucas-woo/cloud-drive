@@ -167,3 +167,14 @@ message CreateNewFolderRequest {
 message CreateNewFolderResponse {
   string folder_id = 1;
 }
+
+message CreateNewCollectionRequest {
+  string project_id = 1;
+  string creator_id = 2;
+  string name = 3;
+  string description = 4;
+}
+
+message CreateNewCollectionResponse {
+  string collection_id = 1;
+}

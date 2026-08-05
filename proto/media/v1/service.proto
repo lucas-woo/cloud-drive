@@ -32,8 +32,7 @@ service MediaService {
 
   rpc CreateNewFolder(CreateNewFolderRequest) returns (CreateNewFolderResponse);
 
-  //rpc CreateNewCollection()
-
+  rpc CreateNewCollection(CreateNewCollectionRequest) returns(CreateNewCollectionResponse);
 
 
   //rpc GetCdnCookie
