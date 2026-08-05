@@ -86,3 +86,12 @@ type GetAssetsInCollectionRequest struct {
 	CollectionId string 
 	AssetCursor *AssetCursorRequest	
 }
+
+type CreateNewFolderRequest struct {
+	ProjectId string
+	FolderName string
+}
+
+type CreateNewFolderResponse struct {
+	FolderId uuid.UUID
+}

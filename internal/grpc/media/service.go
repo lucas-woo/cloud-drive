@@ -448,6 +448,20 @@ func (s *Service) GetAssetsInCollection(ctx context.Context, req *dto.GetAssetsI
 	return assets, nextCursor, err	
 }
 
+func(s *Service) CreateNewFolder(ctx context.Context, req *dto.CreateNewFolderRequest) (*dto.CreateNewFolderResponse, error) {
+	projectId, err := uuid.Parse(req.ProjectId)
+	if err != nil {
+		return nil, err
+	}
+
+	folderId, err := s.mediaResources.ProjectRepository.CreateNewFolder(ctx, projectId, req.FolderName)
+	if err != nil {
+		return nil, err
+	}
+	
+	return &dto.CreateNewFolderResponse{FolderId: folderId}, nil
+}
+
 func NewMediaService(mediaResources *database.MediaResources) *Service {
 	return &Service{
 		mediaResources: mediaResources,
