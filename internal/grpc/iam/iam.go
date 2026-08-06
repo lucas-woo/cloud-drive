@@ -62,6 +62,23 @@ func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.Valida
 	}, nil
 }
 
+func (s *Server) UpdateUserRole(ctx context.Context, req *iamv1.UpdateUserRoleRequest) (*iamv1.UpdateUserRoleResponse, error) {
+	ok, err := s.service.UpdateUserRole(ctx, &dto.UpdateUserRoleRequest{
+		UserRole: req.GetRole(),
+	})
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())	
+	}
+	return &iamv1.UpdateUserRoleResponse{
+		Updated: ok,
+	}, nil
+}
+
+func (s *Server) ValidateUserPermission(ctx context.Context, req *iamv1.ValidateUserPermissionRequest) (*iamv1.ValidateUserPermissionResponse, error) {
+
+	return nil, status.Error(codes.Unimplemented, "method ValidateUserPermission not implemented")
+}
+
 func NewIamServer(iamResources *database.IamResources) *Server {
 	return &Server{
 		service: NewIamService(iamResources),

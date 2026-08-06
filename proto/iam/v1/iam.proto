@@ -43,6 +43,7 @@ message UpdateUserRoleRequest {
   }    
   string user_id = 1;
   string project_id = 2;
+  Permission role = 3;
 }
 
 message UpdateUserRoleResponse {
@@ -56,6 +57,7 @@ message ValidateUserPermissionRequest {
   }  
   string user_id = 1;
   string project_id = 2;
+  Permission role = 3;
 }
 
 message ValidateUserPermissionResponse {
