@@ -12,7 +12,7 @@ service IAMService {
 
   rpc ValidateApiKeyPermission(ValidateApiKeyPermissionRequest) returns (ValidateApiKeyPermissionResponse);
 
-  rpc UpdateUserRole(UpdateUserRoleRequest) returns (UpdateUserRoleResponse);
+  rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse);
 
   rpc ValidateUserPermission(ValidateUserPermissionRequest) returns (ValidateUserPermissionResponse);
 }

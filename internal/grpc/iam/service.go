@@ -59,7 +59,7 @@ func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.Validat
 	return ok, err
 }
 
-func (s *Service) UpdateUserRole(ctx context.Context, req *dto.UpdateUserRoleRequest) (bool, error) {
+func (s *Service) AddUserRole(ctx context.Context, req *dto.UpdateUserRoleRequest) (bool, error) {
 	var role string;
 
 	if req.UserRole == iamv1.UpdateUserRoleRequest_PERMISSION_ADMIN_ROLE {
@@ -69,10 +69,20 @@ func (s *Service) UpdateUserRole(ctx context.Context, req *dto.UpdateUserRoleReq
 	if len(role) == 0 {
 		return false, nil
 	}
+	userId, err := uuid.Parse(req.UserId)
+	if err != nil {
+		return false, err
+	}
+	projectId, err := uuid.Parse(req.ProjectId)
+	if err != nil {
+		return false, err
+	}
 
-	
-
-	s.iamResources.ProjectRepository.AddProjectUserRole(ctx, )
+	err = s.iamResources.ProjectRepository.AddProjectUserRole(ctx, userId, projectId, role)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {
