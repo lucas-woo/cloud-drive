@@ -30,3 +30,9 @@ type AddUserRolePermissionRequest struct {
 	UserId string
 	ProjectId string
 }
+
+type ValidatedUserPermissionRequest struct {
+	UserRole iamv1.ValidateUserPermissionRequest_Permission
+	UserId string
+	ProjectId string
+}

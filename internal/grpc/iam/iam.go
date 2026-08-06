@@ -62,8 +62,8 @@ func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.Valida
 	}, nil
 }
 
-func (s *Server) UpdateUserRole(ctx context.Context, req *iamv1.AddUserRolePermissionRequest) (*iamv1.AddUserRolePermissionResponse, error) {
-	ok, err := s.service.AddUserRole(ctx, &dto.AddUserRolePermissionRequest{
+func (s *Server) AddUserRolePermission(ctx context.Context, req *iamv1.AddUserRolePermissionRequest) (*iamv1.AddUserRolePermissionResponse, error) {
+	ok, err := s.service.AddUserRolePermission(ctx, &dto.AddUserRolePermissionRequest{
 		UserRole: req.GetRole(),
 		ProjectId: req.GetProjectId(),
 		UserId: req.GetUserId(),
@@ -78,7 +78,18 @@ func (s *Server) UpdateUserRole(ctx context.Context, req *iamv1.AddUserRolePermi
 
 func (s *Server) ValidateUserPermission(ctx context.Context, req *iamv1.ValidateUserPermissionRequest) (*iamv1.ValidateUserPermissionResponse, error) {
 
-	return nil, status.Error(codes.Unimplemented, "method ValidateUserPermission not implemented")
+	authorized, err := s.service.ValidatedUserPermission(ctx, &dto.ValidatedUserPermissionRequest{
+		UserRole: req.GetRole(),
+		UserId: req.GetUserId(),
+		ProjectId: req.GetProjectId(),
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())	
+	}
+	return &iamv1.ValidateUserPermissionResponse{
+		Authorized: authorized,
+	}, nil
 }
 
 func NewIamServer(iamResources *database.IamResources) *Server {
