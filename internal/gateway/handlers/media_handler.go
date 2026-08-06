@@ -19,12 +19,18 @@ func (h *MediaHandler) GetDashboard(c *gin.Context) {
 
 	if !exists {
 		c.AbortWithStatus(http.StatusInternalServerError)
+		return
 	}
 	userId := userIdString.(string)
 
-	h.service.GetDashboard()
+	dashboard, err := h.service.GetDashboard(c.Request.Context(), userId)
 
-	
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+
+	c.JSON(http.StatusOK, dashboard)
 }
 
 
