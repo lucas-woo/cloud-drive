@@ -178,3 +178,14 @@ message CreateNewCollectionRequest {
 message CreateNewCollectionResponse {
   string collection_id = 1;
 }
+
+message GetAssetsPageRequest {
+  string project_id = 1;
+}
+
+message GetAssetsPageResponse {
+  repeated ProjectObject project_objects = 1;
+  AssetCursor next_asset_cursor = 2;
+  repeated ProjectFolder project_folders = 3; 
+  repeated ProjectCollection project_collections = 4;
+}
