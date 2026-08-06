@@ -4,6 +4,7 @@ import (
 	"context"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 )
@@ -11,6 +12,7 @@ import (
 
 type AuthService struct {
 	authClient authv1.AuthServiceClient
+	iamClient iamv1.IAMServiceClient
 	mediaClient mediav1.MediaServiceClient
 }
 
@@ -40,9 +42,18 @@ func (s *AuthService) Logout(ctx context.Context, sessionId string) (bool, error
 	return res.GetLoggedOut(), err
 }
 
-func (s *AuthService) CreateNewProject(ctx context.Context, userId string) (error) {
-	_, err := s.mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
+func (s *AuthService) CreateNewProject(ctx context.Context, userId string) (string, error) {
+	res, err := s.mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
 		UserId: userId,
+	})
+	return res.GetProjectId(), err
+}
+
+func (s *AuthService) AddAdminRole(ctx context.Context, userId string, projectId string) (error) {
+	_, err := s.iamClient.AddUserRolePermission(ctx, &iamv1.AddUserRolePermissionRequest{
+		Role: iamv1.AddUserRolePermissionRequest_PERMISSION_ADMIN_ROLE,
+		UserId: userId,
+		ProjectId: projectId,
 	})
 	return err
 }
