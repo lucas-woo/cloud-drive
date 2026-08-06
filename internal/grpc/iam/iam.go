@@ -62,14 +62,16 @@ func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.Valida
 	}, nil
 }
 
-func (s *Server) UpdateUserRole(ctx context.Context, req *iamv1.UpdateUserRoleRequest) (*iamv1.UpdateUserRoleResponse, error) {
-	ok, err := s.service.UpdateUserRole(ctx, &dto.UpdateUserRoleRequest{
+func (s *Server) UpdateUserRole(ctx context.Context, req *iamv1.AddUserRoleRequest) (*iamv1.AddUserRoleResponse, error) {
+	ok, err := s.service.AddUserRole(ctx, &dto.UpdateUserRoleRequest{
 		UserRole: req.GetRole(),
+		ProjectId: req.GetProjectId(),
+		UserId: req.GetUserId(),
 	})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())	
 	}
-	return &iamv1.UpdateUserRoleResponse{
+	return &iamv1.AddUserRoleResponse{
 		Updated: ok,
 	}, nil
 }
