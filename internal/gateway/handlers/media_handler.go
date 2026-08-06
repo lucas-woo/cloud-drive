@@ -33,7 +33,12 @@ func (h *MediaHandler) GetDashboard(c *gin.Context) {
 	c.JSON(http.StatusOK, dashboard)
 }
 
+// TODO: need to make a check if the userid has the role to get that project 
+func (h *MediaHandler) GetAssetsPage(c *gin.Context) {
 
+
+
+}
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
 	return &MediaHandler{
