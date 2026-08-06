@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	IAMService_GenerateNewApiKey_FullMethodName        = "/iam.v1.IAMService/GenerateNewApiKey"
 	IAMService_ValidateApiKeyPermission_FullMethodName = "/iam.v1.IAMService/ValidateApiKeyPermission"
+	IAMService_UpdateUserRole_FullMethodName           = "/iam.v1.IAMService/UpdateUserRole"
 	IAMService_ValidateUserPermission_FullMethodName   = "/iam.v1.IAMService/ValidateUserPermission"
 )
 
@@ -30,6 +31,7 @@ const (
 type IAMServiceClient interface {
 	GenerateNewApiKey(ctx context.Context, in *GenerateNewApiKeyRequest, opts ...grpc.CallOption) (*GenerateNewApiKeyResponse, error)
 	ValidateApiKeyPermission(ctx context.Context, in *ValidateApiKeyPermissionRequest, opts ...grpc.CallOption) (*ValidateApiKeyPermissionResponse, error)
+	UpdateUserRole(ctx context.Context, in *UpdateUserRoleRequest, opts ...grpc.CallOption) (*UpdateUserRoleResponse, error)
 	ValidateUserPermission(ctx context.Context, in *ValidateUserPermissionRequest, opts ...grpc.CallOption) (*ValidateUserPermissionResponse, error)
 }
 
@@ -61,6 +63,16 @@ func (c *iAMServiceClient) ValidateApiKeyPermission(ctx context.Context, in *Val
 	return out, nil
 }
 
+func (c *iAMServiceClient) UpdateUserRole(ctx context.Context, in *UpdateUserRoleRequest, opts ...grpc.CallOption) (*UpdateUserRoleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateUserRoleResponse)
+	err := c.cc.Invoke(ctx, IAMService_UpdateUserRole_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *iAMServiceClient) ValidateUserPermission(ctx context.Context, in *ValidateUserPermissionRequest, opts ...grpc.CallOption) (*ValidateUserPermissionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ValidateUserPermissionResponse)
@@ -77,6 +89,7 @@ func (c *iAMServiceClient) ValidateUserPermission(ctx context.Context, in *Valid
 type IAMServiceServer interface {
 	GenerateNewApiKey(context.Context, *GenerateNewApiKeyRequest) (*GenerateNewApiKeyResponse, error)
 	ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error)
+	UpdateUserRole(context.Context, *UpdateUserRoleRequest) (*UpdateUserRoleResponse, error)
 	ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error)
 	mustEmbedUnimplementedIAMServiceServer()
 }
@@ -93,6 +106,9 @@ func (UnimplementedIAMServiceServer) GenerateNewApiKey(context.Context, *Generat
 }
 func (UnimplementedIAMServiceServer) ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ValidateApiKeyPermission not implemented")
+}
+func (UnimplementedIAMServiceServer) UpdateUserRole(context.Context, *UpdateUserRoleRequest) (*UpdateUserRoleResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateUserRole not implemented")
 }
 func (UnimplementedIAMServiceServer) ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ValidateUserPermission not implemented")
@@ -154,6 +170,24 @@ func _IAMService_ValidateApiKeyPermission_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_UpdateUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).UpdateUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_UpdateUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).UpdateUserRole(ctx, req.(*UpdateUserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _IAMService_ValidateUserPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ValidateUserPermissionRequest)
 	if err := dec(in); err != nil {
@@ -186,6 +220,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateApiKeyPermission",
 			Handler:    _IAMService_ValidateApiKeyPermission_Handler,
+		},
+		{
+			MethodName: "UpdateUserRole",
+			Handler:    _IAMService_UpdateUserRole_Handler,
 		},
 		{
 			MethodName: "ValidateUserPermission",
