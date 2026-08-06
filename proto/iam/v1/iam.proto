@@ -35,3 +35,31 @@ message ValidateApiKeyPermissionRequest {
 message ValidateApiKeyPermissionResponse {
   bool authorized = 1;
 }
+
+message AddUserRolePermissionRequest {
+  enum Permission {
+    PERMISSION_STATUS_UNSPECIFIED = 0;
+    PERMISSION_ADMIN_ROLE = 1;
+  }    
+  string user_id = 1;
+  string project_id = 2;
+  Permission role = 3;
+}
+
+message AddUserRolePermissionResponse {
+  bool updated = 1;
+}
+
+message ValidateUserPermissionRequest {
+  enum Permission {
+    PERMISSION_STATUS_UNSPECIFIED = 0;
+    PERMISSION_ADMIN_ROLE = 1;
+  }  
+  string user_id = 1;
+  string project_id = 2;
+  Permission role = 3;
+}
+
+message ValidateUserPermissionResponse {
+  bool authorized = 1;
+}

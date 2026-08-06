@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 )
 
 type GenerateNewApiKeyRequest struct {
@@ -22,4 +23,16 @@ type ValidateApiKeyPermissionRequest struct {
 	ApiKey string
 	ApiSecret string
 	PermissionRequest string
+}
+
+type AddUserRolePermissionRequest struct {
+	UserRole iamv1.AddUserRolePermissionRequest_Permission
+	UserId string
+	ProjectId string
+}
+
+type ValidatedUserPermissionRequest struct {
+	UserRole iamv1.ValidateUserPermissionRequest_Permission
+	UserId string
+	ProjectId string
 }

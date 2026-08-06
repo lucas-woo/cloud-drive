@@ -256,6 +256,34 @@ func (s *Server) CreateNewCollection(ctx context.Context, req *mediav1.CreateNew
 
 }
 
+func (s *Server) GetAssetsPage(ctx context.Context, req *mediav1.GetAssetsPageRequest) (*mediav1.GetAssetsPageResponse, error) {
+
+	objects, nextCursor, err := s.service.GetAssets(ctx, &dto.GetAssetsRequest{
+		ProjectId: req.GetProjectId(),
+		AssetCursor: nil,
+	})
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	folders, err := s.service.GetAllFolders(ctx, req.GetProjectId())
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	collections, err := s.service.GetAllCollections(ctx, req.GetProjectId())	
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, err.Error())
+	}
+	return &mediav1.GetAssetsPageResponse{
+		ProjectObjects: utils.ConvertProjectObjectsToResponse(objects),
+		NextAssetCursor: &mediav1.AssetCursor{
+			ObjectId: nextCursor.ObjectId.String(),
+			CreatedAt: timestamppb.New(nextCursor.CreatedAt),
+		},
+		ProjectFolders: utils.ConvertProjectFoldersToResponse(folders),
+		ProjectCollections: utils.ConvertProjectCollectionsToResponse(collections),
+	}, nil
+}
+
 func NewMediaServer(mediaResources *database.MediaResources) *Server {
 	return &Server{
 		service: NewMediaService(mediaResources),

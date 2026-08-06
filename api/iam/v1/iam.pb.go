@@ -71,6 +71,98 @@ func (ValidateApiKeyPermissionRequest_Permission) EnumDescriptor() ([]byte, []in
 	return file_iam_v1_iam_proto_rawDescGZIP(), []int{2, 0}
 }
 
+type AddUserRolePermissionRequest_Permission int32
+
+const (
+	AddUserRolePermissionRequest_PERMISSION_STATUS_UNSPECIFIED AddUserRolePermissionRequest_Permission = 0
+	AddUserRolePermissionRequest_PERMISSION_ADMIN_ROLE         AddUserRolePermissionRequest_Permission = 1
+)
+
+// Enum value maps for AddUserRolePermissionRequest_Permission.
+var (
+	AddUserRolePermissionRequest_Permission_name = map[int32]string{
+		0: "PERMISSION_STATUS_UNSPECIFIED",
+		1: "PERMISSION_ADMIN_ROLE",
+	}
+	AddUserRolePermissionRequest_Permission_value = map[string]int32{
+		"PERMISSION_STATUS_UNSPECIFIED": 0,
+		"PERMISSION_ADMIN_ROLE":         1,
+	}
+)
+
+func (x AddUserRolePermissionRequest_Permission) Enum() *AddUserRolePermissionRequest_Permission {
+	p := new(AddUserRolePermissionRequest_Permission)
+	*p = x
+	return p
+}
+
+func (x AddUserRolePermissionRequest_Permission) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (AddUserRolePermissionRequest_Permission) Descriptor() protoreflect.EnumDescriptor {
+	return file_iam_v1_iam_proto_enumTypes[1].Descriptor()
+}
+
+func (AddUserRolePermissionRequest_Permission) Type() protoreflect.EnumType {
+	return &file_iam_v1_iam_proto_enumTypes[1]
+}
+
+func (x AddUserRolePermissionRequest_Permission) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use AddUserRolePermissionRequest_Permission.Descriptor instead.
+func (AddUserRolePermissionRequest_Permission) EnumDescriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{4, 0}
+}
+
+type ValidateUserPermissionRequest_Permission int32
+
+const (
+	ValidateUserPermissionRequest_PERMISSION_STATUS_UNSPECIFIED ValidateUserPermissionRequest_Permission = 0
+	ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE         ValidateUserPermissionRequest_Permission = 1
+)
+
+// Enum value maps for ValidateUserPermissionRequest_Permission.
+var (
+	ValidateUserPermissionRequest_Permission_name = map[int32]string{
+		0: "PERMISSION_STATUS_UNSPECIFIED",
+		1: "PERMISSION_ADMIN_ROLE",
+	}
+	ValidateUserPermissionRequest_Permission_value = map[string]int32{
+		"PERMISSION_STATUS_UNSPECIFIED": 0,
+		"PERMISSION_ADMIN_ROLE":         1,
+	}
+)
+
+func (x ValidateUserPermissionRequest_Permission) Enum() *ValidateUserPermissionRequest_Permission {
+	p := new(ValidateUserPermissionRequest_Permission)
+	*p = x
+	return p
+}
+
+func (x ValidateUserPermissionRequest_Permission) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ValidateUserPermissionRequest_Permission) Descriptor() protoreflect.EnumDescriptor {
+	return file_iam_v1_iam_proto_enumTypes[2].Descriptor()
+}
+
+func (ValidateUserPermissionRequest_Permission) Type() protoreflect.EnumType {
+	return &file_iam_v1_iam_proto_enumTypes[2]
+}
+
+func (x ValidateUserPermissionRequest_Permission) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ValidateUserPermissionRequest_Permission.Descriptor instead.
+func (ValidateUserPermissionRequest_Permission) EnumDescriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{6, 0}
+}
+
 type GenerateNewApiKeyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -295,6 +387,214 @@ func (x *ValidateApiKeyPermissionResponse) GetAuthorized() bool {
 	return false
 }
 
+type AddUserRolePermissionRequest struct {
+	state         protoimpl.MessageState                  `protogen:"open.v1"`
+	UserId        string                                  `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProjectId     string                                  `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Role          AddUserRolePermissionRequest_Permission `protobuf:"varint,3,opt,name=role,proto3,enum=iam.v1.AddUserRolePermissionRequest_Permission" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddUserRolePermissionRequest) Reset() {
+	*x = AddUserRolePermissionRequest{}
+	mi := &file_iam_v1_iam_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddUserRolePermissionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUserRolePermissionRequest) ProtoMessage() {}
+
+func (x *AddUserRolePermissionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUserRolePermissionRequest.ProtoReflect.Descriptor instead.
+func (*AddUserRolePermissionRequest) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *AddUserRolePermissionRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *AddUserRolePermissionRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *AddUserRolePermissionRequest) GetRole() AddUserRolePermissionRequest_Permission {
+	if x != nil {
+		return x.Role
+	}
+	return AddUserRolePermissionRequest_PERMISSION_STATUS_UNSPECIFIED
+}
+
+type AddUserRolePermissionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Updated       bool                   `protobuf:"varint,1,opt,name=updated,proto3" json:"updated,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddUserRolePermissionResponse) Reset() {
+	*x = AddUserRolePermissionResponse{}
+	mi := &file_iam_v1_iam_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddUserRolePermissionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddUserRolePermissionResponse) ProtoMessage() {}
+
+func (x *AddUserRolePermissionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddUserRolePermissionResponse.ProtoReflect.Descriptor instead.
+func (*AddUserRolePermissionResponse) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *AddUserRolePermissionResponse) GetUpdated() bool {
+	if x != nil {
+		return x.Updated
+	}
+	return false
+}
+
+type ValidateUserPermissionRequest struct {
+	state         protoimpl.MessageState                   `protogen:"open.v1"`
+	UserId        string                                   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProjectId     string                                   `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Role          ValidateUserPermissionRequest_Permission `protobuf:"varint,3,opt,name=role,proto3,enum=iam.v1.ValidateUserPermissionRequest_Permission" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateUserPermissionRequest) Reset() {
+	*x = ValidateUserPermissionRequest{}
+	mi := &file_iam_v1_iam_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateUserPermissionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserPermissionRequest) ProtoMessage() {}
+
+func (x *ValidateUserPermissionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserPermissionRequest.ProtoReflect.Descriptor instead.
+func (*ValidateUserPermissionRequest) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ValidateUserPermissionRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *ValidateUserPermissionRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+func (x *ValidateUserPermissionRequest) GetRole() ValidateUserPermissionRequest_Permission {
+	if x != nil {
+		return x.Role
+	}
+	return ValidateUserPermissionRequest_PERMISSION_STATUS_UNSPECIFIED
+}
+
+type ValidateUserPermissionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Authorized    bool                   `protobuf:"varint,1,opt,name=authorized,proto3" json:"authorized,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateUserPermissionResponse) Reset() {
+	*x = ValidateUserPermissionResponse{}
+	mi := &file_iam_v1_iam_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateUserPermissionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserPermissionResponse) ProtoMessage() {}
+
+func (x *ValidateUserPermissionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserPermissionResponse.ProtoReflect.Descriptor instead.
+func (*ValidateUserPermissionResponse) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ValidateUserPermissionResponse) GetAuthorized() bool {
+	if x != nil {
+		return x.Authorized
+	}
+	return false
+}
+
 var File_iam_v1_iam_proto protoreflect.FileDescriptor
 
 const file_iam_v1_iam_proto_rawDesc = "" +
@@ -326,6 +626,30 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	" ValidateApiKeyPermissionResponse\x12\x1e\n" +
 	"\n" +
 	"authorized\x18\x01 \x01(\bR\n" +
+	"authorized\"\xe7\x01\n" +
+	"\x1cAddUserRolePermissionRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12C\n" +
+	"\x04role\x18\x03 \x01(\x0e2/.iam.v1.AddUserRolePermissionRequest.PermissionR\x04role\"J\n" +
+	"\n" +
+	"Permission\x12!\n" +
+	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15PERMISSION_ADMIN_ROLE\x10\x01\"9\n" +
+	"\x1dAddUserRolePermissionResponse\x12\x18\n" +
+	"\aupdated\x18\x01 \x01(\bR\aupdated\"\xe9\x01\n" +
+	"\x1dValidateUserPermissionRequest\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12D\n" +
+	"\x04role\x18\x03 \x01(\x0e20.iam.v1.ValidateUserPermissionRequest.PermissionR\x04role\"J\n" +
+	"\n" +
+	"Permission\x12!\n" +
+	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15PERMISSION_ADMIN_ROLE\x10\x01\"@\n" +
+	"\x1eValidateUserPermissionResponse\x12\x1e\n" +
+	"\n" +
+	"authorized\x18\x01 \x01(\bR\n" +
 	"authorizedB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
@@ -340,24 +664,32 @@ func file_iam_v1_iam_proto_rawDescGZIP() []byte {
 	return file_iam_v1_iam_proto_rawDescData
 }
 
-var file_iam_v1_iam_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_iam_v1_iam_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_iam_v1_iam_proto_goTypes = []any{
 	(ValidateApiKeyPermissionRequest_Permission)(0), // 0: iam.v1.ValidateApiKeyPermissionRequest.Permission
-	(*GenerateNewApiKeyRequest)(nil),                // 1: iam.v1.GenerateNewApiKeyRequest
-	(*GenerateNewApiKeyResponse)(nil),               // 2: iam.v1.GenerateNewApiKeyResponse
-	(*ValidateApiKeyPermissionRequest)(nil),         // 3: iam.v1.ValidateApiKeyPermissionRequest
-	(*ValidateApiKeyPermissionResponse)(nil),        // 4: iam.v1.ValidateApiKeyPermissionResponse
-	(*timestamppb.Timestamp)(nil),                   // 5: google.protobuf.Timestamp
+	(AddUserRolePermissionRequest_Permission)(0),    // 1: iam.v1.AddUserRolePermissionRequest.Permission
+	(ValidateUserPermissionRequest_Permission)(0),   // 2: iam.v1.ValidateUserPermissionRequest.Permission
+	(*GenerateNewApiKeyRequest)(nil),                // 3: iam.v1.GenerateNewApiKeyRequest
+	(*GenerateNewApiKeyResponse)(nil),               // 4: iam.v1.GenerateNewApiKeyResponse
+	(*ValidateApiKeyPermissionRequest)(nil),         // 5: iam.v1.ValidateApiKeyPermissionRequest
+	(*ValidateApiKeyPermissionResponse)(nil),        // 6: iam.v1.ValidateApiKeyPermissionResponse
+	(*AddUserRolePermissionRequest)(nil),            // 7: iam.v1.AddUserRolePermissionRequest
+	(*AddUserRolePermissionResponse)(nil),           // 8: iam.v1.AddUserRolePermissionResponse
+	(*ValidateUserPermissionRequest)(nil),           // 9: iam.v1.ValidateUserPermissionRequest
+	(*ValidateUserPermissionResponse)(nil),          // 10: iam.v1.ValidateUserPermissionResponse
+	(*timestamppb.Timestamp)(nil),                   // 11: google.protobuf.Timestamp
 }
 var file_iam_v1_iam_proto_depIdxs = []int32{
-	5, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
-	0, // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	11, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
+	0,  // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
+	1,  // 2: iam.v1.AddUserRolePermissionRequest.role:type_name -> iam.v1.AddUserRolePermissionRequest.Permission
+	2,  // 3: iam.v1.ValidateUserPermissionRequest.role:type_name -> iam.v1.ValidateUserPermissionRequest.Permission
+	4,  // [4:4] is the sub-list for method output_type
+	4,  // [4:4] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_iam_v1_iam_proto_init() }
@@ -370,8 +702,8 @@ func file_iam_v1_iam_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_iam_proto_rawDesc), len(file_iam_v1_iam_proto_rawDesc)),
-			NumEnums:      1,
-			NumMessages:   4,
+			NumEnums:      3,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
