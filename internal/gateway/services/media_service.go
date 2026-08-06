@@ -6,7 +6,7 @@ import (
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
-	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/api"
 )
 
 type MediaService struct {
@@ -15,7 +15,7 @@ type MediaService struct {
 	iamClient iamv1.IAMServiceClient
 }
 
-func (s *MediaService) GetDashboard(ctx context.Context, userId string) (*dto.GatewayGetDashboardResponse, error) {
+func (s *MediaService) GetDashboard(ctx context.Context, userId string) (*api.GetDashboardResponse, error) {
 	
 	res, err := s.mediaClient.GetDashboard(ctx, &mediav1.GetDashboardRequest{
 		UserId: userId,
@@ -25,7 +25,7 @@ func (s *MediaService) GetDashboard(ctx context.Context, userId string) (*dto.Ga
 		return nil, err
 	}
 
-	return &dto.GatewayGetDashboardResponse{
+	return &api.GetDashboardResponse{
 		ProjectId: res.GetProjectId(),
 		ProjectName: res.GetProjectName(),
 		Description: res.GetDescription(),

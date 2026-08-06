@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
-	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/dto/gateway"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
 )
 
