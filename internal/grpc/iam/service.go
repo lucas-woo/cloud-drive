@@ -59,10 +59,10 @@ func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.Validat
 	return ok, err
 }
 
-func (s *Service) AddUserRole(ctx context.Context, req *dto.UpdateUserRoleRequest) (bool, error) {
+func (s *Service) AddUserRole(ctx context.Context, req *dto.AddUserRolePermissionRequest) (bool, error) {
 	var role string;
 
-	if req.UserRole == iamv1.UpdateUserRoleRequest_PERMISSION_ADMIN_ROLE {
+	if req.UserRole == iamv1.AddUserRolePermissionRequest_PERMISSION_ADMIN_ROLE {
 		role = config.ADMIN_ROLE
 	}
 
@@ -85,6 +85,7 @@ func (s *Service) AddUserRole(ctx context.Context, req *dto.UpdateUserRoleReques
 	return true, nil
 }
 
+func (s *Service) ValidatedUserRolePermission(ctx context.Context, )
 func NewIamService(iamResources *database.IamResources) *Service {
 	return &Service{
 		iamResources: iamResources,

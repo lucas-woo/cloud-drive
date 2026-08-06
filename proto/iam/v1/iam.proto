@@ -36,7 +36,7 @@ message ValidateApiKeyPermissionResponse {
   bool authorized = 1;
 }
 
-message AddUserRoleRequest {
+message AddUserRolePermissionRequest {
   enum Permission {
     PERMISSION_STATUS_UNSPECIFIED = 0;
     PERMISSION_ADMIN_ROLE = 1;
@@ -46,7 +46,7 @@ message AddUserRoleRequest {
   Permission role = 3;
 }
 
-message AddUserRoleResponse {
+message AddUserRolePermissionResponse {
   bool updated = 1;
 }
 
