@@ -59,7 +59,7 @@ func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.Validat
 	return ok, err
 }
 
-func (s *Service) AddUserRole(ctx context.Context, req *dto.AddUserRolePermissionRequest) (bool, error) {
+func (s *Service) AddUserRolePermission(ctx context.Context, req *dto.AddUserRolePermissionRequest) (bool, error) {
 	var role string;
 
 	if req.UserRole == iamv1.AddUserRolePermissionRequest_PERMISSION_ADMIN_ROLE {
@@ -85,7 +85,30 @@ func (s *Service) AddUserRole(ctx context.Context, req *dto.AddUserRolePermissio
 	return true, nil
 }
 
-func (s *Service) ValidatedUserRolePermission(ctx context.Context, )
+func (s *Service) ValidatedUserPermission(ctx context.Context, req *dto.ValidatedUserPermissionRequest) (bool, error) {
+	var role string;
+
+	if req.UserRole == iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE {
+		role = config.ADMIN_ROLE
+	}
+	if len(role) == 0 {
+		return false, nil
+	}
+	userId, err := uuid.Parse(req.UserId)
+	if err != nil {
+		return false, err
+	}
+	projectId, err := uuid.Parse(req.ProjectId)
+	if err != nil {
+		return false, err
+	}
+
+	authorized, err := s.iamResources.ProjectRepository.CheckProjectUserRole(ctx, userId, projectId, role)
+
+	return authorized, err
+}
+
+
 func NewIamService(iamResources *database.IamResources) *Service {
 	return &Service{
 		iamResources: iamResources,
