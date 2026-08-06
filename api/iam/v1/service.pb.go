@@ -24,30 +24,35 @@ var File_iam_v1_service_proto protoreflect.FileDescriptor
 
 const file_iam_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x14iam/v1/service.proto\x12\x06iam.v1\x1a\x10iam/v1/iam.proto2\xbe\x02\n" +
+	"\x14iam/v1/service.proto\x12\x06iam.v1\x1a\x10iam/v1/iam.proto2\x8f\x03\n" +
 	"\n" +
 	"IAMService\x12X\n" +
 	"\x11GenerateNewApiKey\x12 .iam.v1.GenerateNewApiKeyRequest\x1a!.iam.v1.GenerateNewApiKeyResponse\x12m\n" +
-	"\x18ValidateApiKeyPermission\x12'.iam.v1.ValidateApiKeyPermissionRequest\x1a(.iam.v1.ValidateApiKeyPermissionResponse\x12g\n" +
+	"\x18ValidateApiKeyPermission\x12'.iam.v1.ValidateApiKeyPermissionRequest\x1a(.iam.v1.ValidateApiKeyPermissionResponse\x12O\n" +
+	"\x0eUpdateUserRole\x12\x1d.iam.v1.UpdateUserRoleRequest\x1a\x1e.iam.v1.UpdateUserRoleResponse\x12g\n" +
 	"\x16ValidateUserPermission\x12%.iam.v1.ValidateUserPermissionRequest\x1a&.iam.v1.ValidateUserPermissionResponseB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var file_iam_v1_service_proto_goTypes = []any{
 	(*GenerateNewApiKeyRequest)(nil),         // 0: iam.v1.GenerateNewApiKeyRequest
 	(*ValidateApiKeyPermissionRequest)(nil),  // 1: iam.v1.ValidateApiKeyPermissionRequest
-	(*ValidateUserPermissionRequest)(nil),    // 2: iam.v1.ValidateUserPermissionRequest
-	(*GenerateNewApiKeyResponse)(nil),        // 3: iam.v1.GenerateNewApiKeyResponse
-	(*ValidateApiKeyPermissionResponse)(nil), // 4: iam.v1.ValidateApiKeyPermissionResponse
-	(*ValidateUserPermissionResponse)(nil),   // 5: iam.v1.ValidateUserPermissionResponse
+	(*UpdateUserRoleRequest)(nil),            // 2: iam.v1.UpdateUserRoleRequest
+	(*ValidateUserPermissionRequest)(nil),    // 3: iam.v1.ValidateUserPermissionRequest
+	(*GenerateNewApiKeyResponse)(nil),        // 4: iam.v1.GenerateNewApiKeyResponse
+	(*ValidateApiKeyPermissionResponse)(nil), // 5: iam.v1.ValidateApiKeyPermissionResponse
+	(*UpdateUserRoleResponse)(nil),           // 6: iam.v1.UpdateUserRoleResponse
+	(*ValidateUserPermissionResponse)(nil),   // 7: iam.v1.ValidateUserPermissionResponse
 }
 var file_iam_v1_service_proto_depIdxs = []int32{
 	0, // 0: iam.v1.IAMService.GenerateNewApiKey:input_type -> iam.v1.GenerateNewApiKeyRequest
 	1, // 1: iam.v1.IAMService.ValidateApiKeyPermission:input_type -> iam.v1.ValidateApiKeyPermissionRequest
-	2, // 2: iam.v1.IAMService.ValidateUserPermission:input_type -> iam.v1.ValidateUserPermissionRequest
-	3, // 3: iam.v1.IAMService.GenerateNewApiKey:output_type -> iam.v1.GenerateNewApiKeyResponse
-	4, // 4: iam.v1.IAMService.ValidateApiKeyPermission:output_type -> iam.v1.ValidateApiKeyPermissionResponse
-	5, // 5: iam.v1.IAMService.ValidateUserPermission:output_type -> iam.v1.ValidateUserPermissionResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	2, // 2: iam.v1.IAMService.UpdateUserRole:input_type -> iam.v1.UpdateUserRoleRequest
+	3, // 3: iam.v1.IAMService.ValidateUserPermission:input_type -> iam.v1.ValidateUserPermissionRequest
+	4, // 4: iam.v1.IAMService.GenerateNewApiKey:output_type -> iam.v1.GenerateNewApiKeyResponse
+	5, // 5: iam.v1.IAMService.ValidateApiKeyPermission:output_type -> iam.v1.ValidateApiKeyPermissionResponse
+	6, // 6: iam.v1.IAMService.UpdateUserRole:output_type -> iam.v1.UpdateUserRoleResponse
+	7, // 7: iam.v1.IAMService.ValidateUserPermission:output_type -> iam.v1.ValidateUserPermissionResponse
+	4, // [4:8] is the sub-list for method output_type
+	0, // [0:4] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
