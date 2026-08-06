@@ -13,7 +13,9 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 	webGroup.GET("/dashboard", middlewares.IsAuthenticated(), mediaHandler.GetDashboard)
 
 	//first 40 assets, with info for each asset on folder location, format, file size, dimentions, placed by api/web (date), id, access control
-	webGroup.GET("/assets-page")
+	// gets all folders and collections as well
+	webGroup.GET("/assets-page", middlewares.IsAuthenticated(), mediaHandler.GetAssetsPage)
+
 
 	//returns all folders and for each: how many assets, total size, last upload, location
 	webGroup.GET("/folders-page") //done
@@ -28,7 +30,7 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	webGroup.POST("/create-folder") // done
 
-
+	webGroup.POST("confirm-object")//private route/webgroup? 
 
 	// proto todo:
 	webGroup.POST("/add-assets-to-collection")
