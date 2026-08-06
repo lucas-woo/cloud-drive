@@ -10,11 +10,15 @@ type MediaService struct {
 	mediaClient mediav1.MediaServiceClient
 }
 
+func (s *MediaService) GetDashboard() {
+	
+}
+
+
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,
 	) *MediaService {
-
 	return &MediaService{
 		authClient: authClient,
 		mediaClient: mediaClient,

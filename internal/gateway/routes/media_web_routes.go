@@ -28,7 +28,7 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	webGroup.POST("/create-folder") // done
 
-
+	webGroup.POST("confirm-object")//private route/webgroup? 
 
 	// proto todo:
 	webGroup.POST("/add-assets-to-collection")
