@@ -25,8 +25,8 @@ type ValidateApiKeyPermissionRequest struct {
 	PermissionRequest string
 }
 
-type UpdateUserRoleRequest struct {
-	UserRole iamv1.UpdateUserRoleRequest_Permission
+type AddUserRolePermissionRequest struct {
+	UserRole iamv1.AddUserRolePermissionRequest_Permission
 	UserId string
 	ProjectId string
 }
