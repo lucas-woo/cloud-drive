@@ -35,3 +35,11 @@ message ValidateApiKeyPermissionRequest {
 message ValidateApiKeyPermissionResponse {
   bool authorized = 1;
 }
+
+message ValidateUserPermissionRequest {
+
+}
+
+message ValidateUserPermissionResponse {
+  
+}

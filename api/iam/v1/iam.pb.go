@@ -295,6 +295,78 @@ func (x *ValidateApiKeyPermissionResponse) GetAuthorized() bool {
 	return false
 }
 
+type ValidateUserPermissionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateUserPermissionRequest) Reset() {
+	*x = ValidateUserPermissionRequest{}
+	mi := &file_iam_v1_iam_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateUserPermissionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserPermissionRequest) ProtoMessage() {}
+
+func (x *ValidateUserPermissionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserPermissionRequest.ProtoReflect.Descriptor instead.
+func (*ValidateUserPermissionRequest) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{4}
+}
+
+type ValidateUserPermissionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateUserPermissionResponse) Reset() {
+	*x = ValidateUserPermissionResponse{}
+	mi := &file_iam_v1_iam_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateUserPermissionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateUserPermissionResponse) ProtoMessage() {}
+
+func (x *ValidateUserPermissionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateUserPermissionResponse.ProtoReflect.Descriptor instead.
+func (*ValidateUserPermissionResponse) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{5}
+}
+
 var File_iam_v1_iam_proto protoreflect.FileDescriptor
 
 const file_iam_v1_iam_proto_rawDesc = "" +
@@ -326,7 +398,9 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	" ValidateApiKeyPermissionResponse\x12\x1e\n" +
 	"\n" +
 	"authorized\x18\x01 \x01(\bR\n" +
-	"authorizedB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
+	"authorized\"\x1f\n" +
+	"\x1dValidateUserPermissionRequest\" \n" +
+	"\x1eValidateUserPermissionResponseB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
 	file_iam_v1_iam_proto_rawDescOnce sync.Once
@@ -341,17 +415,19 @@ func file_iam_v1_iam_proto_rawDescGZIP() []byte {
 }
 
 var file_iam_v1_iam_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_iam_v1_iam_proto_goTypes = []any{
 	(ValidateApiKeyPermissionRequest_Permission)(0), // 0: iam.v1.ValidateApiKeyPermissionRequest.Permission
 	(*GenerateNewApiKeyRequest)(nil),                // 1: iam.v1.GenerateNewApiKeyRequest
 	(*GenerateNewApiKeyResponse)(nil),               // 2: iam.v1.GenerateNewApiKeyResponse
 	(*ValidateApiKeyPermissionRequest)(nil),         // 3: iam.v1.ValidateApiKeyPermissionRequest
 	(*ValidateApiKeyPermissionResponse)(nil),        // 4: iam.v1.ValidateApiKeyPermissionResponse
-	(*timestamppb.Timestamp)(nil),                   // 5: google.protobuf.Timestamp
+	(*ValidateUserPermissionRequest)(nil),           // 5: iam.v1.ValidateUserPermissionRequest
+	(*ValidateUserPermissionResponse)(nil),          // 6: iam.v1.ValidateUserPermissionResponse
+	(*timestamppb.Timestamp)(nil),                   // 7: google.protobuf.Timestamp
 }
 var file_iam_v1_iam_proto_depIdxs = []int32{
-	5, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
+	7, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
 	0, // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type
@@ -371,7 +447,7 @@ func file_iam_v1_iam_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_iam_proto_rawDesc), len(file_iam_v1_iam_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
