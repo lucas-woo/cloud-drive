@@ -6,7 +6,7 @@ import (
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
-	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/api"
 )
 
 
@@ -16,7 +16,7 @@ type AuthService struct {
 	mediaClient mediav1.MediaServiceClient
 }
 
-func (s *AuthService) SignUp(ctx context.Context, req *dto.GatewaySignUpRequest) (string, string, error){
+func (s *AuthService) SignUp(ctx context.Context, req *api.SignUpRequest) (string, string, error){
 	res, err := s.authClient.SignUpUser(ctx, &authv1.SignUpUserRequest{
 		Username: req.Username,
 		Email: req.Email,
@@ -26,7 +26,7 @@ func (s *AuthService) SignUp(ctx context.Context, req *dto.GatewaySignUpRequest)
 	return res.GetSessionId(), res.GetUserId(), err
 }
 
-func (s *AuthService) Login(ctx context.Context, req *dto.GatewayLoginRequest) (string, error) {
+func (s *AuthService) Login(ctx context.Context, req *api.LoginRequest) (string, error) {
 	res, err := s.authClient.LoginUser(ctx, &authv1.LoginUserRequest{
 		Email: req.Email,
 		Password: req.Password,
