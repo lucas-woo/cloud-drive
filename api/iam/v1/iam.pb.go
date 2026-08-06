@@ -388,9 +388,10 @@ func (x *ValidateApiKeyPermissionResponse) GetAuthorized() bool {
 }
 
 type UpdateUserRoleRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	state         protoimpl.MessageState           `protogen:"open.v1"`
+	UserId        string                           `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProjectId     string                           `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Role          UpdateUserRoleRequest_Permission `protobuf:"varint,3,opt,name=role,proto3,enum=iam.v1.UpdateUserRoleRequest_Permission" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -439,6 +440,13 @@ func (x *UpdateUserRoleRequest) GetProjectId() string {
 	return ""
 }
 
+func (x *UpdateUserRoleRequest) GetRole() UpdateUserRoleRequest_Permission {
+	if x != nil {
+		return x.Role
+	}
+	return UpdateUserRoleRequest_PERMISSION_STATUS_UNSPECIFIED
+}
+
 type UpdateUserRoleResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Updated       bool                   `protobuf:"varint,1,opt,name=updated,proto3" json:"updated,omitempty"`
@@ -484,9 +492,10 @@ func (x *UpdateUserRoleResponse) GetUpdated() bool {
 }
 
 type ValidateUserPermissionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	state         protoimpl.MessageState                   `protogen:"open.v1"`
+	UserId        string                                   `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ProjectId     string                                   `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Role          ValidateUserPermissionRequest_Permission `protobuf:"varint,3,opt,name=role,proto3,enum=iam.v1.ValidateUserPermissionRequest_Permission" json:"role,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -533,6 +542,13 @@ func (x *ValidateUserPermissionRequest) GetProjectId() string {
 		return x.ProjectId
 	}
 	return ""
+}
+
+func (x *ValidateUserPermissionRequest) GetRole() ValidateUserPermissionRequest_Permission {
+	if x != nil {
+		return x.Role
+	}
+	return ValidateUserPermissionRequest_PERMISSION_STATUS_UNSPECIFIED
 }
 
 type ValidateUserPermissionResponse struct {
@@ -610,21 +626,23 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	" ValidateApiKeyPermissionResponse\x12\x1e\n" +
 	"\n" +
 	"authorized\x18\x01 \x01(\bR\n" +
-	"authorized\"\x9b\x01\n" +
+	"authorized\"\xd9\x01\n" +
 	"\x15UpdateUserRoleRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\"J\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12<\n" +
+	"\x04role\x18\x03 \x01(\x0e2(.iam.v1.UpdateUserRoleRequest.PermissionR\x04role\"J\n" +
 	"\n" +
 	"Permission\x12!\n" +
 	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
 	"\x15PERMISSION_ADMIN_ROLE\x10\x01\"2\n" +
 	"\x16UpdateUserRoleResponse\x12\x18\n" +
-	"\aupdated\x18\x01 \x01(\bR\aupdated\"\xa3\x01\n" +
+	"\aupdated\x18\x01 \x01(\bR\aupdated\"\xe9\x01\n" +
 	"\x1dValidateUserPermissionRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\"J\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\x12D\n" +
+	"\x04role\x18\x03 \x01(\x0e20.iam.v1.ValidateUserPermissionRequest.PermissionR\x04role\"J\n" +
 	"\n" +
 	"Permission\x12!\n" +
 	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x19\n" +
@@ -665,11 +683,13 @@ var file_iam_v1_iam_proto_goTypes = []any{
 var file_iam_v1_iam_proto_depIdxs = []int32{
 	11, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
-	2,  // [2:2] is the sub-list for method output_type
-	2,  // [2:2] is the sub-list for method input_type
-	2,  // [2:2] is the sub-list for extension type_name
-	2,  // [2:2] is the sub-list for extension extendee
-	0,  // [0:2] is the sub-list for field type_name
+	1,  // 2: iam.v1.UpdateUserRoleRequest.role:type_name -> iam.v1.UpdateUserRoleRequest.Permission
+	2,  // 3: iam.v1.ValidateUserPermissionRequest.role:type_name -> iam.v1.ValidateUserPermissionRequest.Permission
+	4,  // [4:4] is the sub-list for method output_type
+	4,  // [4:4] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_iam_v1_iam_proto_init() }

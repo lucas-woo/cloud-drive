@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
@@ -56,6 +57,22 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApi
 func (s *Service) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
 	ok, err := s.iamResources.ApiKeysRepository.ValidateApiKeyPermission(ctx, req)
 	return ok, err
+}
+
+func (s *Service) UpdateUserRole(ctx context.Context, req *dto.UpdateUserRoleRequest) (bool, error) {
+	var role string;
+
+	if req.UserRole == iamv1.UpdateUserRoleRequest_PERMISSION_ADMIN_ROLE {
+		role = config.ADMIN_ROLE
+	}
+
+	if len(role) == 0 {
+		return false, nil
+	}
+
+	
+
+	s.iamResources.ProjectRepository.AddProjectUserRole(ctx, )
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {
