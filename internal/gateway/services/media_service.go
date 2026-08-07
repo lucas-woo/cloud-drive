@@ -96,6 +96,35 @@ func (s *MediaService) GetAssetsInFolder(ctx context.Context, projectId, folderI
 	}, nil
 }
 
+func (s *MediaService) GetAssetsInCollection(ctx context.Context, projectId, collectionId string, assetCursor *api.AssetCursor) (*api.GetCollectionAssetsResponse, error) {
+	var err error
+	var res *mediav1.GetAssetsInCollectionResponse
+	if assetCursor != nil {
+		res, err = s.mediaClient.GetAssetsInCollection(ctx, &mediav1.GetAssetsInCollectionRequest{
+			ProjectId: projectId,
+			CollectionId: collectionId,
+			AssetCursor: &mediav1.AssetCursor{
+				CreatedAt: timestamppb.New(assetCursor.CreatedAt),
+				ObjectId: assetCursor.ObjectId,
+			},
+		})
+	} else {
+		res, err = s.mediaClient.GetAssetsInCollection(ctx, &mediav1.GetAssetsInCollectionRequest{
+			ProjectId: projectId,
+			CollectionId: collectionId,
+		})
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.GetCollectionAssetsResponse{
+		ProjectObjects: s.mapper.ConvertProjectObjectSlice(res.ProjectObjects),
+		AssetCursor: s.mapper.ConvertAssetCursor(res.NextAssetCursor),
+	}, nil
+}
+
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,

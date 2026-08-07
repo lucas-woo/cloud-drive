@@ -116,6 +116,46 @@ func (h *MediaHandler) GetFolderAssets(c *gin.Context) {
 
 }
 
+func (h *MediaHandler) GetCollectionAssets(c *gin.Context) {
+	userIdString, exists := c.Get(config.GinUserId)
+
+	if !exists {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	userId := userIdString.(string)	
+
+	var reqBody api.GetCollectionAssetsRequest
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	projectId := reqBody.ProjectId
+	collectionId := reqBody.CollectionId
+	assetCursor := reqBody.AssetCursor
+
+	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return		
+	}
+	if !authorized {
+		c.AbortWithStatus(http.StatusUnauthorized)
+	}	
+	
+	res, err := h.service.GetAssetsInFolder(c.Request.Context(), projectId, collectionId, assetCursor)
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return		
+	}
+	
+	c.JSON(http.StatusOK, res)	
+
+}
+
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
 	return &MediaHandler{
 		service: service,
