@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
-	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/api"
+	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
 )
 
@@ -158,6 +159,49 @@ func (h *MediaHandler) GetCollectionAssets(c *gin.Context) {
 
 }
 
+func (h *MediaHandler) CreateNewProject(c *gin.Context) {
+	userIdString, exists := c.Get(config.GinUserId)
+
+	if !exists {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	userId := userIdString.(string)	
+
+	var reqBody api.CreateNewProjectRequest
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}	
+
+	name := reqBody.ProjectName
+	description := reqBody.Description
+
+	projectId, err := h.service.CreateNewProject(c.Request.Context(), userId, name, description)
+	if err != nil {
+		//should either retry or delete the user
+		log.Printf("error creating new user project: %v", err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}	
+	
+	err = h.service.AddAdminRole(c.Request.Context(), userId, projectId)
+	if err != nil {
+		//should either retry or delete the user
+		log.Printf("error adding admin role to project creator: %v", err)
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}			
+
+
+	res := api.CreateNewProjectResponse{
+		ProjectId: projectId,
+	}
+
+	c.JSON(http.StatusOK, res)		
+}
+
 func (h *MediaHandler) CreateNewCollection(c *gin.Context) {
 	userIdString, exists := c.Get(config.GinUserId)
 
@@ -238,6 +282,7 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 	c.JSON(http.StatusOK, res)	
 	
 }
+
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
 	return &MediaHandler{
