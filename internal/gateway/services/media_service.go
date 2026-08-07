@@ -125,6 +125,23 @@ func (s *MediaService) GetAssetsInCollection(ctx context.Context, projectId, col
 	}, nil
 }
 
+func (s *MediaService) CreateNewCollection(ctx context.Context, projectId, creatorId, name, description string) (*api.CreateCollectionResponse, error) {
+	res, err := s.mediaClient.CreateNewCollection(ctx, &mediav1.CreateNewCollectionRequest{
+		ProjectId: projectId,
+		CreatorId: creatorId,
+		Name: name,
+		Description: description,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.CreateCollectionResponse{
+		CollectionId: res.GetCollectionId(),
+	}, nil
+}
+
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,

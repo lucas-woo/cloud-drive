@@ -22,14 +22,12 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	webGroup.GET("/collection-assets", middlewares.IsAuthenticated(), mediaHandler.GetCollectionAssets) // done
 
+	webGroup.POST("/create-collection", middlewares.IsAuthenticated(), mediaHandler.CreateNewCollection) 
+
+	webGroup.POST("/create-folder") 
+
 	//returns first 40 assets in that folder
-	webGroup.GET("/folder") //done
-	webGroup.GET("/collection") //done
-	webGroup.POST("/upload-asset") // done?
-
-	webGroup.POST("/create-collection") // done
-
-	webGroup.POST("/create-folder") // done
+	webGroup.POST("/upload-asset") 
 
 	webGroup.POST("confirm-object")//private route/webgroup? 
 
