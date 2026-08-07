@@ -127,6 +127,6 @@ type UploadObjectRequest struct {
 }
 
 type UploadObjectResponse struct {
-	Url string `json:"url" binding:"required"`
-	ObjectId string `json:"objectId" binding:"required"`
+	Url string `json:"url"`
+	ObjectId string `json:"objectId"`
 }
