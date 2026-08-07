@@ -2,7 +2,6 @@ package iamgrpc
 
 import (
 	"context"
-	"errors"
 
 	"github.com/google/uuid"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
@@ -17,22 +16,9 @@ type Service struct {
 
 func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApiKeyRequest) (*dto.GenerateNewApiKeyResponse, error) {
 
-
-	uid, err := uuid.Parse(req.UserId)
-	if err != nil {
-		return nil, err
-	}
 	pid, err := uuid.Parse(req.ProjectId)
 	if err != nil {
 		return nil, err
-	}
-	
-	ok, err := s.iamResources.ProjectRepository.CheckProjectUserRole(ctx, uid, pid, config.ADMIN_ROLE)
-	if err != nil {
-		return nil, err
-	}
-	if !ok {
-		return nil, errors.New("not allowed")
 	}
 
 	createdKeyResponse, err := s.iamResources.ApiKeysRepository.CreateAPIKey(ctx, req, pid)

@@ -165,9 +165,8 @@ func (ValidateUserPermissionRequest_Permission) EnumDescriptor() ([]byte, []int)
 
 type GenerateNewApiKeyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	KeyName       string                 `protobuf:"bytes,3,opt,name=key_name,json=keyName,proto3" json:"key_name,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	KeyName       string                 `protobuf:"bytes,2,opt,name=key_name,json=keyName,proto3" json:"key_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -200,13 +199,6 @@ func (x *GenerateNewApiKeyRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use GenerateNewApiKeyRequest.ProtoReflect.Descriptor instead.
 func (*GenerateNewApiKeyRequest) Descriptor() ([]byte, []int) {
 	return file_iam_v1_iam_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *GenerateNewApiKeyRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
 }
 
 func (x *GenerateNewApiKeyRequest) GetProjectId() string {
@@ -599,12 +591,11 @@ var File_iam_v1_iam_proto protoreflect.FileDescriptor
 
 const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
-	"\x10iam/v1/iam.proto\x12\x06iam.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"m\n" +
-	"\x18GenerateNewApiKeyRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"\x10iam/v1/iam.proto\x12\x06iam.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"T\n" +
+	"\x18GenerateNewApiKeyRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x19\n" +
-	"\bkey_name\x18\x03 \x01(\tR\akeyName\"\x8e\x01\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x19\n" +
+	"\bkey_name\x18\x02 \x01(\tR\akeyName\"\x8e\x01\n" +
 	"\x19GenerateNewApiKeyResponse\x12\x17\n" +
 	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x1d\n" +
 	"\n" +
