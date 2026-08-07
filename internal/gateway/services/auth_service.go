@@ -58,9 +58,10 @@ func (s *AuthService) AddAdminRole(ctx context.Context, userId string, projectId
 	return err
 }
 
-func NewAuthServer(authClient authv1.AuthServiceClient, mediaClient mediav1.MediaServiceClient) *AuthService {
+func NewAuthServer(authClient authv1.AuthServiceClient, mediaClient mediav1.MediaServiceClient, iamClient iamv1.IAMServiceClient) *AuthService {
 	return &AuthService{
 		authClient: authClient,
 		mediaClient: mediaClient,
+		iamClient: iamClient,
 	}
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/middlewares"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/routes"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 
@@ -64,11 +65,11 @@ func NewServer(resources *database.GatewayResources) *Server {
 	middlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
 
 	// auth routes
-	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient)
+	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient, resources.IamClient)
 	authHandler := handlers.NewAuthHandler(authService)
 
 	//media routes
-	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient)
+	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, utils.RestMapper{})
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
 

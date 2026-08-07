@@ -60,16 +60,22 @@ func (s *MediaService) GetAssetsPage(ctx context.Context, projectId string) (*ap
 
 	return &api.GetAssetsPageResponse{
 		AssetCursor: s.mapper.ConvertAssetCursor(res.GetNextAssetCursor()),
-		
+		ProjectObjects: s.mapper.ConvertProjectObjectSlice(res.GetProjectObjects()),
+		ProjectFolders: s.mapper.ConvertFolderSlice(res.GetProjectFolders()),
+		ProjectCollections: s.mapper.ConvertCollectionSlice(res.GetProjectCollections()),
 	}, nil
 }
 
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,
+	iamClient iamv1.IAMServiceClient,
+	mapper utils.RestMapper,
 	) *MediaService {
 	return &MediaService{
 		authClient: authClient,
 		mediaClient: mediaClient,
+		iamClient: iamClient,
+		mapper: mapper,
 	}
 }
