@@ -283,6 +283,47 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 	
 }
 
+func (h *MediaHandler) UplaodObject(c *gin.Context) {
+	userIdString, exists := c.Get(config.GinUserId)
+
+	if !exists {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	userId := userIdString.(string)	
+
+	var reqBody api.UploadObjectRequest
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}	
+
+	projectId := reqBody.ProjectId
+
+	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return		
+	}
+	if !authorized {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}		
+
+	name := reqBody.Name
+	folderId := reqBody.FolderId
+	isActive := reqBody.IsActive
+
+	res, err := h.service.GetUploadObjectUrl(c.Request.Context(), projectId, folderId, name, isActive)
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return 
+	}
+
+	c.JSON(http.StatusOK, res)	
+}
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
 	return &MediaHandler{

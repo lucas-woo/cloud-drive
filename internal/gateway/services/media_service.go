@@ -175,6 +175,21 @@ func (s *MediaService) AddAdminRole(ctx context.Context, userId string, projectI
 	return err
 }
 
+func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folderId, objectName string, isActive bool) (*api.UploadObjectResponse, error) {
+	res, err := s.mediaClient.UploadObject(ctx, &mediav1.UploadObjectRequest{
+		ProjectId: projectId,
+		FolderId: folderId,
+		ObjectName: objectName,
+		IsActive: isActive,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &api.UploadObjectResponse{
+		Url: res.GetSignedUrl(),
+		ObjectId: res.GetObjectId(),
+	}, nil
+}
 
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 

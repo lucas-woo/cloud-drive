@@ -118,3 +118,15 @@ type CreateNewProjectRequest struct {
 type CreateNewProjectResponse struct {
 	ProjectId string `json:"projectId"`
 }
+
+type UploadObjectRequest struct {
+	ProjectId string `json:"projectId" binding:"required"`
+  Name string `json:"name" binding:"required"`	
+  FolderId  string `json:"folderId" binding:"required"`	
+	IsActive bool `json:"isActive" binding:"required"`	
+}
+
+type UploadObjectResponse struct {
+	Url string `json:"url" binding:"required"`
+	ObjectId string `json:"objectId" binding:"required"`
+}
