@@ -94,6 +94,7 @@ func (h *MediaHandler) GetFolderAssets(c *gin.Context) {
 
 	projectId := reqBody.ProjectId
 	folderId := reqBody.FolderId
+	assetCursor := reqBody.AssetCursor
 
 	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
 
@@ -105,7 +106,7 @@ func (h *MediaHandler) GetFolderAssets(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}	
 	
-	res, err := h.service.GetAssetsInFolder(c.Request.Context(), projectId, folderId)
+	res, err := h.service.GetAssetsInFolder(c.Request.Context(), projectId, folderId, assetCursor)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return		
