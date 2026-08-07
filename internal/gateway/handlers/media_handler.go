@@ -35,7 +35,7 @@ func (h *MediaHandler) GetDashboard(c *gin.Context) {
 	c.JSON(http.StatusOK, dashboard)
 }
 
-// TODO: need to make a check if the userid has the role to get that project 
+
 func (h *MediaHandler) GetAssetsPage(c *gin.Context) {
 
 	userIdString, exists := c.Get(config.GinUserId)
@@ -72,6 +72,47 @@ func (h *MediaHandler) GetAssetsPage(c *gin.Context) {
 	}
 	
 	c.JSON(http.StatusOK, res)
+}
+
+func (h *MediaHandler) GetFolderAssets(c *gin.Context) {
+
+
+	userIdString, exists := c.Get(config.GinUserId)
+
+	if !exists {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	userId := userIdString.(string)	
+
+	var reqBody api.GetFolderAssetsRequest
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	projectId := reqBody.ProjectId
+	folderId := reqBody.FolderId
+
+	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return		
+	}
+	if !authorized {
+		c.AbortWithStatus(http.StatusUnauthorized)
+	}	
+	
+	res, err := h.service.GetAssetsInFolder(c.Request.Context(), projectId, folderId)
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return		
+	}
+	
+	c.JSON(http.StatusOK, res)	
+
 }
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{

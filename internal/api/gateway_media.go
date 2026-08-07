@@ -17,51 +17,64 @@ type GetAssetsPageRequest struct {
 }
 
 type ProjectObject struct {
-	ProjectId    string    `json:"project_id"`
-	CollectionId string    `json:"collection_id"`
-	FolderId    string    `json:"folder_id"`
-	ObjectId     string    `json:"object_id"`
+	ProjectId    string    `json:"projectId"`
+	CollectionId string    `json:"collectionId"`
+	FolderId    string    `json:"folderId"`
+	ObjectId     string    `json:"objectId"`
 
-	FileSize int64  `json:"file_size"`
+	FileSize int64  `json:"fileSize"`
 	Format   string `json:"format"`
 
-	IsActive bool `json:"is_active"`
+	IsActive bool `json:"isActive"`
 
-	CreatedAt  time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	CreatedAt  time.Time `json:"createdAt"`
+	ModifiedAt time.Time `json:"modifiedAt"`
 }
 
 type Folder struct {
-	FolderId   string    `json:"folder_id"`
-	FolderName string    `json:"folder_name"`
+	FolderId   string    `json:"folderId"`
+	FolderName string    `json:"folderName"`
 
-	FolderSize int64 `json:"folder_size"`
-	AssetCount int32 `json:"asset_count"`
+	FolderSize int64 `json:"folderSize"`
+	AssetCount int32 `json:"assetCount"`
 
-	LastUpload time.Time `json:"last_upload"`
-	CreatedAt  time.Time `json:"created_at"`
-	ModifiedAt time.Time `json:"modified_at"`
+	LastUpload time.Time `json:"lastUpload"`
+	CreatedAt  time.Time `json:"createdAt"`
+	ModifiedAt time.Time `json:"modifiedAt"`
 }
 
 type Collection struct {
-	CollectionId string `json:"collection_id"`
+	CollectionId string `json:"collectionId"`
 	Name         string `json:"name"`
 	Description  string `json:"description"`
 
-	CreatedAt   time.Time `json:"created_at"`
-	LastModified time.Time `json:"last_modified"`
+	CreatedAt   time.Time `json:"createdAt"`
+	LastModified time.Time `json:"lastModified"`
 
-	IsPublic bool `json:"is_public"`
+	IsPublic bool `json:"isPublic"`
 }
 
 type AssetCursor struct {
-  CreatedAt time.Time `json:"created_at"`
-	ObjectId string `json:"object_id"`
+  CreatedAt time.Time `json:"createdAt"`
+	ObjectId string `json:"objectId"`
 }
 
 type GetAssetsPageResponse struct {
-  AssetCursor *AssetCursor `json:"asset_cursor"`
-  ProjectObjects []ProjectObject `json:"project_objects"`
+  AssetCursor *AssetCursor `json:"assetCursor"`
+  ProjectObjects []ProjectObject `json:"projectObjects"`
   ProjectFolders []Folder `json:"folders"`
   ProjectCollections []Collection `json:"collections"`
+}
+
+
+type GetFolderAssetsRequest struct {
+    AssetCursor *AssetCursor `json:"assetCursor"`
+
+    ProjectId string `json:"projectId" binding:"required"`
+    FolderId  string `json:"folderId" binding:"required"`
+}
+
+type GetFolderAssetsResponse struct {
+  AssetCursor *AssetCursor `json:"assetCursor"`
+  ProjectObjects []ProjectObject `json:"projectObjects"`
 }
