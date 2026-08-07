@@ -66,6 +66,14 @@ func (s *MediaService) GetAssetsPage(ctx context.Context, projectId string) (*ap
 	}, nil
 }
 
+func (s *MediaService) GetAssetsInFolder(ctx context.Context, projectId, folderId string) (*api.GetFolderAssetsResponse, error) {
+	s.mediaClient.GetAssetsInFolder(ctx, &mediav1.GetAssetsInFolderRequest{
+		ProjectId: projectId,
+		FolderId: folderId,
+		
+	})
+}
+
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,

@@ -14,12 +14,13 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	//first 40 assets, with info for each asset on folder location, format, file size, dimentions, placed by api/web (date), id, access control
 	// gets all folders and collections as well
-	webGroup.GET("/assets-page", middlewares.IsAuthenticated(), mediaHandler.GetAssetsPage)
+	webGroup.POST("/assets-page", middlewares.IsAuthenticated(), mediaHandler.GetAssetsPage)
 
 
 	//returns all folders and for each: how many assets, total size, last upload, location
-	webGroup.GET("/folders-page") //done
-	webGroup.GET("/collections-page") // done
+	webGroup.POST("/folder-assets", middlewares.IsAuthenticated(), mediaHandler.GetFolderAssets) //done
+
+	webGroup.GET("/collection-assets") // done
 
 	//returns first 40 assets in that folder
 	webGroup.GET("/folder") //done
