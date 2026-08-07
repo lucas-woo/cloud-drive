@@ -59,3 +59,9 @@ type AssetCursor struct {
 	ObjectId string `json:"object_id"`
 }
 
+type GetAssetsPageResponse struct {
+  AssetCursor *AssetCursor `json:"asset_cursor"`
+  ProjectObjects []ProjectObject `json:"project_objects"`
+  ProjectFolders []Folder `json:"folders"`
+  ProjectCollections []Collection `json:"collections"`
+}

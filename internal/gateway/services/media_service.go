@@ -7,12 +7,14 @@ import (
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/api"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type MediaService struct {
 	authClient authv1.AuthServiceClient
 	mediaClient mediav1.MediaServiceClient
 	iamClient iamv1.IAMServiceClient
+	mapper utils.RestMapper
 }
 
 func (s *MediaService) GetDashboard(ctx context.Context, userId string) (*api.GetDashboardResponse, error) {
@@ -47,7 +49,20 @@ func (s *MediaService) ValidateUserRole(ctx context.Context, userId, projectId s
 	return res.GetAuthorized(), err
 }
 
-func (s *MediaService) GetAssetsPage(ctx context.Context, projectId string) 
+func (s *MediaService) GetAssetsPage(ctx context.Context, projectId string) (*api.GetAssetsPageResponse, error) {
+	res, err := s.mediaClient.GetAssetsPage(ctx, &mediav1.GetAssetsPageRequest{
+		ProjectId: projectId,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.GetAssetsPageResponse{
+		AssetCursor: s.mapper.ConvertAssetCursor(res.GetNextAssetCursor()),
+		
+	}, nil
+}
 
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
