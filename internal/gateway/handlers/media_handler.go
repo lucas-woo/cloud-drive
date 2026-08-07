@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
-	"github.com/lucas-woo/cloud-drive/internal/dto/gateway"
+	"github.com/lucas-woo/cloud-drive/internal/api"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
 )
 
@@ -46,14 +46,16 @@ func (h *MediaHandler) GetAssetsPage(c *gin.Context) {
 	}
 	userId := userIdString.(string)	
 
-	var reqBody dto.GatewayGetAssetsPageRequest
+	var reqBody api.GetAssetsPageRequest
 
 	if err := c.ShouldBindJSON(&reqBody); err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
-	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, reqBody.ProjectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
+	projectId := reqBody.ProjectId
+
+	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
 
 	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
@@ -63,8 +65,13 @@ func (h *MediaHandler) GetAssetsPage(c *gin.Context) {
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 
-	h.service.
-
+	res, err := h.service.GetAssetsPage(c.Request.Context(), projectId)
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return		
+	}
+	
+	c.JSON(http.StatusOK, res)
 }
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
