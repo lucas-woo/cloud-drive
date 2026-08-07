@@ -90,3 +90,13 @@ type GetCollectionAssetsResponse struct {
   AssetCursor *AssetCursor `json:"assetCursor"`
   ProjectObjects []ProjectObject `json:"projectObjects"`
 }
+
+type CreateCollectionRequest struct {
+	ProjectId string `json:"projectId" binding:"required"`
+  Name string `json:"name" binding:"required"`
+  Description string `json:"description" binding:"required"`
+}
+
+type CreateCollectionResponse struct {
+	CollectionId string `json:"collectionId" binding:"required"`
+}
