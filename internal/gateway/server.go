@@ -72,8 +72,10 @@ func NewServer(resources *database.GatewayResources) *Server {
 	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, utils.RestMapper{})
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
+	iamService := services.NewIamService(&resources.IamClient)
+	iamHandler := handlers.NewIamHandler(iamService)
 
-	routes.InitializeRouter(webGroup, middlewares, authHandler, mediaHandler)
+	routes.InitializeRouter(webGroup, middlewares, authHandler, mediaHandler, iamHandler)
 
 	return server
 }

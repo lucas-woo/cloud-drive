@@ -8,6 +8,9 @@ import (
 
 
 
-func InitializeRouter(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler, mediaHandler *handlers.MediaHandler) {
+func InitializeRouter(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler, mediaHandler *handlers.MediaHandler, iamHandler *handlers.IamHandler) {
+
 	InitializeAuthWebRoutes(webGroup, middlewares, authHandler)
+
+	InitializeMediaWebRoutes(webGroup, middlewares, mediaHandler)
 }
