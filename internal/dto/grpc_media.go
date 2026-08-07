@@ -14,7 +14,6 @@ type CreateNewProjectRequest struct {
 }
 
 type UploadObjectRequest struct {
-	UserId string
 	ProjectId string
 	ObjectName string
 	FolderId string
