@@ -8,6 +8,7 @@ import (
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/api"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type MediaService struct {
@@ -66,12 +67,33 @@ func (s *MediaService) GetAssetsPage(ctx context.Context, projectId string) (*ap
 	}, nil
 }
 
-func (s *MediaService) GetAssetsInFolder(ctx context.Context, projectId, folderId string) (*api.GetFolderAssetsResponse, error) {
-	s.mediaClient.GetAssetsInFolder(ctx, &mediav1.GetAssetsInFolderRequest{
-		ProjectId: projectId,
-		FolderId: folderId,
-		
-	})
+func (s *MediaService) GetAssetsInFolder(ctx context.Context, projectId, folderId string, assetCursor *api.AssetCursor) (*api.GetFolderAssetsResponse, error) {
+	var err error
+	var res *mediav1.GetAssetsInFolderResponse
+	if assetCursor != nil {
+		res, err = s.mediaClient.GetAssetsInFolder(ctx, &mediav1.GetAssetsInFolderRequest{
+			ProjectId: projectId,
+			FolderId: folderId,
+			AssetCursor: &mediav1.AssetCursor{
+				CreatedAt: timestamppb.New(assetCursor.CreatedAt),
+				ObjectId: assetCursor.ObjectId,
+			},
+		})
+	} else {
+		res, err = s.mediaClient.GetAssetsInFolder(ctx, &mediav1.GetAssetsInFolderRequest{
+			ProjectId: projectId,
+			FolderId: folderId,
+		})
+	}
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.GetFolderAssetsResponse{
+		ProjectObjects: s.mapper.ConvertProjectObjectSlice(res.ProjectObjects),
+		AssetCursor: s.mapper.ConvertAssetCursor(res.NextAssetCursor),
+	}, nil
 }
 
 func NewMediaService(	
