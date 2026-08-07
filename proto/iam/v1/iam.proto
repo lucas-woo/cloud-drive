@@ -10,9 +10,8 @@ import "google/protobuf/timestamp.proto";
 //upload priviledges, delete, activate/disactivate, generate api keys
 
 message GenerateNewApiKeyRequest {
-  string user_id = 1;
-  string project_id = 2;
-  string key_name = 3;
+  string project_id = 1;
+  string key_name = 2;
 }
 
 message GenerateNewApiKeyResponse {
