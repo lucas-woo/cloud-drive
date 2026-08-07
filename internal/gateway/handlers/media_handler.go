@@ -199,6 +199,46 @@ func (h *MediaHandler) CreateNewCollection(c *gin.Context) {
 	
 }
 
+func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
+	userIdString, exists := c.Get(config.GinUserId)
+
+	if !exists {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	userId := userIdString.(string)	
+
+	var reqBody api.CreateFolderRequest
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}	
+
+	projectId := reqBody.ProjectId
+	name := reqBody.Name
+
+	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return		
+	}
+	if !authorized {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}	
+
+	res, err := h.service.CreateNewFolder(c.Request.Context(), projectId, name)
+	if err != nil {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return 
+	}
+
+	c.JSON(http.StatusOK, res)	
+	
+}
+
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
 	return &MediaHandler{
 		service: service,

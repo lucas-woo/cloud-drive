@@ -142,6 +142,21 @@ func (s *MediaService) CreateNewCollection(ctx context.Context, projectId, creat
 	}, nil
 }
 
+func (s *MediaService) CreateNewFolder(ctx context.Context, projectId, name string) (*api.CreateFolderResponse, error) {
+	res, err := s.mediaClient.CreateNewFolder(ctx, &mediav1.CreateNewFolderRequest{
+		ProjectId: projectId,
+		FolderName: name,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.CreateFolderResponse{
+		FolderId: res.GetFolderId(),
+	}, nil
+}
+
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,
