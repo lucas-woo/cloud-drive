@@ -98,7 +98,7 @@ type CreateCollectionRequest struct {
 }
 
 type CreateCollectionResponse struct {
-	CollectionId string `json:"collectionId" binding:"required"`
+	CollectionId string `json:"collectionId"`
 }
 
 type CreateFolderRequest struct {
@@ -107,5 +107,14 @@ type CreateFolderRequest struct {
 }
 
 type CreateFolderResponse struct {
-	FolderId string `json:"folderId" binding:"required"`
+	FolderId string `json:"folderId"`
+}
+
+type CreateNewProjectRequest struct {
+  ProjectName string `json:"projectName" binding:"required"`
+  Description string `json:"description" binding:"required"`	
+}
+
+type CreateNewProjectResponse struct {
+	ProjectId string `json:"projectId"`
 }

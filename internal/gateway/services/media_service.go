@@ -157,6 +157,25 @@ func (s *MediaService) CreateNewFolder(ctx context.Context, projectId, name stri
 	}, nil
 }
 
+func (s *MediaService) CreateNewProject(ctx context.Context, userId, projectName, projectDescription string) (string, error) {
+	res, err := s.mediaClient.CreateNewProject(ctx, &mediav1.CreateNewProjectRequest{
+		UserId: userId,
+		ProjectName: projectName,
+		Description: projectDescription,
+	})
+	return res.GetProjectId(), err
+}
+
+func (s *MediaService) AddAdminRole(ctx context.Context, userId string, projectId string) (error) {
+	_, err := s.iamClient.AddUserRolePermission(ctx, &iamv1.AddUserRolePermissionRequest{
+		Role: iamv1.AddUserRolePermissionRequest_PERMISSION_ADMIN_ROLE,
+		UserId: userId,
+		ProjectId: projectId,
+	})
+	return err
+}
+
+
 func NewMediaService(	
 	authClient authv1.AuthServiceClient, 
 	mediaClient mediav1.MediaServiceClient,
