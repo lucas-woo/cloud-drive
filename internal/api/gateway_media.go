@@ -100,3 +100,12 @@ type CreateCollectionRequest struct {
 type CreateCollectionResponse struct {
 	CollectionId string `json:"collectionId" binding:"required"`
 }
+
+type CreateFolderRequest struct {
+	ProjectId string `json:"projectId" binding:"required"`
+  Name string `json:"name" binding:"required"`
+}
+
+type CreateFolderResponse struct {
+	FolderId string `json:"folderId" binding:"required"`
+}

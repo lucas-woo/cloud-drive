@@ -24,7 +24,7 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	webGroup.POST("/create-collection", middlewares.IsAuthenticated(), mediaHandler.CreateNewCollection) 
 
-	webGroup.POST("/create-folder") 
+	webGroup.POST("/create-folder", middlewares.IsAuthenticated(), mediaHandler.CreateNewFolder) 
 
 	//returns first 40 assets in that folder
 	webGroup.POST("/upload-asset") 
