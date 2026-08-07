@@ -188,11 +188,10 @@ func (x *CreateNewProjectResponse) GetProjectId() string {
 
 type UploadObjectRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ProjectId     string                 `protobuf:"bytes,2,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	ObjectName    string                 `protobuf:"bytes,3,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
-	FolderId      string                 `protobuf:"bytes,4,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
-	IsActive      bool                   `protobuf:"varint,5,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
+	FolderId      string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
+	IsActive      bool                   `protobuf:"varint,4,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -225,13 +224,6 @@ func (x *UploadObjectRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UploadObjectRequest.ProtoReflect.Descriptor instead.
 func (*UploadObjectRequest) Descriptor() ([]byte, []int) {
 	return file_media_v1_media_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *UploadObjectRequest) GetUserId() string {
-	if x != nil {
-		return x.UserId
-	}
-	return ""
 }
 
 func (x *UploadObjectRequest) GetProjectId() string {
@@ -1873,15 +1865,14 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x18CreateNewProjectResponse\x12!\n" +
 	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\"\xa8\x01\n" +
-	"\x13UploadObjectRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1d\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\"\x8f\x01\n" +
+	"\x13UploadObjectRequest\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\x12\x1f\n" +
-	"\vobject_name\x18\x03 \x01(\tR\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
+	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
-	"\tfolder_id\x18\x04 \x01(\tR\bfolderId\x12\x1b\n" +
-	"\tis_active\x18\x05 \x01(\bR\bisActive\"R\n" +
+	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12\x1b\n" +
+	"\tis_active\x18\x04 \x01(\bR\bisActive\"R\n" +
 	"\x14UploadObjectResponse\x12\x1d\n" +
 	"\n" +
 	"signed_url\x18\x01 \x01(\tR\tsignedUrl\x12\x1b\n" +
