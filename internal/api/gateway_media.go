@@ -78,3 +78,15 @@ type GetFolderAssetsResponse struct {
   AssetCursor *AssetCursor `json:"assetCursor"`
   ProjectObjects []ProjectObject `json:"projectObjects"`
 }
+
+type GetCollectionAssetsRequest struct {
+    AssetCursor *AssetCursor `json:"assetCursor"`
+
+    ProjectId string `json:"projectId" binding:"required"`
+    CollectionId  string `json:"collectionId" binding:"required"`
+}
+
+type GetCollectionAssetsResponse struct {
+  AssetCursor *AssetCursor `json:"assetCursor"`
+  ProjectObjects []ProjectObject `json:"projectObjects"`
+}
