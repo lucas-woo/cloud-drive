@@ -23,8 +23,6 @@ type UploadObjectRequest struct {
 type ObjectUploadConfirmationRequest struct {
 	ObjectId string
 	FileSize uint64
-	Format string
-	ErrorStatus error
 }
 
 type GetDashboardRequest struct {
