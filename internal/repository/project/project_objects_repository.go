@@ -79,19 +79,27 @@ func (r *ProjectRepository) CreateRootFolder(ctx context.Context, projectId uuid
 	return folderId, nil
 }
 
-func (r *ProjectRepository) ConfirmObjectInfo(ctx context.Context, objectId uuid.UUID, fileSize uint64, format string) error {
+func (r *ProjectRepository) ConfirmObjectInfo(
+	ctx context.Context,
+	objectId uuid.UUID,
+	fileSize uint64,
+	format string,
+) (updated bool, err error) {
 	timeNow := time.Now().UTC()
+
 	query := fmt.Sprintf(`
 		UPDATE %s
 		SET
 			file_size = ?,
 			format = ?,
+			is_pending = FALSE,
 			created_at = ?,
 			modified_at = ?
 		WHERE object_id = ?
+		  AND is_pending = TRUE
 	`, config.ProjectObjectsTable)
 
-	_, err := r.sqldb.ExecContext(
+	result, err := r.sqldb.ExecContext(
 		ctx,
 		query,
 		fileSize,
@@ -100,8 +108,16 @@ func (r *ProjectRepository) ConfirmObjectInfo(ctx context.Context, objectId uuid
 		timeNow,
 		objectId[:],
 	)
+	if err != nil {
+		return false, err
+	}
 
-	return err
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return false, err
+	}
+
+	return rowsAffected > 0, nil
 }
 
 func (r *ProjectRepository) UpdateObjectInfo(ctx context.Context, objectId uuid.UUID, fileSize uint64, format string) error {

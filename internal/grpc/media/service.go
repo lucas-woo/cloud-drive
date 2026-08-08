@@ -79,10 +79,14 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 		return req.ErrorStatus
 	}
 	
-	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
+	updated, err := s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
 
 	if err != nil {
 		return err
+	}
+
+	if !updated {
+		return nil
 	}
 
 	projectId, err := s.mediaResources.ProjectRepository.GetProjectIdFromObjectId(ctx, objectId)
