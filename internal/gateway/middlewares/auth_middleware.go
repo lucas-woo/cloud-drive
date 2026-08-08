@@ -54,6 +54,11 @@ func (m *AuthMiddleware) IsAuthenticated() gin.HandlerFunc {
 	}
 }
 
+func (m *AuthMiddleware)EventBridgeAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+	}
+}
+
 func NewAuthMiddleware(redisRepo *redisrepo.RedisRepository) *AuthMiddleware {
 	return &AuthMiddleware{
 		RedisRepository: redisRepo,
