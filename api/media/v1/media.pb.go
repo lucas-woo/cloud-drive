@@ -790,8 +790,6 @@ type ObjectUploadConfirmationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ObjectId      string                 `protobuf:"bytes,1,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
 	FileSize      uint64                 `protobuf:"varint,2,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
-	Format        string                 `protobuf:"bytes,3,opt,name=format,proto3" json:"format,omitempty"`
-	Status        *ErrorStatus           `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -838,20 +836,6 @@ func (x *ObjectUploadConfirmationRequest) GetFileSize() uint64 {
 		return x.FileSize
 	}
 	return 0
-}
-
-func (x *ObjectUploadConfirmationRequest) GetFormat() string {
-	if x != nil {
-		return x.Format
-	}
-	return ""
-}
-
-func (x *ObjectUploadConfirmationRequest) GetStatus() *ErrorStatus {
-	if x != nil {
-		return x.Status
-	}
-	return nil
 }
 
 type ObjectUploadConfirmationResponse struct {
@@ -1916,12 +1900,10 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"file_chunk\x18\x02 \x01(\fH\x00R\tfileChunkB\t\n" +
 	"\apayload\"4\n" +
 	"\x15UploadFileApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xa2\x01\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"[\n" +
 	"\x1fObjectUploadConfirmationRequest\x12\x1b\n" +
 	"\tobject_id\x18\x01 \x01(\tR\bobjectId\x12\x1b\n" +
-	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\x12\x16\n" +
-	"\x06format\x18\x03 \x01(\tR\x06format\x12-\n" +
-	"\x06status\x18\x04 \x01(\v2\x15.media.v1.ErrorStatusR\x06status\"\"\n" +
+	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\"\"\n" +
 	" ObjectUploadConfirmationResponse\".\n" +
 	"\x13GetDashboardRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xa9\x02\n" +
@@ -2057,28 +2039,27 @@ var file_media_v1_media_proto_depIdxs = []int32{
 	5,  // 4: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
 	6,  // 5: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
 	9,  // 6: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
-	0,  // 7: media.v1.ObjectUploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
-	36, // 8: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
-	37, // 9: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 10: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 11: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	39, // 12: media.v1.GetAllFoldersResponse.project_folders:type_name -> media.v1.ProjectFolder
-	40, // 13: media.v1.GetAllCollectionsResponse.project_collections:type_name -> media.v1.ProjectCollection
-	37, // 14: media.v1.GetAssetsInFolderRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 15: media.v1.GetAssetsInFolderResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 16: media.v1.GetAssetsInFolderResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	37, // 17: media.v1.GetAssetsInCollectionRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 18: media.v1.GetAssetsInCollectionResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 19: media.v1.GetAssetsInCollectionResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 20: media.v1.GetAssetsPageResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 21: media.v1.GetAssetsPageResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	39, // 22: media.v1.GetAssetsPageResponse.project_folders:type_name -> media.v1.ProjectFolder
-	40, // 23: media.v1.GetAssetsPageResponse.project_collections:type_name -> media.v1.ProjectCollection
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	36, // 7: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
+	37, // 8: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 9: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 10: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	39, // 11: media.v1.GetAllFoldersResponse.project_folders:type_name -> media.v1.ProjectFolder
+	40, // 12: media.v1.GetAllCollectionsResponse.project_collections:type_name -> media.v1.ProjectCollection
+	37, // 13: media.v1.GetAssetsInFolderRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 14: media.v1.GetAssetsInFolderResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 15: media.v1.GetAssetsInFolderResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	37, // 16: media.v1.GetAssetsInCollectionRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 17: media.v1.GetAssetsInCollectionResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 18: media.v1.GetAssetsInCollectionResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 19: media.v1.GetAssetsPageResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 20: media.v1.GetAssetsPageResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	39, // 21: media.v1.GetAssetsPageResponse.project_folders:type_name -> media.v1.ProjectFolder
+	40, // 22: media.v1.GetAssetsPageResponse.project_collections:type_name -> media.v1.ProjectCollection
+	23, // [23:23] is the sub-list for method output_type
+	23, // [23:23] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_media_proto_init() }
