@@ -83,7 +83,6 @@ func (r *ProjectRepository) ConfirmObjectInfo(
 	ctx context.Context,
 	objectId uuid.UUID,
 	fileSize uint64,
-	format string,
 ) (updated bool, err error) {
 	timeNow := time.Now().UTC()
 
@@ -91,7 +90,6 @@ func (r *ProjectRepository) ConfirmObjectInfo(
 		UPDATE %s
 		SET
 			file_size = ?,
-			format = ?,
 			is_pending = FALSE,
 			created_at = ?,
 			modified_at = ?
@@ -103,7 +101,6 @@ func (r *ProjectRepository) ConfirmObjectInfo(
 		ctx,
 		query,
 		fileSize,
-		format,
 		timeNow,
 		timeNow,
 		objectId[:],

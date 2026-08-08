@@ -74,12 +74,7 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 		return err
 	}
 
-	if req.ErrorStatus != nil {
-		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-		return req.ErrorStatus
-	}
-	
-	updated, err := s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
+	updated, err := s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize)
 
 	if err != nil {
 		return err
