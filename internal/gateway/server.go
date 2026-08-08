@@ -58,6 +58,8 @@ func NewServer(resources *database.GatewayResources) *Server {
 	apiGroup := ginEngine.Group("/api")
 	apiGroup.Use(publicCors)
 
+	awsGroup := ginEngine.Group("/webhooks/aws")
+	
 	server := &Server{
 		gin: ginEngine,
 	}
@@ -72,10 +74,15 @@ func NewServer(resources *database.GatewayResources) *Server {
 	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, utils.RestMapper{})
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
+	//iam routes
 	iamService := services.NewIamService(resources.IamClient)
 	iamHandler := handlers.NewIamHandler(iamService)
 
-	routes.InitializeRouter(webGroup, middlewares, authHandler, mediaHandler, iamHandler)
+	//event bridge route
+	awsService := services.NewAwsService(resources.MediaClient)
+	awsHandler := handlers.NewAwsHandler(awsService)
+
+	routes.InitializeRouter(webGroup, awsGroup, middlewares, authHandler, mediaHandler, iamHandler, awsHandler)
 
 	return server
 }
