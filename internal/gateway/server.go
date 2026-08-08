@@ -64,8 +64,8 @@ func NewServer(resources *database.GatewayResources) *Server {
 		gin: ginEngine,
 	}
 
-	middlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
-
+	authMiddlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
+	eventbridgeMiddlewares := middlewares.NewEventbridgeMiddleware()
 	// auth routes
 	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient, resources.IamClient)
 	authHandler := handlers.NewAuthHandler(authService)
@@ -82,7 +82,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	awsService := services.NewAwsService(resources.MediaClient)
 	awsHandler := handlers.NewAwsHandler(awsService)
 
-	routes.InitializeRouter(webGroup, awsGroup, middlewares, authHandler, mediaHandler, iamHandler, awsHandler)
+	routes.InitializeRouter(webGroup, awsGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler)
 
 	return server
 }

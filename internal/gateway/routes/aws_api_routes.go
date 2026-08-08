@@ -6,7 +6,8 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/middlewares"
 )
 
-func InitializeAwsRoutes(awsGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, awsHandler *handlers.AwsHandler) {
+func InitializeAwsRoutes(awsGroup *gin.RouterGroup, middlewares *middlewares.EventBridgeMiddleware, awsHandler *handlers.AwsHandler) {
 	
+	awsGroup.POST("/object-upload", middlewares.EventBridgeAuthMiddleware() ,awsHandler.ConfirmObjectUpload)
 
 }
