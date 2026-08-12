@@ -1,7 +1,6 @@
 package gateway
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -22,15 +21,17 @@ type Server struct {
 }
 
 func (s *Server) Run() {
-	
 	port := os.Getenv("GATEWAY_PORT")
-	pp := fmt.Sprintf(":%s", port)
-
-	err := s.gin.Run(pp)
-	if err != nil {
-		log.Fatal("error starting gin server")
+	if port == "" {
+		port = "8080"
 	}
-	fmt.Println("listening to port: " + port)
+
+	addr := ":" + port
+	log.Printf("listening on port %s", port)
+
+	if err := s.gin.Run(addr); err != nil {
+		log.Fatalf("error starting gin server: %v", err)
+	}
 }
 
 func NewServer(resources *database.GatewayResources) *Server {
@@ -38,7 +39,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	ginEngine := gin.Default()
 
 	webCors := cors.New(cors.Config{
-		AllowOrigins: []string{"localhost:3000", "localhost:3000"},
+		AllowOrigins: []string{"*"},//"http://localhost:3000"
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders: []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders: []string{"Content-Length"},

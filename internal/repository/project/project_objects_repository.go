@@ -52,14 +52,13 @@ func (r *ProjectRepository) CreateRootFolder(ctx context.Context, projectId uuid
 		INSERT INTO %s (
 			folder_id,
 			project_id,
-			parent_folder_id,
 			folder_name,
 			folder_size,
 			asset_count,
 			last_upload,
 			created_at,
 			modified_at
-		) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+		) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 	`, config.ProjectFoldersTable)
 
 	_, err := r.sqldb.ExecContext(
@@ -67,11 +66,10 @@ func (r *ProjectRepository) CreateRootFolder(ctx context.Context, projectId uuid
 		query,
 		folderId[:],
 		projectId[:],
-		nil,     
 		"Home",
-		0,       
-		0,       
-		nil,     
+		0,
+		0,
+		nil,
 		now,
 		now,
 	)
@@ -109,6 +107,7 @@ func (r *ProjectRepository) ConfirmObjectInfo(
 		objectId[:],
 	)
 	if err != nil {
+		fmt.Println(err)
 		return false, err
 	}
 

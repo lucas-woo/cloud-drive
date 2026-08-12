@@ -25,6 +25,10 @@ run-iam-test: cmd/test/iam/main.go
 run-media-test: cmd/test/media/main.go
 	go run cmd/test/media/main.go;
 
+run-gateway: cmd/gateway/main.go;
+	GIN_MODE=release go run cmd/gateway/main.go;
+
+
 CXX=g++
 
 CXXFLAGS=-std=c++17 -Ihelper/include

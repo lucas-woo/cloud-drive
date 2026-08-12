@@ -71,7 +71,7 @@ func main() {
 			UploadInfo: &mediav1.ImageUploadInfo{
 				ProjectId: proj.GetProjectId(),
 				ObjectName: "t",
-				Folder: "/",
+				FolderId: "",
 				ContentType: "image/jpeg",
 				Transformations: &mediav1.ImageTransformations{
 					Scale: &mediav1.Scale{
