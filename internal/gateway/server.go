@@ -13,6 +13,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/middlewares"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/routes"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 
@@ -57,22 +58,31 @@ func NewServer(resources *database.GatewayResources) *Server {
 	apiGroup := ginEngine.Group("/api")
 	apiGroup.Use(publicCors)
 
+	awsGroup := ginEngine.Group("/webhooks/aws")
+	
 	server := &Server{
 		gin: ginEngine,
 	}
 
-	middlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
-
+	authMiddlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
+	eventbridgeMiddlewares := middlewares.NewEventbridgeMiddleware()
 	// auth routes
-	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient)
+	authService := services.NewAuthServer(resources.AuthClient, resources.MediaClient, resources.IamClient)
 	authHandler := handlers.NewAuthHandler(authService)
 
 	//media routes
-	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient)
+	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, utils.RestMapper{})
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
+	//iam routes
+	iamService := services.NewIamService(resources.IamClient)
+	iamHandler := handlers.NewIamHandler(iamService)
 
-	routes.InitializeRouter(webGroup, middlewares, authHandler, mediaHandler)
+	//event bridge route
+	awsService := services.NewAwsService(resources.MediaClient)
+	awsHandler := handlers.NewAwsHandler(awsService)
+
+	routes.InitializeRouter(webGroup, awsGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler)
 
 	return server
 }

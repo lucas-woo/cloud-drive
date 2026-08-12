@@ -42,20 +42,9 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 }
 
 func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadObjectRequest) (url string, objectId string, err error) {
-	userId, err := uuid.Parse(req.UserId)
-	if err != nil{
-		return 
-	}
 	projectId, err := uuid.Parse(req.ProjectId)
 	if err != nil{
 		return 
-	}
-	ok, err := s.mediaResources.ProjectRepository.CheckProjectUserRole(ctx, userId, projectId, config.ADMIN_ROLE)
-	if err != nil{
-		return 
-	}
-	if !ok {
-		return "", "", errors.New("doesn't have role")
 	}
 	oId, err := uuid.NewV7()
 	if err != nil {
@@ -85,15 +74,14 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 		return err
 	}
 
-	if req.ErrorStatus != nil {
-		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-		return req.ErrorStatus
-	}
-	
-	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
+	updated, err := s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize)
 
 	if err != nil {
 		return err
+	}
+
+	if !updated {
+		return nil
 	}
 
 	projectId, err := s.mediaResources.ProjectRepository.GetProjectIdFromObjectId(ctx, objectId)

@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	IAMService_GenerateNewApiKey_FullMethodName        = "/iam.v1.IAMService/GenerateNewApiKey"
 	IAMService_ValidateApiKeyPermission_FullMethodName = "/iam.v1.IAMService/ValidateApiKeyPermission"
+	IAMService_AddUserRolePermission_FullMethodName    = "/iam.v1.IAMService/AddUserRolePermission"
+	IAMService_ValidateUserPermission_FullMethodName   = "/iam.v1.IAMService/ValidateUserPermission"
 )
 
 // IAMServiceClient is the client API for IAMService service.
@@ -29,6 +31,8 @@ const (
 type IAMServiceClient interface {
 	GenerateNewApiKey(ctx context.Context, in *GenerateNewApiKeyRequest, opts ...grpc.CallOption) (*GenerateNewApiKeyResponse, error)
 	ValidateApiKeyPermission(ctx context.Context, in *ValidateApiKeyPermissionRequest, opts ...grpc.CallOption) (*ValidateApiKeyPermissionResponse, error)
+	AddUserRolePermission(ctx context.Context, in *AddUserRolePermissionRequest, opts ...grpc.CallOption) (*AddUserRolePermissionResponse, error)
+	ValidateUserPermission(ctx context.Context, in *ValidateUserPermissionRequest, opts ...grpc.CallOption) (*ValidateUserPermissionResponse, error)
 }
 
 type iAMServiceClient struct {
@@ -59,12 +63,34 @@ func (c *iAMServiceClient) ValidateApiKeyPermission(ctx context.Context, in *Val
 	return out, nil
 }
 
+func (c *iAMServiceClient) AddUserRolePermission(ctx context.Context, in *AddUserRolePermissionRequest, opts ...grpc.CallOption) (*AddUserRolePermissionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddUserRolePermissionResponse)
+	err := c.cc.Invoke(ctx, IAMService_AddUserRolePermission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *iAMServiceClient) ValidateUserPermission(ctx context.Context, in *ValidateUserPermissionRequest, opts ...grpc.CallOption) (*ValidateUserPermissionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateUserPermissionResponse)
+	err := c.cc.Invoke(ctx, IAMService_ValidateUserPermission_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IAMServiceServer is the server API for IAMService service.
 // All implementations must embed UnimplementedIAMServiceServer
 // for forward compatibility.
 type IAMServiceServer interface {
 	GenerateNewApiKey(context.Context, *GenerateNewApiKeyRequest) (*GenerateNewApiKeyResponse, error)
 	ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error)
+	AddUserRolePermission(context.Context, *AddUserRolePermissionRequest) (*AddUserRolePermissionResponse, error)
+	ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error)
 	mustEmbedUnimplementedIAMServiceServer()
 }
 
@@ -80,6 +106,12 @@ func (UnimplementedIAMServiceServer) GenerateNewApiKey(context.Context, *Generat
 }
 func (UnimplementedIAMServiceServer) ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ValidateApiKeyPermission not implemented")
+}
+func (UnimplementedIAMServiceServer) AddUserRolePermission(context.Context, *AddUserRolePermissionRequest) (*AddUserRolePermissionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddUserRolePermission not implemented")
+}
+func (UnimplementedIAMServiceServer) ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ValidateUserPermission not implemented")
 }
 func (UnimplementedIAMServiceServer) mustEmbedUnimplementedIAMServiceServer() {}
 func (UnimplementedIAMServiceServer) testEmbeddedByValue()                    {}
@@ -138,6 +170,42 @@ func _IAMService_ValidateApiKeyPermission_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_AddUserRolePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddUserRolePermissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).AddUserRolePermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_AddUserRolePermission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).AddUserRolePermission(ctx, req.(*AddUserRolePermissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _IAMService_ValidateUserPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateUserPermissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).ValidateUserPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_ValidateUserPermission_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).ValidateUserPermission(ctx, req.(*ValidateUserPermissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IAMService_ServiceDesc is the grpc.ServiceDesc for IAMService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +220,14 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateApiKeyPermission",
 			Handler:    _IAMService_ValidateApiKeyPermission_Handler,
+		},
+		{
+			MethodName: "AddUserRolePermission",
+			Handler:    _IAMService_AddUserRolePermission_Handler,
+		},
+		{
+			MethodName: "ValidateUserPermission",
+			Handler:    _IAMService_ValidateUserPermission_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
