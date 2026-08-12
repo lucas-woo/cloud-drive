@@ -8,6 +8,11 @@ import (
 
 
 
-func InitializeRouter(webGroup *gin.RouterGroup, middlewares *middlewares.AuthMiddleware, authHandler *handlers.AuthHandler, mediaHandler *handlers.MediaHandler) {
-	InitializeAuthWebRoutes(webGroup, middlewares, authHandler)
+func InitializeRouter(webGroup *gin.RouterGroup, awsGroup *gin.RouterGroup, authMiddlewares *middlewares.AuthMiddleware, eventbridgeMiddlewares *middlewares.EventBridgeMiddleware, authHandler *handlers.AuthHandler, mediaHandler *handlers.MediaHandler, iamHandler *handlers.IamHandler, awsHandler *handlers.AwsHandler) {
+
+	InitializeAuthWebRoutes(webGroup, authMiddlewares, authHandler)
+
+	InitializeMediaWebRoutes(webGroup, authMiddlewares, mediaHandler)
+
+	InitializeAwsRoutes(awsGroup, eventbridgeMiddlewares, awsHandler)
 }

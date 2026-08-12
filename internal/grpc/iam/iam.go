@@ -21,7 +21,6 @@ type Server struct {
 func (s *Server) GenerateNewApiKey(ctx context.Context, req *iamv1.GenerateNewApiKeyRequest) (*iamv1.GenerateNewApiKeyResponse, error) {
 
 	res, err := s.service.GenerateNewApiKey(ctx, &dto.GenerateNewApiKeyRequest{
-		UserId: req.GetUserId(),
 		KeyName: req.GetKeyName(),
 		ProjectId: req.GetProjectId(),
 	})
@@ -59,6 +58,36 @@ func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.Valida
 
 	return &iamv1.ValidateApiKeyPermissionResponse{
 		Authorized: exist,
+	}, nil
+}
+
+func (s *Server) AddUserRolePermission(ctx context.Context, req *iamv1.AddUserRolePermissionRequest) (*iamv1.AddUserRolePermissionResponse, error) {
+	ok, err := s.service.AddUserRolePermission(ctx, &dto.AddUserRolePermissionRequest{
+		UserRole: req.GetRole(),
+		ProjectId: req.GetProjectId(),
+		UserId: req.GetUserId(),
+	})
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())	
+	}
+	return &iamv1.AddUserRolePermissionResponse{
+		Updated: ok,
+	}, nil
+}
+
+func (s *Server) ValidateUserPermission(ctx context.Context, req *iamv1.ValidateUserPermissionRequest) (*iamv1.ValidateUserPermissionResponse, error) {
+
+	authorized, err := s.service.ValidatedUserPermission(ctx, &dto.ValidatedUserPermissionRequest{
+		UserRole: req.GetRole(),
+		UserId: req.GetUserId(),
+		ProjectId: req.GetProjectId(),
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())	
+	}
+	return &iamv1.ValidateUserPermissionResponse{
+		Authorized: authorized,
 	}, nil
 }
 

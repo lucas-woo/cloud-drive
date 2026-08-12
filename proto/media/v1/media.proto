@@ -25,11 +25,10 @@ message CreateNewProjectResponse {
 }
 
 message UploadObjectRequest {
-  string user_id = 1;
-  string project_id = 2;
-  string object_name = 3;
-  string folder_id = 4;
-  bool is_active = 5;
+  string project_id = 1;
+  string object_name = 2;
+  string folder_id = 3;
+  bool is_active = 4;
 }
 
 message UploadObjectResponse {
@@ -88,9 +87,6 @@ message UploadFileApiResponse {
 message ObjectUploadConfirmationRequest {
   string object_id = 1;
   uint64 file_size = 2;
-  string format = 3;
-
-  ErrorStatus status = 4;
 }
 
 message ObjectUploadConfirmationResponse {}
