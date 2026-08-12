@@ -23,11 +23,12 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 
 	sessionId, userId, err := h.authService.SignUp(c.Request.Context(), &signUpReq)
 	if err != nil {
+		log.Printf("error signing up: %v", err)
 		c.AbortWithStatus(http.StatusBadRequest)
 		return		
 	}
 
-	projectId, err := h.authService.CreateNewProject(c.Request.Context(), userId)
+	_, err = h.authService.CreateNewProject(c.Request.Context(), userId)
 	if err != nil {
 		//should either retry or delete the user
 		log.Printf("error creating new user project: %v", err)
@@ -35,13 +36,6 @@ func (h *AuthHandler) SignUp(c *gin.Context) {
 		return
 	}	
 	
-	err = h.authService.AddAdminRole(c.Request.Context(), userId, projectId)
-	if err != nil {
-		//should either retry or delete the user
-		log.Printf("error adding admin role to project creator: %v", err)
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}		
 
 	c.SetCookie(config.CookieSession, sessionId, config.CookieSessionMaxAge, config.CookieSessionPath, config.CookieSessionDomain, config.CookieSessionSecure, config.CookieSessionHttpOnly)
 

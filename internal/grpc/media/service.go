@@ -34,6 +34,7 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 	pId, err := uuid.Parse(projectId)
 
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 	_, err = s.mediaResources.ProjectRepository.CreateRootFolder(ctx, pId)
