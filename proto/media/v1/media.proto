@@ -49,6 +49,7 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder_id = 3;
   string content_type = 4;
+  string format = 5;
   bool is_active = 6;
 
   ImageTransformations transformations = 7;
@@ -70,8 +71,9 @@ message FileUploadInfo {
   string project_id = 1;
   string object_name = 2;
   string folder_id = 3;
-  string format = 4;
-  bool is_active = 5;
+  string content_type = 4;
+  string format = 5;
+  bool is_active = 6;
 }
 
 message UploadFileApiRequest {
