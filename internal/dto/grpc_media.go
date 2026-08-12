@@ -18,6 +18,7 @@ type UploadObjectRequest struct {
 	ObjectName string
 	FolderId string
 	IsActive bool
+	Format string
 }
 
 type ObjectUploadConfirmationRequest struct {

@@ -58,7 +58,7 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 		return "", "", err
 	}
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, folderId, req.IsActive)
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, folderId, req.IsActive, req.Format)
 	if err != nil{
 		return 
 	}
@@ -143,7 +143,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 		return "", err
 	}
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, imageInfo.GetIsActive())
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, imageInfo.GetIsActive(), imageInfo.GetFormat())
 
 	if err != nil {
 		return "", errors.New("error creating new object")
@@ -266,7 +266,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 	objectIdString := objectId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, fileInfo.GetIsActive())
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, fileInfo.GetIsActive(), fileInfo.GetFormat())
 	if err != nil{
 		return "", errors.New("error creating new object")
 	}

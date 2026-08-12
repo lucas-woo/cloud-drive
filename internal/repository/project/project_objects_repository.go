@@ -15,6 +15,7 @@ func (r *ProjectRepository) CreateNewObject(
 	objectId uuid.UUID,
 	folderId uuid.UUID,
 	isActive bool,
+	format string,
 ) error {
 	timeNow := time.Now().UTC()
 
@@ -24,6 +25,7 @@ func (r *ProjectRepository) CreateNewObject(
 			folder_id,
 			object_id,
 			is_active,
+			format,
 			modified_at
 		) VALUES (?, ?, ?, ?, ?)
 	`, config.ProjectObjectsTable)
@@ -35,6 +37,7 @@ func (r *ProjectRepository) CreateNewObject(
 		folderId[:],
 		objectId[:],
 		isActive,
+		format,
 		timeNow,
 	)
 

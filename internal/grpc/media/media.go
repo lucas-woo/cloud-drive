@@ -44,6 +44,7 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 		ObjectName: req.GetObjectName(),
 		FolderId: req.GetFolderId(),
 		IsActive: req.GetIsActive(),
+		Format: req.GetFormat(),
 	})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
