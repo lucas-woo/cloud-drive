@@ -59,7 +59,7 @@ func (h *AuthHandler) Login(c *gin.Context) {
 	
 	c.SetCookie(config.CookieSession, sessionId, config.CookieSessionMaxAge, config.CookieSessionPath, config.CookieSessionDomain, config.CookieSessionSecure, config.CookieSessionHttpOnly)
 
-	c.JSON(http.StatusCreated, "ok")
+	c.JSON(http.StatusOK, "ok")
 }
 
 

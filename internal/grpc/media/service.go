@@ -340,6 +340,15 @@ func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssets(ctx, projectId, nil, config.AmountImagesToFetch)
 	}
+
+	if err != nil {
+		return nil,nil,err
+	}
+
+	if len(assets) == 0 {
+		return assets, nil, nil
+	}
+
 	nextCursor := &dto.AssetCursor{
 			CreatedAt: assets[len(assets)-1].CreatedAt,
 			ObjectId:  assets[len(assets)-1].ObjectId,

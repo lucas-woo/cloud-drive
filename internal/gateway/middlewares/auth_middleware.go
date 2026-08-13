@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,9 +31,7 @@ func (m *AuthMiddleware) RedirectIfAuthenticated() gin.HandlerFunc {
 func (m *AuthMiddleware) IsAuthenticated() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		sessionId, err := c.Cookie(config.CookieSession)
-		fmt.Println(sessionId)
 		if err != nil {
-			fmt.Println("here")
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
@@ -47,7 +44,7 @@ func (m *AuthMiddleware) IsAuthenticated() gin.HandlerFunc {
 		}
 
 		c.Set(config.GinUserId, userId)
-		fmt.Println("here")
+		
 		c.Next()
 	}
 }
