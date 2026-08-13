@@ -10,6 +10,9 @@ type RestMapper struct {}
 
 
 func (c *RestMapper) ConvertAssetCursor(cursor *mediav1.AssetCursor) *api.AssetCursor {
+	if cursor == nil {
+		return nil
+	}
 	return &api.AssetCursor{
 		ObjectId: cursor.GetObjectId(),
 		CreatedAt: cursor.CreatedAt.AsTime(),

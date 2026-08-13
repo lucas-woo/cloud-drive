@@ -402,7 +402,14 @@ func (s *Service) GetAssetsInFolder(ctx context.Context, req *dto.GetAssetsInFol
 		}, config.AmountImagesToFetch)
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssetsInFolder(ctx, projectId, folderId, nil, config.AmountImagesToFetch)
-	}	
+	}
+	if err != nil {
+		return nil,nil, err;
+	}
+
+	if len(assets) == 0 {
+		return assets, nil, err
+	}
 
 	nextCursor := &dto.AssetCursor{
 			CreatedAt: assets[len(assets)-1].CreatedAt,
