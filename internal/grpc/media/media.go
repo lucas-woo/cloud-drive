@@ -2,7 +2,6 @@ package mediagrpc
 
 import (
 	"context"
-	"fmt"
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"

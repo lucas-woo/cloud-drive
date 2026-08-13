@@ -97,16 +97,19 @@ func (c *RestMapper) ConvertFolderSlice(folders []*mediav1.ProjectFolder) []api.
 			AssetCount: folder.GetAssetCount(),
 		}
 
-		if folder.GetLastUplaod() != nil {
-			item.LastUpload = folder.GetLastUplaod().AsTime()
+		if ts := folder.GetLastUplaod(); ts != nil {
+			t := ts.AsTime()
+			item.LastUpload = &t
 		}
 
-		if folder.GetCreatedAt() != nil {
-			item.CreatedAt = folder.GetCreatedAt().AsTime()
+		if ts := folder.GetCreatedAt(); ts != nil {
+			t := ts.AsTime()
+			item.CreatedAt = &t
 		}
 
-		if folder.GetModifiedAt() != nil {
-			item.ModifiedAt = folder.GetModifiedAt().AsTime()
+		if ts := folder.GetModifiedAt(); ts != nil {
+			t := ts.AsTime()
+			item.ModifiedAt = &t
 		}
 
 		result = append(result, item)
