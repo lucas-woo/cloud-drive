@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/api"
+	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/gateway/services"
 )
 
@@ -63,14 +64,15 @@ func (h *AuthHandler) Login(c *gin.Context) {
 
 
 func (h *AuthHandler) Logout(c *gin.Context) {
-	sessCookie, _ := c.Get(config.CookieSession)
-	sessionId, ok := sessCookie.(string)
-	if !ok {
+	sessionId, err := c.Cookie(config.CookieSession)
+
+	if err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return					
 	}
+	
 	ok, err := h.authService.Logout(c.Request.Context(), sessionId)
-
+	fmt.Println(ok, err)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return				
