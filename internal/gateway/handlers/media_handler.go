@@ -312,8 +312,9 @@ func (h *MediaHandler) UplaodObject(c *gin.Context) {
 	name := reqBody.Name
 	folderId := reqBody.FolderId
 	isActive := reqBody.IsActive
+	originalFileName := reqBody.FileName
 
-	res, err := h.service.GetUploadObjectUrl(c.Request.Context(), projectId, folderId, name, isActive)
+	res, err := h.service.GetUploadObjectUrl(c.Request.Context(), projectId, folderId, name, originalFileName, isActive)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return 
