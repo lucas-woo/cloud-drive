@@ -253,6 +253,12 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 	projectId := reqBody.ProjectId
 	name := reqBody.Name
 
+	//needs better validation later
+	if len(name) == 0 {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return				
+	}
+
 	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
 
 	if err != nil {
@@ -264,7 +270,7 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 		return
 	}	
 
-	res, err := h.service.CreateNewFolder(c.Request.Context(), projectId, name)
+	res, err := h.service.CreateNewFolder(c.Request.Context(), projectId, config.FolderPrefix + name)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return 
