@@ -185,15 +185,6 @@ func (h *MediaHandler) CreateNewProject(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}	
-	
-	err = h.service.AddAdminRole(c.Request.Context(), userId, projectId)
-	if err != nil {
-		//should either retry or delete the user
-		log.Printf("error adding admin role to project creator: %v", err)
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}			
-
 
 	res := api.CreateNewProjectResponse{
 		ProjectId: projectId,

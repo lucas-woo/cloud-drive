@@ -403,12 +403,8 @@ func (s *Service) GetAssetsInFolder(ctx context.Context, req *dto.GetAssetsInFol
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssetsInFolder(ctx, projectId, folderId, nil, config.AmountImagesToFetch)
 	}
-	if err != nil {
+	if err != nil || len(assets) == 0{
 		return nil,nil, err;
-	}
-
-	if len(assets) == 0 {
-		return assets, nil, err
 	}
 
 	nextCursor := &dto.AssetCursor{
@@ -445,6 +441,10 @@ func (s *Service) GetAssetsInCollection(ctx context.Context, req *dto.GetAssetsI
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssetsInCollection(ctx, projectId, collectionId, nil, config.AmountImagesToFetch)
 	}	
+
+	if err != nil || len(assets) == 0 {
+		return nil, nil, err
+	}
 
 	nextCursor := &dto.AssetCursor{
 			CreatedAt: assets[len(assets)-1].CreatedAt,
