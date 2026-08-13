@@ -122,6 +122,7 @@ type CreateNewProjectResponse struct {
 type UploadObjectRequest struct {
 	ProjectId string `json:"projectId" binding:"required"`
   Name string `json:"name" binding:"required"`	
+	FileName string `json:"fileName" binding:"required"`
   FolderId  string `json:"folderId" binding:"required"`	
 	IsActive bool `json:"isActive" binding:"required"`	
 }
