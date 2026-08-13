@@ -20,7 +20,7 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 	//returns all folders and for each: how many assets, total size, last upload, location
 	webGroup.POST("/folder-assets", middlewares.IsAuthenticated(), mediaHandler.GetFolderAssets) //done
 
-	webGroup.GET("/collection-assets", middlewares.IsAuthenticated(), mediaHandler.GetCollectionAssets) // done
+	webGroup.POST("/collection-assets", middlewares.IsAuthenticated(), mediaHandler.GetCollectionAssets) // done
 
 	webGroup.POST("/create-project", middlewares.IsAuthenticated(), mediaHandler.CreateNewProject)
 
@@ -30,6 +30,10 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	webGroup.POST("/upload-asset", middlewares.IsAuthenticated(), mediaHandler.UplaodObject) 
 
+
+	// TODO 
+	// GetProjects
+	// GetDashboard asks for project id
 
 	// TODO
 	webGroup.POST("confirm-object")//private route/webgroup? 
