@@ -180,10 +180,7 @@ func (s *Server) GetAssetsInFolder(ctx context.Context, req *mediav1.GetAssetsIn
 	}
 
 	return &mediav1.GetAssetsInFolderResponse{
-		NextAssetCursor: &mediav1.AssetCursor{
-			CreatedAt: timestamppb.New(nextAssetCursor.CreatedAt),
-			ObjectId: nextAssetCursor.ObjectId.String(),
-		},
+		NextAssetCursor: utils.ConvertAssetCursorToResponse(nextAssetCursor),
 		ProjectObjects: utils.ConvertProjectObjectsToResponse(assets),
 	}, nil
 }
@@ -264,18 +261,9 @@ func (s *Server) GetAssetsPage(ctx context.Context, req *mediav1.GetAssetsPageRe
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	var nextAssetCursor *mediav1.AssetCursor
-
-	if nextCursor != nil {
-		nextAssetCursor = &mediav1.AssetCursor{
-			ObjectId: nextCursor.ObjectId.String(),
-			CreatedAt: timestamppb.New(nextCursor.CreatedAt),
-		}
-	}
-
 	return &mediav1.GetAssetsPageResponse{
 		ProjectObjects: utils.ConvertProjectObjectsToResponse(objects),
-		NextAssetCursor: nextAssetCursor,
+		NextAssetCursor: utils.ConvertAssetCursorToResponse(nextCursor),
 		ProjectFolders: utils.ConvertProjectFoldersToResponse(folders),
 		ProjectCollections: utils.ConvertProjectCollectionsToResponse(collections),
 	}, nil

@@ -7,6 +7,15 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+func ConvertAssetCursorToResponse(assetCursor *dto.AssetCursor) *mediav1.AssetCursor {
+	if assetCursor == nil {
+		return nil
+	}
+	return &mediav1.AssetCursor{
+		CreatedAt: timestamppb.New(assetCursor.CreatedAt),
+		ObjectId: assetCursor.ObjectId.String(),
+	}
+}
 
 func ConvertProjectObjectsToResponse(objects []*dto.ProjectObject) ([]*mediav1.ProjectObject) {
 	resp := make([]*mediav1.ProjectObject, 0, len(objects))
