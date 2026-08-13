@@ -32,15 +32,15 @@ type ProjectObject struct {
 }
 
 type Folder struct {
-	FolderId   string    `json:"folderId"`
-	FolderName string    `json:"folderName"`
+	FolderId   string `json:"folderId"`
+	FolderName string `json:"folderName"`
 
 	FolderSize int64 `json:"folderSize"`
 	AssetCount int32 `json:"assetCount"`
 
-	LastUpload time.Time `json:"lastUpload"`
-	CreatedAt  time.Time `json:"createdAt"`
-	ModifiedAt time.Time `json:"modifiedAt"`
+	LastUpload *time.Time `json:"lastUpload"`
+	CreatedAt  *time.Time `json:"createdAt"`
+	ModifiedAt *time.Time `json:"modifiedAt"`
 }
 
 type Collection struct {
