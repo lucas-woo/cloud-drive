@@ -2,7 +2,8 @@ package mediagrpc
 
 import (
 	"context"
-	
+	"fmt"
+
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
@@ -263,12 +264,19 @@ func (s *Server) GetAssetsPage(ctx context.Context, req *mediav1.GetAssetsPageRe
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
-	return &mediav1.GetAssetsPageResponse{
-		ProjectObjects: utils.ConvertProjectObjectsToResponse(objects),
-		NextAssetCursor: &mediav1.AssetCursor{
+
+	var nextAssetCursor *mediav1.AssetCursor
+
+	if nextCursor != nil {
+		nextAssetCursor = &mediav1.AssetCursor{
 			ObjectId: nextCursor.ObjectId.String(),
 			CreatedAt: timestamppb.New(nextCursor.CreatedAt),
-		},
+		}
+	}
+
+	return &mediav1.GetAssetsPageResponse{
+		ProjectObjects: utils.ConvertProjectObjectsToResponse(objects),
+		NextAssetCursor: nextAssetCursor,
 		ProjectFolders: utils.ConvertProjectFoldersToResponse(folders),
 		ProjectCollections: utils.ConvertProjectCollectionsToResponse(collections),
 	}, nil

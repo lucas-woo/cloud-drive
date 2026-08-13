@@ -2,6 +2,7 @@ package projectrepository
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"time"
 
@@ -99,64 +100,85 @@ func (r *ProjectRepository) GetAssets(
 }
 
 func (r *ProjectRepository) GetAllFolders(
-	ctx context.Context,
-	projectId uuid.UUID,
+  ctx context.Context,
+  projectId uuid.UUID,
 ) ([]*dto.ProjectFolder, error) {
 
-	query := fmt.Sprintf(`
-		SELECT
-			folder_id,
-			folder_name,
-			folder_size,
-			asset_count,
-			last_upload,
-			created_at,
-			modified_at
-		FROM %s
-		WHERE project_id = ?
-		ORDER BY folder_name ASC
-	`, config.ProjectFoldersTable)
+  query := fmt.Sprintf(`
+    SELECT
+      folder_id,
+      folder_name,
+      folder_size,
+      asset_count,
+      last_upload,
+      created_at,
+      modified_at
+    FROM %s
+    WHERE project_id = ?
+    ORDER BY folder_name ASC
+  `, config.ProjectFoldersTable)
 
-	rows, err := r.sqldb.QueryContext(ctx, query, projectId[:])
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
+  rows, err := r.sqldb.QueryContext(ctx, query, projectId[:])
+  if err != nil {
+    return nil, err
+  }
+  defer rows.Close()
 
-	var folders []*dto.ProjectFolder
+  var folders []*dto.ProjectFolder
 
-	for rows.Next() {
-		var (
-			folderIdBytes []byte
-			folder        dto.ProjectFolder
-		)
+  for rows.Next() {
+    var (
+      folderIdBytes []byte
+      folder        dto.ProjectFolder
+      
+      // Use sql.NullTime for any date fields that could be NULL in the database
+      lastUpload sql.NullTime
+      createdAt  sql.NullTime
+      modifiedAt sql.NullTime
+    )
 
-		err := rows.Scan(
-			&folderIdBytes,
-			&folder.FolderName,
-			&folder.FolderSize,
-			&folder.AssetCount,
-			&folder.LastUpload,
-			&folder.CreatedAt,
-			&folder.ModifiedAt,
-		)
-		if err != nil {
-			return nil, err
-		}
+    err := rows.Scan(
+      &folderIdBytes,
+      &folder.FolderName,
+      &folder.FolderSize,
+      &folder.AssetCount,
+      &lastUpload,
+      &createdAt,
+      &modifiedAt,
+    )
+    if err != nil {
+      return nil, err
+    }
 
-		folder.FolderId, err = uuid.FromBytes(folderIdBytes)
-		if err != nil {
-			return nil, err
-		}
+    folder.FolderId, err = uuid.FromBytes(folderIdBytes)
+    if err != nil {
+      return nil, err
+    }
 
-		folders = append(folders, &folder)
-	}
+    // Safely assign the pointers if the database value wasn't NULL
+    if lastUpload.Valid {
+      t := lastUpload.Time
+      folder.LastUpload = &t
+    }
+    
+    if createdAt.Valid {
+      t := createdAt.Time
+      folder.CreatedAt = &t
+    }
+    
+    if modifiedAt.Valid {
+      t := modifiedAt.Time
+      folder.ModifiedAt = &t
+    }
 
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
+    folders = append(folders, &folder)
+  }
 
-	return folders, nil
+  if err := rows.Err(); err != nil {
+    return nil, err
+  }
+
+  return folders, nil
 }
 
 func (r *ProjectRepository) GetAllCollections(

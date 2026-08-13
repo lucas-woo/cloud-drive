@@ -41,14 +41,28 @@ func ConvertProjectFoldersToResponse(folders []*dto.ProjectFolder) []*mediav1.Pr
 			continue
 		}
 
+		var lastUpload, createdAt, modifiedAt *timestamppb.Timestamp
+
+		if folder.LastUpload != nil {
+			lastUpload = timestamppb.New(*folder.LastUpload)
+		}
+
+		if folder.CreatedAt != nil {
+			createdAt = timestamppb.New(*folder.CreatedAt)
+		}
+
+		if folder.ModifiedAt != nil {
+			modifiedAt = timestamppb.New(*folder.ModifiedAt)
+		}
+
 		resp = append(resp, &mediav1.ProjectFolder{
 			FolderId:   folder.FolderId.String(),
 			FolderName: folder.FolderName,
 			FolderSize: folder.FolderSize,
 			AssetCount: folder.AssetCount,
-			LastUplaod: timestamppb.New(folder.LastUpload),
-			CreatedAt:  timestamppb.New(folder.CreatedAt),
-			ModifiedAt: timestamppb.New(folder.ModifiedAt),
+			LastUplaod: lastUpload,
+			CreatedAt:  createdAt,
+			ModifiedAt: modifiedAt,
 		})
 	}
 
