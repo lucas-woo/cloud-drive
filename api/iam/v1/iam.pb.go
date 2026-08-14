@@ -587,6 +587,154 @@ func (x *ValidateUserPermissionResponse) GetAuthorized() bool {
 	return false
 }
 
+type ApiKey struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApiKey        string                 `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	KeyName       string                 `protobuf:"bytes,2,opt,name=key_name,json=keyName,proto3" json:"key_name,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ApiKey) Reset() {
+	*x = ApiKey{}
+	mi := &file_iam_v1_iam_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ApiKey) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ApiKey) ProtoMessage() {}
+
+func (x *ApiKey) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ApiKey.ProtoReflect.Descriptor instead.
+func (*ApiKey) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ApiKey) GetApiKey() string {
+	if x != nil {
+		return x.ApiKey
+	}
+	return ""
+}
+
+func (x *ApiKey) GetKeyName() string {
+	if x != nil {
+		return x.KeyName
+	}
+	return ""
+}
+
+func (x *ApiKey) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+type GetAllApiKeysRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProjectId     string                 `protobuf:"bytes,1,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllApiKeysRequest) Reset() {
+	*x = GetAllApiKeysRequest{}
+	mi := &file_iam_v1_iam_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllApiKeysRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllApiKeysRequest) ProtoMessage() {}
+
+func (x *GetAllApiKeysRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllApiKeysRequest.ProtoReflect.Descriptor instead.
+func (*GetAllApiKeysRequest) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetAllApiKeysRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
+	}
+	return ""
+}
+
+type GetAllApiKeysResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApiKeys       []*ApiKey              `protobuf:"bytes,1,rep,name=api_keys,json=apiKeys,proto3" json:"api_keys,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllApiKeysResponse) Reset() {
+	*x = GetAllApiKeysResponse{}
+	mi := &file_iam_v1_iam_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllApiKeysResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllApiKeysResponse) ProtoMessage() {}
+
+func (x *GetAllApiKeysResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_iam_v1_iam_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllApiKeysResponse.ProtoReflect.Descriptor instead.
+func (*GetAllApiKeysResponse) Descriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetAllApiKeysResponse) GetApiKeys() []*ApiKey {
+	if x != nil {
+		return x.ApiKeys
+	}
+	return nil
+}
+
 var File_iam_v1_iam_proto protoreflect.FileDescriptor
 
 const file_iam_v1_iam_proto_rawDesc = "" +
@@ -641,7 +789,17 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\x1eValidateUserPermissionResponse\x12\x1e\n" +
 	"\n" +
 	"authorized\x18\x01 \x01(\bR\n" +
-	"authorizedB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
+	"authorized\"w\n" +
+	"\x06ApiKey\x12\x17\n" +
+	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x19\n" +
+	"\bkey_name\x18\x02 \x01(\tR\akeyName\x129\n" +
+	"\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"5\n" +
+	"\x14GetAllApiKeysRequest\x12\x1d\n" +
+	"\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId\"B\n" +
+	"\x15GetAllApiKeysResponse\x12)\n" +
+	"\bapi_keys\x18\x01 \x03(\v2\x0e.iam.v1.ApiKeyR\aapiKeysB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
 	file_iam_v1_iam_proto_rawDescOnce sync.Once
@@ -656,7 +814,7 @@ func file_iam_v1_iam_proto_rawDescGZIP() []byte {
 }
 
 var file_iam_v1_iam_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_iam_v1_iam_proto_goTypes = []any{
 	(ValidateApiKeyPermissionRequest_Permission)(0), // 0: iam.v1.ValidateApiKeyPermissionRequest.Permission
 	(AddUserRolePermissionRequest_Permission)(0),    // 1: iam.v1.AddUserRolePermissionRequest.Permission
@@ -669,18 +827,23 @@ var file_iam_v1_iam_proto_goTypes = []any{
 	(*AddUserRolePermissionResponse)(nil),           // 8: iam.v1.AddUserRolePermissionResponse
 	(*ValidateUserPermissionRequest)(nil),           // 9: iam.v1.ValidateUserPermissionRequest
 	(*ValidateUserPermissionResponse)(nil),          // 10: iam.v1.ValidateUserPermissionResponse
-	(*timestamppb.Timestamp)(nil),                   // 11: google.protobuf.Timestamp
+	(*ApiKey)(nil),                                  // 11: iam.v1.ApiKey
+	(*GetAllApiKeysRequest)(nil),                    // 12: iam.v1.GetAllApiKeysRequest
+	(*GetAllApiKeysResponse)(nil),                   // 13: iam.v1.GetAllApiKeysResponse
+	(*timestamppb.Timestamp)(nil),                   // 14: google.protobuf.Timestamp
 }
 var file_iam_v1_iam_proto_depIdxs = []int32{
-	11, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
+	14, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
 	1,  // 2: iam.v1.AddUserRolePermissionRequest.role:type_name -> iam.v1.AddUserRolePermissionRequest.Permission
 	2,  // 3: iam.v1.ValidateUserPermissionRequest.role:type_name -> iam.v1.ValidateUserPermissionRequest.Permission
-	4,  // [4:4] is the sub-list for method output_type
-	4,  // [4:4] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	14, // 4: iam.v1.ApiKey.created_at:type_name -> google.protobuf.Timestamp
+	11, // 5: iam.v1.GetAllApiKeysResponse.api_keys:type_name -> iam.v1.ApiKey
+	6,  // [6:6] is the sub-list for method output_type
+	6,  // [6:6] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_iam_v1_iam_proto_init() }
@@ -694,7 +857,7 @@ func file_iam_v1_iam_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_iam_v1_iam_proto_rawDesc), len(file_iam_v1_iam_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   8,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

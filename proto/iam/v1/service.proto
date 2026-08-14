@@ -15,4 +15,6 @@ service IAMService {
   rpc AddUserRolePermission(AddUserRolePermissionRequest) returns (AddUserRolePermissionResponse);
 
   rpc ValidateUserPermission(ValidateUserPermissionRequest) returns (ValidateUserPermissionResponse);
+
+  rpc GetAllApiKeys(GetAllApiKeysRequest) returns (GetAllApiKeysResponse);
 }

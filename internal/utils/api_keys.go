@@ -8,6 +8,9 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 
@@ -30,7 +33,23 @@ func CompareSecret(incomingSecret string, dbHash []byte) bool {
 	return subtle.ConstantTimeCompare(incomingHash[:], dbHash) == 1
 }
 
+func ConvertApiKeysToResponse(apiKeys []*dto.ApiKey) []*iamv1.ApiKey {
+	result := make([]*iamv1.ApiKey, 0, len(apiKeys))
 
+	for _, apiKey := range apiKeys {
+		if apiKey == nil {
+			continue
+		}
+
+		result = append(result, &iamv1.ApiKey{
+			ApiKey:    apiKey.ApiKey,
+			KeyName:   apiKey.Name,
+			CreatedAt: timestamppb.New(apiKey.CreatedAt),
+		})
+	}
+
+	return result
+}
 func GenerateApiKey() (uuid.UUID, error) {
 	return uuid.NewV7() 
 }
