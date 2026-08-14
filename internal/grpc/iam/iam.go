@@ -91,6 +91,12 @@ func (s *Server) ValidateUserPermission(ctx context.Context, req *iamv1.Validate
 	}, nil
 }
 
+func (s *Server) GetAllApiKeys(ctx context.Context, req *iamv1.GetAllApiKeysRequest) (*iamv1.GetAllApiKeysResponse, error) {
+
+	s.service.
+}
+
+
 func NewIamServer(iamResources *database.IamResources) *Server {
 	return &Server{
 		service: NewIamService(iamResources),

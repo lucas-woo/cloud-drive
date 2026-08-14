@@ -35,3 +35,9 @@ type ValidatedUserPermissionRequest struct {
 	UserId string
 	ProjectId string
 }
+
+type ApiKey struct {
+	ApiKey string
+	Name string
+	CreatedAt time.Time
+}
