@@ -84,7 +84,7 @@ func (h *IamHandler) GetAllApiKeys(c *gin.Context) {
 		return
 	}			
 
-	
+	h.service.GetAllApiKeys()
 
 }
 
