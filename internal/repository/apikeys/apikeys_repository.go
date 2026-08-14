@@ -141,6 +141,10 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dt
 	return hasPermission, nil
 }
 
+func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UUID) ([]*dto.ApiKey, error) {
+	
+}
+
 func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {
 	return &ApiKeysRepository{
 		mysql: mySqlClient,
