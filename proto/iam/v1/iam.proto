@@ -67,6 +67,7 @@ message ApiKey {
   string api_key = 1;
   string key_name = 2;
   google.protobuf.Timestamp created_at = 3;
+  bool is_active = 4;
 }
 
 message GetAllApiKeysRequest {

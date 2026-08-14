@@ -15,6 +15,7 @@ type ApiKey struct {
 	ApiKey string `json:"apiKey"`
 	Name string `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
+	IsActive bool `json:"isActive"`
 }
 
 type ApiKeysPageResponse struct {
