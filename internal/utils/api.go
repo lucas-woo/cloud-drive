@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/api"
 )
@@ -219,4 +220,23 @@ func (m *RestMapper) FindFormat(filename string) string {
 	default:
 		return strings.TrimPrefix(strings.ToUpper(filepath.Ext(filename)), ".")
 	}
+}
+
+
+func (m *RestMapper) ConvertApiKeys(apiKeys []*iamv1.ApiKey) []*api.ApiKey {
+	result := make([]*api.ApiKey, 0, len(apiKeys))
+
+	for _, key := range apiKeys {
+		if key == nil {
+			continue
+		}
+
+		result = append(result, &api.ApiKey{
+			ApiKey:    key.ApiKey,
+			Name:      key.KeyName,
+			CreatedAt: key.CreatedAt.AsTime(),
+		})
+	}
+
+	return result
 }
