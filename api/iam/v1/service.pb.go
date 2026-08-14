@@ -24,35 +24,40 @@ var File_iam_v1_service_proto protoreflect.FileDescriptor
 
 const file_iam_v1_service_proto_rawDesc = "" +
 	"\n" +
-	"\x14iam/v1/service.proto\x12\x06iam.v1\x1a\x10iam/v1/iam.proto2\xa4\x03\n" +
+	"\x14iam/v1/service.proto\x12\x06iam.v1\x1a\x10iam/v1/iam.proto2\xf2\x03\n" +
 	"\n" +
 	"IAMService\x12X\n" +
 	"\x11GenerateNewApiKey\x12 .iam.v1.GenerateNewApiKeyRequest\x1a!.iam.v1.GenerateNewApiKeyResponse\x12m\n" +
 	"\x18ValidateApiKeyPermission\x12'.iam.v1.ValidateApiKeyPermissionRequest\x1a(.iam.v1.ValidateApiKeyPermissionResponse\x12d\n" +
 	"\x15AddUserRolePermission\x12$.iam.v1.AddUserRolePermissionRequest\x1a%.iam.v1.AddUserRolePermissionResponse\x12g\n" +
-	"\x16ValidateUserPermission\x12%.iam.v1.ValidateUserPermissionRequest\x1a&.iam.v1.ValidateUserPermissionResponseB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
+	"\x16ValidateUserPermission\x12%.iam.v1.ValidateUserPermissionRequest\x1a&.iam.v1.ValidateUserPermissionResponse\x12L\n" +
+	"\rGetAllApiKeys\x12\x1c.iam.v1.GetAllApiKeysRequest\x1a\x1d.iam.v1.GetAllApiKeysResponseB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var file_iam_v1_service_proto_goTypes = []any{
 	(*GenerateNewApiKeyRequest)(nil),         // 0: iam.v1.GenerateNewApiKeyRequest
 	(*ValidateApiKeyPermissionRequest)(nil),  // 1: iam.v1.ValidateApiKeyPermissionRequest
 	(*AddUserRolePermissionRequest)(nil),     // 2: iam.v1.AddUserRolePermissionRequest
 	(*ValidateUserPermissionRequest)(nil),    // 3: iam.v1.ValidateUserPermissionRequest
-	(*GenerateNewApiKeyResponse)(nil),        // 4: iam.v1.GenerateNewApiKeyResponse
-	(*ValidateApiKeyPermissionResponse)(nil), // 5: iam.v1.ValidateApiKeyPermissionResponse
-	(*AddUserRolePermissionResponse)(nil),    // 6: iam.v1.AddUserRolePermissionResponse
-	(*ValidateUserPermissionResponse)(nil),   // 7: iam.v1.ValidateUserPermissionResponse
+	(*GetAllApiKeysRequest)(nil),             // 4: iam.v1.GetAllApiKeysRequest
+	(*GenerateNewApiKeyResponse)(nil),        // 5: iam.v1.GenerateNewApiKeyResponse
+	(*ValidateApiKeyPermissionResponse)(nil), // 6: iam.v1.ValidateApiKeyPermissionResponse
+	(*AddUserRolePermissionResponse)(nil),    // 7: iam.v1.AddUserRolePermissionResponse
+	(*ValidateUserPermissionResponse)(nil),   // 8: iam.v1.ValidateUserPermissionResponse
+	(*GetAllApiKeysResponse)(nil),            // 9: iam.v1.GetAllApiKeysResponse
 }
 var file_iam_v1_service_proto_depIdxs = []int32{
 	0, // 0: iam.v1.IAMService.GenerateNewApiKey:input_type -> iam.v1.GenerateNewApiKeyRequest
 	1, // 1: iam.v1.IAMService.ValidateApiKeyPermission:input_type -> iam.v1.ValidateApiKeyPermissionRequest
 	2, // 2: iam.v1.IAMService.AddUserRolePermission:input_type -> iam.v1.AddUserRolePermissionRequest
 	3, // 3: iam.v1.IAMService.ValidateUserPermission:input_type -> iam.v1.ValidateUserPermissionRequest
-	4, // 4: iam.v1.IAMService.GenerateNewApiKey:output_type -> iam.v1.GenerateNewApiKeyResponse
-	5, // 5: iam.v1.IAMService.ValidateApiKeyPermission:output_type -> iam.v1.ValidateApiKeyPermissionResponse
-	6, // 6: iam.v1.IAMService.AddUserRolePermission:output_type -> iam.v1.AddUserRolePermissionResponse
-	7, // 7: iam.v1.IAMService.ValidateUserPermission:output_type -> iam.v1.ValidateUserPermissionResponse
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	4, // 4: iam.v1.IAMService.GetAllApiKeys:input_type -> iam.v1.GetAllApiKeysRequest
+	5, // 5: iam.v1.IAMService.GenerateNewApiKey:output_type -> iam.v1.GenerateNewApiKeyResponse
+	6, // 6: iam.v1.IAMService.ValidateApiKeyPermission:output_type -> iam.v1.ValidateApiKeyPermissionResponse
+	7, // 7: iam.v1.IAMService.AddUserRolePermission:output_type -> iam.v1.AddUserRolePermissionResponse
+	8, // 8: iam.v1.IAMService.ValidateUserPermission:output_type -> iam.v1.ValidateUserPermissionResponse
+	9, // 9: iam.v1.IAMService.GetAllApiKeys:output_type -> iam.v1.GetAllApiKeysResponse
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
