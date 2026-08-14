@@ -2,6 +2,7 @@ package iamgrpc
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/uuid"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
@@ -94,6 +95,16 @@ func (s *Service) ValidatedUserPermission(ctx context.Context, req *dto.Validate
 	return authorized, err
 }
 
+func (s *Service) GetAllApiKeys(ctx context.Context, projectIdString string) ([]*dto.ApiKey, error) {
+	projectId, err := uuid.Parse(projectIdString)
+
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	return s.iamResources.ApiKeysRepository.GetAllApiKeys(ctx, projectId)
+}
 
 func NewIamService(iamResources *database.IamResources) *Service {
 	return &Service{
