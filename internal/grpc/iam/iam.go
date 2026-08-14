@@ -7,6 +7,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -93,7 +94,14 @@ func (s *Server) ValidateUserPermission(ctx context.Context, req *iamv1.Validate
 
 func (s *Server) GetAllApiKeys(ctx context.Context, req *iamv1.GetAllApiKeysRequest) (*iamv1.GetAllApiKeysResponse, error) {
 
-	s.service.
+	res, err := s.service.GetAllApiKeys(ctx, req.GetProjectId())
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())	
+	}
+
+	return &iamv1.GetAllApiKeysResponse{
+		ApiKeys: utils.ConvertApiKeysToResponse(res),
+	}, nil
 }
 
 
