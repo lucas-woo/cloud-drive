@@ -7,6 +7,10 @@ type GenerateApiKeyRequest struct {
   KeyName string `json:"keyName" binding:"required"`	
 }
 
+type ApiKeysPageRequest struct {
+	ProjectId string `json:"projectId" binding:"required"`
+}
+
 type GenerateApiKeyResponse struct {
 	ApiKey string `json:"apiKey"`
 	ApiSecret string `json:"apiSecret"`		

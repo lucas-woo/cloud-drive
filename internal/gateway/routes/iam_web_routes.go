@@ -13,6 +13,7 @@ func InitializeIamWebRoutes(webGroup *gin.RouterGroup, middlewares *middlewares.
 	// add email validation before generating later?
 	webGroup.POST("/generate-api-key", middlewares.IsAuthenticated(), iamHandler.GenerateNewApiKey)
 	
+	webGroup.POST("/api-keys-page", middlewares.IsAuthenticated(), )
 	// TODO:
 	// get api keys
 }
