@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -84,8 +85,15 @@ func (h *IamHandler) GetAllApiKeys(c *gin.Context) {
 		return
 	}			
 
-	h.service.GetAllApiKeys()
+	res, err := h.service.GetAllApiKeys(c.Request.Context(), projectId)
 
+	if err != nil {
+		log.Println(err)
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return 
+	}
+
+	c.JSON(http.StatusOK, res)
 }
 
 

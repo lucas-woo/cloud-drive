@@ -76,7 +76,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
 	//iam routes
-	iamService := services.NewIamService(resources.IamClient)
+	iamService := services.NewIamService(resources.IamClient, utils.RestMapper{})
 	iamHandler := handlers.NewIamHandler(iamService)
 
 	//event bridge route
