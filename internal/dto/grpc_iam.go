@@ -40,4 +40,5 @@ type ApiKey struct {
 	ApiKey string
 	Name string
 	CreatedAt time.Time
+	IsActive bool
 }
