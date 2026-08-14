@@ -39,6 +39,10 @@ func (s *IamService) ValidateUserRole(ctx context.Context, userId, projectId str
 	return res.GetAuthorized(), err
 }
 
+func (s *IamService) GetAllApiKeys(ctx context.Context, projectId string) (*api.ApiKeysPageResponse, error) {
+	
+}
+
 func NewIamService(iamClient iamv1.IAMServiceClient) *IamService {
 	return &IamService{
 		iamClient: iamClient,
