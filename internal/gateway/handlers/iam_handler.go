@@ -55,6 +55,39 @@ func (h *IamHandler) GenerateNewApiKey(c *gin.Context) {
 }
 
 
+func (h *IamHandler) GetAllApiKeys(c *gin.Context) {
+	userIdString, exists := c.Get(config.GinUserId)
+
+	if !exists {
+		c.AbortWithStatus(http.StatusInternalServerError)
+		return
+	}
+	userId := userIdString.(string)	
+
+	var reqBody api.ApiKeysPageRequest
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}	
+
+	projectId := reqBody.ProjectId
+
+	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
+
+	if err != nil {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return		
+	}
+	if !authorized {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}			
+
+	
+
+}
+
 
 func NewIamHandler(iamService *services.IamService) *IamHandler {
 	return &IamHandler{
