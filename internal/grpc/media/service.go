@@ -34,6 +34,7 @@ func (s *Service) CreateNewProject(ctx context.Context, createNewProjectRequest 
 	pId, err := uuid.Parse(projectId)
 
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 	_, err = s.mediaResources.ProjectRepository.CreateRootFolder(ctx, pId)
@@ -58,7 +59,7 @@ func (s *Service) GetUploadObjectSignedUrl(ctx context.Context, req *dto.UploadO
 		return "", "", err
 	}
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, folderId, req.IsActive)
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, oId, folderId, req.IsActive, req.Format)
 	if err != nil{
 		return 
 	}
@@ -74,15 +75,14 @@ func (s *Service) ConfirmObjectUpload(ctx context.Context, req *dto.ObjectUpload
 		return err
 	}
 
-	if req.ErrorStatus != nil {
-		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-		return req.ErrorStatus
-	}
-	
-	err = s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize, req.Format)
+	updated, err := s.mediaResources.ProjectRepository.ConfirmObjectInfo(ctx, objectId, req.FileSize)
 
 	if err != nil {
 		return err
+	}
+
+	if !updated {
+		return nil
 	}
 
 	projectId, err := s.mediaResources.ProjectRepository.GetProjectIdFromObjectId(ctx, objectId)
@@ -144,7 +144,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 		return "", err
 	}
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, imageInfo.GetIsActive())
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, imageInfo.GetIsActive(), imageInfo.GetFormat())
 
 	if err != nil {
 		return "", errors.New("error creating new object")
@@ -267,7 +267,7 @@ func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApi
 
 	objectIdString := objectId.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, fileInfo.GetIsActive())
+	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, fileInfo.GetIsActive(), fileInfo.GetFormat())
 	if err != nil{
 		return "", errors.New("error creating new object")
 	}
@@ -340,6 +340,15 @@ func (s *Service) GetAssets(ctx context.Context, req *dto.GetAssetsRequest) ([]*
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssets(ctx, projectId, nil, config.AmountImagesToFetch)
 	}
+
+	if err != nil {
+		return nil,nil,err
+	}
+
+	if len(assets) == 0 {
+		return assets, nil, nil
+	}
+
 	nextCursor := &dto.AssetCursor{
 			CreatedAt: assets[len(assets)-1].CreatedAt,
 			ObjectId:  assets[len(assets)-1].ObjectId,
@@ -393,7 +402,10 @@ func (s *Service) GetAssetsInFolder(ctx context.Context, req *dto.GetAssetsInFol
 		}, config.AmountImagesToFetch)
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssetsInFolder(ctx, projectId, folderId, nil, config.AmountImagesToFetch)
-	}	
+	}
+	if err != nil || len(assets) == 0{
+		return nil,nil, err;
+	}
 
 	nextCursor := &dto.AssetCursor{
 			CreatedAt: assets[len(assets)-1].CreatedAt,
@@ -429,6 +441,10 @@ func (s *Service) GetAssetsInCollection(ctx context.Context, req *dto.GetAssetsI
 	} else {
 		assets, err = s.mediaResources.ProjectRepository.GetAssetsInCollection(ctx, projectId, collectionId, nil, config.AmountImagesToFetch)
 	}	
+
+	if err != nil || len(assets) == 0 {
+		return nil, nil, err
+	}
 
 	nextCursor := &dto.AssetCursor{
 			CreatedAt: assets[len(assets)-1].CreatedAt,

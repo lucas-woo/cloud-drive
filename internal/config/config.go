@@ -44,6 +44,10 @@ var (
 
 	//gin set/get
 	GinUserId string = "user_id"
+
+
+	//folder prefix
+	FolderPrefix string = "/"
 )
 
 
