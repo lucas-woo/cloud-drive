@@ -103,7 +103,7 @@ func (s *Service) GetAllApiKeys(ctx context.Context, projectIdString string) ([]
 		return nil, err
 	}
 
-	s.iamResources.ApiKeysRepository
+	return s.iamResources.ApiKeysRepository.GetAllApiKeys(ctx, projectId)
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {
