@@ -18,13 +18,12 @@ type UploadObjectRequest struct {
 	ObjectName string
 	FolderId string
 	IsActive bool
+	Format string
 }
 
 type ObjectUploadConfirmationRequest struct {
 	ObjectId string
 	FileSize uint64
-	Format string
-	ErrorStatus error
 }
 
 type GetDashboardRequest struct {
@@ -59,9 +58,9 @@ type ProjectFolder struct {
 	FolderSize int64
   AssetCount int32 
 
-  LastUpload time.Time
-  CreatedAt time.Time
-  ModifiedAt time.Time
+  LastUpload *time.Time
+  CreatedAt *time.Time
+  ModifiedAt *time.Time
 }
 
 type GetAssetsRequest struct {

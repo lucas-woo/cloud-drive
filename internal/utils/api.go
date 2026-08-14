@@ -1,6 +1,9 @@
 package utils
 
 import (
+	"path/filepath"
+	"strings"
+
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/api"
 )
@@ -10,6 +13,9 @@ type RestMapper struct {}
 
 
 func (c *RestMapper) ConvertAssetCursor(cursor *mediav1.AssetCursor) *api.AssetCursor {
+	if cursor == nil {
+		return nil
+	}
 	return &api.AssetCursor{
 		ObjectId: cursor.GetObjectId(),
 		CreatedAt: cursor.CreatedAt.AsTime(),
@@ -97,20 +103,120 @@ func (c *RestMapper) ConvertFolderSlice(folders []*mediav1.ProjectFolder) []api.
 			AssetCount: folder.GetAssetCount(),
 		}
 
-		if folder.GetLastUplaod() != nil {
-			item.LastUpload = folder.GetLastUplaod().AsTime()
+		if ts := folder.GetLastUplaod(); ts != nil {
+			t := ts.AsTime()
+			item.LastUpload = &t
 		}
 
-		if folder.GetCreatedAt() != nil {
-			item.CreatedAt = folder.GetCreatedAt().AsTime()
+		if ts := folder.GetCreatedAt(); ts != nil {
+			t := ts.AsTime()
+			item.CreatedAt = &t
 		}
 
-		if folder.GetModifiedAt() != nil {
-			item.ModifiedAt = folder.GetModifiedAt().AsTime()
+		if ts := folder.GetModifiedAt(); ts != nil {
+			t := ts.AsTime()
+			item.ModifiedAt = &t
 		}
 
 		result = append(result, item)
 	}
 
 	return result
+}
+
+func (m *RestMapper) FindFormat(filename string) string {
+	switch strings.ToLower(filepath.Ext(filename)) {
+	case ".jpg", ".jpeg":
+		return "JPEG"
+	case ".png":
+		return "PNG"
+	case ".gif":
+		return "GIF"
+	case ".webp":
+		return "WEBP"
+	case ".svg":
+		return "SVG"
+	case ".bmp":
+		return "BMP"
+	case ".tiff", ".tif":
+		return "TIFF"
+	case ".ico":
+		return "ICO"
+	case ".avif":
+		return "AVIF"
+
+	case ".pdf":
+		return "PDF"
+	case ".doc", ".docx":
+		return "WORD"
+	case ".xls", ".xlsx":
+		return "EXCEL"
+	case ".ppt", ".pptx":
+		return "POWERPOINT"
+	case ".txt":
+		return "TEXT"
+	case ".csv":
+		return "CSV"
+	case ".json":
+		return "JSON"
+	case ".xml":
+		return "XML"
+
+	case ".zip":
+		return "ZIP"
+	case ".rar":
+		return "RAR"
+	case ".7z":
+		return "7Z"
+	case ".tar":
+		return "TAR"
+	case ".gz", ".gzip":
+		return "GZIP"
+
+	case ".mp4":
+		return "MP4"
+	case ".mov":
+		return "MOV"
+	case ".avi":
+		return "AVI"
+	case ".mkv":
+		return "MKV"
+	case ".webm":
+		return "WEBM"
+
+	case ".mp3":
+		return "MP3"
+	case ".wav":
+		return "WAV"
+	case ".flac":
+		return "FLAC"
+	case ".aac":
+		return "AAC"
+	case ".ogg":
+		return "OGG"
+
+	case ".html", ".htm":
+		return "HTML"
+	case ".css":
+		return "CSS"
+	case ".js":
+		return "JAVASCRIPT"
+	case ".ts":
+		return "TYPESCRIPT"
+	case ".go":
+		return "GO"
+	case ".py":
+		return "PYTHON"
+	case ".java":
+		return "JAVA"
+	case ".c":
+		return "C"
+	case ".cpp", ".cc", ".cxx":
+		return "C++"
+	case ".rs":
+		return "RUST"
+
+	default:
+		return strings.TrimPrefix(strings.ToUpper(filepath.Ext(filename)), ".")
+	}
 }

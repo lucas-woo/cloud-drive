@@ -32,15 +32,15 @@ type ProjectObject struct {
 }
 
 type Folder struct {
-	FolderId   string    `json:"folderId"`
-	FolderName string    `json:"folderName"`
+	FolderId   string `json:"folderId"`
+	FolderName string `json:"folderName"`
 
 	FolderSize int64 `json:"folderSize"`
 	AssetCount int32 `json:"assetCount"`
 
-	LastUpload time.Time `json:"lastUpload"`
-	CreatedAt  time.Time `json:"createdAt"`
-	ModifiedAt time.Time `json:"modifiedAt"`
+	LastUpload *time.Time `json:"lastUpload"`
+	CreatedAt  *time.Time `json:"createdAt"`
+	ModifiedAt *time.Time `json:"modifiedAt"`
 }
 
 type Collection struct {
@@ -122,11 +122,12 @@ type CreateNewProjectResponse struct {
 type UploadObjectRequest struct {
 	ProjectId string `json:"projectId" binding:"required"`
   Name string `json:"name" binding:"required"`	
+	FileName string `json:"fileName" binding:"required"`
   FolderId  string `json:"folderId" binding:"required"`	
 	IsActive bool `json:"isActive" binding:"required"`	
 }
 
 type UploadObjectResponse struct {
-	Url string `json:"url" binding:"required"`
-	ObjectId string `json:"objectId" binding:"required"`
+	Url string `json:"url"`
+	ObjectId string `json:"objectId"`
 }

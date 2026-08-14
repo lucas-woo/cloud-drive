@@ -2,7 +2,6 @@ package mediagrpc
 
 import (
 	"context"
-	"errors"
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/database"
@@ -45,6 +44,7 @@ func (s *Server) UploadObject(ctx context.Context, req *mediav1.UploadObjectRequ
 		ObjectName: req.GetObjectName(),
 		FolderId: req.GetFolderId(),
 		IsActive: req.GetIsActive(),
+		Format: req.GetFormat(),
 	})
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
@@ -77,18 +77,9 @@ func (s *Server) UploadFileApi(stream mediav1.MediaService_UploadFileApiServer) 
 
 func (s *Server) ObjectUploadConfirmation(ctx context.Context, req *mediav1.ObjectUploadConfirmationRequest) (*mediav1.ObjectUploadConfirmationResponse, error) {
 
-	reqStatus := req.GetStatus()
-
-	var errorStatus error
-	if reqStatus != nil {
-		errorStatus = errors.New(reqStatus.GetMessage())
-	}
-
 	err := s.service.ConfirmObjectUpload(ctx, &dto.ObjectUploadConfirmationRequest{
 		ObjectId: req.GetObjectId(),
 		FileSize: req.GetFileSize(),
-		Format: req.GetFormat(),
-		ErrorStatus: errorStatus,
 	})
 	if err != nil {
 		return nil, status.Error(codes.Internal, "method LambdaS3UploadConfirmation not implemented")		
@@ -189,10 +180,7 @@ func (s *Server) GetAssetsInFolder(ctx context.Context, req *mediav1.GetAssetsIn
 	}
 
 	return &mediav1.GetAssetsInFolderResponse{
-		NextAssetCursor: &mediav1.AssetCursor{
-			CreatedAt: timestamppb.New(nextAssetCursor.CreatedAt),
-			ObjectId: nextAssetCursor.ObjectId.String(),
-		},
+		NextAssetCursor: utils.ConvertAssetCursorToResponse(nextAssetCursor),
 		ProjectObjects: utils.ConvertProjectObjectsToResponse(assets),
 	}, nil
 }
@@ -272,12 +260,10 @@ func (s *Server) GetAssetsPage(ctx context.Context, req *mediav1.GetAssetsPageRe
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
+
 	return &mediav1.GetAssetsPageResponse{
 		ProjectObjects: utils.ConvertProjectObjectsToResponse(objects),
-		NextAssetCursor: &mediav1.AssetCursor{
-			ObjectId: nextCursor.ObjectId.String(),
-			CreatedAt: timestamppb.New(nextCursor.CreatedAt),
-		},
+		NextAssetCursor: utils.ConvertAssetCursorToResponse(nextCursor),
 		ProjectFolders: utils.ConvertProjectFoldersToResponse(folders),
 		ProjectCollections: utils.ConvertProjectCollectionsToResponse(collections),
 	}, nil

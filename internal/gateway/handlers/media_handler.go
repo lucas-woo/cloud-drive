@@ -185,15 +185,6 @@ func (h *MediaHandler) CreateNewProject(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}	
-	
-	err = h.service.AddAdminRole(c.Request.Context(), userId, projectId)
-	if err != nil {
-		//should either retry or delete the user
-		log.Printf("error adding admin role to project creator: %v", err)
-		c.AbortWithStatus(http.StatusBadRequest)
-		return
-	}			
-
 
 	res := api.CreateNewProjectResponse{
 		ProjectId: projectId,
@@ -262,6 +253,12 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 	projectId := reqBody.ProjectId
 	name := reqBody.Name
 
+	//needs better validation later
+	if len(name) == 0 {
+		c.AbortWithStatus(http.StatusBadRequest)
+		return				
+	}
+
 	authorized, err := h.service.ValidateUserRole(c.Request.Context(), userId, projectId, iamv1.ValidateUserPermissionRequest_PERMISSION_ADMIN_ROLE)
 
 	if err != nil {
@@ -273,7 +270,7 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 		return
 	}	
 
-	res, err := h.service.CreateNewFolder(c.Request.Context(), projectId, name)
+	res, err := h.service.CreateNewFolder(c.Request.Context(), projectId, config.FolderPrefix + name)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return 
@@ -315,8 +312,9 @@ func (h *MediaHandler) UplaodObject(c *gin.Context) {
 	name := reqBody.Name
 	folderId := reqBody.FolderId
 	isActive := reqBody.IsActive
+	originalFileName := reqBody.FileName
 
-	res, err := h.service.GetUploadObjectUrl(c.Request.Context(), projectId, folderId, name, isActive)
+	res, err := h.service.GetUploadObjectUrl(c.Request.Context(), projectId, folderId, name, originalFileName, isActive)
 	if err != nil {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return 

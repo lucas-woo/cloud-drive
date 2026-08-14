@@ -192,6 +192,7 @@ type UploadObjectRequest struct {
 	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	FolderId      string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
 	IsActive      bool                   `protobuf:"varint,4,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	Format        string                 `protobuf:"bytes,5,opt,name=format,proto3" json:"format,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -252,6 +253,13 @@ func (x *UploadObjectRequest) GetIsActive() bool {
 		return x.IsActive
 	}
 	return false
+}
+
+func (x *UploadObjectRequest) GetFormat() string {
+	if x != nil {
+		return x.Format
+	}
+	return ""
 }
 
 type UploadObjectResponse struct {
@@ -380,6 +388,7 @@ type ImageUploadInfo struct {
 	ObjectName      string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	FolderId        string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
 	ContentType     string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
+	Format          string                 `protobuf:"bytes,5,opt,name=format,proto3" json:"format,omitempty"`
 	IsActive        bool                   `protobuf:"varint,6,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	Transformations *ImageTransformations  `protobuf:"bytes,7,opt,name=transformations,proto3" json:"transformations,omitempty"`
 	unknownFields   protoimpl.UnknownFields
@@ -440,6 +449,13 @@ func (x *ImageUploadInfo) GetFolderId() string {
 func (x *ImageUploadInfo) GetContentType() string {
 	if x != nil {
 		return x.ContentType
+	}
+	return ""
+}
+
+func (x *ImageUploadInfo) GetFormat() string {
+	if x != nil {
+		return x.Format
 	}
 	return ""
 }
@@ -590,7 +606,8 @@ type FileUploadInfo struct {
 	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	FolderId      string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
 	ContentType   string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
-	IsActive      bool                   `protobuf:"varint,5,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	Format        string                 `protobuf:"bytes,5,opt,name=format,proto3" json:"format,omitempty"`
+	IsActive      bool                   `protobuf:"varint,6,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -649,6 +666,13 @@ func (x *FileUploadInfo) GetFolderId() string {
 func (x *FileUploadInfo) GetContentType() string {
 	if x != nil {
 		return x.ContentType
+	}
+	return ""
+}
+
+func (x *FileUploadInfo) GetFormat() string {
+	if x != nil {
+		return x.Format
 	}
 	return ""
 }
@@ -790,8 +814,6 @@ type ObjectUploadConfirmationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ObjectId      string                 `protobuf:"bytes,1,opt,name=object_id,json=objectId,proto3" json:"object_id,omitempty"`
 	FileSize      uint64                 `protobuf:"varint,2,opt,name=file_size,json=fileSize,proto3" json:"file_size,omitempty"`
-	Format        string                 `protobuf:"bytes,3,opt,name=format,proto3" json:"format,omitempty"`
-	Status        *ErrorStatus           `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -838,20 +860,6 @@ func (x *ObjectUploadConfirmationRequest) GetFileSize() uint64 {
 		return x.FileSize
 	}
 	return 0
-}
-
-func (x *ObjectUploadConfirmationRequest) GetFormat() string {
-	if x != nil {
-		return x.Format
-	}
-	return ""
-}
-
-func (x *ObjectUploadConfirmationRequest) GetStatus() *ErrorStatus {
-	if x != nil {
-		return x.Status
-	}
-	return nil
 }
 
 type ObjectUploadConfirmationResponse struct {
@@ -1865,14 +1873,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x18CreateNewProjectResponse\x12!\n" +
 	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\"\x8f\x01\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\"\xa7\x01\n" +
 	"\x13UploadObjectRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
 	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12\x1b\n" +
-	"\tis_active\x18\x04 \x01(\bR\bisActive\"R\n" +
+	"\tis_active\x18\x04 \x01(\bR\bisActive\x12\x16\n" +
+	"\x06format\x18\x05 \x01(\tR\x06format\"R\n" +
 	"\x14UploadObjectResponse\x12\x1d\n" +
 	"\n" +
 	"signed_url\x18\x01 \x01(\tR\tsignedUrl\x12\x1b\n" +
@@ -1883,14 +1892,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\vcompression\x18\x03 \x01(\v2\x15.media.v1.CompressionR\vcompression\x124\n" +
 	"\n" +
 	"conversion\x18\x04 \x01(\v2\x14.media.v1.ConversionR\n" +
-	"conversion\"\xf8\x01\n" +
+	"conversion\"\x90\x02\n" +
 	"\x0fImageUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
 	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12!\n" +
-	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x1b\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x16\n" +
+	"\x06format\x18\x05 \x01(\tR\x06format\x12\x1b\n" +
 	"\tis_active\x18\x06 \x01(\bR\bisActive\x12H\n" +
 	"\x0ftransformations\x18\a \x01(\v2\x1e.media.v1.ImageTransformationsR\x0ftransformations\"\x83\x01\n" +
 	"\x15UploadImageApiRequest\x12<\n" +
@@ -1900,15 +1910,16 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"imageChunkB\t\n" +
 	"\apayload\"5\n" +
 	"\x16UploadImageApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xad\x01\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xc5\x01\n" +
 	"\x0eFileUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
 	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12!\n" +
-	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x1b\n" +
-	"\tis_active\x18\x05 \x01(\bR\bisActive\"\x7f\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x16\n" +
+	"\x06format\x18\x05 \x01(\tR\x06format\x12\x1b\n" +
+	"\tis_active\x18\x06 \x01(\bR\bisActive\"\x7f\n" +
 	"\x14UploadFileApiRequest\x12;\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x18.media.v1.FileUploadInfoH\x00R\n" +
 	"uploadInfo\x12\x1f\n" +
@@ -1916,12 +1927,10 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"file_chunk\x18\x02 \x01(\fH\x00R\tfileChunkB\t\n" +
 	"\apayload\"4\n" +
 	"\x15UploadFileApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xa2\x01\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"[\n" +
 	"\x1fObjectUploadConfirmationRequest\x12\x1b\n" +
 	"\tobject_id\x18\x01 \x01(\tR\bobjectId\x12\x1b\n" +
-	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\x12\x16\n" +
-	"\x06format\x18\x03 \x01(\tR\x06format\x12-\n" +
-	"\x06status\x18\x04 \x01(\v2\x15.media.v1.ErrorStatusR\x06status\"\"\n" +
+	"\tfile_size\x18\x02 \x01(\x04R\bfileSize\"\"\n" +
 	" ObjectUploadConfirmationResponse\".\n" +
 	"\x13GetDashboardRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\"\xa9\x02\n" +
@@ -2057,28 +2066,27 @@ var file_media_v1_media_proto_depIdxs = []int32{
 	5,  // 4: media.v1.ImageUploadInfo.transformations:type_name -> media.v1.ImageTransformations
 	6,  // 5: media.v1.UploadImageApiRequest.upload_info:type_name -> media.v1.ImageUploadInfo
 	9,  // 6: media.v1.UploadFileApiRequest.upload_info:type_name -> media.v1.FileUploadInfo
-	0,  // 7: media.v1.ObjectUploadConfirmationRequest.status:type_name -> media.v1.ErrorStatus
-	36, // 8: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
-	37, // 9: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 10: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 11: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	39, // 12: media.v1.GetAllFoldersResponse.project_folders:type_name -> media.v1.ProjectFolder
-	40, // 13: media.v1.GetAllCollectionsResponse.project_collections:type_name -> media.v1.ProjectCollection
-	37, // 14: media.v1.GetAssetsInFolderRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 15: media.v1.GetAssetsInFolderResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 16: media.v1.GetAssetsInFolderResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	37, // 17: media.v1.GetAssetsInCollectionRequest.asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 18: media.v1.GetAssetsInCollectionResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 19: media.v1.GetAssetsInCollectionResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	38, // 20: media.v1.GetAssetsPageResponse.project_objects:type_name -> media.v1.ProjectObject
-	37, // 21: media.v1.GetAssetsPageResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
-	39, // 22: media.v1.GetAssetsPageResponse.project_folders:type_name -> media.v1.ProjectFolder
-	40, // 23: media.v1.GetAssetsPageResponse.project_collections:type_name -> media.v1.ProjectCollection
-	24, // [24:24] is the sub-list for method output_type
-	24, // [24:24] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	36, // 7: media.v1.GetDashboardResponse.created_at:type_name -> google.protobuf.Timestamp
+	37, // 8: media.v1.GetAssetsRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 9: media.v1.GetAssetsResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 10: media.v1.GetAssetsResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	39, // 11: media.v1.GetAllFoldersResponse.project_folders:type_name -> media.v1.ProjectFolder
+	40, // 12: media.v1.GetAllCollectionsResponse.project_collections:type_name -> media.v1.ProjectCollection
+	37, // 13: media.v1.GetAssetsInFolderRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 14: media.v1.GetAssetsInFolderResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 15: media.v1.GetAssetsInFolderResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	37, // 16: media.v1.GetAssetsInCollectionRequest.asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 17: media.v1.GetAssetsInCollectionResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 18: media.v1.GetAssetsInCollectionResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	38, // 19: media.v1.GetAssetsPageResponse.project_objects:type_name -> media.v1.ProjectObject
+	37, // 20: media.v1.GetAssetsPageResponse.next_asset_cursor:type_name -> media.v1.AssetCursor
+	39, // 21: media.v1.GetAssetsPageResponse.project_folders:type_name -> media.v1.ProjectFolder
+	40, // 22: media.v1.GetAssetsPageResponse.project_collections:type_name -> media.v1.ProjectCollection
+	23, // [23:23] is the sub-list for method output_type
+	23, // [23:23] is the sub-list for method input_type
+	23, // [23:23] is the sub-list for extension type_name
+	23, // [23:23] is the sub-list for extension extendee
+	0,  // [0:23] is the sub-list for field type_name
 }
 
 func init() { file_media_v1_media_proto_init() }
