@@ -38,6 +38,7 @@ func (r *ProjectRepository) GetAssets(
 			modified_at
 		FROM project_objects
 		WHERE project_id = ?
+		  AND is_pending = FALSE
 	`
 
 	args := []any{projectId[:]}
@@ -227,6 +228,10 @@ func (r *ProjectRepository) GetAssetsInFolder(
 		args  []any
 	)
 
+	if limit <= 0 {
+		limit = 40
+	}
+
 	if assetCursor == nil {
 		query = fmt.Sprintf(`
 			SELECT
@@ -243,6 +248,7 @@ func (r *ProjectRepository) GetAssetsInFolder(
 			WHERE
 				project_id = ?
 				AND folder_id = ?
+				AND is_pending = FALSE
 			ORDER BY created_at DESC, object_id DESC
 			LIMIT ?
 		`, config.ProjectObjectsTable)
@@ -268,6 +274,7 @@ func (r *ProjectRepository) GetAssetsInFolder(
 			WHERE
 				project_id = ?
 				AND folder_id = ?
+				AND is_pending = FALSE
 				AND (
 					created_at < ?
 					OR (
@@ -336,6 +343,10 @@ func (r *ProjectRepository) GetAssetsInCollection(
 		args  []any
 	)
 
+	if limit <= 0 {
+		limit = 40
+	}
+
 	if assetCursor == nil {
 		query = fmt.Sprintf(`
 			SELECT
@@ -352,6 +363,7 @@ func (r *ProjectRepository) GetAssetsInCollection(
 			WHERE
 				project_id = ?
 				AND collection_id = ?
+				AND is_pending = FALSE
 			ORDER BY created_at DESC, object_id DESC
 			LIMIT ?
 		`, config.ProjectObjectsTable)
@@ -377,6 +389,7 @@ func (r *ProjectRepository) GetAssetsInCollection(
 			WHERE
 				project_id = ?
 				AND collection_id = ?
+				AND is_pending = FALSE
 				AND (
 					created_at < ?
 					OR (
