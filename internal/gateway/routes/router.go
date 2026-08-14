@@ -14,5 +14,7 @@ func InitializeRouter(webGroup *gin.RouterGroup, awsGroup *gin.RouterGroup, auth
 
 	InitializeMediaWebRoutes(webGroup, authMiddlewares, mediaHandler)
 
+	InitializeIamWebRoutes(webGroup, authMiddlewares, iamHandler)
+
 	InitializeAwsRoutes(awsGroup, eventbridgeMiddlewares, awsHandler)
 }
