@@ -45,11 +45,14 @@ func ConvertApiKeysToResponse(apiKeys []*dto.ApiKey) []*iamv1.ApiKey {
 			ApiKey:    apiKey.ApiKey,
 			KeyName:   apiKey.Name,
 			CreatedAt: timestamppb.New(apiKey.CreatedAt),
+			IsActive: apiKey.IsActive,
 		})
 	}
 
 	return result
 }
+
+
 func GenerateApiKey() (uuid.UUID, error) {
 	return uuid.NewV7() 
 }

@@ -143,7 +143,7 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dt
 
 func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UUID) ([]*dto.ApiKey, error) {
 	const query = `
-		SELECT api_key, name, created_at
+		SELECT api_key, name, created_at, is_active
 		FROM api_keys
 		WHERE project_id = ?
 		ORDER BY created_at ASC
@@ -162,9 +162,15 @@ func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UU
 			apiKeyBytes []byte
 			name        string
 			createdAt   time.Time
+			isActive    bool
 		)
 
-		if err := rows.Scan(&apiKeyBytes, &name, &createdAt); err != nil {
+		if err := rows.Scan(
+			&apiKeyBytes,
+			&name,
+			&createdAt,
+			&isActive,
+		); err != nil {
 			return nil, err
 		}
 
@@ -177,6 +183,7 @@ func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UU
 			ApiKey:    apiKey.String(),
 			Name:      name,
 			CreatedAt: createdAt,
+			IsActive:  isActive,
 		})
 	}
 

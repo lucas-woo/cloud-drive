@@ -235,6 +235,7 @@ func (m *RestMapper) ConvertApiKeys(apiKeys []*iamv1.ApiKey) []*api.ApiKey {
 			ApiKey:    key.ApiKey,
 			Name:      key.KeyName,
 			CreatedAt: key.CreatedAt.AsTime(),
+			IsActive: key.IsActive,
 		})
 	}
 
