@@ -19,22 +19,25 @@ CREATE TABLE project_objects (
     INDEX idx_collection_id (collection_id),
     INDEX idx_folder_id (folder_id),
 
-    INDEX idx_project_created_object (
+    INDEX idx_project_pending_created_object (
         project_id,
+        is_pending,
         created_at DESC,
         object_id DESC
     ),
 
-    INDEX idx_project_folder_created_object (
+    INDEX idx_project_folder_pending_created_object (
         project_id,
         folder_id,
+        is_pending,
         created_at DESC,
         object_id DESC
-    ),
+    )
 
-    INDEX idx_project_collection_created_object (
+    INDEX idx_project_collection_pending_created_object (
         project_id,
         collection_id,
+        is_pending,
         created_at DESC,
         object_id DESC
     )
