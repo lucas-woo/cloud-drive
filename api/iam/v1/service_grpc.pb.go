@@ -23,6 +23,7 @@ const (
 	IAMService_ValidateApiKeyPermission_FullMethodName = "/iam.v1.IAMService/ValidateApiKeyPermission"
 	IAMService_AddUserRolePermission_FullMethodName    = "/iam.v1.IAMService/AddUserRolePermission"
 	IAMService_ValidateUserPermission_FullMethodName   = "/iam.v1.IAMService/ValidateUserPermission"
+	IAMService_GetAllApiKeys_FullMethodName            = "/iam.v1.IAMService/GetAllApiKeys"
 )
 
 // IAMServiceClient is the client API for IAMService service.
@@ -33,6 +34,7 @@ type IAMServiceClient interface {
 	ValidateApiKeyPermission(ctx context.Context, in *ValidateApiKeyPermissionRequest, opts ...grpc.CallOption) (*ValidateApiKeyPermissionResponse, error)
 	AddUserRolePermission(ctx context.Context, in *AddUserRolePermissionRequest, opts ...grpc.CallOption) (*AddUserRolePermissionResponse, error)
 	ValidateUserPermission(ctx context.Context, in *ValidateUserPermissionRequest, opts ...grpc.CallOption) (*ValidateUserPermissionResponse, error)
+	GetAllApiKeys(ctx context.Context, in *GetAllApiKeysRequest, opts ...grpc.CallOption) (*GetAllApiKeysResponse, error)
 }
 
 type iAMServiceClient struct {
@@ -83,6 +85,16 @@ func (c *iAMServiceClient) ValidateUserPermission(ctx context.Context, in *Valid
 	return out, nil
 }
 
+func (c *iAMServiceClient) GetAllApiKeys(ctx context.Context, in *GetAllApiKeysRequest, opts ...grpc.CallOption) (*GetAllApiKeysResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllApiKeysResponse)
+	err := c.cc.Invoke(ctx, IAMService_GetAllApiKeys_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IAMServiceServer is the server API for IAMService service.
 // All implementations must embed UnimplementedIAMServiceServer
 // for forward compatibility.
@@ -91,6 +103,7 @@ type IAMServiceServer interface {
 	ValidateApiKeyPermission(context.Context, *ValidateApiKeyPermissionRequest) (*ValidateApiKeyPermissionResponse, error)
 	AddUserRolePermission(context.Context, *AddUserRolePermissionRequest) (*AddUserRolePermissionResponse, error)
 	ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error)
+	GetAllApiKeys(context.Context, *GetAllApiKeysRequest) (*GetAllApiKeysResponse, error)
 	mustEmbedUnimplementedIAMServiceServer()
 }
 
@@ -112,6 +125,9 @@ func (UnimplementedIAMServiceServer) AddUserRolePermission(context.Context, *Add
 }
 func (UnimplementedIAMServiceServer) ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ValidateUserPermission not implemented")
+}
+func (UnimplementedIAMServiceServer) GetAllApiKeys(context.Context, *GetAllApiKeysRequest) (*GetAllApiKeysResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllApiKeys not implemented")
 }
 func (UnimplementedIAMServiceServer) mustEmbedUnimplementedIAMServiceServer() {}
 func (UnimplementedIAMServiceServer) testEmbeddedByValue()                    {}
@@ -206,6 +222,24 @@ func _IAMService_ValidateUserPermission_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_GetAllApiKeys_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllApiKeysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).GetAllApiKeys(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_GetAllApiKeys_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).GetAllApiKeys(ctx, req.(*GetAllApiKeysRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IAMService_ServiceDesc is the grpc.ServiceDesc for IAMService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -228,6 +262,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateUserPermission",
 			Handler:    _IAMService_ValidateUserPermission_Handler,
+		},
+		{
+			MethodName: "GetAllApiKeys",
+			Handler:    _IAMService_GetAllApiKeys_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

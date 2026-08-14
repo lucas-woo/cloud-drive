@@ -62,3 +62,17 @@ message ValidateUserPermissionRequest {
 message ValidateUserPermissionResponse {
   bool authorized = 1;
 }
+
+message ApiKey {
+  string api_key = 1;
+  string key_name = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
+message GetAllApiKeysRequest {
+  string project_id = 1;
+}
+
+message GetAllApiKeysResponse {
+  repeated ApiKey api_keys = 1;
+}
