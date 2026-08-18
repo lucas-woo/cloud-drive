@@ -12,13 +12,12 @@ import (
 
 func NewIamServiceClient() (iamv1.IAMServiceClient, *grpc.ClientConn) {
 	
-	port, found := os.LookupEnv("IAM_SERVER_PORT")
+	addr, found := os.LookupEnv("IAM_SERVER_ADDR")
 
 	if !found {
-		log.Fatal("error with iam port env");
+		log.Fatal("error with iam address env")
 	}
-
-	conn, err := grpc.NewClient("localhost:" + port, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
 		conn.Close()

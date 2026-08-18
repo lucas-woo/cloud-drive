@@ -6,6 +6,7 @@ README.md
 
 # Environment / secrets
 .env
+.env.production
 
 # Go build artifacts
 bin/

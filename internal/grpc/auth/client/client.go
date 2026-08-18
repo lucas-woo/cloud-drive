@@ -12,13 +12,12 @@ import (
 
 func NewAuthServiceClient() (authv1.AuthServiceClient, *grpc.ClientConn) {
 	
-	port, found := os.LookupEnv("AUTH_SERVER_PORT")
-
+	addr, found := os.LookupEnv("AUTH_SERVER_ADDR")
 	if !found {
-		log.Fatal("error with auth port env");
+		log.Fatal("AUTH_SERVER_ADDR not set")
 	}
 
-	conn, err := grpc.NewClient("localhost:" + port, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
 		conn.Close()

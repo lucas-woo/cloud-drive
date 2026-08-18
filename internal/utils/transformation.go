@@ -16,7 +16,7 @@ func SelectImageProcessor(ctx context.Context, transformation *mediav1.ImageTran
 	processorPath := os.Getenv("IMAGE_PROCESSOR_PATH")
 
 	if processorPath == "" {
-			processorPath = "bin/image-processor"
+			processorPath = "/app/bin/image-processor"
 	}
 	
 
