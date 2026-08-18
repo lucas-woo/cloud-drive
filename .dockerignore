@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+README.md
+
+# Environment / secrets
+.env
+
+# Go build artifacts
+bin/
+build/
+dist/
+tmp/
+
+# Logs
+*.log
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Docker
+docker-compose.yml
+docker-compose.*.yml
+
+buf.gen.yaml
+buf.yaml
+
+stuff.txt
