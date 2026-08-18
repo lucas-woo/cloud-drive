@@ -1,0 +1,129 @@
+# ============================================================
+# Stage 1: Build OpenCV 5
+# ============================================================
+FROM ubuntu:24.04 AS opencv-builder
+
+ARG OPENCV_VERSION=5.0.0
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        pkg-config \
+        ca-certificates \
+        libjpeg-dev \
+        libpng-dev \
+        libtiff-dev \
+        libwebp-dev \
+        libopenexr-dev \
+        libavcodec-dev \
+        libavformat-dev \
+        libavutil-dev \
+        libswscale-dev \
+        libv4l-dev \
+        libxvidcore-dev \
+        libx264-dev \
+        libgtk-3-dev \
+        libtbb-dev \
+        libeigen3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opencv
+
+RUN git clone --branch ${OPENCV_VERSION} --depth 1 \
+    https://github.com/opencv/opencv.git
+
+WORKDIR /opencv/opencv
+
+RUN mkdir build && \
+    cd build && \
+    cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr/local \
+        -DBUILD_TESTS=OFF \
+        -DBUILD_PERF_TESTS=OFF \
+        -DBUILD_EXAMPLES=OFF \
+        -DBUILD_opencv_python3=OFF \
+        .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig
+
+
+# ============================================================
+# Stage 2: Build Go + C++ media service
+# ============================================================
+FROM ubuntu:24.04 AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        golang \
+        build-essential \
+        pkg-config \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy OpenCV installation from previous stage
+COPY --from=opencv-builder /usr/local /usr/local
+
+RUN ldconfig
+
+WORKDIR /app
+
+# Go dependencies
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy source
+COPY . .
+
+# Make sure pkg-config can find OpenCV 5
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+
+# Build C++ image processor
+RUN mkdir -p bin && \
+    g++ \
+        helper/src/main.cpp \
+        helper/src/scale.cpp \
+        helper/src/converter.cpp \
+        -std=c++17 \
+        -Ihelper/include \
+        $(pkg-config --cflags --libs opencv5) \
+        -o bin/image-processor
+
+# Build Go media service
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    go build -o /bin/media-server ./cmd/grpc/media
+
+
+# ============================================================
+# Stage 3: Runtime
+# ============================================================
+FROM ubuntu:24.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy OpenCV runtime libraries
+COPY --from=opencv-builder /usr/local /usr/local
+
+RUN ldconfig
+
+WORKDIR /app
+
+# Go media server
+COPY --from=builder /bin/media-server /bin/media-server
+
+# C++ image processor
+COPY --from=builder /app/bin/image-processor /app/bin/image-processor
+
+ENTRYPOINT ["/bin/media-server"]
