@@ -1,3 +1,5 @@
 .env 
 
 stuff.txt
+
+.env.production
