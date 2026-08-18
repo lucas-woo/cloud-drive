@@ -51,3 +51,20 @@ processor:
 
 clean:
 	rm -f $(BIN)/image-processor
+
+
+.PHONY: build-all build-media build-auth build-gateway build-iam
+
+build-all: build-media build-auth build-gateway build-iam
+
+build-media:
+	docker build --platform linux/amd64 -f Dockerfile.media -t media-server:latest .
+
+build-auth:
+	docker build --platform linux/amd64 -f Dockerfile.auth -t auth-server:latest .
+
+build-gateway:
+	docker build --platform linux/amd64 -f Dockerfile.gateway -t gateway-server:latest .
+
+build-iam:
+	docker build --platform linux/amd64 -f Dockerfile.iam -t iam-server:latest .
