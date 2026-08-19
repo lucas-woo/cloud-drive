@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
@@ -9,10 +8,7 @@ import (
 )
 
 func main() {
-	err := config.InitializeEnv()
-	if err != nil {
-		log.Fatal("error init env")
-	}
+	_ = config.InitializeEnv()
 
 
 

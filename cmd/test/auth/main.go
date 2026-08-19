@@ -12,10 +12,7 @@ import (
 
 func main() {
 
-	err := config.InitializeEnv()
-	if err != nil {
-		log.Fatal("env err")
-	}
+	_ = config.InitializeEnv()
 
 	client, conn := authclient.NewAuthServiceClient()
 	defer func(){conn.Close()}()

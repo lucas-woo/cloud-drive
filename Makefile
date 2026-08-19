@@ -54,6 +54,7 @@ clean:
 
 
 .PHONY: build-all build-media build-auth build-gateway build-iam
+.PHONY: test-all test-media test-auth test-gateway test-iam
 
 build-all: build-media build-auth build-gateway build-iam
 
@@ -68,3 +69,24 @@ build-gateway:
 
 build-iam:
 	docker build --platform linux/amd64 -f Dockerfile.iam -t iam-server:latest .
+
+
+test-all: test-media test-auth test-gateway test-iam
+
+test-media:
+	docker build -f Dockerfile.media.local -t media-server:test .
+
+test-auth:
+	docker build -f Dockerfile.auth -t auth-server:test .
+
+test-gateway:
+	docker build -f Dockerfile.gateway -t gateway-server:test .
+
+test-iam:
+	docker build -f Dockerfile.iam -t iam-server:test .
+
+build-opencv-test:
+	docker build -f Dockerfile.opencv-base -t opencv-base:test .
+
+build-opencv-prod:
+	docker build --platform linux/amd64 -f Dockerfile.opencv-base -t opencv-base:local .
