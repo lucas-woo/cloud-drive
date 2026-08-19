@@ -13,10 +13,8 @@ import (
 
 func main() {
 
-	err := config.InitializeEnv()
-	if err != nil {
-		log.Fatal("env err")
-	}
+	_ = config.InitializeEnv()
+
 
 	iamClient, conn := iamclient.NewIamServiceClient()
 	defer func(){conn.Close()}()

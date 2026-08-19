@@ -3,3 +3,5 @@
 stuff.txt
 
 .env.production
+
+Dockerfile.media.local

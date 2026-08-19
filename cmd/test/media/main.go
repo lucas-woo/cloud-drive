@@ -16,10 +16,8 @@ import (
 
 func main() {
 
-	err := config.InitializeEnv()
-	if err != nil {
-		log.Fatal("env err")
-	}
+	_ = config.InitializeEnv()
+
 
 	mediaClient, conn1 := mediaclient.NewMediaServiceClient()
 	authClient, conn2 := authclient.NewAuthServiceClient()
