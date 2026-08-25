@@ -69,7 +69,7 @@ func NewAuthResources(ctx context.Context) *AuthResources {
 	}
 	authRepo := authrepo.NewAuthRepo(mongoClient)
 
-	redisClient, err := ConnectRedis()
+	redisClient, err := ConnectRedis(ctx)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -205,9 +205,9 @@ func (r *IamResources) Close() {
 	}	
 }
 
-func NewGatewayResources() *GatewayResources {
+func NewGatewayResources(ctx context.Context) *GatewayResources {
 
-	redisClient, err := ConnectRedis()
+	redisClient, err := ConnectRedis(ctx)
 	if err != nil {
 		log.Fatal(err.Error())
 	}

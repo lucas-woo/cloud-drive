@@ -1,6 +1,7 @@
 package gateway
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -22,8 +23,10 @@ type Server struct {
 
 func (s *Server) Run() {
 	port := os.Getenv("GATEWAY_PORT")
+	
 	if port == "" {
-		port = "8080"
+		fmt.Println("no port found")
+		port = "3000"
 	}
 
 	addr := ":" + port
