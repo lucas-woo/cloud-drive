@@ -86,6 +86,9 @@ func NewServer(resources *database.GatewayResources) *Server {
 	awsService := services.NewAwsService(resources.MediaClient)
 	awsHandler := handlers.NewAwsHandler(awsService)
 
+	//health route
+	healthHandler := handlers.NewHealthHandler()
+
 	routes.InitializeRouter(webGroup, awsGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler)
 
 	return server
