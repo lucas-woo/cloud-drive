@@ -63,6 +63,8 @@ func NewServer(resources *database.GatewayResources) *Server {
 	apiGroup.Use(publicCors)
 
 	awsGroup := ginEngine.Group("/webhooks/aws")
+
+	healthGroup := ginEngine.Group("/health")
 	
 	server := &Server{
 		gin: ginEngine,
@@ -89,7 +91,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	//health route
 	healthHandler := handlers.NewHealthHandler()
 
-	routes.InitializeRouter(webGroup, awsGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler)
+	routes.InitializeRouter(webGroup, awsGroup, healthGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler, healthHandler)
 
 	return server
 }
