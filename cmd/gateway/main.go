@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"time"
 
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
@@ -10,9 +12,10 @@ import (
 func main() {
 	_ = config.InitializeEnv()
 
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
-
-	resources := database.NewGatewayResources()
+	resources := database.NewGatewayResources(ctx)
 
 	defer func(){
 		resources.Close()

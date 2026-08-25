@@ -58,6 +58,10 @@ clean:
 
 build-all: build-media build-auth build-gateway build-iam
 
+build-opencv-prod:
+	docker build --platform linux/amd64 -f Dockerfile.opencv-base -t opencv-base:local .
+
+
 build-media:
 	docker build --platform linux/amd64 -f Dockerfile.media -t media-server:latest .
 
@@ -71,7 +75,7 @@ build-iam:
 	docker build --platform linux/amd64 -f Dockerfile.iam -t iam-server:latest .
 
 
-test-all: test-media test-auth test-gateway test-iam
+build-test: test-media test-auth test-gateway test-iam
 
 test-media:
 	docker build -f Dockerfile.media.local -t media-server:test .
@@ -88,5 +92,10 @@ test-iam:
 build-opencv-test:
 	docker build -f Dockerfile.opencv-base -t opencv-base:test .
 
-build-opencv-prod:
-	docker build --platform linux/amd64 -f Dockerfile.opencv-base -t opencv-base:local .
+run-test:
+	docker network inspect test-network >/dev/null 2>&1 || docker network create test-network
+	docker run --rm --name auth-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway auth-server:test &
+	docker run --rm --name iam-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway iam-server:test &
+	docker run --rm --name media-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway -p 50053:50053 media-server:test &
+	docker run --rm --name gateway-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway -p 3000:3000 gateway-server:test &
+	wait

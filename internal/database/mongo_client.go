@@ -15,7 +15,7 @@ func ConnectMongo(ctx context.Context) (client *mongo.Client, err error) {
 
 	uri, found := os.LookupEnv("MONGO_URI");
 	if !found {
-		err = errors.New("enable to connect to mongodb")
+		err = errors.New("no mongo uri")
 		return 
 	}
 
