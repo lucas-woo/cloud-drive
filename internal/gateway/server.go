@@ -3,6 +3,7 @@ package gateway
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
@@ -58,6 +59,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 
 	webGroup := ginEngine.Group("/app")
 	webGroup.Use(webCors)
+	webGroup.Use(RequireEnvTestCookie())
 
 	apiGroup := ginEngine.Group("/api")
 	apiGroup.Use(publicCors)
@@ -94,4 +96,36 @@ func NewServer(resources *database.GatewayResources) *Server {
 	routes.InitializeRouter(webGroup, awsGroup, healthGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler, healthHandler)
 
 	return server
+}
+
+
+
+func RequireEnvTestCookie() gin.HandlerFunc {
+	expectedCookie := os.Getenv("TEST_COOKIE")
+	fmt.Println("cookie password:", expectedCookie)
+	
+	if expectedCookie == "" {
+		println("no test cookie")
+	}
+
+	return func(c *gin.Context) {
+
+		cookieVal, err := c.Cookie("TEST_COOKIE")
+
+		fmt.Println("HERE!", cookieVal, cookieVal == expectedCookie)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": err,
+			})
+			return
+		}
+		if cookieVal == "" {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+				"error": err,
+			})
+			return			
+		}
+
+		c.Next()
+	}
 }
