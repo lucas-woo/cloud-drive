@@ -20,10 +20,7 @@ import (
 
 func main() {
 
-	err := config.InitializeEnv();
-	if err != nil {
-		log.Fatal(err)
-	}
+	_ = config.InitializeEnv();
 
 	startupCtx, startupCancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer startupCancel()	

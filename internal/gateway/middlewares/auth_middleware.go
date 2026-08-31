@@ -14,28 +14,23 @@ type AuthMiddleware struct {
 
 func (m *AuthMiddleware) RedirectIfAuthenticated() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		
 		sessionID, err := c.Cookie(config.CookieSession);
-		
 		if err != nil {
 			c.Next()
 			return 
 		}
-
 		id, err := m.RedisRepository.FindUserId(c.Request.Context(), sessionID);
-
 		if err != nil || len(id) == 0 {
 			c.Next()
 			return 			
 		}
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.AbortWithStatus(http.StatusBadRequest)
 	}
 }
 
 func (m *AuthMiddleware) IsAuthenticated() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		sessionId, err := c.Cookie(config.CookieSession)
-
 		if err != nil {
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
@@ -49,7 +44,7 @@ func (m *AuthMiddleware) IsAuthenticated() gin.HandlerFunc {
 		}
 
 		c.Set(config.GinUserId, userId)
-
+		
 		c.Next()
 	}
 }

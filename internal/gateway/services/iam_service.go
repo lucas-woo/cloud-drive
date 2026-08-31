@@ -5,10 +5,12 @@ import (
 
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/api"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type IamService struct {
 	iamClient iamv1.IAMServiceClient
+	mapper utils.RestMapper
 }
 
 func (s *IamService) GenerateNewApiKey(ctx context.Context, projectId, keyName string) (*api.GenerateApiKeyResponse, error) {
@@ -39,8 +41,22 @@ func (s *IamService) ValidateUserRole(ctx context.Context, userId, projectId str
 	return res.GetAuthorized(), err
 }
 
-func NewIamService(iamClient iamv1.IAMServiceClient) *IamService {
+func (s *IamService) GetAllApiKeys(ctx context.Context, projectId string) (*api.ApiKeysPageResponse, error) {
+	res, err := s.iamClient.GetAllApiKeys(ctx, &iamv1.GetAllApiKeysRequest{
+		ProjectId: projectId,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.ApiKeysPageResponse{
+		ApiKeys: s.mapper.ConvertApiKeys(res.GetApiKeys()),
+	}, nil
+}
+
+func NewIamService(iamClient iamv1.IAMServiceClient, mapper utils.RestMapper) *IamService {
 	return &IamService{
 		iamClient: iamClient,
+		mapper: mapper,
 	}
 }

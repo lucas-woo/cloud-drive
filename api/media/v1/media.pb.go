@@ -192,6 +192,7 @@ type UploadObjectRequest struct {
 	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	FolderId      string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
 	IsActive      bool                   `protobuf:"varint,4,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	Format        string                 `protobuf:"bytes,5,opt,name=format,proto3" json:"format,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -252,6 +253,13 @@ func (x *UploadObjectRequest) GetIsActive() bool {
 		return x.IsActive
 	}
 	return false
+}
+
+func (x *UploadObjectRequest) GetFormat() string {
+	if x != nil {
+		return x.Format
+	}
+	return ""
 }
 
 type UploadObjectResponse struct {
@@ -380,6 +388,7 @@ type ImageUploadInfo struct {
 	ObjectName      string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	FolderId        string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
 	ContentType     string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
+	Format          string                 `protobuf:"bytes,5,opt,name=format,proto3" json:"format,omitempty"`
 	IsActive        bool                   `protobuf:"varint,6,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	Transformations *ImageTransformations  `protobuf:"bytes,7,opt,name=transformations,proto3" json:"transformations,omitempty"`
 	unknownFields   protoimpl.UnknownFields
@@ -440,6 +449,13 @@ func (x *ImageUploadInfo) GetFolderId() string {
 func (x *ImageUploadInfo) GetContentType() string {
 	if x != nil {
 		return x.ContentType
+	}
+	return ""
+}
+
+func (x *ImageUploadInfo) GetFormat() string {
+	if x != nil {
+		return x.Format
 	}
 	return ""
 }
@@ -590,7 +606,8 @@ type FileUploadInfo struct {
 	ObjectName    string                 `protobuf:"bytes,2,opt,name=object_name,json=objectName,proto3" json:"object_name,omitempty"`
 	FolderId      string                 `protobuf:"bytes,3,opt,name=folder_id,json=folderId,proto3" json:"folder_id,omitempty"`
 	ContentType   string                 `protobuf:"bytes,4,opt,name=content_type,json=contentType,proto3" json:"content_type,omitempty"`
-	IsActive      bool                   `protobuf:"varint,5,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	Format        string                 `protobuf:"bytes,5,opt,name=format,proto3" json:"format,omitempty"`
+	IsActive      bool                   `protobuf:"varint,6,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -649,6 +666,13 @@ func (x *FileUploadInfo) GetFolderId() string {
 func (x *FileUploadInfo) GetContentType() string {
 	if x != nil {
 		return x.ContentType
+	}
+	return ""
+}
+
+func (x *FileUploadInfo) GetFormat() string {
+	if x != nil {
+		return x.Format
 	}
 	return ""
 }
@@ -1849,14 +1873,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\x18CreateNewProjectResponse\x12!\n" +
 	"\fproject_name\x18\x01 \x01(\tR\vprojectName\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x02 \x01(\tR\tprojectId\"\x8f\x01\n" +
+	"project_id\x18\x02 \x01(\tR\tprojectId\"\xa7\x01\n" +
 	"\x13UploadObjectRequest\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
 	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12\x1b\n" +
-	"\tis_active\x18\x04 \x01(\bR\bisActive\"R\n" +
+	"\tis_active\x18\x04 \x01(\bR\bisActive\x12\x16\n" +
+	"\x06format\x18\x05 \x01(\tR\x06format\"R\n" +
 	"\x14UploadObjectResponse\x12\x1d\n" +
 	"\n" +
 	"signed_url\x18\x01 \x01(\tR\tsignedUrl\x12\x1b\n" +
@@ -1867,14 +1892,15 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"\vcompression\x18\x03 \x01(\v2\x15.media.v1.CompressionR\vcompression\x124\n" +
 	"\n" +
 	"conversion\x18\x04 \x01(\v2\x14.media.v1.ConversionR\n" +
-	"conversion\"\xf8\x01\n" +
+	"conversion\"\x90\x02\n" +
 	"\x0fImageUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
 	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12!\n" +
-	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x1b\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x16\n" +
+	"\x06format\x18\x05 \x01(\tR\x06format\x12\x1b\n" +
 	"\tis_active\x18\x06 \x01(\bR\bisActive\x12H\n" +
 	"\x0ftransformations\x18\a \x01(\v2\x1e.media.v1.ImageTransformationsR\x0ftransformations\"\x83\x01\n" +
 	"\x15UploadImageApiRequest\x12<\n" +
@@ -1884,15 +1910,16 @@ const file_media_v1_media_proto_rawDesc = "" +
 	"imageChunkB\t\n" +
 	"\apayload\"5\n" +
 	"\x16UploadImageApiResponse\x12\x1b\n" +
-	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xad\x01\n" +
+	"\tobject_id\x18\x01 \x01(\tR\bobjectId\"\xc5\x01\n" +
 	"\x0eFileUploadInfo\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\x12\x1f\n" +
 	"\vobject_name\x18\x02 \x01(\tR\n" +
 	"objectName\x12\x1b\n" +
 	"\tfolder_id\x18\x03 \x01(\tR\bfolderId\x12!\n" +
-	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x1b\n" +
-	"\tis_active\x18\x05 \x01(\bR\bisActive\"\x7f\n" +
+	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\x12\x16\n" +
+	"\x06format\x18\x05 \x01(\tR\x06format\x12\x1b\n" +
+	"\tis_active\x18\x06 \x01(\bR\bisActive\"\x7f\n" +
 	"\x14UploadFileApiRequest\x12;\n" +
 	"\vupload_info\x18\x01 \x01(\v2\x18.media.v1.FileUploadInfoH\x00R\n" +
 	"uploadInfo\x12\x1f\n" +

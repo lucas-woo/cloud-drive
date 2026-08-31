@@ -1,0 +1,45 @@
+FROM ubuntu:24.04
+
+ARG OPENCV_VERSION=5.0.0
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install build essential dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        cmake \
+        git \
+        pkg-config \
+        ca-certificates \
+        libtbb-dev \
+        libeigen3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opencv
+
+# Shallow clone OpenCV to save space
+RUN git clone --branch ${OPENCV_VERSION} --depth 1 https://github.com/opencv/opencv.git
+
+WORKDIR /opencv/opencv/build
+
+# Build trimmed OpenCV with bundled codecs
+RUN cmake \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr/local \
+        -DBUILD_TESTS=OFF \
+        -DBUILD_PERF_TESTS=OFF \
+        -DBUILD_EXAMPLES=OFF \
+        -DBUILD_opencv_python3=OFF \
+        -DBUILD_opencv_apps=OFF \
+        -DBUILD_JAVA=OFF \
+        -DBUILD_ZLIB=ON \
+        -DBUILD_JPEG=ON \
+        -DBUILD_PNG=ON \
+        -DBUILD_TIFF=ON \
+        -DBUILD_WEBP=ON \
+        .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig
+
+# Clean up raw source files to save space inside this base image
+RUN rm -rf /opencv
