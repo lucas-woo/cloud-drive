@@ -29,6 +29,7 @@ message UploadObjectRequest {
   string object_name = 2;
   string folder_id = 3;
   bool is_active = 4;
+  string format = 5;
 }
 
 message UploadObjectResponse {
@@ -48,6 +49,7 @@ message ImageUploadInfo {
   string object_name = 2;
   string folder_id = 3;
   string content_type = 4;
+  string format = 5;
   bool is_active = 6;
 
   ImageTransformations transformations = 7;
@@ -70,7 +72,8 @@ message FileUploadInfo {
   string object_name = 2;
   string folder_id = 3;
   string content_type = 4;
-  bool is_active = 5;
+  string format = 5;
+  bool is_active = 6;
 }
 
 message UploadFileApiRequest {

@@ -175,11 +175,14 @@ func (s *MediaService) AddAdminRole(ctx context.Context, userId string, projectI
 	return err
 }
 
-func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folderId, objectName string, isActive bool) (*api.UploadObjectResponse, error) {
+func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folderId, objectName, originalFileName string, isActive bool) (*api.UploadObjectResponse, error) {
+
+	format := s.mapper.FindFormat(originalFileName)
 	res, err := s.mediaClient.UploadObject(ctx, &mediav1.UploadObjectRequest{
 		ProjectId: projectId,
 		FolderId: folderId,
 		ObjectName: objectName,
+		Format: format,
 		IsActive: isActive,
 	})
 	if err != nil {

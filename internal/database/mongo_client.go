@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -15,7 +16,7 @@ func ConnectMongo(ctx context.Context) (client *mongo.Client, err error) {
 
 	uri, found := os.LookupEnv("MONGO_URI");
 	if !found {
-		err = errors.New("enable to connect to mongodb")
+		err = errors.New("no mongo uri")
 		return 
 	}
 
@@ -30,6 +31,8 @@ func ConnectMongo(ctx context.Context) (client *mongo.Client, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println("mongodb connected")
 
 	return client, nil
 }

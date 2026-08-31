@@ -141,6 +141,59 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dt
 	return hasPermission, nil
 }
 
+func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UUID) ([]*dto.ApiKey, error) {
+	const query = `
+		SELECT api_key, name, created_at, is_active
+		FROM api_keys
+		WHERE project_id = ?
+		ORDER BY created_at ASC
+	`
+
+	rows, err := r.mysql.QueryContext(ctx, query, projectId[:])
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	apiKeys := make([]*dto.ApiKey, 0)
+
+	for rows.Next() {
+		var (
+			apiKeyBytes []byte
+			name        string
+			createdAt   time.Time
+			isActive    bool
+		)
+
+		if err := rows.Scan(
+			&apiKeyBytes,
+			&name,
+			&createdAt,
+			&isActive,
+		); err != nil {
+			return nil, err
+		}
+
+		apiKey, err := uuid.FromBytes(apiKeyBytes)
+		if err != nil {
+			return nil, fmt.Errorf("invalid api_key UUID: %w", err)
+		}
+
+		apiKeys = append(apiKeys, &dto.ApiKey{
+			ApiKey:    apiKey.String(),
+			Name:      name,
+			CreatedAt: createdAt,
+			IsActive:  isActive,
+		})
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return apiKeys, nil
+}
+
 func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {
 	return &ApiKeysRepository{
 		mysql: mySqlClient,
