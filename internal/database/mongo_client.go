@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"errors"
+	"fmt"
 	"os"
 
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -30,6 +31,8 @@ func ConnectMongo(ctx context.Context) (client *mongo.Client, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println("mongodb connected")
 
 	return client, nil
 }

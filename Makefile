@@ -96,6 +96,6 @@ run-test:
 	docker network inspect test-network >/dev/null 2>&1 || docker network create test-network
 	docker run --rm --name auth-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway auth-server:test &
 	docker run --rm --name iam-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway iam-server:test &
-	docker run --rm --name media-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway -p 50053:50053 media-server:test &
+	docker run --rm --name media-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway media-server:test &
 	docker run --rm --name gateway-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway -p 3000:3000 gateway-server:test &
 	wait

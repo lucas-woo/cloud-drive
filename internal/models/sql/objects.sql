@@ -32,7 +32,7 @@ CREATE TABLE project_objects (
         is_pending,
         created_at DESC,
         object_id DESC
-    )
+    ),
 
     INDEX idx_project_collection_pending_created_object (
         project_id,
