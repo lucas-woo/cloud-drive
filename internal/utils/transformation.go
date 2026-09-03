@@ -40,3 +40,7 @@ func SelectImageProcessor(ctx context.Context, transformation *mediav1.ImageTran
 
 	return nil, nil
 }
+
+func TransformationsToMetadata() {
+	
+}

@@ -31,9 +31,9 @@ func (u UnseekableReader) Close() error {
 }
 
 func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, projectId string, isActive bool) (string, error) {
-	prefix := "private"
+	prefix := config.S3PrivatePrefix
 	if isActive {
-		prefix = "public"
+		prefix = config.S3PublicPrefix
 	}
 
 	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
@@ -55,9 +55,9 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, proj
 
 func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, projectId, contentType string, isActive bool) error {	
 
-	prefix := "private"
+	prefix := config.S3PrivatePrefix
 	if isActive {
-		prefix = "public"
+		prefix = config.S3PublicPrefix
 	}
 
 	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
@@ -80,10 +80,11 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadClos
 
 func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId, projectId, contentType string, isActive bool) error {
 	
-	prefix := "private"
+	prefix := config.S3PrivatePrefix
 	if isActive {
-		prefix = "public"
+		prefix = config.S3PublicPrefix
 	}
+
 
 	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
 	
