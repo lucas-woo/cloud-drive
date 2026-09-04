@@ -45,7 +45,7 @@ func SelectImageProcessor(ctx context.Context, transformation *mediav1.ImageTran
 	return nil, nil
 }
 
-func TransformationsToMetadata(transformations *mediav1.ImageTransformations) map[string]string {
+func (u *S3Utils) TransformationsToMetadata(transformations *mediav1.ImageTransformations) map[string]string {
 	if transformations == nil {
 		return nil
 	}

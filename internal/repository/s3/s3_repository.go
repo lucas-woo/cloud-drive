@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type S3Repository struct {
@@ -17,6 +18,7 @@ type S3Repository struct {
 	presignClient *s3.PresignClient
 	bucketName string
 	uploader *transfermanager.Client
+	s3util *utils.S3Utils
 }
 
 type UnseekableReader struct {
@@ -68,7 +70,7 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadClos
 		Key: aws.String(key),
 		Body: reader,
 		ContentType: aws.String(contentType),
-		// Metadata: ,
+		Metadata: r.s3util.TransformationsToMetadata(transformations),
 	}
 
 	_, err := r.uploader.UploadObject(ctx, input)
@@ -170,5 +172,6 @@ func NewS3Repository(	s3Client *s3.Client, presignClient *s3.PresignClient, buck
 		s3Client: s3Client,
 		presignClient: presignClient,
 		bucketName: bucketName,
+		s3util: utils.NewS3Util(),		
 	}
 }
