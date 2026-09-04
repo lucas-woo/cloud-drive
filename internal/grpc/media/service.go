@@ -13,7 +13,6 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 	assetsmodels "github.com/lucas-woo/cloud-drive/internal/models/assets"
 	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
-	s3repository "github.com/lucas-woo/cloud-drive/internal/repository/s3"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
@@ -173,13 +172,10 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	pipeReader, pipeWriter := io.Pipe()
 
-	cmd.Stdin = pipeReader
-	cppStdout, err := cmd.StdoutPipe()
 	if err != nil {
 		return "", fmt.Errorf("failed to create stdout pipe: %w", err)
 	}
 
-	safeStdout := s3repository.UnseekableReader{R: cppStdout}
 
 	if err := cmd.Start(); err != nil {
 		return "", fmt.Errorf("failed to start processor: %w", err)
@@ -187,7 +183,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	errChan := make(chan error, 1)
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetProjectId(), imageInfo.GetContentType(), imageInfo.GetIsActive(), imageInfo.GetTransformations())
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, pipeReader, objectIdString, imageInfo.GetProjectId(), imageInfo.GetContentType(), imageInfo.GetIsActive(), imageInfo.GetTransformations())
 	}()
 
 	for {
