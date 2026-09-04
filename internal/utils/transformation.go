@@ -73,10 +73,20 @@ func TransformationsToMetadata(transformations *mediav1.ImageTransformations) ma
 	}
 	//needs validation for conversion type (.jpeg, .png blabla)
 	if transformations.Conversion != nil {
-		
+		data := dto.ConvertTransformation{
+			Format: transformations.GetConversion().GetFormat(),
+		}
+		jsonBytes, _ := json.Marshal(data)
+		metadata["format"] = string(jsonBytes)
 	}
 	if transformations.Compression != nil {
 
+		data := dto.CompressTransformation{
+			Compress: transformations.GetCompression().GetCompress(),
+		}
+		jsonBytes, _ := json.Marshal(data)		
+
+		metadata["compress"] = string(jsonBytes)
 	}
 	return metadata
 }
