@@ -53,19 +53,27 @@ func TransformationsToMetadata(transformations *mediav1.ImageTransformations) ma
 
 	if transformations.Scale != nil {
 
+		data := dto.ScaleTransformation{
+			Height: transformations.Scale.GetHeight(),
+			Width: transformations.Scale.GetWidth(),
+		}
+		
+		jsonBytes, _ := json.Marshal(data)
+		metadata["scale"] = string(jsonBytes)
+	}
+
+	if transformations.Crop != nil {
 		data := dto.CropTransformation{
 			Height: transformations.Scale.GetHeight(),
 			Width: transformations.Scale.GetWidth(),
 		}
 		
 		jsonBytes, _ := json.Marshal(data)
-		metadata["crop"] = string(jsonBytes)
+		metadata["crop"] = string(jsonBytes)		
 	}
-	if transformations.Crop != nil {
-
-	}
+	//needs validation for conversion type (.jpeg, .png blabla)
 	if transformations.Conversion != nil {
-
+		
 	}
 	if transformations.Compression != nil {
 
