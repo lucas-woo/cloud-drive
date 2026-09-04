@@ -187,7 +187,7 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	errChan := make(chan error, 1)
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetProjectId(), imageInfo.GetContentType(), imageInfo.GetIsActive())
+		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetProjectId(), imageInfo.GetContentType(), imageInfo.GetIsActive(), imageInfo.GetTransformations())
 	}()
 
 	for {

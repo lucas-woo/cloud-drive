@@ -8,7 +8,9 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
+	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type S3Repository struct {
@@ -16,6 +18,7 @@ type S3Repository struct {
 	presignClient *s3.PresignClient
 	bucketName string
 	uploader *transfermanager.Client
+	s3util *utils.S3Utils
 }
 
 type UnseekableReader struct {
@@ -31,9 +34,9 @@ func (u UnseekableReader) Close() error {
 }
 
 func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, projectId string, isActive bool) (string, error) {
-	prefix := "private"
+	prefix := config.S3PrivatePrefix
 	if isActive {
-		prefix = "public"
+		prefix = config.S3PublicPrefix
 	}
 
 	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
@@ -53,11 +56,11 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, proj
 	return req.URL, nil
 }
 
-func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, projectId, contentType string, isActive bool) error {	
+func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, projectId, contentType string, isActive bool, transformations *mediav1.ImageTransformations) error {	
 
-	prefix := "private"
+	prefix := config.S3PrivatePrefix
 	if isActive {
-		prefix = "public"
+		prefix = config.S3PublicPrefix
 	}
 
 	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
@@ -67,6 +70,7 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadClos
 		Key: aws.String(key),
 		Body: reader,
 		ContentType: aws.String(contentType),
+		Metadata: r.s3util.TransformationsToMetadata(transformations),
 	}
 
 	_, err := r.uploader.UploadObject(ctx, input)
@@ -80,10 +84,11 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadClos
 
 func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, objectId, projectId, contentType string, isActive bool) error {
 	
-	prefix := "private"
+	prefix := config.S3PrivatePrefix
 	if isActive {
-		prefix = "public"
+		prefix = config.S3PublicPrefix
 	}
+
 
 	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
 	
@@ -104,6 +109,9 @@ func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, o
 }
 
 func (r *S3Repository) ActivateObject(ctx context.Context, objectId string) (error) {
+
+	// NOT GOOD 
+	// NEEDS TO BE REDONE
 	_, err := r.s3Client.CopyObject(ctx, &s3.CopyObjectInput{
 			Bucket:     aws.String(r.bucketName),
 			CopySource: aws.String(r.bucketName + "/private/" + objectId),
@@ -164,5 +172,6 @@ func NewS3Repository(	s3Client *s3.Client, presignClient *s3.PresignClient, buck
 		s3Client: s3Client,
 		presignClient: presignClient,
 		bucketName: bucketName,
+		s3util: utils.NewS3Util(),		
 	}
 }
