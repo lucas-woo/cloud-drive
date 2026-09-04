@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/feature/s3/transfermanager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 )
 
@@ -53,7 +54,7 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, proj
 	return req.URL, nil
 }
 
-func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, projectId, contentType string, isActive bool) error {	
+func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, projectId, contentType string, isActive bool, transformations *mediav1.ImageTransformations) error {	
 
 	prefix := config.S3PrivatePrefix
 	if isActive {
@@ -67,6 +68,7 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadClos
 		Key: aws.String(key),
 		Body: reader,
 		ContentType: aws.String(contentType),
+		// Metadata: ,
 	}
 
 	_, err := r.uploader.UploadObject(ctx, input)
@@ -105,6 +107,9 @@ func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, o
 }
 
 func (r *S3Repository) ActivateObject(ctx context.Context, objectId string) (error) {
+
+	// NOT GOOD 
+	// NEEDS TO BE REDONE
 	_, err := r.s3Client.CopyObject(ctx, &s3.CopyObjectInput{
 			Bucket:     aws.String(r.bucketName),
 			CopySource: aws.String(r.bucketName + "/private/" + objectId),

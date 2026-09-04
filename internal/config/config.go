@@ -49,9 +49,9 @@ var (
 	//folder prefix
 	FolderPrefix string = "/"
 
-	S3PublicPrefix string = "/public"
-	S3PrivatePrefix string = "/private"
-	S3TransformPrefix string = "/transform"
+	S3PublicPrefix string = "public"
+	S3PrivatePrefix string = "private"
+	S3TransformPrefix string = "transform"
 )
 
 

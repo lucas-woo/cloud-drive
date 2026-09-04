@@ -2,14 +2,18 @@ package utils
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
 	"os/exec"
 
 	mediav1 "github.com/lucas-woo/cloud-drive/api/media/v1"
+	"github.com/lucas-woo/cloud-drive/internal/dto"
 )
 
+type S3Utils struct {
+}
 //todo need to do all transformations
 func SelectImageProcessor(ctx context.Context, transformation *mediav1.ImageTransformations) (*exec.Cmd, error) {
 
@@ -41,6 +45,34 @@ func SelectImageProcessor(ctx context.Context, transformation *mediav1.ImageTran
 	return nil, nil
 }
 
-func TransformationsToMetadata() {
-	
+func TransformationsToMetadata(transformations *mediav1.ImageTransformations) map[string]string {
+	if transformations == nil {
+		return nil
+	}
+	metadata := make(map[string]string, 0)
+
+	if transformations.Scale != nil {
+
+		data := dto.CropTransformation{
+			Height: transformations.Scale.GetHeight(),
+			Width: transformations.Scale.GetWidth(),
+		}
+		
+		jsonBytes, _ := json.Marshal(data)
+		metadata["crop"] = string(jsonBytes)
+	}
+	if transformations.Crop != nil {
+
+	}
+	if transformations.Conversion != nil {
+
+	}
+	if transformations.Compression != nil {
+
+	}
+	return metadata
+}
+
+func NewS3Util() *S3Utils {
+	return &S3Utils{}
 }
