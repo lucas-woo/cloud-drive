@@ -18,7 +18,7 @@ type S3Repository struct {
 	presignClient *s3.PresignClient
 	bucketName string
 	uploader *transfermanager.Client
-	s3util *utils.S3Utils
+	s3Util *utils.S3Utils
 }
 
 func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, projectId string, isActive bool) (string, error) {
@@ -51,14 +51,18 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, 
 		prefix = config.S3PublicPrefix
 	}
 
-	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
+	key := fmt.Sprintf("%s/%s/%s/%s", config.S3TransformPrefix, prefix, projectId, objectId)
+	keyAfterTransformation := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
+
+	metadata := r.s3Util.TransformationsToMetadata(transformations)
+	metadata["key"] = keyAfterTransformation
 
 	input := &transfermanager.UploadObjectInput{
 		Bucket: aws.String(r.bucketName),
 		Key: aws.String(key),
 		Body: reader,
 		ContentType: aws.String(contentType),
-		Metadata: r.s3util.TransformationsToMetadata(transformations),
+		Metadata: metadata,
 	}
 
 	_, err := r.uploader.UploadObject(ctx, input)
@@ -160,6 +164,6 @@ func NewS3Repository(	s3Client *s3.Client, presignClient *s3.PresignClient, buck
 		s3Client: s3Client,
 		presignClient: presignClient,
 		bucketName: bucketName,
-		s3util: utils.NewS3Util(),		
+		s3Util: utils.NewS3Util(),		
 	}
 }
