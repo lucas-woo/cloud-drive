@@ -152,18 +152,18 @@ func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageA
 
 	
 	var uploadSuccessful bool
-	err = s.mediaResources.ProjectRepository.IncrementTransformationCount(ctx, projectId)
-
-	if err != nil {
-		return "", errors.New("error incrementing transformations")
-	}
-	
 	defer func() {
 		if !uploadSuccessful {
 
 			s.mediaResources.ProjectRepository.DeleteObject(context.Background(), objectId)
 		}
 	}()
+
+	err = s.mediaResources.ProjectRepository.IncrementTransformationCount(ctx, projectId)
+
+	if err != nil {
+		return "", errors.New("error incrementing transformations")
+	}	
 
 
 	cmd, err := utils.SelectImageProcessor(ctx, imageInfo.GetTransformations())

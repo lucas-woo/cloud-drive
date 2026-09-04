@@ -21,18 +21,6 @@ type S3Repository struct {
 	s3util *utils.S3Utils
 }
 
-type UnseekableReader struct {
-	R io.ReadCloser
-}
-
-func (u UnseekableReader) Read(p []byte) (int, error) {
-	return u.R.Read(p)
-}
-
-func (u UnseekableReader) Close() error {
-	return u.R.Close()
-}
-
 func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, projectId string, isActive bool) (string, error) {
 	prefix := config.S3PrivatePrefix
 	if isActive {
@@ -56,7 +44,7 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, proj
 	return req.URL, nil
 }
 
-func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.ReadCloser, objectId, projectId, contentType string, isActive bool, transformations *mediav1.ImageTransformations) error {	
+func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, objectId, projectId, contentType string, isActive bool, transformations *mediav1.ImageTransformations) error {	
 
 	prefix := config.S3PrivatePrefix
 	if isActive {
