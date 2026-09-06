@@ -196,7 +196,7 @@ func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folder
 }
 
 
-func (s *MediaService) UploadObject(
+func (s *MediaService) UploadFile(
 	ctx context.Context,
 	projectId string,
 	objectName string,
@@ -260,6 +260,75 @@ func (s *MediaService) UploadObject(
 	}
 
 	return &api.UploadObjectApiResponse{
+		ObjectId: res.GetObjectId(),
+	}, nil
+}
+
+func (s *MediaService) UploadImage(
+	ctx context.Context,
+	projectId string,
+	objectName string,
+	originalFileName string,
+	folderId string,
+	isActive bool,
+	contentType string,
+	image io.Reader,
+) (*api.UploadImageApiResponse, error) {
+
+	format := s.mapper.FindFormat(originalFileName)
+
+	stream, err := s.mediaClient.UploadImageApi(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	err = stream.Send(&mediav1.UploadImageApiRequest{
+		Payload: &mediav1.UploadImageApiRequest_UploadInfo{
+			UploadInfo: &mediav1.ImageUploadInfo{
+				ProjectId: projectId,
+				ObjectName: objectName,
+				FolderId: folderId,
+				ContentType: contentType,
+				Format: format,
+				IsActive: isActive,
+				Transformations: nil,
+			},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	buf := make([]byte, 64*1024)
+
+	for {
+		n, err := image.Read(buf)
+
+		if n > 0 {
+			if err := stream.Send(&mediav1.UploadImageApiRequest{
+				Payload: &mediav1.UploadImageApiRequest_ImageChunk{
+					ImageChunk: buf[:n],
+				},
+			}); err != nil {
+				return nil, err
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.UploadImageApiResponse{
 		ObjectId: res.GetObjectId(),
 	}, nil
 }

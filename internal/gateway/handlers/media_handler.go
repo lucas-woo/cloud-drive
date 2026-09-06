@@ -325,7 +325,7 @@ func (h *MediaHandler) CreateObject(c *gin.Context) {
 }
 
 
-func (h *MediaHandler) UploadObjectApi(c *gin.Context) {
+func (h *MediaHandler) UploadFileApi(c *gin.Context) {
 	reader, err := c.Request.MultipartReader()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -382,7 +382,7 @@ func (h *MediaHandler) UploadObjectApi(c *gin.Context) {
 		return
 	}
 
-	res, err := h.service.UploadObject(
+	res, err := h.service.UploadFile(
 		c.Request.Context(),
 		req.ProjectId,
 		req.Name,
@@ -404,7 +404,80 @@ func (h *MediaHandler) UploadObjectApi(c *gin.Context) {
 
 
 func (h *MediaHandler) UploadImageApi(c *gin.Context) {
+	reader, err := c.Request.MultipartReader()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid multipart request",
+		})
+		return
+	}
 
+	metadataPart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata is required",
+		})
+		return
+	}
+	defer metadataPart.Close()
+
+	if metadataPart.FormName() != "metadata" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata must be the first multipart part",
+		})
+		return
+	}
+
+	var req api.UploadImageApiRequst
+	if err := json.NewDecoder(metadataPart).Decode(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid metadata",
+		})
+		return
+	}
+
+	imagePart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "image is required",
+		})
+		return
+	}
+	defer imagePart.Close()
+
+	if imagePart.FormName() != "image" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "image must be the second multipart part",
+		})
+		return
+	}
+
+	contentType := imagePart.Header.Get("Content-Type")
+	if contentType == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "image content type is required",
+		})
+		return
+	}
+
+	res, err := h.service.UploadImage(
+		c.Request.Context(),
+		req.ProjectId,
+		req.Name,
+		req.OriginalFileName,
+		req.FolderId,
+		req.IsActive,
+		contentType,
+		imagePart,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
 }
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
