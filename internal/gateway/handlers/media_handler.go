@@ -280,7 +280,7 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 	
 }
 
-func (h *MediaHandler) UplaodObject(c *gin.Context) {
+func (h *MediaHandler) CreateObject(c *gin.Context) {
 	userIdString, exists := c.Get(config.GinUserId)
 
 	if !exists {
@@ -321,6 +321,13 @@ func (h *MediaHandler) UplaodObject(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)	
+}
+
+func (h *MediaHandler) UploadObjectApi(c *gin.Context) {
+	
+}
+func (h *MediaHandler) UploadImageApi(c *gin.Context) {
+	
 }
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
