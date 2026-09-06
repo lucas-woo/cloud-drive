@@ -54,8 +54,8 @@ func (u *S3Utils) TransformationsToMetadata(transformations *mediav1.ImageTransf
 	if transformations.Scale != nil {
 
 		data := dto.ScaleTransformation{
-			Height: transformations.Scale.GetHeight(),
-			Width: transformations.Scale.GetWidth(),
+			Height: transformations.GetScale().GetHeight(),
+			Width: transformations.GetScale().GetWidth(),
 		}
 		
 		jsonBytes, _ := json.Marshal(data)
@@ -64,8 +64,8 @@ func (u *S3Utils) TransformationsToMetadata(transformations *mediav1.ImageTransf
 
 	if transformations.Crop != nil {
 		data := dto.CropTransformation{
-			Height: transformations.Scale.GetHeight(),
-			Width: transformations.Scale.GetWidth(),
+			Height: transformations.GetCrop().GetHeight(),
+			Width: transformations.GetCrop().Width,
 		}
 		
 		jsonBytes, _ := json.Marshal(data)
