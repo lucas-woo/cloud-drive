@@ -13,8 +13,6 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 	assetsmodels "github.com/lucas-woo/cloud-drive/internal/models/assets"
 	projectmodels "github.com/lucas-woo/cloud-drive/internal/models/project"
-	s3repository "github.com/lucas-woo/cloud-drive/internal/repository/s3"
-	"github.com/lucas-woo/cloud-drive/internal/utils"
 )
 
 type Service struct {
@@ -112,212 +110,332 @@ func (s *Service) GetDashboard(ctx context.Context, req *dto.GetDashboardRequest
 	return projectInfo, nil
 }
 
-func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (string, error) {
+func (s *Service) UploadImageApiService(stream mediav1.MediaService_UploadImageApiServer) (objectID string, err error) {
 
-	ctx, cancel := context.WithCancel(stream.Context())
-	defer cancel()
+	ctx := stream.Context()
 
 	req, err := stream.Recv()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to receive upload info: %w", err)
 	}
 
 	imageInfo := req.GetUploadInfo()
 	if imageInfo == nil {
-		return "", errors.New("no image info")
+		return "", errors.New("missing upload info")
 	}
 
-	projectId, err := uuid.Parse(imageInfo.GetProjectId())
+	projectID, err := uuid.Parse(imageInfo.GetProjectId())
 	if err != nil {
-		return "", errors.New("invalid project id")
+		return "", fmt.Errorf("invalid project id: %w", err)
 	}
 
-	objectId, err := uuid.NewV7()
+	folderID, err := uuid.Parse(imageInfo.GetFolderId())
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("invalid folder id: %w", err)
 	}
-	objectIdString := objectId.String()
 
-	folderId, err := uuid.Parse(imageInfo.FolderId)
-
+	objectUUID, err := uuid.NewV7()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to generate object id: %w", err)
 	}
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, imageInfo.GetIsActive(), imageInfo.GetFormat())
+	objectID = objectUUID.String()
 
+	err = s.mediaResources.ProjectRepository.CreateNewObject(
+		ctx,
+		projectID,
+		objectUUID,
+		folderID,
+		imageInfo.GetIsActive(),
+		imageInfo.GetFormat(),
+	)
 	if err != nil {
-		return "", errors.New("error creating new object")
+		return "", fmt.Errorf("failed to create new object: %w", err)
 	}
 
-	
-	var uploadSuccessful bool
-	err = s.mediaResources.ProjectRepository.IncrementTransformationCount(ctx, projectId)
-
-	if err != nil {
-		return "", errors.New("error incrementing transformations")
-	}
-	
+	uploadSuccessful := false
 	defer func() {
 		if !uploadSuccessful {
-
-			s.mediaResources.ProjectRepository.DeleteObject(context.Background(), objectId)
+			s.mediaResources.ProjectRepository.DeleteObjectWithOwnContext(objectUUID)
 		}
 	}()
 
-
-	cmd, err := utils.SelectImageProcessor(ctx, imageInfo.GetTransformations())
-	if err != nil {
-		return "", errors.New("error with transformations")
-	}
-
 	pipeReader, pipeWriter := io.Pipe()
 
-	cmd.Stdin = pipeReader
-	cppStdout, err := cmd.StdoutPipe()
-	if err != nil {
-		return "", fmt.Errorf("failed to create stdout pipe: %w", err)
-	}
+	uploadErrChan := make(chan error, 1)
 
-	safeStdout := s3repository.UnseekableReader{R: cppStdout}
-
-	if err := cmd.Start(); err != nil {
-		return "", fmt.Errorf("failed to start processor: %w", err)
-	}
-
-	errChan := make(chan error, 1)
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadStreamImage(ctx, safeStdout, objectIdString, imageInfo.GetProjectId(), imageInfo.GetContentType(), imageInfo.GetIsActive(), imageInfo.GetTransformations())
+		uploadErrChan <- s.mediaResources.S3Repository.UploadStreamImage(
+			ctx,
+			pipeReader,
+			objectID,
+			imageInfo.GetProjectId(),
+			imageInfo.GetContentType(),
+			imageInfo.GetIsActive(),
+			imageInfo.GetTransformations(),
+		)
 	}()
 
 	for {
 		req, err = stream.Recv()
+
 		if err == io.EOF {
-			pipeWriter.Close()
+			if closeErr := pipeWriter.Close(); closeErr != nil {
+				uploadErr := <-uploadErrChan
+
+				if uploadErr != nil {
+					return "", fmt.Errorf(
+						"failed to close upload pipe: %w; s3 upload also failed: %v",
+						closeErr,
+						uploadErr,
+					)
+				}
+
+				return "", fmt.Errorf("failed to close upload pipe: %w", closeErr)
+			}
+
 			break
 		}
+
 		if err != nil {
-			pipeWriter.CloseWithError(err)
+			pipeErr := pipeWriter.CloseWithError(err)
+
+			uploadErr := <-uploadErrChan
+
+			if pipeErr != nil {
+				return "", fmt.Errorf(
+					"stream receive error: %w; failed to close pipe: %v",
+					err,
+					pipeErr,
+				)
+			}
+
+			if uploadErr != nil {
+				return "", fmt.Errorf(
+					"stream receive error: %w; s3 upload also failed: %v",
+					err,
+					uploadErr,
+				)
+			}
+
 			return "", fmt.Errorf("stream receive error: %w", err)
 		}
 
 		chunk := req.GetImageChunk()
 		if chunk == nil {
-			err = errors.New("empty chunk received")
-			pipeWriter.CloseWithError(err)
-			return "", err
+			chunkErr := errors.New("empty image chunk received")
+
+			pipeErr := pipeWriter.CloseWithError(chunkErr)
+			uploadErr := <-uploadErrChan
+
+			if pipeErr != nil {
+				return "", fmt.Errorf(
+					"%w; failed to close pipe: %v",
+					chunkErr,
+					pipeErr,
+				)
+			}
+
+			if uploadErr != nil {
+				return "", fmt.Errorf(
+					"%w; s3 upload also failed: %v",
+					chunkErr,
+					uploadErr,
+				)
+			}
+
+			return "", chunkErr
 		}
 
-		_, err = pipeWriter.Write(chunk)
-		if err != nil {
-			pipeWriter.CloseWithError(err)
-			return "", fmt.Errorf("failed to write to processor: %w", err)
+		if _, err = pipeWriter.Write(chunk); err != nil {
+			pipeErr := pipeWriter.CloseWithError(err)
+			uploadErr := <-uploadErrChan
+
+			if pipeErr != nil {
+				return "", fmt.Errorf(
+					"failed to write image chunk: %w; failed to close pipe: %v",
+					err,
+					pipeErr,
+				)
+			}
+
+			if uploadErr != nil {
+				return "", fmt.Errorf(
+					"failed to write image chunk: %w; s3 upload also failed: %v",
+					err,
+					uploadErr,
+				)
+			}
+
+			return "", fmt.Errorf("failed to write image chunk: %w", err)
 		}
 	}
 
-	if err := <-errChan; err != nil {
+	if err := <-uploadErrChan; err != nil {
 		return "", fmt.Errorf("s3 upload failed: %w", err)
 	}
 
-	if err := cmd.Wait(); err != nil {
-		return "", fmt.Errorf("image processor exited with error: %w", err)
-	}
-
 	uploadSuccessful = true
-	return objectIdString, nil
+
+	return objectID, nil
 }
 
 
-func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApiServer) (string, error) {
+func (s *Service) UploadFileApiService(stream mediav1.MediaService_UploadFileApiServer) (objectID string, err error) {
 
 	ctx := stream.Context()
 
-	req, err  := stream.Recv()
-
+	req, err := stream.Recv()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to receive upload info: %w", err)
 	}
 
 	fileInfo := req.GetUploadInfo()
-
 	if fileInfo == nil {
-		return "", errors.New("no image info")
+		return "", errors.New("missing upload info")
 	}
 
-	pId := fileInfo.GetProjectId()
-	projectId, err := uuid.Parse(pId)
+	projectID, err := uuid.Parse(fileInfo.GetProjectId())
 	if err != nil {
-		return "", errors.New("invalid project id")
+		return "", fmt.Errorf("invalid project id: %w", err)
 	}
 
-
-
-	folderId, err := uuid.Parse(fileInfo.GetFolderId())
-
+	folderID, err := uuid.Parse(fileInfo.GetFolderId())
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("invalid folder id: %w", err)
 	}
 
-	contentType := fileInfo.GetContentType()
-
-	objectId, err := uuid.NewV7()
+	objectUUID, err := uuid.NewV7()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to generate object id: %w", err)
 	}
 
-	objectIdString := objectId.String()
+	objectID = objectUUID.String()
 
-	err = s.mediaResources.ProjectRepository.CreateNewObject(ctx, projectId, objectId, folderId, fileInfo.GetIsActive(), fileInfo.GetFormat())
-	if err != nil{
-		return "", errors.New("error creating new object")
+	err = s.mediaResources.ProjectRepository.CreateNewObject(
+		ctx,
+		projectID,
+		objectUUID,
+		folderID,
+		fileInfo.GetIsActive(),
+		fileInfo.GetFormat(),
+	)
+	if err != nil {
+		return "", fmt.Errorf("failed to create object: %w", err)
 	}
+
+	uploadSuccessful := false
+	defer func() {
+		if !uploadSuccessful {
+			s.mediaResources.ProjectRepository.DeleteObjectWithOwnContext(objectUUID)
+		}
+	}()
 
 	pr, pw := io.Pipe()
 
-	errChan := make(chan error, 1)
+	uploadErrChan := make(chan error, 1)
 
 	go func() {
-		errChan <- s.mediaResources.S3Repository.UploadFileStream(ctx, pr, objectIdString, fileInfo.GetProjectId(), contentType, fileInfo.GetIsActive())
-	}()	
+		uploadErrChan <- s.mediaResources.S3Repository.UploadFileStream(
+			ctx,
+			pr,
+			objectID,
+			fileInfo.GetProjectId(),
+			fileInfo.GetContentType(),
+			fileInfo.GetIsActive(),
+		)
+	}()
 
 	for {
 		req, err = stream.Recv()
 
 		if err == io.EOF {
-			pw.Close()
-			break;
+			if closeErr := pw.Close(); closeErr != nil {
+				uploadErr := <-uploadErrChan
+
+				if uploadErr != nil {
+					return "", fmt.Errorf(
+						"failed to close upload pipe: %w; upload also failed: %v",
+						closeErr,
+						uploadErr,
+					)
+				}
+
+				return "", fmt.Errorf(
+					"failed to close upload pipe: %w",
+					closeErr,
+				)
+			}
+
+			break
 		}
 
+
 		if err != nil {
-			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-			pw.CloseWithError(err)
-			return "", err
+			_ = pw.CloseWithError(err)
+
+			uploadErr := <-uploadErrChan
+
+			if uploadErr != nil {
+				return "", fmt.Errorf(
+					"stream receive error: %w; upload also failed: %v",
+					err,
+					uploadErr,
+				)
+			}
+
+			return "", fmt.Errorf(
+				"stream receive error: %w",
+				err,
+			)
 		}
 
 		chunk := req.GetFileChunk()
-
 		if chunk == nil {
-			err = errors.New("no file chunk")
-			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-			pw.CloseWithError(err)
-			return "", err
+			chunkErr := errors.New("missing file chunk")
+
+			_ = pw.CloseWithError(chunkErr)
+
+			uploadErr := <-uploadErrChan
+
+			if uploadErr != nil {
+				return "", fmt.Errorf(
+					"%w; upload also failed: %v",
+					chunkErr,
+					uploadErr,
+				)
+			}
+
+			return "", chunkErr
 		}
 
-		_, err = pw.Write(chunk)
-		if err != nil {
-			s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-			pw.CloseWithError(err)
-			return "", err
+		if _, err = pw.Write(chunk); err != nil {
+			_ = pw.CloseWithError(err)
+
+			uploadErr := <-uploadErrChan
+
+			if uploadErr != nil {
+				return "", fmt.Errorf(
+					"failed to write file chunk: %w; upload also failed: %v",
+					err,
+					uploadErr,
+				)
+			}
+
+			return "", fmt.Errorf(
+				"failed to write file chunk: %w",
+				err,
+			)
 		}
 	}
 
-	if err = <-errChan; err != nil {
-		s.mediaResources.ProjectRepository.DeleteObject(ctx, objectId)
-		return "", err
+	if err = <-uploadErrChan; err != nil {
+		return "", fmt.Errorf("S3 upload failed: %w", err)
 	}
 
-	return objectIdString, nil	
+	uploadSuccessful = true
 
+	return objectID, nil
 }
 
 //change config.AmountImagesToFetch to change number of assets returned
