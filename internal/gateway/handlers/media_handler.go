@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -323,11 +324,88 @@ func (h *MediaHandler) CreateObject(c *gin.Context) {
 	c.JSON(http.StatusOK, res)	
 }
 
+
 func (h *MediaHandler) UploadObjectApi(c *gin.Context) {
-	
+	reader, err := c.Request.MultipartReader()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid multipart request",
+		})
+		return
+	}
+
+	metadataPart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata is required",
+		})
+		return
+	}
+	defer metadataPart.Close()
+
+	if metadataPart.FormName() != "metadata" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata must be the first multipart part",
+		})
+		return
+	}
+
+	var req api.UploadObjectApiRequest
+	if err := json.NewDecoder(metadataPart).Decode(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid metadata",
+		})
+		return
+	}
+
+	filePart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "file is required",
+		})
+		return
+	}
+	defer filePart.Close()
+
+	if filePart.FormName() != "file" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "file must be the second multipart part",
+		})
+		return
+	}
+
+	contentType := filePart.Header.Get("Content-Type")
+	if contentType == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "file content type is required",
+		})
+		return
+	}
+
+	res, err := h.service.UploadObject(
+		c.Request.Context(),
+		req.ProjectId,
+		req.Name,
+		req.OriginalFileName,
+		req.FolderId,
+		req.IsActive,
+		contentType,
+		filePart,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
 }
+
+
+
 func (h *MediaHandler) UploadImageApi(c *gin.Context) {
-	
+
 }
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{
