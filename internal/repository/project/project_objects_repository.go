@@ -3,6 +3,7 @@ package projectrepository
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -156,6 +157,15 @@ func (r *ProjectRepository) DeleteObject(ctx context.Context, objectId uuid.UUID
 	}
 
 	return nil
+}
+
+func (r *ProjectRepository) DeleteObjectWithOwnContext(objectId uuid.UUID) {
+	cleanupCtx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	defer cancel()
+
+	if err := r.DeleteObject(cleanupCtx, objectId); err != nil {
+		log.Printf("failed to cleanup object %s: %v", objectId, err)
+	}	
 }
 
 func (r *ProjectRepository) ActivateObject(ctx context.Context, objectId uuid.UUID) error {
