@@ -47,5 +47,5 @@ type UploadImageApiRequst struct {
 }
 
 type UploadImageApiResponse struct {
-
+  ObjectId string `json:"objectId"`
 }
