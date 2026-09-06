@@ -290,7 +290,7 @@ func (h *MediaHandler) CreateObject(c *gin.Context) {
 	}
 	userId := userIdString.(string)	
 
-	var reqBody api.UploadObjectRequest
+	var reqBody api.CreateObjectRequest
 
 	if err := c.ShouldBindJSON(&reqBody); err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
@@ -401,7 +401,6 @@ func (h *MediaHandler) UploadObjectApi(c *gin.Context) {
 
 	c.JSON(http.StatusOK, res)
 }
-
 
 
 func (h *MediaHandler) UploadImageApi(c *gin.Context) {
