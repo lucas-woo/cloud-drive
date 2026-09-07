@@ -1,10 +1,5 @@
 package api
 
-type ApiKeyValidationRequest struct {
-	ApiKey string `json:"apiKey" binding:"required"`
-	ApiSecret string `json:"apiSecret" binding:"required"`
-}
-
 type UploadObjectApiMetadataRequest struct {
 	ProjectId string `json:"projectId" binding:"required"`
   Name string `json:"name" binding:"required"`	
