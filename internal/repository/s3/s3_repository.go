@@ -27,7 +27,7 @@ func (r *S3Repository) GetPreSignedUploadUrl(ctx context.Context, objectId, proj
 		prefix = config.S3PublicPrefix
 	}
 
-	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
+	key := fmt.Sprintf("%s/%s/%s/%s", config.S3ConfirmPrefix, prefix, projectId, objectId)
 
 	params := &s3.PutObjectInput{
 		Bucket: aws.String(r.bucketName),
@@ -51,8 +51,8 @@ func (r *S3Repository) UploadStreamImage(ctx context.Context, reader io.Reader, 
 		prefix = config.S3PublicPrefix
 	}
 
-	key := fmt.Sprintf("%s/%s/%s/%s", config.S3TransformPrefix, prefix, projectId, objectId)
-	keyAfterTransformation := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
+	key := fmt.Sprintf("%s/%s", config.S3TransformPrefix, objectId)
+	keyAfterTransformation := fmt.Sprintf("%s/%s/%s/%s", config.S3ConfirmPrefix, prefix, projectId, objectId)
 
 	metadata := r.s3Util.TransformationsToMetadata(transformations)
 	metadata["key"] = keyAfterTransformation
@@ -82,7 +82,7 @@ func (r *S3Repository) UploadFileStream(ctx context.Context, reader io.Reader, o
 	}
 
 
-	key := fmt.Sprintf("%s/%s/%s", prefix, projectId, objectId)
+	key := fmt.Sprintf("%s/%s/%s/%s", config.S3ConfirmPrefix, prefix, projectId, objectId)
 	
 	input := &transfermanager.UploadObjectInput{
 		Bucket: aws.String(r.bucketName),
