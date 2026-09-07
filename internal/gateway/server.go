@@ -53,7 +53,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	publicCors := cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders: []string{"Origin", "Content-Type", "X-API-Key", "X-API-Secret"},
+		AllowHeaders: []string{"Origin", "Content-Type", "API-Key", "API-Secret"},
 	})	
 
 	webGroup := ginEngine.Group("/app")
