@@ -243,7 +243,7 @@ func (m *RestMapper) ConvertApiKeys(apiKeys []*iamv1.ApiKey) []*api.ApiKey {
 }
 
 func (m *RestMapper) ToProtoTransformations(
-	t api.ImageTransformations,
+	t *api.ImageTransformations,
 ) *mediav1.ImageTransformations {
 	return &mediav1.ImageTransformations{
 		Crop: &mediav1.Crop{
