@@ -78,7 +78,7 @@ build-iam:
 build-test: test-media test-auth test-gateway test-iam
 
 test-media:
-	docker build -f Dockerfile.media.local -t media-server:test .
+	docker build -f Dockerfile.media -t media-server:test .
 
 test-auth:
 	docker build -f Dockerfile.auth -t auth-server:test .
@@ -92,10 +92,41 @@ test-iam:
 build-opencv-test:
 	docker build -f Dockerfile.opencv-base -t opencv-base:test .
 
+.PHONY: run-test stop-test clean-test
+
 run-test:
-	docker network inspect test-network >/dev/null 2>&1 || docker network create test-network
-	docker run --rm --name auth-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway auth-server:test &
-	docker run --rm --name iam-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway iam-server:test &
-	docker run --rm --name media-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway media-server:test &
-	docker run --rm --name gateway-service --network test-network --env-file .env --add-host=host.docker.internal:host-gateway -p 3000:3000 gateway-server:test &
-	wait
+	docker network inspect app-network >/dev/null 2>&1 || docker network create app-network
+	docker run -d \
+		--name auth-service \
+		--network app-network \
+		--env-file .env \
+		auth-server:test
+	docker run -d \
+		--name iam-service \
+		--network app-network \
+		--env-file .env \
+		iam-server:test
+	docker run -d \
+		--name media-service \
+		--network app-network \
+		--env-file .env \
+		media-server:test
+	docker run -d \
+		--name gateway \
+		--network app-network \
+		--env-file .env \
+		-p 3000:3000 \
+		gateway-server:test		
+
+stop-test:
+	docker stop gateway || true
+	docker stop auth-service || true
+	docker stop iam-service || true
+	docker stop media-service || true
+	docker rm gateway || true
+	docker rm auth-service || true
+	docker rm iam-service || true
+	docker rm media-service || true
+
+clean-test: stop-test
+	docker network rm app-network || true

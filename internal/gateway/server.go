@@ -91,7 +91,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	//health route
 	healthHandler := handlers.NewHealthHandler()
 
-	routes.InitializeRouter(webGroup, awsGroup, healthGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler, healthHandler)
+	routes.InitializeRouter(webGroup, apiGroup, awsGroup, healthGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler, healthHandler)
 
 	return server
 }
