@@ -468,6 +468,7 @@ func (h *MediaHandler) UploadImageApi(c *gin.Context) {
 		req.FolderId,
 		req.IsActive,
 		contentType,
+		&req.Transformations,
 		imagePart,
 	)
 	if err != nil {

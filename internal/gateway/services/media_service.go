@@ -272,6 +272,7 @@ func (s *MediaService) UploadImage(
 	folderId string,
 	isActive bool,
 	contentType string,
+	transformations *api.ImageTransformations,
 	image io.Reader,
 ) (*api.UploadImageApiResponse, error) {
 
@@ -282,16 +283,18 @@ func (s *MediaService) UploadImage(
 		return nil, err
 	}
 
+	protoTransformations := s.mapper.ToProtoTransformations(transformations)
+
 	err = stream.Send(&mediav1.UploadImageApiRequest{
 		Payload: &mediav1.UploadImageApiRequest_UploadInfo{
 			UploadInfo: &mediav1.ImageUploadInfo{
-				ProjectId: projectId,
-				ObjectName: objectName,
-				FolderId: folderId,
-				ContentType: contentType,
-				Format: format,
-				IsActive: isActive,
-				Transformations: nil,
+				ProjectId:       projectId,
+				ObjectName:      objectName,
+				FolderId:        folderId,
+				ContentType:     contentType,
+				Format:          format,
+				IsActive:        isActive,
+				Transformations: protoTransformations,
 			},
 		},
 	})
