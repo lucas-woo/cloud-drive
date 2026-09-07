@@ -1,6 +1,11 @@
 package api
 
-type UploadObjectApiRequest struct {
+type ApiKeyValidationRequest struct {
+	ApiKey string `json:"apiKey" binding:"required"`
+	ApiSecret string `json:"apiSecret" binding:"required"`
+}
+
+type UploadObjectApiMetadataRequest struct {
 	ProjectId string `json:"projectId" binding:"required"`
   Name string `json:"name" binding:"required"`	
 	OriginalFileName string `json:"originalFileName" binding:"required"`
@@ -37,7 +42,7 @@ type Conversion struct {
   Format string `json:"format" binding:"required"`
 }
 
-type UploadImageApiRequst struct {
+type UploadImageApiMetadataRequst struct {
 	ProjectId string `json:"projectId" binding:"required"`
   Name string `json:"name" binding:"required"`	
   FolderId  string `json:"folderId" binding:"required"`
@@ -49,3 +54,4 @@ type UploadImageApiRequst struct {
 type UploadImageApiResponse struct {
   ObjectId string `json:"objectId"`
 }
+

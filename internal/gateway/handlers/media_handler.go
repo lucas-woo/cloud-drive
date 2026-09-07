@@ -334,6 +334,44 @@ func (h *MediaHandler) UploadFileApi(c *gin.Context) {
 		return
 	}
 
+	apiKeyPart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "api key is required",
+		})
+		return
+	}
+	defer apiKeyPart.Close()
+
+	if apiKeyPart.FormName() != "apikey" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "api must be the first multipart part",
+		})
+		return
+	}
+
+	var apiKeyReq api.ApiKeyValidationRequest
+	if err := json.NewDecoder(apiKeyPart).Decode(&apiKeyReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid apikey request format",
+		})
+		return
+	}
+
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKeyReq.ApiKey, apiKeyReq.ApiSecret, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
+
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return		
+	}
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "permission denied",
+		})
+		return		
+	}
+
 	metadataPart, err := reader.NextPart()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -350,7 +388,7 @@ func (h *MediaHandler) UploadFileApi(c *gin.Context) {
 		return
 	}
 
-	var req api.UploadObjectApiRequest
+	var req api.UploadObjectApiMetadataRequest
 	if err := json.NewDecoder(metadataPart).Decode(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid metadata",
