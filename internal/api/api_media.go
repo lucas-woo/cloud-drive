@@ -43,7 +43,7 @@ type UploadImageApiRequst struct {
   FolderId  string `json:"folderId" binding:"required"`
 	OriginalFileName string `json:"originalFileName" binding:"required"`
 	IsActive bool `json:"isActive" binding:"required"`	
-  Transfromations ImageTransformations `json:"transformations" binding:"required"`	
+  Transformations ImageTransformations `json:"transformations" binding:"required"`	
 }
 
 type UploadImageApiResponse struct {
