@@ -1,17 +1,9 @@
-# ============================================================
-# Stage 1: Build C++ and Go binaries
-# ============================================================
-FROM opencv-base:local AS builder
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        golang \
-        build-essential \
-        ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+# ---------- Build stage ----------
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
+
+RUN apk add --no-cache ca-certificates
 
 # Cache Go dependencies
 COPY go.mod go.sum ./
@@ -20,43 +12,16 @@ RUN go mod download
 # Copy source
 COPY . .
 
-# Build C++ processor directly using exact OpenCV 5 paths
-RUN mkdir -p bin && \
-    g++ helper/src/main.cpp \
-        helper/src/scale.cpp \
-        helper/src/converter.cpp \
-        -std=c++17 \
-        -Ihelper/include \
-        -I/usr/local/include/opencv5 \
-        -L/usr/local/lib \
-        -lopencv_core -lopencv_imgproc -lopencv_imgcodecs \
-        -o bin/image-processor
-
 # Build Go media server
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     go build -o /bin/media-server ./cmd/grpc/media
 
 
-# ============================================================
-# Stage 2: Minimal ECS Runtime (~250MB)
-# ============================================================
-FROM ubuntu:24.04
+# ---------- Runtime stage ----------
+FROM alpine:3.22
 
-ENV DEBIAN_FRONTEND=noninteractive
+RUN apk add --no-cache ca-certificates
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates \
-        libtbb12 \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-
-# Copy ONLY the runtime shared object libraries
-COPY --from=builder /usr/local/lib/libopencv*.so* /usr/local/lib/
-RUN ldconfig
-
-# Copy compiled binaries
 COPY --from=builder /bin/media-server /bin/media-server
-COPY --from=builder /app/bin/image-processor /app/bin/image-processor
 
 ENTRYPOINT ["/bin/media-server"]
