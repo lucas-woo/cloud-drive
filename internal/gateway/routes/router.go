@@ -8,7 +8,7 @@ import (
 
 
 
-func InitializeRouter(webGroup *gin.RouterGroup, awsGroup *gin.RouterGroup, healthGroup *gin.RouterGroup, authMiddlewares *middlewares.AuthMiddleware, eventbridgeMiddlewares *middlewares.EventBridgeMiddleware, authHandler *handlers.AuthHandler, mediaHandler *handlers.MediaHandler, iamHandler *handlers.IamHandler, awsHandler *handlers.AwsHandler, healthHandler *handlers.HealthHandler) {
+func InitializeRouter(webGroup *gin.RouterGroup, apiGroup *gin.RouterGroup, awsGroup *gin.RouterGroup, healthGroup *gin.RouterGroup, authMiddlewares *middlewares.AuthMiddleware, eventbridgeMiddlewares *middlewares.EventBridgeMiddleware, authHandler *handlers.AuthHandler, mediaHandler *handlers.MediaHandler, iamHandler *handlers.IamHandler, awsHandler *handlers.AwsHandler, healthHandler *handlers.HealthHandler) {
 
 	InitializeAuthWebRoutes(webGroup, authMiddlewares, authHandler)
 
@@ -19,4 +19,6 @@ func InitializeRouter(webGroup *gin.RouterGroup, awsGroup *gin.RouterGroup, heal
 	InitializeAwsRoutes(awsGroup, eventbridgeMiddlewares, awsHandler)
 
 	InitializeHealthRoutes(healthGroup, healthHandler)
+
+	InitializeMediaApiRoutes(apiGroup, mediaHandler)
 }

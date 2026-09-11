@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"io"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
@@ -175,7 +176,7 @@ func (s *MediaService) AddAdminRole(ctx context.Context, userId string, projectI
 	return err
 }
 
-func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folderId, objectName, originalFileName string, isActive bool) (*api.UploadObjectResponse, error) {
+func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folderId, objectName, originalFileName string, isActive bool) (*api.CreateObjectResponse, error) {
 
 	format := s.mapper.FindFormat(originalFileName)
 	res, err := s.mediaClient.UploadObject(ctx, &mediav1.UploadObjectRequest{
@@ -188,10 +189,160 @@ func (s *MediaService) GetUploadObjectUrl(ctx context.Context, projectId, folder
 	if err != nil {
 		return nil, err
 	}
-	return &api.UploadObjectResponse{
+	return &api.CreateObjectResponse{
 		Url: res.GetSignedUrl(),
 		ObjectId: res.GetObjectId(),
 	}, nil
+}
+
+
+func (s *MediaService) UploadFile(
+	ctx context.Context,
+	projectId string,
+	objectName string,
+	originalFileName string,
+	folderId string,
+	isActive bool,
+	contentType string,
+	file io.Reader,
+) (*api.UploadObjectApiResponse, error) {
+
+	format := s.mapper.FindFormat(originalFileName)
+
+	stream, err := s.mediaClient.UploadFileApi(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	err = stream.Send(&mediav1.UploadFileApiRequest{
+		Payload: &mediav1.UploadFileApiRequest_UploadInfo{
+			UploadInfo: &mediav1.FileUploadInfo{
+				ProjectId:   projectId,
+				ObjectName:  objectName,
+				FolderId:    folderId,
+				ContentType: contentType,
+				Format:      format,
+				IsActive:    isActive,
+			},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	buf := make([]byte, 64*1024)
+
+	for {
+		n, err := file.Read(buf)
+
+		if n > 0 {
+			if err := stream.Send(&mediav1.UploadFileApiRequest{
+				Payload: &mediav1.UploadFileApiRequest_FileChunk{
+					FileChunk: buf[:n],
+				},
+			}); err != nil {
+				return nil, err
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.UploadObjectApiResponse{
+		ObjectId: res.GetObjectId(),
+	}, nil
+}
+
+func (s *MediaService) UploadImage(
+	ctx context.Context,
+	projectId string,
+	objectName string,
+	originalFileName string,
+	folderId string,
+	isActive bool,
+	contentType string,
+	transformations *api.ImageTransformations,
+	image io.Reader,
+) (*api.UploadImageApiResponse, error) {
+
+	format := s.mapper.FindFormat(originalFileName)
+
+	stream, err := s.mediaClient.UploadImageApi(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	protoTransformations := s.mapper.ToProtoTransformations(transformations)
+
+	err = stream.Send(&mediav1.UploadImageApiRequest{
+		Payload: &mediav1.UploadImageApiRequest_UploadInfo{
+			UploadInfo: &mediav1.ImageUploadInfo{
+				ProjectId:       projectId,
+				ObjectName:      objectName,
+				FolderId:        folderId,
+				ContentType:     contentType,
+				Format:          format,
+				IsActive:        isActive,
+				Transformations: protoTransformations,
+			},
+		},
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	buf := make([]byte, 64*1024)
+
+	for {
+		n, err := image.Read(buf)
+
+		if n > 0 {
+			if err := stream.Send(&mediav1.UploadImageApiRequest{
+				Payload: &mediav1.UploadImageApiRequest_ImageChunk{
+					ImageChunk: buf[:n],
+				},
+			}); err != nil {
+				return nil, err
+			}
+		}
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.UploadImageApiResponse{
+		ObjectId: res.GetObjectId(),
+	}, nil
+}
+
+func (s *MediaService) ValidateApiKey(ctx context.Context, apiKey, apiSecret string, permission iamv1.ValidateApiKeyPermissionRequest_Permission) (bool, error) {
+	res, err := s.iamClient.ValidateApiKeyPermission(ctx, &iamv1.ValidateApiKeyPermissionRequest{
+		Permission: permission,
+		ApiKey: apiKey,
+		ApiSecret: apiSecret,
+	})
+	return res.GetAuthorized(), err
 }
 
 func NewMediaService(	

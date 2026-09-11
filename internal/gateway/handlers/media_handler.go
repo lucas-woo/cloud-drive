@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -280,7 +281,7 @@ func (h *MediaHandler) CreateNewFolder(c *gin.Context) {
 	
 }
 
-func (h *MediaHandler) UplaodObject(c *gin.Context) {
+func (h *MediaHandler) CreateObject(c *gin.Context) {
 	userIdString, exists := c.Get(config.GinUserId)
 
 	if !exists {
@@ -289,7 +290,7 @@ func (h *MediaHandler) UplaodObject(c *gin.Context) {
 	}
 	userId := userIdString.(string)	
 
-	var reqBody api.UploadObjectRequest
+	var reqBody api.CreateObjectRequest
 
 	if err := c.ShouldBindJSON(&reqBody); err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
@@ -321,6 +322,211 @@ func (h *MediaHandler) UplaodObject(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)	
+}
+
+
+func (h *MediaHandler) UploadFileApi(c *gin.Context) {
+	reader, err := c.Request.MultipartReader()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid multipart request",
+		})
+		return
+	}
+
+	apiKey := c.GetHeader("API-Key")
+	apiSecret := c.GetHeader("API-Secret")
+
+	if apiKey == "" || apiSecret == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{
+					"error": "missing API credentials",
+			})
+			return
+	}	
+
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
+
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return		
+	}
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "permission denied",
+		})
+		return		
+	}
+
+	metadataPart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata is required",
+		})
+		return
+	}
+	defer metadataPart.Close()
+
+	if metadataPart.FormName() != "metadata" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata must be the first multipart part",
+		})
+		return
+	}
+
+	var req api.UploadObjectApiMetadataRequest
+	if err := json.NewDecoder(metadataPart).Decode(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid metadata",
+		})
+		return
+	}
+
+	filePart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "file is required",
+		})
+		return
+	}
+	defer filePart.Close()
+
+	if filePart.FormName() != "file" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "file must be the second multipart part",
+		})
+		return
+	}
+
+	contentType := filePart.Header.Get("Content-Type")
+	if contentType == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "file content type is required",
+		})
+		return
+	}
+
+	res, err := h.service.UploadFile(
+		c.Request.Context(),
+		req.ProjectId,
+		req.Name,
+		req.OriginalFileName,
+		req.FolderId,
+		req.IsActive,
+		contentType,
+		filePart,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
+
+func (h *MediaHandler) UploadImageApi(c *gin.Context) {
+	reader, err := c.Request.MultipartReader()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid multipart request",
+		})
+		return
+	}
+	
+	apiKey := c.GetHeader("API-Key")
+	apiSecret := c.GetHeader("API-Secret")
+
+	if apiKey == "" || apiSecret == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{
+					"error": "missing API credentials",
+			})
+			return
+	}	
+
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
+
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return		
+	}
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "permission denied",
+		})
+		return		
+	}	
+
+	metadataPart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata is required",
+		})
+		return
+	}
+	defer metadataPart.Close()
+
+	if metadataPart.FormName() != "metadata" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "metadata must be the first multipart part",
+		})
+		return
+	}
+
+	var req api.UploadImageApiMetadataRequst
+	if err := json.NewDecoder(metadataPart).Decode(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "invalid metadata",
+		})
+		return
+	}
+
+	imagePart, err := reader.NextPart()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "image is required",
+		})
+		return
+	}
+	defer imagePart.Close()
+
+	if imagePart.FormName() != "image" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "image must be the second multipart part",
+		})
+		return
+	}
+
+	contentType := imagePart.Header.Get("Content-Type")
+	if contentType == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "image content type is required",
+		})
+		return
+	}
+
+	res, err := h.service.UploadImage(
+		c.Request.Context(),
+		req.ProjectId,
+		req.Name,
+		req.OriginalFileName,
+		req.FolderId,
+		req.IsActive,
+		contentType,
+		&req.Transformations,
+		imagePart,
+	)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
 }
 
 func NewMediaHandler(service *services.MediaService) *MediaHandler{

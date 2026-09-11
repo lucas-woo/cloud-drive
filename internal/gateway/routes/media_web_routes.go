@@ -28,7 +28,7 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 
 	webGroup.POST("/create-folder", middlewares.IsAuthenticated(), mediaHandler.CreateNewFolder) // done
 
-	webGroup.POST("/upload-asset", middlewares.IsAuthenticated(), mediaHandler.UplaodObject) 
+	webGroup.POST("/create-object", middlewares.IsAuthenticated(), mediaHandler.CreateObject) 
 
 
 	// TODO 
