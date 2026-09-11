@@ -6,7 +6,7 @@ Liobase is a microservice-based asset storage and transformation platform built 
 ---
 
 ## Architecture
-![Liobase AWS Architecture](aws_architecture.png)
+![Liobase AWS Architecture](aws_architecture_diagram.png)
 
 The platform relies on AWS ECS with ECS Service Connect for internal discovery. The data and access layers are strictly segregated to ensure optimal performance and security:
 *   **Amazon Aurora MySQL**: Stores API keys and object metadata records.
