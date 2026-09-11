@@ -6,6 +6,6 @@ import (
 )
 
 func InitializeMediaApiRoutes(apiGroup *gin.RouterGroup, mediaHandler *handlers.MediaHandler) {
-
-
+	apiGroup.POST("/upload-object", mediaHandler.UploadFileApi)
+	apiGroup.POST("/upload-image", mediaHandler.UploadImageApi)
 }

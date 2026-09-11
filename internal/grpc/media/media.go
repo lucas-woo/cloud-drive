@@ -82,7 +82,7 @@ func (s *Server) ObjectUploadConfirmation(ctx context.Context, req *mediav1.Obje
 		FileSize: req.GetFileSize(),
 	})
 	if err != nil {
-		return nil, status.Error(codes.Internal, "method LambdaS3UploadConfirmation not implemented")		
+		return nil, status.Error(codes.Internal, err.Error())		
 	}
 	return &mediav1.ObjectUploadConfirmationResponse{}, nil
 }

@@ -241,3 +241,24 @@ func (m *RestMapper) ConvertApiKeys(apiKeys []*iamv1.ApiKey) []*api.ApiKey {
 
 	return result
 }
+
+func (m *RestMapper) ToProtoTransformations(
+	t *api.ImageTransformations,
+) *mediav1.ImageTransformations {
+	return &mediav1.ImageTransformations{
+		Crop: &mediav1.Crop{
+			Width:  t.Crop.Width,
+			Height: t.Crop.Height,
+		},
+		Scale: &mediav1.Scale{
+			Width:  t.Scale.Width,
+			Height: t.Scale.Height,
+		},
+		Compression: &mediav1.Compression{
+			Compress: t.Compression.Compress,
+		},
+		Conversion: &mediav1.Conversion{
+			Format: t.Conversion.Format,
+		},
+	}
+}
