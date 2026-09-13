@@ -58,3 +58,7 @@ type FolderApi struct {
 type GetAllFoldersApiResponse struct {
   Folders []FolderApi `json:"folders"`
 }
+
+type GetProjectIdApiResponse struct {
+	ProjectId string `json:"projectId"`
+}

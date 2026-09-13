@@ -222,13 +222,23 @@ func (h *MediaApiHandler) GetProjectId(c *gin.Context) {
 	apiKey := c.GetHeader("API-Key")
 
 	if apiKey == "" {
-			c.JSON(http.StatusBadRequest, gin.H{
-					"error": "missing api key in header",
-			})
-			return
+		c.JSON(http.StatusBadRequest, gin.H{
+				"error": "missing api key in header",
+		})
+		return
 	}	
 
-	h.service.
+	projectId, err := h.service.GetProjectId(c.Request.Context(), apiKey)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+				"error": "invalid api key",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, api.GetProjectIdApiResponse{
+		ProjectId: projectId,
+	})
 }
 
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
