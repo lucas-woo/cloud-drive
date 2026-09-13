@@ -5,7 +5,7 @@ import (
 	"github.com/lucas-woo/cloud-drive/internal/gateway/handlers"
 )
 
-func InitializeMediaApiRoutes(apiGroup *gin.RouterGroup, mediaHandler *handlers.MediaHandler) {
+func InitializeMediaApiRoutes(apiGroup *gin.RouterGroup, mediaHandler *handlers.MediaApiHandler) {
 	apiGroup.POST("/upload-object", mediaHandler.UploadFileApi)
 	apiGroup.POST("/upload-image", mediaHandler.UploadImageApi)
 

@@ -80,6 +80,9 @@ func NewServer(resources *database.GatewayResources) *Server {
 	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, utils.RestMapper{})
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
+	//api media routes
+	mediaApiHandler := handlers.NewMediaApiHandler(mediaService)
+
 	//iam routes
 	iamService := services.NewIamService(resources.IamClient, utils.RestMapper{})
 	iamHandler := handlers.NewIamHandler(iamService)
@@ -91,7 +94,7 @@ func NewServer(resources *database.GatewayResources) *Server {
 	//health route
 	healthHandler := handlers.NewHealthHandler()
 
-	routes.InitializeRouter(webGroup, apiGroup, awsGroup, healthGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler, healthHandler)
+	routes.InitializeRouter(webGroup, apiGroup, awsGroup, healthGroup, authMiddlewares, eventbridgeMiddlewares, authHandler, mediaHandler, iamHandler, awsHandler, healthHandler, mediaApiHandler)
 
 	return server
 }
