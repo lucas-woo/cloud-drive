@@ -106,9 +106,8 @@ func (s *Service) GetAllApiKeys(ctx context.Context, projectIdString string) ([]
 	return s.iamResources.ApiKeysRepository.GetAllApiKeys(ctx, projectId)
 }
 
-func (s *Service) GetProjectId(ctx context.Context, req *dto.GetProjectIdRequest) (string, error) {
-	
-	return "", nil
+func (s *Service) GetProjectId(ctx context.Context, apiKey string) (string, error) {
+	return s.iamResources.ApiKeysRepository.GetApiKeyProjectId(ctx, apiKey)
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {

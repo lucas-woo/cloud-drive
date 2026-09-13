@@ -746,7 +746,6 @@ func (x *GetAllApiKeysResponse) GetApiKeys() []*ApiKey {
 type GetProjectIdRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ApiKey        string                 `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
-	ApiSecret     string                 `protobuf:"bytes,2,opt,name=api_secret,json=apiSecret,proto3" json:"api_secret,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -784,13 +783,6 @@ func (*GetProjectIdRequest) Descriptor() ([]byte, []int) {
 func (x *GetProjectIdRequest) GetApiKey() string {
 	if x != nil {
 		return x.ApiKey
-	}
-	return ""
-}
-
-func (x *GetProjectIdRequest) GetApiSecret() string {
-	if x != nil {
-		return x.ApiSecret
 	}
 	return ""
 }
@@ -904,11 +896,9 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectId\"B\n" +
 	"\x15GetAllApiKeysResponse\x12)\n" +
-	"\bapi_keys\x18\x01 \x03(\v2\x0e.iam.v1.ApiKeyR\aapiKeys\"M\n" +
+	"\bapi_keys\x18\x01 \x03(\v2\x0e.iam.v1.ApiKeyR\aapiKeys\".\n" +
 	"\x13GetProjectIdRequest\x12\x17\n" +
-	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x1d\n" +
-	"\n" +
-	"api_secret\x18\x02 \x01(\tR\tapiSecret\"5\n" +
+	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\"5\n" +
 	"\x14GetProjectIdResponse\x12\x1d\n" +
 	"\n" +
 	"project_id\x18\x01 \x01(\tR\tprojectIdB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
