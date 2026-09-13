@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"io"
 
 	authv1 "github.com/lucas-woo/cloud-drive/api/auth/v1"
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"

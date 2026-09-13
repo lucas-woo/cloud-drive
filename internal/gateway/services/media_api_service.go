@@ -16,7 +16,7 @@ type MediaApiService struct {
 	mapper utils.RestMapper
 }
 
-func (s *MediaService) UploadFile(
+func (s *MediaApiService) UploadFile(
 	ctx context.Context,
 	projectId string,
 	objectName string,
@@ -84,7 +84,7 @@ func (s *MediaService) UploadFile(
 	}, nil
 }
 
-func (s *MediaService) UploadImage(
+func (s *MediaApiService) UploadImage(
 	ctx context.Context,
 	projectId string,
 	objectName string,
@@ -156,7 +156,7 @@ func (s *MediaService) UploadImage(
 	}, nil
 }
 
-func (s *MediaService) ValidateApiKey(ctx context.Context, apiKey, apiSecret string, permission iamv1.ValidateApiKeyPermissionRequest_Permission) (bool, error) {
+func (s *MediaApiService) ValidateApiKey(ctx context.Context, apiKey, apiSecret string, permission iamv1.ValidateApiKeyPermissionRequest_Permission) (bool, error) {
 	res, err := s.iamClient.ValidateApiKeyPermission(ctx, &iamv1.ValidateApiKeyPermissionRequest{
 		Permission: permission,
 		ApiKey: apiKey,
