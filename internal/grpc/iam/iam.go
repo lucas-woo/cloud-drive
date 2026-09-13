@@ -106,7 +106,14 @@ func (s *Server) GetAllApiKeys(ctx context.Context, req *iamv1.GetAllApiKeysRequ
 
 func (s *Server) GetProjectId(ctx context.Context, req *iamv1.GetProjectIdRequest) (*iamv1.GetProjectIdResponse, error) {
 	
-	return nil, status.Error(codes.Unimplemented, "method GetProjectId not implemented")
+	projectId, err := s.service.GetProjectId(ctx, req.GetApiKey())
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())	
+	}
+	return &iamv1.GetProjectIdResponse{
+		ProjectId: projectId,
+	}, nil
 }
 
 
