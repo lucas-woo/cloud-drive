@@ -7,7 +7,7 @@ package iam.v1;
 import "iam/v1/iam.proto";
 
 service IAMService {
-  
+
   rpc GenerateNewApiKey(GenerateNewApiKeyRequest) returns (GenerateNewApiKeyResponse);
 
   rpc ValidateApiKeyPermission(ValidateApiKeyPermissionRequest) returns (ValidateApiKeyPermissionResponse);
@@ -17,4 +17,6 @@ service IAMService {
   rpc ValidateUserPermission(ValidateUserPermissionRequest) returns (ValidateUserPermissionResponse);
 
   rpc GetAllApiKeys(GetAllApiKeysRequest) returns (GetAllApiKeysResponse);
+
+  rpc GetProjectId(GetProjectIdRequest) returns (GetProjectIdResponse);
 }
