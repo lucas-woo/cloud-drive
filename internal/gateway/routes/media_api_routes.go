@@ -8,4 +8,8 @@ import (
 func InitializeMediaApiRoutes(apiGroup *gin.RouterGroup, mediaHandler *handlers.MediaHandler) {
 	apiGroup.POST("/upload-object", mediaHandler.UploadFileApi)
 	apiGroup.POST("/upload-image", mediaHandler.UploadImageApi)
+
+	apiGroup.GET("/find-project-id")
+	apiGroup.GET("/all-folders")
+	apiGroup.POST("/create-folder")
 }
