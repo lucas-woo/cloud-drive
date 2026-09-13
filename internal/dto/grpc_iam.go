@@ -42,8 +42,3 @@ type ApiKey struct {
 	CreatedAt time.Time
 	IsActive bool
 }
-
-type GetProjectIdRequest struct {
-	ApiKey string
-	ApiSecret string
-}
