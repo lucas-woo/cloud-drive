@@ -194,6 +194,34 @@ func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UU
 	return apiKeys, nil
 }
 
+func (r *ApiKeysRepository) GetApiKeyProjectId(ctx context.Context, apiKey string) (string, error) {
+	apiKeyUUID, err := uuid.Parse(apiKey)
+	if err != nil {
+		return "", err
+	}
+
+	var projectIDBytes []byte
+
+	err = r.mysql.QueryRowContext(ctx, `
+		SELECT project_id
+		FROM api_keys
+		WHERE api_key = ? AND is_active = TRUE
+	`, apiKeyUUID[:]).Scan(&projectIDBytes)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", fmt.Errorf("api key not found")
+		}
+		return "", err
+	}
+
+	projectID, err := uuid.FromBytes(projectIDBytes)
+	if err != nil {
+		return "", err
+	}
+
+	return projectID.String(), nil
+}
+
 func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {
 	return &ApiKeysRepository{
 		mysql: mySqlClient,
