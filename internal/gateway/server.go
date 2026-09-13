@@ -70,6 +70,9 @@ func NewServer(resources *database.GatewayResources) *Server {
 		gin: ginEngine,
 	}
 
+	//util
+	restMapper := utils.RestMapper{}
+
 	authMiddlewares := middlewares.NewAuthMiddleware(resources.RedisRepo)
 	eventbridgeMiddlewares := middlewares.NewEventbridgeMiddleware()
 	// auth routes
@@ -77,14 +80,15 @@ func NewServer(resources *database.GatewayResources) *Server {
 	authHandler := handlers.NewAuthHandler(authService)
 
 	//media routes
-	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, utils.RestMapper{})
+	mediaService := services.NewMediaService(resources.AuthClient, resources.MediaClient, resources.IamClient, restMapper)
 	mediaHandler := handlers.NewMediaHandler(mediaService)
 
 	//api media routes
-	mediaApiHandler := handlers.NewMediaApiHandler(mediaService)
+	mediaApiService := services.NewMediaApiService(resources.MediaClient, resources.IamClient, restMapper)
+	mediaApiHandler := handlers.NewMediaApiHandler(mediaApiService)
 
 	//iam routes
-	iamService := services.NewIamService(resources.IamClient, utils.RestMapper{})
+	iamService := services.NewIamService(resources.IamClient, restMapper)
 	iamHandler := handlers.NewIamHandler(iamService)
 
 	//event bridge route

@@ -11,7 +11,7 @@ import (
 )
 
 type MediaApiHandler struct {
-	service *services.MediaService
+	service *services.MediaApiService
 }
 
 func (h *MediaApiHandler) UploadFileApi(c *gin.Context) {
@@ -218,7 +218,7 @@ func (h *MediaApiHandler) UploadImageApi(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
-func NewMediaApiHandler(service *services.MediaService) *MediaApiHandler{
+func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
 	return &MediaApiHandler{
 		service: service,
 	}
