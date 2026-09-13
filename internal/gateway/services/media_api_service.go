@@ -165,6 +165,16 @@ func (s *MediaApiService) ValidateApiKey(ctx context.Context, apiKey, apiSecret 
 	return res.GetAuthorized(), err
 }
 
+func (s *MediaApiService) GetProjectId(ctx context.Context, apiKey string) (string, error) {
+	res, err := s.iamClient.GetProjectId(ctx, &iamv1.GetProjectIdRequest{
+		ApiKey: apiKey,
+	})
+	if err != nil {
+		return "", err
+	}
+	return res.GetProjectId(), err
+}
+
 func NewMediaApiService(mediaClient mediav1.MediaServiceClient, iamClient iamv1.IAMServiceClient, mapper utils.RestMapper ) *MediaApiService {
 	return &MediaApiService{
 		mediaClient: mediaClient,
