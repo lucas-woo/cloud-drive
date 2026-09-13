@@ -24,6 +24,7 @@ const (
 	IAMService_AddUserRolePermission_FullMethodName    = "/iam.v1.IAMService/AddUserRolePermission"
 	IAMService_ValidateUserPermission_FullMethodName   = "/iam.v1.IAMService/ValidateUserPermission"
 	IAMService_GetAllApiKeys_FullMethodName            = "/iam.v1.IAMService/GetAllApiKeys"
+	IAMService_GetProjectId_FullMethodName             = "/iam.v1.IAMService/GetProjectId"
 )
 
 // IAMServiceClient is the client API for IAMService service.
@@ -35,6 +36,7 @@ type IAMServiceClient interface {
 	AddUserRolePermission(ctx context.Context, in *AddUserRolePermissionRequest, opts ...grpc.CallOption) (*AddUserRolePermissionResponse, error)
 	ValidateUserPermission(ctx context.Context, in *ValidateUserPermissionRequest, opts ...grpc.CallOption) (*ValidateUserPermissionResponse, error)
 	GetAllApiKeys(ctx context.Context, in *GetAllApiKeysRequest, opts ...grpc.CallOption) (*GetAllApiKeysResponse, error)
+	GetProjectId(ctx context.Context, in *GetProjectIdRequest, opts ...grpc.CallOption) (*GetProjectIdResponse, error)
 }
 
 type iAMServiceClient struct {
@@ -95,6 +97,16 @@ func (c *iAMServiceClient) GetAllApiKeys(ctx context.Context, in *GetAllApiKeysR
 	return out, nil
 }
 
+func (c *iAMServiceClient) GetProjectId(ctx context.Context, in *GetProjectIdRequest, opts ...grpc.CallOption) (*GetProjectIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProjectIdResponse)
+	err := c.cc.Invoke(ctx, IAMService_GetProjectId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // IAMServiceServer is the server API for IAMService service.
 // All implementations must embed UnimplementedIAMServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type IAMServiceServer interface {
 	AddUserRolePermission(context.Context, *AddUserRolePermissionRequest) (*AddUserRolePermissionResponse, error)
 	ValidateUserPermission(context.Context, *ValidateUserPermissionRequest) (*ValidateUserPermissionResponse, error)
 	GetAllApiKeys(context.Context, *GetAllApiKeysRequest) (*GetAllApiKeysResponse, error)
+	GetProjectId(context.Context, *GetProjectIdRequest) (*GetProjectIdResponse, error)
 	mustEmbedUnimplementedIAMServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedIAMServiceServer) ValidateUserPermission(context.Context, *Va
 }
 func (UnimplementedIAMServiceServer) GetAllApiKeys(context.Context, *GetAllApiKeysRequest) (*GetAllApiKeysResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetAllApiKeys not implemented")
+}
+func (UnimplementedIAMServiceServer) GetProjectId(context.Context, *GetProjectIdRequest) (*GetProjectIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetProjectId not implemented")
 }
 func (UnimplementedIAMServiceServer) mustEmbedUnimplementedIAMServiceServer() {}
 func (UnimplementedIAMServiceServer) testEmbeddedByValue()                    {}
@@ -240,6 +256,24 @@ func _IAMService_GetAllApiKeys_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _IAMService_GetProjectId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProjectIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(IAMServiceServer).GetProjectId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: IAMService_GetProjectId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(IAMServiceServer).GetProjectId(ctx, req.(*GetProjectIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // IAMService_ServiceDesc is the grpc.ServiceDesc for IAMService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var IAMService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllApiKeys",
 			Handler:    _IAMService_GetAllApiKeys_Handler,
+		},
+		{
+			MethodName: "GetProjectId",
+			Handler:    _IAMService_GetProjectId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
