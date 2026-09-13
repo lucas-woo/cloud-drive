@@ -218,6 +218,19 @@ func (h *MediaApiHandler) UploadImageApi(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h *MediaApiHandler) GetProjectId(c *gin.Context) {
+	apiKey := c.GetHeader("API-Key")
+
+	if apiKey == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+					"error": "missing api key in header",
+			})
+			return
+	}	
+
+	h.service.
+}
+
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
 	return &MediaApiHandler{
 		service: service,
