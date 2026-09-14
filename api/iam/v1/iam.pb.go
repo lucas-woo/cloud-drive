@@ -279,7 +279,8 @@ type ValidateApiKeyPermissionRequest struct {
 	state         protoimpl.MessageState                     `protogen:"open.v1"`
 	ApiKey        string                                     `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	ApiSecret     string                                     `protobuf:"bytes,2,opt,name=api_secret,json=apiSecret,proto3" json:"api_secret,omitempty"`
-	Permission    ValidateApiKeyPermissionRequest_Permission `protobuf:"varint,3,opt,name=permission,proto3,enum=iam.v1.ValidateApiKeyPermissionRequest_Permission" json:"permission,omitempty"`
+	ProjectId     string                                     `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Permission    ValidateApiKeyPermissionRequest_Permission `protobuf:"varint,4,opt,name=permission,proto3,enum=iam.v1.ValidateApiKeyPermissionRequest_Permission" json:"permission,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -324,6 +325,13 @@ func (x *ValidateApiKeyPermissionRequest) GetApiKey() string {
 func (x *ValidateApiKeyPermissionRequest) GetApiSecret() string {
 	if x != nil {
 		return x.ApiSecret
+	}
+	return ""
+}
+
+func (x *ValidateApiKeyPermissionRequest) GetProjectId() string {
+	if x != nil {
+		return x.ProjectId
 	}
 	return ""
 }
@@ -845,13 +853,15 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"api_secret\x18\x02 \x01(\tR\tapiSecret\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x8c\x02\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xab\x02\n" +
 	"\x1fValidateApiKeyPermissionRequest\x12\x17\n" +
 	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x1d\n" +
 	"\n" +
-	"api_secret\x18\x02 \x01(\tR\tapiSecret\x12R\n" +
+	"api_secret\x18\x02 \x01(\tR\tapiSecret\x12\x1d\n" +
 	"\n" +
-	"permission\x18\x03 \x01(\x0e22.iam.v1.ValidateApiKeyPermissionRequest.PermissionR\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x12R\n" +
+	"\n" +
+	"permission\x18\x04 \x01(\x0e22.iam.v1.ValidateApiKeyPermissionRequest.PermissionR\n" +
 	"permission\"]\n" +
 	"\n" +
 	"Permission\x12!\n" +
