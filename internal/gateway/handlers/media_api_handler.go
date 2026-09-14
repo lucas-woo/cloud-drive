@@ -270,13 +270,22 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 	apiSecret := c.GetHeader("API-Secret")
 
 	if apiKey == "" || apiSecret == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{
-					"error": "missing API credentials",
-			})
-			return
+		c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "missing API credentials",
+		})
+		return
 	}	
 
-	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
+	var req api.GetAllFoldersRequest
+
+	if err := c.ShouldBindBodyWithJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "missing projectId",
+		})
+		return
+	}	
+
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
