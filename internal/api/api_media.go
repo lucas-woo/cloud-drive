@@ -67,3 +67,12 @@ type GetAllFoldersApiResponse struct {
 type GetProjectIdApiResponse struct {
 	ProjectId string `json:"projectId"`
 }
+
+type CreateFolderApiRequest struct {
+	ProjectId string `json:"projectId" binding:"required"`
+  Name string `json:"name" binding:"required"`
+}
+
+type CreateFolderApiResponse struct {
+	FolderId string `json:"folderId"`
+}
