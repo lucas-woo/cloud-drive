@@ -331,7 +331,7 @@ func (h *MediaApiHandler) CreateNewFolder(c *gin.Context) {
 		return
 	}	
 
-	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.Permission_PERMISSION_GET)
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.Permission_PERMISSION_CREATE_FOLDER)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)

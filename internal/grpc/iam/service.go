@@ -43,6 +43,11 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApi
 		return nil, err
 	}
 
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.Permission_PERMISSION_CREATE_FOLDER)
+	if err != nil {
+		return nil, err
+	}
+
 	return createdKeyResponse, nil
 }
 
