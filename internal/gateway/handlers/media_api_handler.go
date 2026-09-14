@@ -124,30 +124,16 @@ func (h *MediaApiHandler) UploadImageApi(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	apiKey := c.GetHeader("API-Key")
 	apiSecret := c.GetHeader("API-Secret")
 
 	if apiKey == "" || apiSecret == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{
-					"error": "missing API credentials",
-			})
-			return
-	}	
-
-	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
-
-	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
-		return		
-	}
-
-	if !ok {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "permission denied",
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "missing API credentials",
 		})
-		return		
-	}	
+		return
+	}
 
 	metadataPart, err := reader.NextPart()
 	if err != nil {
@@ -169,6 +155,32 @@ func (h *MediaApiHandler) UploadImageApi(c *gin.Context) {
 	if err := json.NewDecoder(metadataPart).Decode(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "invalid metadata",
+		})
+		return
+	}
+
+	if req.ProjectId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "projectId is required",
+		})
+		return
+	}
+
+	ok, err := h.service.ValidateApiKey(
+		c.Request.Context(),
+		apiKey,
+		apiSecret,
+		req.ProjectId,
+		iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE,
+	)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "permission denied",
 		})
 		return
 	}
@@ -266,7 +278,7 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 		return		
 	}	
 	
-	
+
 
 }
 

@@ -156,11 +156,12 @@ func (s *MediaApiService) UploadImage(
 	}, nil
 }
 
-func (s *MediaApiService) ValidateApiKey(ctx context.Context, apiKey, apiSecret string, permission iamv1.ValidateApiKeyPermissionRequest_Permission) (bool, error) {
+func (s *MediaApiService) ValidateApiKey(ctx context.Context, apiKey, apiSecret, projectId string, permission iamv1.ValidateApiKeyPermissionRequest_Permission) (bool, error) {
 	res, err := s.iamClient.ValidateApiKeyPermission(ctx, &iamv1.ValidateApiKeyPermissionRequest{
 		Permission: permission,
 		ApiKey: apiKey,
 		ApiSecret: apiSecret,
+		ProjectId: projectId,
 	})
 	return res.GetAuthorized(), err
 }
