@@ -276,7 +276,7 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 		return
 	}	
 
-	var req api.GetAllFoldersRequest
+	var req api.GetAllFoldersApiRequest
 
 	if err := c.ShouldBindBodyWithJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -301,7 +301,14 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 	
 	res, err := h.service.GetAllFolders(c.Request.Context(), req.ProjectId)
 
-
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+				"error": "error getting all folders",
+		})
+		return
+	}
+	
+	c.JSON(http.StatusOK, res)
 }
 
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
