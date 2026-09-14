@@ -175,6 +175,10 @@ func (s *MediaApiService) GetProjectId(ctx context.Context, apiKey string) (stri
 	return res.GetProjectId(), err
 }
 
+func (s *MediaApiService) GetAllFolders(ctx context.Context, projectId string) {
+	
+}
+
 func NewMediaApiService(mediaClient mediav1.MediaServiceClient, iamClient iamv1.IAMServiceClient, mapper utils.RestMapper ) *MediaApiService {
 	return &MediaApiService{
 		mediaClient: mediaClient,
