@@ -22,7 +22,7 @@ type ValidateApiKeyPermissionRequest struct {
 	ApiKey string
 	ApiSecret string
 	ProjectId string
-	PermissionRequest iamv1.ValidateApiKeyPermissionRequest_Permission
+	PermissionRequest iamv1.Permission
 }
 
 type AddUserRolePermissionRequest struct {

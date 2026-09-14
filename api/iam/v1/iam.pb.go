@@ -27,7 +27,7 @@ type Permission int32
 const (
 	Permission_PERMISSION_STATUS_UNSPECIFIED Permission = 0
 	Permission_PERMISSION_GET                Permission = 1
-	Permission_PERMISSION_CREATE             Permission = 2
+	Permission_PERMISSION_UPLOAD             Permission = 2
 	Permission_PERMISSION_DELETE             Permission = 3
 )
 
@@ -36,13 +36,13 @@ var (
 	Permission_name = map[int32]string{
 		0: "PERMISSION_STATUS_UNSPECIFIED",
 		1: "PERMISSION_GET",
-		2: "PERMISSION_CREATE",
+		2: "PERMISSION_UPLOAD",
 		3: "PERMISSION_DELETE",
 	}
 	Permission_value = map[string]int32{
 		"PERMISSION_STATUS_UNSPECIFIED": 0,
 		"PERMISSION_GET":                1,
-		"PERMISSION_CREATE":             2,
+		"PERMISSION_UPLOAD":             2,
 		"PERMISSION_DELETE":             3,
 	}
 )
@@ -914,7 +914,7 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"Permission\x12!\n" +
 	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0ePERMISSION_GET\x10\x01\x12\x15\n" +
-	"\x11PERMISSION_CREATE\x10\x02\x12\x15\n" +
+	"\x11PERMISSION_UPLOAD\x10\x02\x12\x15\n" +
 	"\x11PERMISSION_DELETE\x10\x03B3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
