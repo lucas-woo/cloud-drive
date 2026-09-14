@@ -22,9 +22,6 @@ var (
 	ApiKeyPermissionsTable = "api_key_permissions"
 	ProjectObjectsTable = "project_objects"
 
-	UploadPermission = "upload"
-	DeletePermission = "delete"
-
 	ADMIN_ROLE = "admin"
 
 	PreSignedUrlTime time.Duration = time.Minute * 3

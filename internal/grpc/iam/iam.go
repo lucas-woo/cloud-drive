@@ -4,7 +4,6 @@ import (
 	"context"
 
 	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
-	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/database"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
@@ -37,18 +36,9 @@ func (s *Server) GenerateNewApiKey(ctx context.Context, req *iamv1.GenerateNewAp
 
 
 func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.ValidateApiKeyPermissionRequest) (*iamv1.ValidateApiKeyPermissionResponse, error) {
-
-	var permissionRequest string
-	if req.GetPermission() == iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE {
-		permissionRequest = config.UploadPermission
-	} else if req.GetPermission() == iamv1.ValidateApiKeyPermissionRequest_PERMISSION_DELETE {
-		permissionRequest = config.DeletePermission
-	} else {
-		return nil, status.Error(codes.InvalidArgument, "")
-	}
 	
 	exist, err := s.service.ValidateApiKeyPermission(ctx, &dto.ValidateApiKeyPermissionRequest{
-		PermissionRequest: permissionRequest,
+		PermissionRequest: req.GetPermission(),
 		ApiKey: req.GetApiKey(),
 		ApiSecret: req.GetApiSecret(),
 		ProjectId: req.GetProjectId(),
