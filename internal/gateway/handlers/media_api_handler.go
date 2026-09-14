@@ -311,6 +311,41 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h *MediaApiHandler) CreateNewFolder(c *gin.Context) {
+	apiKey := c.GetHeader("API-Key")
+	apiSecret := c.GetHeader("API-Secret")
+
+	if apiKey == "" || apiSecret == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "missing API credentials",
+		})
+		return
+	}	
+
+	var req api.CreateFolderApiRequest
+
+	if err := c.ShouldBindBodyWithJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "missing projectId",
+		})
+		return
+	}	
+
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.Permission_PERMISSION_GET)
+
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "permission denied",
+		})
+		return		
+	}		
+}
+
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
 	return &MediaApiHandler{
 		service: service,
