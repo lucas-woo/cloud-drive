@@ -343,7 +343,9 @@ func (h *MediaApiHandler) CreateNewFolder(c *gin.Context) {
 			"error": "permission denied",
 		})
 		return		
-	}		
+	}
+
+	
 }
 
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{

@@ -189,7 +189,16 @@ func (s *MediaApiService) GetAllFolders(ctx context.Context, projectId string) (
 }
 
 func (s *MediaApiService) CreateFolder(ctx context.Context, projectId, name string) (*api.CreateFolderApiResponse, error) {
-	
+	res, err := s.mediaClient.CreateNewFolder(ctx, &mediav1.CreateNewFolderRequest{
+		ProjectId: projectId,
+		FolderName: name,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &api.CreateFolderApiResponse{
+		FolderId: res.GetFolderId(),
+	}, nil
 }
 
 func NewMediaApiService(mediaClient mediav1.MediaServiceClient, iamClient iamv1.IAMServiceClient, mapper utils.RestMapper ) *MediaApiService {
