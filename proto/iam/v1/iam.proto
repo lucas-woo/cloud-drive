@@ -28,7 +28,8 @@ message ValidateApiKeyPermissionRequest {
   }
   string api_key = 1;
   string api_secret = 2;
-  Permission permission = 3;
+  string project_id = 3;
+  Permission permission = 4;
 }
 
 message ValidateApiKeyPermissionResponse {
