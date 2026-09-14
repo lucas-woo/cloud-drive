@@ -262,3 +262,22 @@ func (m *RestMapper) ToProtoTransformations(
 		},
 	}
 }
+
+func (m *RestMapper) ConvertAllFoldersToApiResponse(folders []*mediav1.ProjectFolder) *api.GetAllFoldersApiResponse {
+	response := &api.GetAllFoldersApiResponse{
+		Folders: make([]api.FolderApi, 0, len(folders)),
+	}
+
+	for _, folder := range folders {
+		if folder == nil {
+			continue
+		}
+
+		response.Folders = append(response.Folders, api.FolderApi{
+			FolderId:   folder.FolderId,
+			FolderName: folder.FolderName,
+		})
+	}
+
+	return response
+}

@@ -20,15 +20,19 @@ message GenerateNewApiKeyResponse {
   google.protobuf.Timestamp created_at = 3; 
 }
 
+enum Permission {
+  PERMISSION_STATUS_UNSPECIFIED = 0;
+  PERMISSION_GET = 1;
+  PERMISSION_UPLOAD = 2;
+  PERMISSION_DELETE = 3;
+  PERMISSION_CREATE_FOLDER = 4;
+}
+
 message ValidateApiKeyPermissionRequest {
-  enum Permission {
-    PERMISSION_STATUS_UNSPECIFIED = 0;
-    PERMISSION_CREATE = 1;
-    PERMISSION_DELETE = 2;
-  }
   string api_key = 1;
   string api_secret = 2;
-  Permission permission = 3;
+  string project_id = 3;
+  Permission permission = 4;
 }
 
 message ValidateApiKeyPermissionResponse {
@@ -76,4 +80,12 @@ message GetAllApiKeysRequest {
 
 message GetAllApiKeysResponse {
   repeated ApiKey api_keys = 1;
+}
+
+message GetProjectIdRequest {
+  string api_key = 1;
+}
+
+message GetProjectIdResponse {
+  string project_id = 1;
 }

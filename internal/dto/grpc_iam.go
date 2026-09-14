@@ -21,7 +21,8 @@ type GenerateNewApiKeyResponse struct {
 type ValidateApiKeyPermissionRequest struct {
 	ApiKey string
 	ApiSecret string
-	PermissionRequest string
+	ProjectId string
+	PermissionRequest iamv1.Permission
 }
 
 type AddUserRolePermissionRequest struct {

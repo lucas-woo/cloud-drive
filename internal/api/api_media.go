@@ -50,3 +50,29 @@ type UploadImageApiResponse struct {
   ObjectId string `json:"objectId"`
 }
 
+
+type GetAllFoldersApiRequest struct {
+	ProjectId   string `json:"projectId"`
+}
+
+type FolderApi struct {
+	FolderId   string `json:"folderId"`
+	FolderName string `json:"folderName"`
+}
+
+type GetAllFoldersApiResponse struct {
+  Folders []FolderApi `json:"folders"`
+}
+
+type GetProjectIdApiResponse struct {
+	ProjectId string `json:"projectId"`
+}
+
+type CreateFolderApiRequest struct {
+	ProjectId string `json:"projectId" binding:"required"`
+  Name string `json:"name" binding:"required"`
+}
+
+type CreateFolderApiResponse struct {
+	FolderId string `json:"folderId"`
+}

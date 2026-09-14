@@ -27,16 +27,27 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApi
 	if err != nil {
 		return nil, err
 	}
-	
-	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, config.UploadPermission)
+	// should delete the api key if there's an error
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.Permission_PERMISSION_GET)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, config.DeletePermission)
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.Permission_PERMISSION_UPLOAD)
 	if err != nil {
 		return nil, err
 	}
+
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.Permission_PERMISSION_DELETE)
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.Permission_PERMISSION_CREATE_FOLDER)
+	if err != nil {
+		return nil, err
+	}
+
 	return createdKeyResponse, nil
 }
 
@@ -104,6 +115,10 @@ func (s *Service) GetAllApiKeys(ctx context.Context, projectIdString string) ([]
 	}
 
 	return s.iamResources.ApiKeysRepository.GetAllApiKeys(ctx, projectId)
+}
+
+func (s *Service) GetProjectId(ctx context.Context, apiKey string) (string, error) {
+	return s.iamResources.ApiKeysRepository.GetApiKeyProjectId(ctx, apiKey)
 }
 
 func NewIamService(iamResources *database.IamResources) *Service {

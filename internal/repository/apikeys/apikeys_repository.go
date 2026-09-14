@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
@@ -66,7 +67,7 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 }
 
 
-func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission string) error {
+func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission iamv1.Permission) error {
 
 	query := fmt.Sprintf(`
 		INSERT IGNORE INTO %s (
@@ -75,31 +76,43 @@ func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid
 		) VALUES (?, ?)
 	`, config.ApiKeyPermissionsTable)
 
-	_, err := r.mysql.ExecContext(ctx, query, apiKey[:],permission,)
+	_, err := r.mysql.ExecContext(ctx, query, apiKey[:], int32(permission))
 
 	return err
 }
 
-func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
+func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
 
 	apiKey, err := uuid.Parse(req.ApiKey)
 	if err != nil {
 		return false, err
 	}
+
+	projectID, err := uuid.Parse(req.ProjectId)
+	if err != nil {
+		return false, err
+	}
+
 	query := fmt.Sprintf(`
 		SELECT 
 			api_secret_hash,
 			is_active
 		FROM %s
 		WHERE api_key = ?
+		  AND project_id = ?
 	`, config.ApiKeysTable)
 
 	var (
 		apiSecretHash []byte
-		isActive bool
+		isActive      bool
 	)
 
-	err = r.mysql.QueryRowContext(ctx, query, apiKey[:]).Scan(&apiSecretHash,&isActive)
+	err = r.mysql.QueryRowContext(
+		ctx,
+		query,
+		apiKey[:],
+		projectID[:],
+	).Scan(&apiSecretHash, &isActive)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -130,8 +143,8 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dt
 	err = r.mysql.QueryRowContext(
 		ctx,
 		permissionQuery,
-		req.ApiKey[:],
-		req.PermissionRequest,
+		apiKey[:],
+		int32(req.PermissionRequest),
 	).Scan(&hasPermission)
 
 	if err != nil {
@@ -192,6 +205,34 @@ func (r *ApiKeysRepository) GetAllApiKeys(ctx context.Context, projectId uuid.UU
 	}
 
 	return apiKeys, nil
+}
+
+func (r *ApiKeysRepository) GetApiKeyProjectId(ctx context.Context, apiKey string) (string, error) {
+	apiKeyUUID, err := uuid.Parse(apiKey)
+	if err != nil {
+		return "", err
+	}
+
+	var projectIDBytes []byte
+
+	err = r.mysql.QueryRowContext(ctx, `
+		SELECT project_id
+		FROM api_keys
+		WHERE api_key = ? AND is_active = TRUE
+	`, apiKeyUUID[:]).Scan(&projectIDBytes)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return "", fmt.Errorf("api key not found")
+		}
+		return "", err
+	}
+
+	projectID, err := uuid.FromBytes(projectIDBytes)
+	if err != nil {
+		return "", err
+	}
+
+	return projectID.String(), nil
 }
 
 func NewApiKeysRepository(mySqlClient *sql.DB) *ApiKeysRepository {

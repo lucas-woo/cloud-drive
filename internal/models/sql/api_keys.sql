@@ -19,7 +19,7 @@ CREATE TABLE api_keys (
 
 CREATE TABLE api_key_permissions (
     api_key BINARY(16) NOT NULL,
-    permission VARCHAR(50) NOT NULL,
+    permission INT NOT NULL,
 
     PRIMARY KEY (api_key, permission)
 );
