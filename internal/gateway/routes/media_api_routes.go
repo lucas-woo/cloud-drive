@@ -10,6 +10,6 @@ func InitializeMediaApiRoutes(apiGroup *gin.RouterGroup, mediaHandler *handlers.
 	apiGroup.POST("/upload-image", mediaHandler.UploadImageApi)
 
 	apiGroup.GET("/find-project-id", mediaHandler.GetProjectId)
-	apiGroup.GET("/all-folders")
+	apiGroup.GET("/all-folders", mediaHandler.GetAllFolders)
 	apiGroup.POST("/create-folder")
 }
