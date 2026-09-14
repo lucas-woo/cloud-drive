@@ -76,3 +76,12 @@ type CreateFolderApiRequest struct {
 type CreateFolderApiResponse struct {
 	FolderId string `json:"folderId"`
 }
+
+type GetAllCollectionsApiRequest struct {
+  ProjectId   string `json:"projectId"`  
+}
+
+type CollectionApi struct {
+  CollectionId   string `json:"collectionId"`
+	CollectionName string `json:"collectionName"`
+}

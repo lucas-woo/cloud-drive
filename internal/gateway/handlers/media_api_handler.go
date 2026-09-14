@@ -355,6 +355,19 @@ func (h *MediaApiHandler) CreateNewFolder(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h *MediaApiHandler) GetAllCollections(c *gin.Context) {
+	apiKey := c.GetHeader("API-Key")
+	apiSecret := c.GetHeader("API-Secret")
+
+	if apiKey == "" || apiSecret == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "missing API credentials",
+		})
+		return
+	}
+		
+}
+
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
 	return &MediaApiHandler{
 		service: service,

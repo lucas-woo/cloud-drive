@@ -35,11 +35,9 @@ func InitializeMediaWebRoutes(webGroup *gin.RouterGroup, middlewares *middleware
 	// GetProjects
 	// GetDashboard asks for project id
 
-	// TODO
-	webGroup.POST("confirm-object")//private route/webgroup? 
-
 	// proto todo:
 	webGroup.POST("/add-assets-to-collection")
+	webGroup.POST("/add-assets-to-folder")
 
 	webGroup.POST("update-asset-access-control")
 	//update isPublic, create a new url link instead of using collectionId? 
