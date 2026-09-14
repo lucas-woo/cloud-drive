@@ -51,7 +51,7 @@ type UploadImageApiResponse struct {
 }
 
 
-type GetAllFoldersRequest struct {
+type GetAllFoldersApiRequest struct {
 	ProjectId   string `json:"projectId"`
 }
 

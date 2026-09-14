@@ -289,7 +289,7 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
-		return		
+		return
 	}
 
 	if !ok {
@@ -299,6 +299,7 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 		return		
 	}	
 	
+	res, err := h.service.GetAllFolders(c.Request.Context(), req.ProjectId)
 
 
 }
