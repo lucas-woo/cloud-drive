@@ -25,6 +25,7 @@ enum Permission {
   PERMISSION_GET = 1;
   PERMISSION_UPLOAD = 2;
   PERMISSION_DELETE = 3;
+  PERMISSION_CREATE_FOLDER = 4;
 }
 
 message ValidateApiKeyPermissionRequest {

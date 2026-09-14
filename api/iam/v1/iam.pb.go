@@ -29,6 +29,7 @@ const (
 	Permission_PERMISSION_GET                Permission = 1
 	Permission_PERMISSION_UPLOAD             Permission = 2
 	Permission_PERMISSION_DELETE             Permission = 3
+	Permission_PERMISSION_CREATE_FOLDER      Permission = 4
 )
 
 // Enum value maps for Permission.
@@ -38,12 +39,14 @@ var (
 		1: "PERMISSION_GET",
 		2: "PERMISSION_UPLOAD",
 		3: "PERMISSION_DELETE",
+		4: "PERMISSION_CREATE_FOLDER",
 	}
 	Permission_value = map[string]int32{
 		"PERMISSION_STATUS_UNSPECIFIED": 0,
 		"PERMISSION_GET":                1,
 		"PERMISSION_UPLOAD":             2,
 		"PERMISSION_DELETE":             3,
+		"PERMISSION_CREATE_FOLDER":      4,
 	}
 )
 
@@ -909,13 +912,14 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\"5\n" +
 	"\x14GetProjectIdResponse\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectId*q\n" +
+	"project_id\x18\x01 \x01(\tR\tprojectId*\x8f\x01\n" +
 	"\n" +
 	"Permission\x12!\n" +
 	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +
 	"\x0ePERMISSION_GET\x10\x01\x12\x15\n" +
 	"\x11PERMISSION_UPLOAD\x10\x02\x12\x15\n" +
-	"\x11PERMISSION_DELETE\x10\x03B3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
+	"\x11PERMISSION_DELETE\x10\x03\x12\x1c\n" +
+	"\x18PERMISSION_CREATE_FOLDER\x10\x04B3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
 	file_iam_v1_iam_proto_rawDescOnce sync.Once
