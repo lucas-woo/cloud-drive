@@ -262,3 +262,7 @@ func (m *RestMapper) ToProtoTransformations(
 		},
 	}
 }
+
+func (m *RestMapper) ConvertAllFoldersToApiResponse(folders []*mediav1.ProjectFolder) (*api.GetAllFoldersApiResponse) {
+	return nil
+}

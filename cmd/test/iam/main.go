@@ -34,7 +34,7 @@ func main() {
 	fmt.Println(req.GetApiSecret())
 
 	req2, err := iamClient.ValidateApiKeyPermission(ctx, &iamv1.ValidateApiKeyPermissionRequest{
-		Permission: iamv1.ValidateApiKeyPermissionRequest_PERMISSION_DELETE,
+		Permission: iamv1.Permission_PERMISSION_DELETE,
 		ApiKey: req.GetApiKey(),
 		ApiSecret: req.GetApiSecret(),
 	})
