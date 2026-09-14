@@ -85,3 +85,7 @@ type CollectionApi struct {
   CollectionId   string `json:"collectionId"`
 	CollectionName string `json:"collectionName"`
 }
+
+type GetAllCollectionsApiResponse struct {
+  Collections []Collection `json:"collections"`  
+}

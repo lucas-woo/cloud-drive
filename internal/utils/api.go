@@ -281,3 +281,7 @@ func (m *RestMapper) ConvertAllFoldersToApiResponse(folders []*mediav1.ProjectFo
 
 	return response
 }
+
+func (m *RestMapper) ConvertAllCollectionsToApiResponse(collections []*mediav1.ProjectCollection) *api.GetAllCollectionsApiResponse {
+	return nil
+}

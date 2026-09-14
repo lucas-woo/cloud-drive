@@ -365,7 +365,29 @@ func (h *MediaApiHandler) GetAllCollections(c *gin.Context) {
 		})
 		return
 	}
-		
+	
+	var req api.GetAllCollectionsApiRequest
+
+	if err := c.ShouldBindBodyWithJSON(&req); err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "missing projectId",
+		})
+		return
+	}
+
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.Permission_PERMISSION_GET)
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
+
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "permission denied",
+		})
+		return		
+	}
+	
 }
 
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
