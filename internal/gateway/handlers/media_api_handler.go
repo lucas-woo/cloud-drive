@@ -345,7 +345,14 @@ func (h *MediaApiHandler) CreateNewFolder(c *gin.Context) {
 		return		
 	}
 
-	
+	res, err := h.service.CreateFolder(c.Request.Context(), req.ProjectId, req.Name)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "unable to create new folder",
+		})
+		return		
+	}
+	c.JSON(http.StatusOK, res)
 }
 
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
