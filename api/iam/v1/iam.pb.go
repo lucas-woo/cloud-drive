@@ -26,21 +26,24 @@ type ValidateApiKeyPermissionRequest_Permission int32
 
 const (
 	ValidateApiKeyPermissionRequest_PERMISSION_STATUS_UNSPECIFIED ValidateApiKeyPermissionRequest_Permission = 0
-	ValidateApiKeyPermissionRequest_PERMISSION_CREATE             ValidateApiKeyPermissionRequest_Permission = 1
-	ValidateApiKeyPermissionRequest_PERMISSION_DELETE             ValidateApiKeyPermissionRequest_Permission = 2
+	ValidateApiKeyPermissionRequest_PERMISSION_GET                ValidateApiKeyPermissionRequest_Permission = 1
+	ValidateApiKeyPermissionRequest_PERMISSION_CREATE             ValidateApiKeyPermissionRequest_Permission = 2
+	ValidateApiKeyPermissionRequest_PERMISSION_DELETE             ValidateApiKeyPermissionRequest_Permission = 3
 )
 
 // Enum value maps for ValidateApiKeyPermissionRequest_Permission.
 var (
 	ValidateApiKeyPermissionRequest_Permission_name = map[int32]string{
 		0: "PERMISSION_STATUS_UNSPECIFIED",
-		1: "PERMISSION_CREATE",
-		2: "PERMISSION_DELETE",
+		1: "PERMISSION_GET",
+		2: "PERMISSION_CREATE",
+		3: "PERMISSION_DELETE",
 	}
 	ValidateApiKeyPermissionRequest_Permission_value = map[string]int32{
 		"PERMISSION_STATUS_UNSPECIFIED": 0,
-		"PERMISSION_CREATE":             1,
-		"PERMISSION_DELETE":             2,
+		"PERMISSION_GET":                1,
+		"PERMISSION_CREATE":             2,
+		"PERMISSION_DELETE":             3,
 	}
 )
 
@@ -853,7 +856,7 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"api_secret\x18\x02 \x01(\tR\tapiSecret\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xab\x02\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xbf\x02\n" +
 	"\x1fValidateApiKeyPermissionRequest\x12\x17\n" +
 	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x1d\n" +
 	"\n" +
@@ -862,12 +865,13 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"project_id\x18\x03 \x01(\tR\tprojectId\x12R\n" +
 	"\n" +
 	"permission\x18\x04 \x01(\x0e22.iam.v1.ValidateApiKeyPermissionRequest.PermissionR\n" +
-	"permission\"]\n" +
+	"permission\"q\n" +
 	"\n" +
 	"Permission\x12!\n" +
-	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x15\n" +
-	"\x11PERMISSION_CREATE\x10\x01\x12\x15\n" +
-	"\x11PERMISSION_DELETE\x10\x02\"B\n" +
+	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0ePERMISSION_GET\x10\x01\x12\x15\n" +
+	"\x11PERMISSION_CREATE\x10\x02\x12\x15\n" +
+	"\x11PERMISSION_DELETE\x10\x03\"B\n" +
 	" ValidateApiKeyPermissionResponse\x12\x1e\n" +
 	"\n" +
 	"authorized\x18\x01 \x01(\bR\n" +

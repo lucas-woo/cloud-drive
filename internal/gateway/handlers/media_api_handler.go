@@ -285,7 +285,7 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 		return
 	}	
 
-	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_DELETE)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
