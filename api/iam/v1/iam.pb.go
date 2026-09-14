@@ -22,24 +22,24 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ValidateApiKeyPermissionRequest_Permission int32
+type Permission int32
 
 const (
-	ValidateApiKeyPermissionRequest_PERMISSION_STATUS_UNSPECIFIED ValidateApiKeyPermissionRequest_Permission = 0
-	ValidateApiKeyPermissionRequest_PERMISSION_GET                ValidateApiKeyPermissionRequest_Permission = 1
-	ValidateApiKeyPermissionRequest_PERMISSION_CREATE             ValidateApiKeyPermissionRequest_Permission = 2
-	ValidateApiKeyPermissionRequest_PERMISSION_DELETE             ValidateApiKeyPermissionRequest_Permission = 3
+	Permission_PERMISSION_STATUS_UNSPECIFIED Permission = 0
+	Permission_PERMISSION_GET                Permission = 1
+	Permission_PERMISSION_CREATE             Permission = 2
+	Permission_PERMISSION_DELETE             Permission = 3
 )
 
-// Enum value maps for ValidateApiKeyPermissionRequest_Permission.
+// Enum value maps for Permission.
 var (
-	ValidateApiKeyPermissionRequest_Permission_name = map[int32]string{
+	Permission_name = map[int32]string{
 		0: "PERMISSION_STATUS_UNSPECIFIED",
 		1: "PERMISSION_GET",
 		2: "PERMISSION_CREATE",
 		3: "PERMISSION_DELETE",
 	}
-	ValidateApiKeyPermissionRequest_Permission_value = map[string]int32{
+	Permission_value = map[string]int32{
 		"PERMISSION_STATUS_UNSPECIFIED": 0,
 		"PERMISSION_GET":                1,
 		"PERMISSION_CREATE":             2,
@@ -47,31 +47,31 @@ var (
 	}
 )
 
-func (x ValidateApiKeyPermissionRequest_Permission) Enum() *ValidateApiKeyPermissionRequest_Permission {
-	p := new(ValidateApiKeyPermissionRequest_Permission)
+func (x Permission) Enum() *Permission {
+	p := new(Permission)
 	*p = x
 	return p
 }
 
-func (x ValidateApiKeyPermissionRequest_Permission) String() string {
+func (x Permission) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (ValidateApiKeyPermissionRequest_Permission) Descriptor() protoreflect.EnumDescriptor {
+func (Permission) Descriptor() protoreflect.EnumDescriptor {
 	return file_iam_v1_iam_proto_enumTypes[0].Descriptor()
 }
 
-func (ValidateApiKeyPermissionRequest_Permission) Type() protoreflect.EnumType {
+func (Permission) Type() protoreflect.EnumType {
 	return &file_iam_v1_iam_proto_enumTypes[0]
 }
 
-func (x ValidateApiKeyPermissionRequest_Permission) Number() protoreflect.EnumNumber {
+func (x Permission) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use ValidateApiKeyPermissionRequest_Permission.Descriptor instead.
-func (ValidateApiKeyPermissionRequest_Permission) EnumDescriptor() ([]byte, []int) {
-	return file_iam_v1_iam_proto_rawDescGZIP(), []int{2, 0}
+// Deprecated: Use Permission.Descriptor instead.
+func (Permission) EnumDescriptor() ([]byte, []int) {
+	return file_iam_v1_iam_proto_rawDescGZIP(), []int{0}
 }
 
 type AddUserRolePermissionRequest_Permission int32
@@ -279,11 +279,11 @@ func (x *GenerateNewApiKeyResponse) GetCreatedAt() *timestamppb.Timestamp {
 }
 
 type ValidateApiKeyPermissionRequest struct {
-	state         protoimpl.MessageState                     `protogen:"open.v1"`
-	ApiKey        string                                     `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
-	ApiSecret     string                                     `protobuf:"bytes,2,opt,name=api_secret,json=apiSecret,proto3" json:"api_secret,omitempty"`
-	ProjectId     string                                     `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
-	Permission    ValidateApiKeyPermissionRequest_Permission `protobuf:"varint,4,opt,name=permission,proto3,enum=iam.v1.ValidateApiKeyPermissionRequest_Permission" json:"permission,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ApiKey        string                 `protobuf:"bytes,1,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
+	ApiSecret     string                 `protobuf:"bytes,2,opt,name=api_secret,json=apiSecret,proto3" json:"api_secret,omitempty"`
+	ProjectId     string                 `protobuf:"bytes,3,opt,name=project_id,json=projectId,proto3" json:"project_id,omitempty"`
+	Permission    Permission             `protobuf:"varint,4,opt,name=permission,proto3,enum=iam.v1.Permission" json:"permission,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -339,11 +339,11 @@ func (x *ValidateApiKeyPermissionRequest) GetProjectId() string {
 	return ""
 }
 
-func (x *ValidateApiKeyPermissionRequest) GetPermission() ValidateApiKeyPermissionRequest_Permission {
+func (x *ValidateApiKeyPermissionRequest) GetPermission() Permission {
 	if x != nil {
 		return x.Permission
 	}
-	return ValidateApiKeyPermissionRequest_PERMISSION_STATUS_UNSPECIFIED
+	return Permission_PERMISSION_STATUS_UNSPECIFIED
 }
 
 type ValidateApiKeyPermissionResponse struct {
@@ -856,22 +856,16 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\n" +
 	"api_secret\x18\x02 \x01(\tR\tapiSecret\x129\n" +
 	"\n" +
-	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xbf\x02\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xac\x01\n" +
 	"\x1fValidateApiKeyPermissionRequest\x12\x17\n" +
 	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\x12\x1d\n" +
 	"\n" +
 	"api_secret\x18\x02 \x01(\tR\tapiSecret\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x03 \x01(\tR\tprojectId\x12R\n" +
+	"project_id\x18\x03 \x01(\tR\tprojectId\x122\n" +
 	"\n" +
-	"permission\x18\x04 \x01(\x0e22.iam.v1.ValidateApiKeyPermissionRequest.PermissionR\n" +
-	"permission\"q\n" +
-	"\n" +
-	"Permission\x12!\n" +
-	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +
-	"\x0ePERMISSION_GET\x10\x01\x12\x15\n" +
-	"\x11PERMISSION_CREATE\x10\x02\x12\x15\n" +
-	"\x11PERMISSION_DELETE\x10\x03\"B\n" +
+	"permission\x18\x04 \x01(\x0e2\x12.iam.v1.PermissionR\n" +
+	"permission\"B\n" +
 	" ValidateApiKeyPermissionResponse\x12\x1e\n" +
 	"\n" +
 	"authorized\x18\x01 \x01(\bR\n" +
@@ -915,7 +909,13 @@ const file_iam_v1_iam_proto_rawDesc = "" +
 	"\aapi_key\x18\x01 \x01(\tR\x06apiKey\"5\n" +
 	"\x14GetProjectIdResponse\x12\x1d\n" +
 	"\n" +
-	"project_id\x18\x01 \x01(\tR\tprojectIdB3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
+	"project_id\x18\x01 \x01(\tR\tprojectId*q\n" +
+	"\n" +
+	"Permission\x12!\n" +
+	"\x1dPERMISSION_STATUS_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0ePERMISSION_GET\x10\x01\x12\x15\n" +
+	"\x11PERMISSION_CREATE\x10\x02\x12\x15\n" +
+	"\x11PERMISSION_DELETE\x10\x03B3Z1github.com/lucas-woo/cloud-drive/api/iam/v1/iamv1b\x06proto3"
 
 var (
 	file_iam_v1_iam_proto_rawDescOnce sync.Once
@@ -932,27 +932,27 @@ func file_iam_v1_iam_proto_rawDescGZIP() []byte {
 var file_iam_v1_iam_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_iam_v1_iam_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_iam_v1_iam_proto_goTypes = []any{
-	(ValidateApiKeyPermissionRequest_Permission)(0), // 0: iam.v1.ValidateApiKeyPermissionRequest.Permission
-	(AddUserRolePermissionRequest_Permission)(0),    // 1: iam.v1.AddUserRolePermissionRequest.Permission
-	(ValidateUserPermissionRequest_Permission)(0),   // 2: iam.v1.ValidateUserPermissionRequest.Permission
-	(*GenerateNewApiKeyRequest)(nil),                // 3: iam.v1.GenerateNewApiKeyRequest
-	(*GenerateNewApiKeyResponse)(nil),               // 4: iam.v1.GenerateNewApiKeyResponse
-	(*ValidateApiKeyPermissionRequest)(nil),         // 5: iam.v1.ValidateApiKeyPermissionRequest
-	(*ValidateApiKeyPermissionResponse)(nil),        // 6: iam.v1.ValidateApiKeyPermissionResponse
-	(*AddUserRolePermissionRequest)(nil),            // 7: iam.v1.AddUserRolePermissionRequest
-	(*AddUserRolePermissionResponse)(nil),           // 8: iam.v1.AddUserRolePermissionResponse
-	(*ValidateUserPermissionRequest)(nil),           // 9: iam.v1.ValidateUserPermissionRequest
-	(*ValidateUserPermissionResponse)(nil),          // 10: iam.v1.ValidateUserPermissionResponse
-	(*ApiKey)(nil),                                  // 11: iam.v1.ApiKey
-	(*GetAllApiKeysRequest)(nil),                    // 12: iam.v1.GetAllApiKeysRequest
-	(*GetAllApiKeysResponse)(nil),                   // 13: iam.v1.GetAllApiKeysResponse
-	(*GetProjectIdRequest)(nil),                     // 14: iam.v1.GetProjectIdRequest
-	(*GetProjectIdResponse)(nil),                    // 15: iam.v1.GetProjectIdResponse
-	(*timestamppb.Timestamp)(nil),                   // 16: google.protobuf.Timestamp
+	(Permission)(0), // 0: iam.v1.Permission
+	(AddUserRolePermissionRequest_Permission)(0),  // 1: iam.v1.AddUserRolePermissionRequest.Permission
+	(ValidateUserPermissionRequest_Permission)(0), // 2: iam.v1.ValidateUserPermissionRequest.Permission
+	(*GenerateNewApiKeyRequest)(nil),              // 3: iam.v1.GenerateNewApiKeyRequest
+	(*GenerateNewApiKeyResponse)(nil),             // 4: iam.v1.GenerateNewApiKeyResponse
+	(*ValidateApiKeyPermissionRequest)(nil),       // 5: iam.v1.ValidateApiKeyPermissionRequest
+	(*ValidateApiKeyPermissionResponse)(nil),      // 6: iam.v1.ValidateApiKeyPermissionResponse
+	(*AddUserRolePermissionRequest)(nil),          // 7: iam.v1.AddUserRolePermissionRequest
+	(*AddUserRolePermissionResponse)(nil),         // 8: iam.v1.AddUserRolePermissionResponse
+	(*ValidateUserPermissionRequest)(nil),         // 9: iam.v1.ValidateUserPermissionRequest
+	(*ValidateUserPermissionResponse)(nil),        // 10: iam.v1.ValidateUserPermissionResponse
+	(*ApiKey)(nil),                                // 11: iam.v1.ApiKey
+	(*GetAllApiKeysRequest)(nil),                  // 12: iam.v1.GetAllApiKeysRequest
+	(*GetAllApiKeysResponse)(nil),                 // 13: iam.v1.GetAllApiKeysResponse
+	(*GetProjectIdRequest)(nil),                   // 14: iam.v1.GetProjectIdRequest
+	(*GetProjectIdResponse)(nil),                  // 15: iam.v1.GetProjectIdResponse
+	(*timestamppb.Timestamp)(nil),                 // 16: google.protobuf.Timestamp
 }
 var file_iam_v1_iam_proto_depIdxs = []int32{
 	16, // 0: iam.v1.GenerateNewApiKeyResponse.created_at:type_name -> google.protobuf.Timestamp
-	0,  // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.ValidateApiKeyPermissionRequest.Permission
+	0,  // 1: iam.v1.ValidateApiKeyPermissionRequest.permission:type_name -> iam.v1.Permission
 	1,  // 2: iam.v1.AddUserRolePermissionRequest.role:type_name -> iam.v1.AddUserRolePermissionRequest.Permission
 	2,  // 3: iam.v1.ValidateUserPermissionRequest.role:type_name -> iam.v1.ValidateUserPermissionRequest.Permission
 	16, // 4: iam.v1.ApiKey.created_at:type_name -> google.protobuf.Timestamp

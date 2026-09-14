@@ -20,13 +20,14 @@ message GenerateNewApiKeyResponse {
   google.protobuf.Timestamp created_at = 3; 
 }
 
+enum Permission {
+  PERMISSION_STATUS_UNSPECIFIED = 0;
+  PERMISSION_GET = 1;
+  PERMISSION_CREATE = 2;
+  PERMISSION_DELETE = 3;
+}
+
 message ValidateApiKeyPermissionRequest {
-  enum Permission {
-    PERMISSION_STATUS_UNSPECIFIED = 0;
-    PERMISSION_GET = 1;
-    PERMISSION_CREATE = 2;
-    PERMISSION_DELETE = 3;
-  }
   string api_key = 1;
   string api_secret = 2;
   string project_id = 3;
