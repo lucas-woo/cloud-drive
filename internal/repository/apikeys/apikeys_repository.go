@@ -67,7 +67,7 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 }
 
 
-func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission iamv1.ValidateApiKeyPermissionRequest_Permission) error {
+func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission iamv1.Permission) error {
 
 	query := fmt.Sprintf(`
 		INSERT IGNORE INTO %s (
@@ -76,7 +76,7 @@ func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid
 		) VALUES (?, ?)
 	`, config.ApiKeyPermissionsTable)
 
-	_, err := r.mysql.ExecContext(ctx, query, apiKey[:], uint32(permission))
+	_, err := r.mysql.ExecContext(ctx, query, apiKey[:], int32(permission))
 
 	return err
 }
@@ -144,7 +144,7 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *d
 		ctx,
 		permissionQuery,
 		apiKey[:],
-		uint32(req.PermissionRequest),
+		int32(req.PermissionRequest),
 	).Scan(&hasPermission)
 
 	if err != nil {

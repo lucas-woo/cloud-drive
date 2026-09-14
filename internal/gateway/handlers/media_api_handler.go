@@ -70,7 +70,7 @@ func (h *MediaApiHandler) UploadFileApi(c *gin.Context) {
 		apiKey,
 		apiSecret,
 		req.ProjectId,
-		iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE,
+		iamv1.Permission_PERMISSION_UPLOAD,
 	)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
@@ -183,7 +183,7 @@ func (h *MediaApiHandler) UploadImageApi(c *gin.Context) {
 		apiKey,
 		apiSecret,
 		req.ProjectId,
-		iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE,
+		iamv1.Permission_PERMISSION_UPLOAD,
 	)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
@@ -285,7 +285,7 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 		return
 	}	
 
-	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_GET)
+	ok, err := h.service.ValidateApiKey(c.Request.Context(), apiKey, apiSecret, req.ProjectId, iamv1.Permission_PERMISSION_GET)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)

@@ -23,7 +23,7 @@ message GenerateNewApiKeyResponse {
 enum Permission {
   PERMISSION_STATUS_UNSPECIFIED = 0;
   PERMISSION_GET = 1;
-  PERMISSION_CREATE = 2;
+  PERMISSION_UPLOAD = 2;
   PERMISSION_DELETE = 3;
 }
 
