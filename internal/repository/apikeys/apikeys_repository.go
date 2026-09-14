@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	iamv1 "github.com/lucas-woo/cloud-drive/api/iam/v1"
 	"github.com/lucas-woo/cloud-drive/internal/config"
 	"github.com/lucas-woo/cloud-drive/internal/dto"
 	"github.com/lucas-woo/cloud-drive/internal/utils"
@@ -66,7 +67,7 @@ func (r *ApiKeysRepository) CreateAPIKey(ctx context.Context, req *dto.GenerateN
 }
 
 
-func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission string) error {
+func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid.UUID, permission iamv1.ValidateApiKeyPermissionRequest_Permission) error {
 
 	query := fmt.Sprintf(`
 		INSERT IGNORE INTO %s (
@@ -75,7 +76,7 @@ func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid
 		) VALUES (?, ?)
 	`, config.ApiKeyPermissionsTable)
 
-	_, err := r.mysql.ExecContext(ctx, query, apiKey[:],permission,)
+	_, err := r.mysql.ExecContext(ctx, query, apiKey[:], uint32(permission))
 
 	return err
 }
@@ -143,7 +144,7 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *d
 		ctx,
 		permissionQuery,
 		apiKey[:],
-		req.PermissionRequest,
+		uint32(req.PermissionRequest),
 	).Scan(&hasPermission)
 
 	if err != nil {

@@ -27,16 +27,22 @@ func (s *Service) GenerateNewApiKey(ctx context.Context, req *dto.GenerateNewApi
 	if err != nil {
 		return nil, err
 	}
-	
-	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, config.UploadPermission)
+	// should delete the api key if there's an error
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_GET)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, config.DeletePermission)
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_CREATE)
 	if err != nil {
 		return nil, err
 	}
+
+	err = s.iamResources.ApiKeysRepository.AddAPIKeyPermission(ctx, createdKeyResponse.ApiKey, iamv1.ValidateApiKeyPermissionRequest_PERMISSION_DELETE)
+	if err != nil {
+		return nil, err
+	}
+
 	return createdKeyResponse, nil
 }
 
