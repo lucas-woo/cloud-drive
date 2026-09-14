@@ -80,26 +80,38 @@ func (r *ApiKeysRepository) AddAPIKeyPermission(ctx context.Context, apiKey uuid
 	return err
 }
 
-func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
+func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context, req *dto.ValidateApiKeyPermissionRequest) (bool, error) {
 
 	apiKey, err := uuid.Parse(req.ApiKey)
 	if err != nil {
 		return false, err
 	}
+
+	projectID, err := uuid.Parse(req.ProjectId)
+	if err != nil {
+		return false, err
+	}
+
 	query := fmt.Sprintf(`
 		SELECT 
 			api_secret_hash,
 			is_active
 		FROM %s
 		WHERE api_key = ?
+		  AND project_id = ?
 	`, config.ApiKeysTable)
 
 	var (
 		apiSecretHash []byte
-		isActive bool
+		isActive      bool
 	)
 
-	err = r.mysql.QueryRowContext(ctx, query, apiKey[:]).Scan(&apiSecretHash,&isActive)
+	err = r.mysql.QueryRowContext(
+		ctx,
+		query,
+		apiKey[:],
+		projectID[:],
+	).Scan(&apiSecretHash, &isActive)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
@@ -130,7 +142,7 @@ func (r *ApiKeysRepository) ValidateApiKeyPermission(ctx context.Context,req *dt
 	err = r.mysql.QueryRowContext(
 		ctx,
 		permissionQuery,
-		req.ApiKey[:],
+		apiKey[:],
 		req.PermissionRequest,
 	).Scan(&hasPermission)
 

@@ -21,6 +21,7 @@ type GenerateNewApiKeyResponse struct {
 type ValidateApiKeyPermissionRequest struct {
 	ApiKey string
 	ApiSecret string
+	ProjectId string
 	PermissionRequest string
 }
 

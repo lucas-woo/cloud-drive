@@ -51,6 +51,7 @@ func (s *Server) ValidateApiKeyPermission(ctx context.Context, req *iamv1.Valida
 		PermissionRequest: permissionRequest,
 		ApiKey: req.GetApiKey(),
 		ApiSecret: req.GetApiSecret(),
+		ProjectId: req.GetProjectId(),
 	})
 
 	if err != nil {
