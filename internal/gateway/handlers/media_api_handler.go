@@ -266,6 +266,8 @@ func (h *MediaApiHandler) GetAllFolders(c *gin.Context) {
 		return		
 	}	
 	
+	
+
 }
 
 func NewMediaApiHandler(service *services.MediaApiService) *MediaApiHandler{
